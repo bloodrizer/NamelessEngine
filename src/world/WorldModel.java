@@ -5,8 +5,11 @@
 
 package world;
 
+import game.ent.Entity;
+import game.ent.EntityManager;
 import java.util.Collections;
 import org.lwjgl.util.Point;
+import player.Player;
 
 /**
  *
@@ -55,5 +58,13 @@ public class WorldModel {
     private void precache_chunk(int i, int j){
         WorldChunk chunk = WorldModel.get_chunk(i,j);
         //todo: move to chunk?
+    }
+
+    //--------------------------------------------------------------------------
+    public void init(){
+      Entity player_ent = new Entity();
+      EntityManager.add(player_ent);
+
+      Player.set_ent(player_ent);
     }
 }
