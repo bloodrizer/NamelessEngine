@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<themes>
+    <images file="simple.png">
+        <area name="-borderA" border="3" xywh="0,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderB" border="3" xywh="10,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderC" border="3" xywh="20,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderD" border="3" xywh="30,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderE" border="3" xywh="40,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderF" border="3" xywh="50,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderG" border="3" xywh="60,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-borderH" border="3" xywh="70,0,9,9" splitx="L3,R3" splity="T3,B3"/>
+        <area name="-iconA" xywh="0,10,9,6"/>
+        <area name="-iconB" xywh="0,16,10,9"/>
+        <area name="-iconC" xywh="10,10,14,14"/>
+        <area name="-iconD" xywh="0,25,9,6"/>
+        <area name="-iconE" xywh="0,31,6,9"/>
+        <area name="-iconF" xywh="6,31,6,9"/>
+        <area name="-iconG" xywh="28,12,7,7"/>
+        <!-- iconH icon based on famfamfam Icon "arrow_turn_right.png" -->
+        <area name="-iconH" xywh="68,10,15,15"/>
+        <!-- iconI icon based on famfamfam Icon "folder.png" -->
+        <area name="-iconI" xywh="53,10,14,11"/>
+        <!-- iconJ icon based on famfamfam Icon "key.png" -->
+        <area name="-iconJ" xywh="24,41,16,16"/>
+        <!-- iconK icon based on famfamfam Icon "arrow_refresh.png" -->
+        <area name="-iconK" xywh="41,41,16,16"/>
+        <!-- iconL icon based on famfamfam Icon "book_open.png" -->
+        <area name="-iconL" xywh="36,10,16,14"/>
+        <area name="-iconM" xywh="20,41,3,13"/>
+        <area name="-iconN" xywh="30,20,4,4"/>
+        <area name="-iconO" xywh="29,25,12,12"/>
+        <area name="-iconP" xywh="42,25,12,12"/>
+        <area name="-iconQ" xywh="0,51,13,3"/>
+        <area name="-iconR" xywh="58,41,13,16"/>
+        <area name="-gradA" xywh="0,62,128,1"/>
+        <area name="-gradB" xywh="0,59,128,1"/>
+        <area name="-gradC" xywh="25,21,1,1"/>
+        <area name="-selH" repeatX="true" tiled="true" xywh="26,10,8,1"/>
+        <area name="-selV" repeatY="true" tiled="true" xywh="26,10,1,8"/>
+
+        <area name="white" xywh="24,4,1,1"/>
+        <alias name="black" ref="white" tint="#000"/>
+
+        <alias name="frame.resizeIcon" ref="-iconC"/>
+
+        <area name="textarea.ul-bullet" center="true" sizeOverwriteH="20" inset="3,0,-3,0" xywh="80,0,9,9"/>
+
+        <composed name="frame.resizeable-title" border="25,5,5,5">
+            <alias ref="-borderA"/>
+            <grid weightsX="0,1,0" weightsY="0,1" inset="4">
+                <alias ref="none"/>
+                <select sizeOverwriteV="18">
+                    <alias ref="-gradA" if="keyboardFocus | hasOpenPopups"/>
+                    <alias ref="-gradB"/>
+                </select>
+                <alias ref="none"/>
+                <alias ref="none"/>
+                <alias ref="none"/>
+                <alias ref="none"/>
+            </grid>
+        </composed>
+        
+        <select name="button.background" border="6,3">
+            <alias ref="-borderB" if="disabled" tint="#8fff"/>
+            <alias ref="-borderE" if="armed"/>
+            <alias ref="-borderB"/>
+        </select>
+
+        <!-- edit field -->
+        <select name="editfield.background">
+            <alias ref="-borderE" if="readonly"/>
+            <alias ref="-borderC"/>
+        </select>
+        <area name="-editfield.cursor" xywh="24,10,1,1"/>
+        <animation name="editfield.cursor" timeSource="keyboardFocus">
+            <frame ref="-editfield.cursor" duration="500"/>
+            <frame ref="none" duration="500"/>
+        </animation>
+
+        <alias name="editfield.selection" ref="-gradC"/>
+        <!-- end of edit field -->
+
+    </images>
+
+    <fontDef name="normal" filename="font.fnt" color="black">
+        <fontParam if="disabled" color="gray"/>
+    </fontDef>
+    <fontDef name="white" filename="font.fnt" color="white"/>
+
+    <inputMapDef name="-defaultInputMap">
+        <action name="selectAll">ctrl A</action>
+        <action name="cut">ctrl X</action>
+        <action name="copy">ctrl C</action>
+        <action name="paste">ctrl V</action>
+    </inputMapDef>
+
+    <theme name="-defaults">
+        <param name="background"><image>none</image></param>
+        <param name="overlay"><image>none</image></param>
+        <param name="font"><font>normal</font></param>
+        <param name="textAlignment"><enum type="alignment">left</enum></param>
+        <param name="minWidth"><int>0</int></param>
+        <param name="minHeight"><int>0</int></param>
+        <param name="maxWidth"><int>0</int></param>
+        <param name="maxHeight"><int>0</int></param>
+        <param name="inputMap"><inputMap>-defaultInputMap</inputMap></param>
+    </theme>
+
+    <theme name="label" ref="-defaults" allowWildcard="true">
+    </theme>
+
+    <include filename="cursors.xml"/>
+
+    <theme name="editfield" ref="label" allowWildcard="true">
+        <param name=""><image>editfield.*</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="passwordChar"><int>0x25CF</int></param>
+        <param name="maxWidth"><int>32767</int></param>
+        <param name="columns"><int>5</int></param>
+        <theme name="renderer" ref="label"/>
+        <param name="mouseCursor"><cursor>cursor.text</cursor></param>
+        <param name="autocompletion-height"><int>150</int></param>
+    </theme>
+
+    <theme name="button" ref="-defaults" allowWildcard="true">
+        <param name=""><image>button.*</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="textAlignment"><enum type="alignment">center</enum></param>
+    </theme>
+
+    <theme name="resizableframe-title" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>frame.resizeable-title</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="titleAreaTop"><int>4</int></param>
+        <param name="titleAreaLeft"><int>6</int></param>
+        <param name="titleAreaRight"><int>-24</int></param>
+        <param name="titleAreaBottom"><int>20</int></param>
+        <param name="hasCloseButton"><bool>true</bool></param>
+        <param name="closeButtonX"><int>-22</int></param>
+        <param name="closeButtonY"><int>6</int></param>
+        <param name="hasResizeHandle"><bool>false</bool></param>
+        <param name="resizeHandleX"><int>-18</int></param>
+        <param name="resizeHandleY"><int>-18</int></param>
+        <param name="fadeColorInactive"><color>white</color></param>
+        <param name="fadeDurationActivate"><int>0</int></param>
+        <param name="fadeDurationDeactivate"><int>0</int></param>
+        <param name="fadeDurationShow"><int>0</int></param>
+        <param name="fadeDurationHide"><int>0</int></param>
+        <param name="mouseCursor"><cursor>arrow.*</cursor></param>
+        <theme name="title" ref="label">
+            <param name="textAlignment"><enum type="alignment">left</enum></param>
+            <param name="font"><fontDef filename="font.fnt" color="white">
+                <fontParam unless="keyboardFocus | hasOpenPopups" color="#d4d0c8"/>
+            </fontDef></param>
+        </theme>
+        <theme name="closeButton" ref="button">
+            <param name=""><image>frame.closebutton.*</image></param>
+            <param name="minWidth"><int>16</int></param>
+            <param name="minHeight"><int>14</int></param>
+        </theme>
+        <theme name="resizeHandle" ref="-defaults">
+            <param name="background"><image>frame.resizeIcon</image></param>
+        </theme>
+        <theme name="eeditfield" ref="editfield" allowWildcard="true">
+        </theme>
+
+    </theme>
+
+    <theme name="resizableframe" ref="resizableframe-title" allowWildcard="true">
+        <param name="background"><image>-borderA</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="hasCloseButton"><bool>false</bool></param>
+        <param name="titleAreaBottom"><int>4</int></param>
+    </theme>
+    <theme name="resizableframe-resizeHandle" ref="resizableframe-title" allowWildcard="true">
+        <param name="hasResizeHandle"><bool>true</bool></param>
+    </theme>
+
+
+    <theme name="mainmenuui" ref="-defaults">
+        <theme name="" ref="*"/>
+        <theme name="fpscounter" ref="-defaults">
+            <param name="font"><font>white</font></param>
+        </theme>
+    </theme>
+</themes>
