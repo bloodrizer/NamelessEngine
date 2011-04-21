@@ -25,8 +25,8 @@ public class WorldView {
         
     }
 
-    public static int TILEMAP_W = 30;
-    public static int TILEMAP_H = 30;
+    public static int TILEMAP_W = 100;
+    public static int TILEMAP_H = 100;
 
     public void render_background(){
 
@@ -46,13 +46,22 @@ public class WorldView {
     }
 
     public void render_entity(Entity entity){
-        
+        //todo: use factory render
+
+        //IGenericRender render = Render.get_render(entity);
+        //render.render(entity);
+
+
+        bg_tileset.render_tile(entity.origin.getX(),entity.origin.getY(), 4);
     }
 
     //--------------------------------------------------------------------------
 
     public void render(){
+        
         render_background();
         render_entities();
+
+        //glTranslatef(-0.5f, -0.5f, 0);
     }
 }

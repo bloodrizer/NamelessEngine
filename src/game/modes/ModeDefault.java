@@ -58,7 +58,7 @@ public class ModeDefault implements IGameMode, IEventListener {
 
 
     public void update(){
-        view.render_background();
+        view.render();
         //view.synchronize();
     }
 

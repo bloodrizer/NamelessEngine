@@ -37,10 +37,6 @@ public class TilesetRender {
         return 1.0f / TILESET_SIZE * ((tile_id) / TILESET_SIZE );
     }
 
-    public static int TILEMAP_W = 30;
-    public static int TILEMAP_H = 30;
-
-
     public void render_tile(int i, int j, int tile_id){
         Render.bind_texture(texture_name);
 
@@ -64,5 +60,6 @@ public class TilesetRender {
 	glVertex2f(i*TILE_SIZE,          ((j+1)*TILE_SIZE-1));
 
         glEnd();
+
     }
 }

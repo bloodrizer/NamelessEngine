@@ -21,12 +21,12 @@ public class WindowRender {
 
     public static void create() throws LWJGLException {
  
-            Display.setDisplayMode(new DisplayMode(WINDOW_W, WINDOW_H));
-            Display.create();
-            Display.setTitle("The Nameless Engine");
-            Display.setVSyncEnabled(true);
+        Display.setDisplayMode(new DisplayMode(WINDOW_W, WINDOW_H));
+        Display.create();
+        Display.setTitle("The Nameless Engine");
+        Display.setVSyncEnabled(true);
 
-            WindowRender.initGL(WINDOW_W, WINDOW_H);
+        WindowRender.initGL(WINDOW_W, WINDOW_H);
         
     }
 
@@ -42,6 +42,9 @@ public class WindowRender {
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         //GL11.glShadeModel(GL11.GL_SMOOTH);
+
+        GL11.glEnable (GL11.GL_BLEND);
+        GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     public static void destroy(){
