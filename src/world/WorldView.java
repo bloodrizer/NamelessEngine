@@ -5,6 +5,9 @@
 
 package world;
 
+import game.ent.Entity;
+import java.util.Iterator;
+import game.ent.EntityManager;
 import render.TilesetRender;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -34,7 +37,22 @@ public class WorldView {
         }
     }
 
+    public void render_entities(){
+        
+        for (Iterator iter = EntityManager.ent_list_sync.iterator(); iter.hasNext();) {
+           Entity entity = (Entity) iter.next();
+           render_entity(entity);
+        }
+    }
+
+    public void render_entity(Entity entity){
+        
+    }
+
+    //--------------------------------------------------------------------------
+
     public void render(){
         render_background();
+        render_entities();
     }
 }
