@@ -9,12 +9,8 @@ package events;
  *
  * @author Administrator
  */
-class EventListener {
-    public void e_on_event(Event event){
-        
-    }
+public interface IEventListener {
+    public void e_on_event(Event event);
 
-    public void e_on_event_rollback(Event event){
-        
-    }
+    public void e_on_event_rollback(Event event);
 }

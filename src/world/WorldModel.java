@@ -62,9 +62,9 @@ public class WorldModel {
 
     //--------------------------------------------------------------------------
     public void init(){
-      Entity player_ent = new Entity();
+      /*Entity player_ent = new Entity();
       EntityManager.add(player_ent);
 
-      Player.set_ent(player_ent);
+      Player.set_ent(player_ent);*/
     }
 }

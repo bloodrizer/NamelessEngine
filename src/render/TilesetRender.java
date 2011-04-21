@@ -17,45 +17,14 @@ import org.newdawn.slick.opengl.TextureLoader;
  *
  * @author Administrator
  */
-public class Tileset {
-
-    public static int CONSOLE_WIDTH  = 25;
-    public static int CONSOLE_HEIGHT = 19;
-
+public class TilesetRender {
     public static int TILE_SIZE = 32;
-
     public static int TILESET_SIZE = 8;
 
+    public String texture_name = "tileset1.png";
 
-    public Texture texture;
-    public Tileset(){
-        try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream(
-                this.getClass().getResource("tileset1.png").getPath()
-            ));
-        }
-        catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-
+    public TilesetRender(){
     }
-
-
-    public void render_background(){
-        if (texture != null){
-            texture.bind();
-        }
-
-
-        glBegin(GL_QUADS);
-        for (int i = 0; i<CONSOLE_WIDTH; i++){
-            for (int j = 0; j<CONSOLE_HEIGHT; j++){
-               render_tile(i,j);
-            }
-        }
-       glEnd();
-    }
-
 
     static float get_texture_size(){
         return 1.0f / TILESET_SIZE;
@@ -68,10 +37,17 @@ public class Tileset {
         return 1.0f / TILESET_SIZE * ((tile_id) / TILESET_SIZE );
     }
 
-    public static void render_tile(int i, int j){
+    public static int TILEMAP_W = 30;
+    public static int TILEMAP_H = 30;
 
+
+    public void render_tile(int i, int j, int tile_id){
+        Render.bind_texture(texture_name);
+
+        glBegin(GL_QUADS);
+        
         //int tile_id = (int)(80*Math.random());
-        int tile_id = 0;
+        //int tile_id = 0;
 
         float tx = get_texture_x(tile_id);
         float ty = get_texture_y(tile_id);
@@ -86,5 +62,7 @@ public class Tileset {
 	glVertex2f((i+1)*TILE_SIZE-1,    ((j+1)*TILE_SIZE-1));
             glTexCoord2f(tx, ty+ts);
 	glVertex2f(i*TILE_SIZE,          ((j+1)*TILE_SIZE-1));
+
+        glEnd();
     }
 }

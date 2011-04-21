@@ -26,4 +26,8 @@ public class Event {
     public void rollback(){
         //override me
     }
+
+    public String classname(){
+        return this.getClass().getName();
+    }
 }

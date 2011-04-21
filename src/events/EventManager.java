@@ -15,12 +15,12 @@ import java.util.Iterator;
  *
  * @author Administrator
  */
-class EventManager {
+public class EventManager {
 
-    static Collection<EventListener> listeners = new ArrayList<EventListener>();
+    static Collection<IEventListener> listeners = new ArrayList<IEventListener>();
     public static Collection listeners_sync = Collections.synchronizedCollection(listeners);
 
-    public static void add(EventListener listener){
+    public static void subscribe(IEventListener listener){
         listeners_sync.add(listener);
     }
 
@@ -32,7 +32,7 @@ class EventManager {
         register_event(event);
 
         for (Iterator iter = listeners_sync.iterator(); iter.hasNext();) {
-           EventListener listener = (EventListener) iter.next();
+           IEventListener listener = (IEventListener) iter.next();
            
            listener.e_on_event(event);
         }
@@ -46,7 +46,7 @@ class EventManager {
         unregister_event(event);
 
         for (Iterator iter = listeners_sync.iterator(); iter.hasNext();) {
-           EventListener listener = (EventListener) iter.next();
+           IEventListener listener = (IEventListener) iter.next();
 
            listener.e_on_event_rollback(event);
         }

@@ -20,7 +20,7 @@ import de.matthiasmann.twl.theme.ThemeManager;
 import game.modes.ModeMainMenu;
 
 import org.lwjgl.opengl.GL11;
-import render.Render;
+import render.WindowRender;
 import ui.DefaultUI;
 import ui.GameUI;
 import ui.IUserInterface;
@@ -65,7 +65,7 @@ public class Game {
         IGameMode mode = Game.get_game_mode();
 
         try {
-            Render.create();
+            WindowRender.create();
             LWJGLRenderer renderer = new LWJGLRenderer();
             renderer.setUseSWMouseCursors(true);
 
@@ -93,7 +93,7 @@ public class Game {
             }
             
             gui.destroy();
-            Render.destroy();
+            WindowRender.destroy();
         }
         catch(Exception e){
             e.printStackTrace();
