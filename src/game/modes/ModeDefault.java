@@ -19,6 +19,7 @@ import ui.GameUI;
 import world.WorldModel;
 
 import events.IEventListener;
+import game.ent.controller.NpcController;
 import namelessengine.Input;
 import world.WorldView;
 
@@ -55,6 +56,11 @@ public class ModeDefault implements IGameMode, IEventListener {
         Entity player_ent = new Entity();
         EntityManager.add(player_ent);
         player_ent.spawn(12345, location);
+
+
+        player_ent.set_controller(new NpcController());
+
+
         Player.set_ent(player_ent);
     }
 
@@ -63,6 +69,7 @@ public class ModeDefault implements IGameMode, IEventListener {
 
     public void update(){
         Input.update();
+        model.update();
 
 
         view.render();

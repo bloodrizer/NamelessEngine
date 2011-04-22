@@ -6,6 +6,7 @@
 package game.ent;
 
 import events.ent.EEntityMove;
+import game.ent.controller.IEntityController;
 import org.lwjgl.util.Point;
 
 /**
@@ -17,9 +18,22 @@ public class Entity {
     public Point origin;
     private int uid = 0;
 
+    public IEntityController controller;
+
     public void spawn(int uid, Point origin){
         this.uid = uid;
         this.origin = origin;
+    }
+
+    public void think(){
+        if (controller != null){
+            controller.think();
+        }
+    }
+
+    public void set_controller(IEntityController controller){
+        this.controller = controller;
+        controller.attach(this);
     }
 
 

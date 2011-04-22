@@ -6,6 +6,7 @@
 package player;
 
 import game.ent.Entity;
+import game.ent.controller.NpcController;
 import org.lwjgl.util.Point;
 
 /**
@@ -21,7 +22,8 @@ public class Player {
 
     public static void move(Point dest){
         if (player_ent != null){
-            player_ent.move_to(dest);
+            //player_ent.move_to(dest);
+           ((NpcController) player_ent.controller).set_destination(dest);
         }
     }
 

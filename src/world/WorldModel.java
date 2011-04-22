@@ -12,6 +12,7 @@ import events.ent.EEntityMove;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import java.util.Collections;
+import java.util.Iterator;
 import org.lwjgl.util.Point;
 import player.Player;
 
@@ -68,6 +69,33 @@ public class WorldModel implements IEventListener {
     public WorldModel(){
         EventManager.subscribe((IEventListener) this);
     }
+
+    public void update(){
+        //1. update timer data
+        //2. check if think call is allowed
+        //3. call think
+
+        for (Iterator iter = EntityManager.ent_list_sync.iterator(); iter.hasNext();) {
+           Entity entity = (Entity) iter.next();
+           entity.think();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void move_entity(Entity entity, Point dest){
         System.out.println("world model::on entity move");
