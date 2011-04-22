@@ -6,6 +6,7 @@
 package player;
 
 import game.ent.Entity;
+import org.lwjgl.util.Point;
 
 /**
  *
@@ -16,6 +17,12 @@ public class Player {
     static Entity player_ent = null;
     public static void set_ent(Entity ent){
         player_ent = ent;
+    }
+
+    public static void move(Point dest){
+        if (player_ent != null){
+            player_ent.move_to(dest);
+        }
     }
 
 }

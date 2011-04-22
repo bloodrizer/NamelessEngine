@@ -30,6 +30,10 @@ public class WindowRender {
         
     }
 
+    public static int get_window_h(){
+        return WINDOW_H;
+    }
+
     public static void initGL(int w, int h){
 
         GL11.glMatrixMode(GL11.GL_PROJECTION);

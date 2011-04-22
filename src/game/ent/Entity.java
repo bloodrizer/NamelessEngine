@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import events.ent.EEntityMove;
 import org.lwjgl.util.Point;
 
 /**
@@ -19,5 +20,11 @@ public class Entity {
     public void spawn(int uid, Point origin){
         this.uid = uid;
         this.origin = origin;
+    }
+
+
+    public void move_to(Point dest){
+        EEntityMove event = new EEntityMove(this, dest);
+        event.post();
     }
 }

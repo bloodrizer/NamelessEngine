@@ -6,6 +6,7 @@
 package game.modes;
 
 import de.matthiasmann.twl.Widget;
+import events.EMouseInput;
 import events.EPlayerLogon;
 import events.Event;
 import events.EventManager;
@@ -18,6 +19,7 @@ import ui.GameUI;
 import world.WorldModel;
 
 import events.IEventListener;
+import namelessengine.Input;
 import world.WorldView;
 
 /**
@@ -29,7 +31,8 @@ public class ModeDefault implements IGameMode, IEventListener {
     //private Tileset tileset = null;
 
     private TilesetRender bg_tileset;
-    private WorldView view;
+    private WorldView  view;
+    private WorldModel model;
     
     public ModeDefault(){      
         EventManager.subscribe(this);
@@ -37,7 +40,8 @@ public class ModeDefault implements IGameMode, IEventListener {
 
     public void run(){
         bg_tileset = new TilesetRender();
-        view = new WorldView();
+        view  = new WorldView();
+        model = new WorldModel();
 
         //synchronize with server
         //init world
@@ -58,6 +62,9 @@ public class ModeDefault implements IGameMode, IEventListener {
 
 
     public void update(){
+        Input.update();
+
+
         view.render();
         //view.synchronize();
     }
@@ -68,8 +75,12 @@ public class ModeDefault implements IGameMode, IEventListener {
 
     //--------------------------------------------------------------------------
     public void e_on_event(Event event){
+
        if (event.classname().equals("events.EPlayerLogon")){
            spawn_player(((EPlayerLogon)event).origin);
+       }
+       else if(event.classname().equals("events.EMouseInput")){
+           e_on_mouse_click(((EMouseInput)event));
        }
        else
        {
@@ -77,6 +88,14 @@ public class ModeDefault implements IGameMode, IEventListener {
        }
     }
 
+    public void e_on_mouse_click( EMouseInput event){
+        Point tile_origin = view.getTileCoord(event.origin);
+
+        System.out.println(tile_origin);
+        Player.move(tile_origin);
+        //todo: use Player.player_ent.controller.set_target(tile_origin);
+    }
+    //--------------------------------------------------------------------------
     public void e_on_event_rollback(Event event){
         
     }

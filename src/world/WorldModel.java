@@ -5,6 +5,10 @@
 
 package world;
 
+import events.Event;
+import events.EventManager;
+import events.IEventListener;
+import events.ent.EEntityMove;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import java.util.Collections;
@@ -15,7 +19,7 @@ import player.Player;
  *
  * @author Administrator
  */
-public class WorldModel {
+public class WorldModel implements IEventListener {
     //
 
     private static java.util.Map<Point,WorldTile> tile_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldTile>(1000));
@@ -60,11 +64,30 @@ public class WorldModel {
         //todo: move to chunk?
     }
 
-    //--------------------------------------------------------------------------
-    public void init(){
-      /*Entity player_ent = new Entity();
-      EntityManager.add(player_ent);
 
-      Player.set_ent(player_ent);*/
+    public WorldModel(){
+        EventManager.subscribe((IEventListener) this);
+    }
+
+    public void move_entity(Entity entity, Point dest){
+        System.out.println("world model::on entity move");
+        entity.origin = dest;
+    }
+
+
+
+    //----------------------------EVENTS SHIT-----------------------------------
+    public void e_on_event(Event event){
+       if (event.classname().equals("events.ent.EEntityMove")){
+           EEntityMove move_event = (EEntityMove)event;
+           move_entity(move_event.entity, move_event.to);
+       }
+    }
+    //--------------------------------------------------------------------------
+    public void e_on_event_rollback(Event event){
+       if (event.classname().equals("events.ent.EEntityMove")){
+           EEntityMove move_event = (EEntityMove)event;
+           move_entity(move_event.entity, move_event.from);
+       }
     }
 }

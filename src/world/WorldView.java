@@ -5,6 +5,8 @@
 
 package world;
 
+import org.lwjgl.util.Point;
+import render.WindowRender;
 import game.ent.Entity;
 import java.util.Iterator;
 import game.ent.EntityManager;
@@ -63,5 +65,17 @@ public class WorldView {
         render_entities();
 
         //glTranslatef(-0.5f, -0.5f, 0);
+    }
+
+    public Point getTileCoord(Point window_coord){
+        int x = window_coord.getX();
+        int y = window_coord.getY();
+
+        y = WindowRender.get_window_h()-y;  //invert it wtf
+
+        x = x / bg_tileset.TILE_SIZE;
+        y = y / bg_tileset.TILE_SIZE;
+
+        return new Point(x,y);
     }
 }
