@@ -21,6 +21,7 @@ import world.WorldModel;
 import events.IEventListener;
 import game.ent.controller.NpcController;
 import namelessengine.Input;
+import render.overlay.OverlaySystem;
 import world.WorldView;
 
 /**
@@ -34,6 +35,9 @@ public class ModeDefault implements IGameMode, IEventListener {
     private TilesetRender bg_tileset;
     private WorldView  view;
     private WorldModel model;
+
+
+    private OverlaySystem overlay;
     
     public ModeDefault(){      
         EventManager.subscribe(this);
@@ -43,6 +47,8 @@ public class ModeDefault implements IGameMode, IEventListener {
         bg_tileset = new TilesetRender();
         view  = new WorldView();
         model = new WorldModel();
+
+        overlay = new OverlaySystem();
 
         //synchronize with server
         //init world
@@ -73,6 +79,8 @@ public class ModeDefault implements IGameMode, IEventListener {
 
 
         view.render();
+        //render text overlay stack
+        overlay.render();
         //view.synchronize();
     }
 
