@@ -70,14 +70,20 @@ public class WorldModel implements IEventListener {
         EventManager.subscribe((IEventListener) this);
     }
 
+    private long timer = 0; //todo: synchronize me
+
     public void update(){
         //1. update timer data
         //2. check if think call is allowed
         //3. call think
+        Timer.tick();
+
 
         for (Iterator iter = EntityManager.ent_list_sync.iterator(); iter.hasNext();) {
            Entity entity = (Entity) iter.next();
-           entity.think();
+           if (entity.is_awake(Timer.get_time())){
+              entity.think();
+           }
         }
     }
 
@@ -98,7 +104,7 @@ public class WorldModel implements IEventListener {
 
 
     public void move_entity(Entity entity, Point dest){
-        System.out.println("world model::on entity move");
+        //System.out.println("world model::on entity move");
         entity.origin = dest;
     }
 

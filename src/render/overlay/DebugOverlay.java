@@ -6,10 +6,9 @@
 package render.overlay;
 
 import org.newdawn.slick.Color;
+import world.Timer;
 
 public class DebugOverlay {
-
-    public static int fps;
 
     public static void render(){
         long total = Runtime.getRuntime().totalMemory();
@@ -24,7 +23,12 @@ public class DebugOverlay {
                 "MB"
         , Color.white);
 
-        OverlaySystem.ttf.drawString(10, 25, "FPS: " + Integer.toString( fps ), Color.white);
+        /*OverlaySystem.ttf.drawString(10, 25, Long.toString(
+                Timer.get_time()
+                )
+        , Color.white);*/
+
+        OverlaySystem.ttf.drawString(10, 55, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
     }
 
 }

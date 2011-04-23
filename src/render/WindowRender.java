@@ -33,6 +33,10 @@ public class WindowRender {
     public static int get_window_h(){
         return WINDOW_H;
     }
+    
+    public static int get_window_w(){
+        return WINDOW_W;
+    }
 
     public static void initGL(int w, int h){
 

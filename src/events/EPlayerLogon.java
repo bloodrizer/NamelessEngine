@@ -11,7 +11,7 @@ import org.lwjgl.util.Point;
  *
  * @author Administrator
  */
-public class EPlayerLogon extends Event{
+public class EPlayerLogon extends NetworkEvent{
     public Point origin = null;
     public EPlayerLogon(Point origin){
         this.origin = origin;

@@ -22,6 +22,7 @@ import events.IEventListener;
 import game.ent.controller.NpcController;
 import namelessengine.Input;
 import render.overlay.OverlaySystem;
+import world.Timer;
 import world.WorldView;
 
 /**
@@ -50,6 +51,8 @@ public class ModeDefault implements IGameMode, IEventListener {
 
         overlay = new OverlaySystem();
 
+        Timer.init();   //very-very critical
+
         //synchronize with server
         //init world
 
@@ -75,6 +78,7 @@ public class ModeDefault implements IGameMode, IEventListener {
 
     public void update(){
         Input.update();
+        EventManager.update();
         model.update();
 
 
@@ -99,7 +103,7 @@ public class ModeDefault implements IGameMode, IEventListener {
        }
        else
        {
-           System.out.println("Unknown message registered:" + event.classname());   //debug
+           //System.out.println("Unknown message registered:" + event.classname());   //debug
        }
     }
 

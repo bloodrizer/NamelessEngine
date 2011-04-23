@@ -29,6 +29,7 @@ public class NpcController extends BaseController {
     }
 
     public void follow_path(){
+
         if(owner.origin.getX() > destination.getX()){
             owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
         }
@@ -40,6 +41,10 @@ public class NpcController extends BaseController {
         }
         if(owner.origin.getY() < destination.getY()){
             owner.move_to(new Point(owner.origin.getX(), owner.origin.getY()+1));
+        }
+
+        if(owner.origin.equals(this.destination)){
+            this.destination = null;    //clean up destination
         }
     }
 }
