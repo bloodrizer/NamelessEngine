@@ -12,8 +12,10 @@ import org.lwjgl.opengl.GL11;
 
 /**
  *
- * @author Administrator
+ * All low-level render routine should go there
  */
+
+
 public class WindowRender {
 
     static int WINDOW_W = 800;
@@ -42,7 +44,7 @@ public class WindowRender {
 
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-
+        
         GL11.glViewport(0, 0, w, h);
         GL11.glOrtho(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 
@@ -53,6 +55,12 @@ public class WindowRender {
 
         GL11.glEnable (GL11.GL_BLEND);
         GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        //wtf?
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glLoadIdentity();
+
+        
     }
 
     public static void destroy(){

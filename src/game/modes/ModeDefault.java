@@ -21,6 +21,7 @@ import world.WorldModel;
 import events.IEventListener;
 import game.ent.controller.NpcController;
 import namelessengine.Input;
+import namelessengine.Input.MouseInputType;
 import render.overlay.OverlaySystem;
 import world.Timer;
 import world.WorldView;
@@ -110,8 +111,10 @@ public class ModeDefault implements IGameMode, IEventListener {
     public void e_on_mouse_click( EMouseInput event){
         Point tile_origin = view.getTileCoord(event.origin);
 
-        System.out.println(tile_origin);
-        Player.move(tile_origin);
+        //System.out.println(tile_origin);
+        if (event.type == MouseInputType.LCLICK) {
+            Player.move(tile_origin);
+        }
         //todo: use Player.player_ent.controller.set_target(tile_origin);
     }
     //--------------------------------------------------------------------------

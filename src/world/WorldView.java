@@ -5,6 +5,12 @@
 
 package world;
 
+import events.EMouseRelease;
+import namelessengine.Input.MouseInputType;
+import events.IEventListener;
+import events.EventManager;
+import events.EMouseDrag;
+import events.Event;
 import org.lwjgl.util.Point;
 import render.WindowRender;
 import game.ent.Entity;
@@ -13,15 +19,19 @@ import game.ent.EntityManager;
 import render.TilesetRender;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
 
 /**
  *
  * @author Administrator
  */
-public class WorldView {
+public class WorldView implements IEventListener {
 
     public TilesetRender bg_tileset = new TilesetRender();
+
+    public WorldView(){
+        EventManager.subscribe(this);
+    }
+
 
     public void synchronize(WorldModel model){
         
@@ -60,11 +70,16 @@ public class WorldView {
     //--------------------------------------------------------------------------
 
     public void render(){
-        
+
+        glLoadIdentity();
+        glTranslatef(camera_x, -camera_y, 0);
+        //camera.setMatrix();
+  
         render_background();
         render_entities();
+        
 
-        //glTranslatef(-0.5f, -0.5f, 0);
+        
     }
 
     public Point getTileCoord(Point window_coord){
@@ -78,4 +93,39 @@ public class WorldView {
 
         return new Point(x,y);
     }
+
+    //todo: refact me
+    float camera_x = 0;
+    float camera_y = 0;
+
+    //----------------------------EVENTS SHIT-----------------------------------
+    public void e_on_event(Event event){
+       
+       /*System.out.println("WorldView - camera @ "+Float.toString(camera_x)+
+                   ","+Float.toString(camera_y));*/
+
+       if (event.classname().equals("events.EMouseDrag")){
+
+           EMouseDrag drag_event = (EMouseDrag)event;
+           if (drag_event.type == MouseInputType.RCLICK){
+            camera_x += drag_event.dx;
+            camera_y += drag_event.dy;
+           }
+
+
+           
+
+       }else if(event.classname().equals("events.EMouseRelease")){
+           EMouseRelease drag_event = (EMouseRelease)event;
+           if (drag_event.type == MouseInputType.RCLICK){
+            camera_x = 0.0f;
+            camera_y = 0.0f;
+           }
+       }
+    }
+    //--------------------------------------------------------------------------
+    public void e_on_event_rollback(Event event){
+      
+    }
+
 }

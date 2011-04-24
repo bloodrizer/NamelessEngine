@@ -6,19 +6,20 @@
 package events;
 
 import namelessengine.Input.MouseInputType;
-import org.lwjgl.util.Point;
 
 /**
  *
  * @author Administrator
  */
-public class EMouseInput extends Event {
-    public Point origin = null;
-    
+public class EMouseDrag extends Event{
     public MouseInputType type = null;
 
-    public EMouseInput(Point origin, MouseInputType type){
-        this.origin = origin;
+    public float dx;
+    public float dy;
+
+    public EMouseDrag(float dx, float dy, MouseInputType type){
+        this.dx = dx;
+        this.dy = dy;
         this.type = type;
     }
 }
