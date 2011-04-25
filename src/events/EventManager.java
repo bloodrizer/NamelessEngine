@@ -1,23 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package events;
 
-import game.ent.Entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import world.Timer;
 
 /**
- *
- * @author Administrator
+ * EventManager keeps a track of event stack and makes a transitive rollback if event is timed out.
  */
 public class EventManager {
 
@@ -71,7 +62,7 @@ public class EventManager {
         eventid++;
         return eventid;
     }
-    //грубо говоря, это стэк событий, в котором по истечении какого-то таймаута их надо откатывать, но транзитивно
+
     static Collection<Event> events_stack = new ArrayList<Event>();
     public static List<Event> events_stack_sync = Collections.synchronizedList(new ArrayList<Event>());
 
@@ -79,7 +70,6 @@ public class EventManager {
 
         //prevent from registering non-network events
         if (event.is_local()){
-            //System.out.println("local event, skipping");
             return;
         }
 
@@ -92,24 +82,11 @@ public class EventManager {
     }
     
     static void unregister_event(Event event){
-        //????????????????????
         if (event.is_local()){
             return;
         }
-
         events_stack_sync.remove(event);
-        //????????????????????
-        /*synchronized(events_stack_sync){
-
-            for (Iterator iter = events_stack_sync.iterator(); iter.hasNext();) {
-               Event __event = (Event) iter.next();
-
-               if (__event.get_eventid() == event.get_eventid()){
-                   events_stack_sync.remove(__event);
-                   return;
-               }
-            }
-        }*/
+      
     }
     //--------------------------------------------------------------------------
 
