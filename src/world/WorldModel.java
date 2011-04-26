@@ -112,14 +112,14 @@ public class WorldModel implements IEventListener {
 
     //----------------------------EVENTS SHIT-----------------------------------
     public void e_on_event(Event event){
-       if (event.classname().equals("events.ent.EEntityMove")){
+       if (event instanceof EEntityMove){
            EEntityMove move_event = (EEntityMove)event;
            move_entity(move_event.entity, move_event.to);
        }
     }
     //--------------------------------------------------------------------------
     public void e_on_event_rollback(Event event){
-       if (event.classname().equals("events.ent.EEntityMove")){
+       if (event instanceof EEntityMove){
            EEntityMove move_event = (EEntityMove)event;
            move_entity(move_event.entity, move_event.from);
        }

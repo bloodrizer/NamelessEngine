@@ -6,7 +6,7 @@
 package game.modes;
 
 import de.matthiasmann.twl.Widget;
-import events.EMouseInput;
+import events.EMouseClick;
 import events.EPlayerLogon;
 import events.Event;
 import events.EventManager;
@@ -96,11 +96,11 @@ public class ModeDefault implements IGameMode, IEventListener {
     //--------------------------------------------------------------------------
     public void e_on_event(Event event){
 
-       if (event.classname().equals("events.EPlayerLogon")){
+       if (event instanceof EPlayerLogon){
            spawn_player(((EPlayerLogon)event).origin);
        }
-       else if(event.classname().equals("events.EMouseInput")){
-           e_on_mouse_click(((EMouseInput)event));
+       else if(event instanceof EMouseClick){
+           e_on_mouse_click(((EMouseClick)event));
        }
        else
        {
@@ -108,7 +108,7 @@ public class ModeDefault implements IGameMode, IEventListener {
        }
     }
 
-    public void e_on_mouse_click( EMouseInput event){
+    public void e_on_mouse_click( EMouseClick event){
         Point tile_origin = view.getTileCoord(event.origin);
 
         //System.out.println(tile_origin);
