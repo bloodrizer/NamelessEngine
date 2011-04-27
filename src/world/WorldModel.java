@@ -47,7 +47,9 @@ public class WorldModel implements IEventListener {
     }
     //--------------------------------------------------------------------------
     private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
-    //private static Point chunk_coord = new Point(0,0);
+
+    public static int cluster_size = 3;
+   
 
     private static synchronized WorldChunk get_chunk(int x, int y){
         push_point(util_point);
@@ -59,10 +61,25 @@ public class WorldModel implements IEventListener {
         return chunk;
     }
 
+    public static Point get_chunk_coord(Point position) {
+        //todo: use util point?
+        int CL_OFFSET = (cluster_size-1)/2;
 
-    private void precache_chunk(int i, int j){
-        WorldChunk chunk = WorldModel.get_chunk(i,j);
-        //todo: move to chunk?
+        int cx = (int)Math.floor(position.getX() / WorldChunk.CHUNK_SIZE)-CL_OFFSET;
+        int cy = (int)Math.floor(position.getY() / WorldChunk.CHUNK_SIZE)-CL_OFFSET;
+
+        return new Point(cx,cy);
+    }
+
+    public static void precache_chunk(int chunk_x, int chunk_y){
+        WorldChunk chunk = get_chunk(chunk_x, chunk_y);
+        if (chunk != null){
+            //do nothing
+        }
+        else{
+            chunk = new WorldChunk(chunk_x,chunk_y);
+
+        }
     }
 
 
@@ -87,7 +104,7 @@ public class WorldModel implements IEventListener {
         }
     }
 
-
+   
 
 
 
