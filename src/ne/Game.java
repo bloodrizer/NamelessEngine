@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package namelessengine;
+package ne;
 
 
 import de.matthiasmann.twl.Button;

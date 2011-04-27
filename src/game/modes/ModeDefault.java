@@ -20,8 +20,8 @@ import world.WorldModel;
 
 import events.IEventListener;
 import game.ent.controller.NpcController;
-import namelessengine.Input;
-import namelessengine.Input.MouseInputType;
+import ne.Input;
+import ne.Input.MouseInputType;
 import render.overlay.OverlaySystem;
 import world.Timer;
 import world.WorldView;

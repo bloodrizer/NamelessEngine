@@ -5,7 +5,7 @@
 
 package events;
 
-import namelessengine.Input.MouseInputType;
+import ne.Input.MouseInputType;
 import org.lwjgl.util.Point;
 
 /**

@@ -6,7 +6,7 @@
 package world;
 
 import events.EMouseRelease;
-import namelessengine.Input.MouseInputType;
+import ne.Input.MouseInputType;
 import events.IEventListener;
 import events.EventManager;
 import events.EMouseDrag;
