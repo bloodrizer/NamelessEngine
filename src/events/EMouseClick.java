@@ -12,12 +12,12 @@ import org.lwjgl.util.Point;
  *
  * @author Administrator
  */
-public class EMouseInput extends Event {
+public class EMouseClick extends Event {
     public Point origin = null;
     
     public MouseInputType type = null;
 
-    public EMouseInput(Point origin, MouseInputType type){
+    public EMouseClick(Point origin, MouseInputType type){
         this.origin = origin;
         this.type = type;
     }

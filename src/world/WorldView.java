@@ -104,7 +104,7 @@ public class WorldView implements IEventListener {
        /*System.out.println("WorldView - camera @ "+Float.toString(camera_x)+
                    ","+Float.toString(camera_y));*/
 
-       if (event.classname().equals("events.EMouseDrag")){
+       if (event instanceof EMouseDrag){
 
            EMouseDrag drag_event = (EMouseDrag)event;
            if (drag_event.type == MouseInputType.RCLICK){
@@ -115,7 +115,7 @@ public class WorldView implements IEventListener {
 
            
 
-       }else if(event.classname().equals("events.EMouseRelease")){
+       }else if(event instanceof  EMouseRelease){
            EMouseRelease drag_event = (EMouseRelease)event;
            if (drag_event.type == MouseInputType.RCLICK){
             camera_x = 0.0f;
