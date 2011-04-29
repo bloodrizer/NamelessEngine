@@ -1,5 +1,6 @@
 package events;
 
+import events.network.NetworkEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +43,11 @@ public class EventManager {
             return;
         }
 
+
+        /*System.out.println("rolling back event"+
+                        event.toString()
+        );*/
+
         unregister_event(event);
         synchronized(listeners_sync) {
             for (Iterator iter = listeners_sync.iterator(); iter.hasNext();) {
@@ -76,8 +82,8 @@ public class EventManager {
         event.set_timestamp(Timer.get_time());  //sign event with current Timer timestamp
 
         event.set_eventid(get_eventid());
-        System.out.println("adding network event #"+Integer.toString(event.get_eventid()));
-        System.out.println(event.classname());
+        //System.out.println("adding network event "+event.toString());
+        //System.out.println(event.classname());
         events_stack_sync.add(event);
     }
     
@@ -107,15 +113,20 @@ public class EventManager {
                     rollback_event_chain(i,event_tmp);
                 }
             }else{
-                System.out.println("cleaning up event #"+
+                /*System.out.println("cleaning up event #"+
                         Integer.toString(__event.get_eventid())
-                );
+                );*/
                 events_stack_sync.remove(__event);
             }
         }
     }
 
     public static void rollback_event_chain(int offset, Object[] event_tmp) {
+
+        /*System.out.println("rolling back event chain @ #"+
+                        Integer.toString(offset)
+        );*/
+
         for( int i=event_tmp.length-1; i>=offset; i--){
             rollback_event((NetworkEvent)event_tmp[i]);
         }

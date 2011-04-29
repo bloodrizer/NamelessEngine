@@ -3,12 +3,19 @@
  * and open the template in the editor.
  */
 
-package events;
+package events.network;
+
+import events.Event;
 
 /**
  *
  * @author Administrator
  */
+@interface NetID {
+    int id();
+}
+
+
 public class NetworkEvent extends Event {
 
     @Override

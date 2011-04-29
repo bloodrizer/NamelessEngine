@@ -7,7 +7,7 @@ package game.modes;
 
 import de.matthiasmann.twl.Widget;
 import events.EMouseClick;
-import events.EPlayerLogon;
+import events.network.EPlayerLogon;
 import events.Event;
 import events.EventManager;
 import game.ent.Entity;
@@ -67,9 +67,7 @@ public class ModeDefault implements IGameMode, IEventListener {
         EntityManager.add(player_ent);
         player_ent.spawn(12345, location);
 
-
         player_ent.set_controller(new NpcController());
-
 
         Player.set_ent(player_ent);
     }

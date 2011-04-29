@@ -5,13 +5,16 @@
 
 package ne.io;
 
+import events.Event;
+import events.IEventListener;
 import java.net.ServerSocket;
 
 /**
  *
  * @author Administrator
  */
-public class Io {
+
+public class Io implements IEventListener {
 
     private ServerSocket tcp_sock = null;
 
@@ -27,5 +30,18 @@ public class Io {
 
     public void update(){
         
+    }
+
+    private void send_network_event(Event event){
+        //System.event
+    }
+
+
+    public void e_on_event(Event event){
+
+    }
+    
+    public void e_on_event_rollback(Event event){
+
     }
 }

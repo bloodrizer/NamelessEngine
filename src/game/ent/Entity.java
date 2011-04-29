@@ -5,10 +5,12 @@
 
 package game.ent;
 
-import events.ent.EEntityMove;
+import events.EEntitySpawn;
+import events.network.EEntityMove;
 import game.ent.controller.IEntityController;
 import org.lwjgl.util.Point;
 import world.Timer;
+import world.WorldChunk;
 
 /**
  *
@@ -22,11 +24,30 @@ public class Entity {
 
     public IEntityController controller;
 
+    private WorldChunk chunk = null;
+
     public void spawn(int uid, Point origin){
         this.uid = uid;
         this.origin = origin;
 
+
+        EEntitySpawn spawn_event = new EEntitySpawn(this,origin);
+        spawn_event.post();
+
         set_next_think(Timer.get_time());
+    }
+
+    public void set_chunk(WorldChunk chunk){
+        this.chunk = chunk;
+    }
+    
+    public WorldChunk get_chunk(){
+        return this.chunk;
+    }
+
+    public boolean in_chunk(WorldChunk chunk){
+       if (chunk == null) { return false; }
+       return (this.chunk.equals(chunk));
     }
 
     public void think(){
@@ -63,5 +84,18 @@ public class Entity {
             return true;
         }
         return false;
+    }
+
+    public static String toString(Entity ent){
+        return "[uid:'"+ent.uid+"' @("+
+                Integer.toString(ent.origin.getX())+
+                ","+
+                Integer.toString(ent.origin.getY())+
+                ")]";
+    }
+
+    @Override
+    public String toString(){
+        return toString(this);
     }
 }

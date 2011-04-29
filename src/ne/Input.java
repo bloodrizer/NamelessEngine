@@ -31,10 +31,16 @@ public class Input {
     };
 
     public static void update(){
+
+        //Mouse.
+
+
         //distance in mouse movement from the last getDX() call.
         dx = Mouse.getDX();
         //distance in mouse movement from the last getDY() call.
         dy = Mouse.getDY();
+
+        //System.out.println(Float.toString(dx)+","+Float.toString(dy));
 
         //--------------------------------LMB-----------------------------------
         if (Mouse.isButtonDown(0)){
