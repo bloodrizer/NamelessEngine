@@ -39,7 +39,7 @@ public class WorldModel implements IEventListener {
         point.setLocation(__stack_point);
     }
 
-    private static synchronized WorldTile get_tile(int x, int y){
+    public static synchronized WorldTile get_tile(int x, int y){
         push_point(util_point);
         util_point.setLocation(x, y);
         
@@ -78,7 +78,7 @@ public class WorldModel implements IEventListener {
     public static WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
         WorldChunk chunk = get_chunk(chunk_x, chunk_y);
         if (chunk == null){
-            chunk = new WorldChunk(chunk_x,chunk_y); 
+            chunk = precache_chunk(chunk_x, chunk_y);
         }
         return chunk;
     }
@@ -104,6 +104,38 @@ public class WorldModel implements IEventListener {
               entity.think();
            }
         }
+    }
+
+    public static WorldChunk precache_chunk(int x, int y){
+        WorldChunk chunk = new WorldChunk(x, y);
+        build_chunk(chunk.origin);
+
+        chunk_data.put(new Point(x,y), chunk);
+
+        return chunk;
+    }
+
+    public static void build_chunk(Point origin){
+
+        System.out.println("building data chunk @"+origin.toString());
+
+        int x = origin.getX()*WorldChunk.CHUNK_SIZE;
+        int y = origin.getY()*WorldChunk.CHUNK_SIZE;
+        int size = WorldChunk.CHUNK_SIZE;
+
+        for (int i = x; i<x+size; i++)
+            for (int j = y; j<y+size; j++)
+            {
+                //implement different tile_id there
+                //int tile_id = (int)(Math.random()*10);
+
+                int tile_id = 0;
+                if (Math.random() < 0.2f){
+                    tile_id = 25;
+                }
+
+                tile_data.put(new Point(i,j), new WorldTile(tile_id));
+            }
     }
 
    

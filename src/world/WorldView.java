@@ -53,7 +53,16 @@ public class WorldView implements IEventListener {
         for (int i = x; i<x+size; i++)
         for (int j = y; j<y+size; j++)
             {
-                bg_tileset.render_tile(i,j, 0);
+                if (WorldModel.get_cached_chunk(
+                        i/WorldChunk.CHUNK_SIZE,
+                        j/WorldChunk.CHUNK_SIZE) != null){
+                    WorldTile tile = WorldModel.get_tile(i,j);
+
+                    if (tile != null){
+                        bg_tileset.render_tile(i, j, tile.get_tile_id());
+                    }
+                }
+                
             }
 
         /*for (int i = 0; i<TILEMAP_W; i++){

@@ -41,6 +41,8 @@ public class TilesetRender {
         Render.bind_texture(texture_name);
 
         glBegin(GL_QUADS);
+
+        //glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         //int tile_id = (int)(80*Math.random());
         //int tile_id = 0;
