@@ -14,7 +14,7 @@ import org.lwjgl.util.Point;
 //this shit works as a mediator between WorldView and a WorldModel
 public class WorldCluster {
     public static Point origin = new Point(0,0);
-    public static int CLUSTER_SIZE = 5;
+    public static int CLUSTER_SIZE = 3;
 
 
     public static void locate(Point target){

@@ -16,7 +16,7 @@ import org.lwjgl.util.Point;
  */
 public class WorldChunk {
     //todo: synch with server?
-    public static final int CHUNK_SIZE = 16;
+    public static final int CHUNK_SIZE = 32;
 
     public Point origin = new Point(0,0);
 

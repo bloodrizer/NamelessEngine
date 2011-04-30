@@ -69,8 +69,8 @@ public class WorldModel implements IEventListener {
         //todo: use util point?
         //int CL_OFFSET = (WorldCluster.CLUSTER_SIZE-1)/2;
 
-        int cx = (int)Math.floor(position.getX() / WorldChunk.CHUNK_SIZE);
-        int cy = (int)Math.floor(position.getY() / WorldChunk.CHUNK_SIZE);
+        int cx = (int)Math.floor((float)position.getX() / WorldChunk.CHUNK_SIZE);
+        int cy = (int)Math.floor((float)position.getY() / WorldChunk.CHUNK_SIZE);
 
         return new Point(cx,cy);
     }
@@ -204,7 +204,7 @@ public class WorldModel implements IEventListener {
        }else if(event instanceof EEntityChangeChunk){
            EEntityChangeChunk e_change_chunk = (EEntityChangeChunk)event;
 
-           System.out.println("setting new chunk for ent "+Entity.toString(e_change_chunk.ent));
+           System.err.println("setting new chunk for ent "+Entity.toString(e_change_chunk.ent));
            
            Entity ent = e_change_chunk.ent;
            ent.set_chunk(e_change_chunk.to);

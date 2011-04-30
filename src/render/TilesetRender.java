@@ -12,6 +12,7 @@ import static org.lwjgl.util.glu.GLU.*;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import world.WorldChunk;
 
 /**
  *
@@ -47,10 +48,10 @@ public class TilesetRender {
         //int tile_id = (int)(80*Math.random());
         //int tile_id = 0;
 
-        if (i % 16 == 0){
+        if (i % WorldChunk.CHUNK_SIZE == 0){
             tile_id = 8;
         }
-        if (j % 16 == 0){
+        if (j % WorldChunk.CHUNK_SIZE == 0){
             tile_id = 8;
         }
 
