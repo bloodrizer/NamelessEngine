@@ -5,13 +5,55 @@
 
 package world;
 
+import world.util.Noise;
+
 /**
  *
  * @author Administrator
  */
 public class Terrain {
+    public static Noise noise = new Noise();
 
+    public static final int TERRAIN_HEIGHT = 32;    //255
+
+    public static void setup(){
+        noise.noiseDetail(3,0.5f);
+    }
+
+    //function generates virtual terrain height, based on PerlinNoise Map
+    public static int get_height(int x, int y){
+        //todo: call setup();
+        noise.noiseDetail(3,0.5f);
+
+        float noiseScale = 0.03f;
+        float noiseVal = noise.noise((float)x*noiseScale,(float)y*noiseScale);
+
+        //System.out.println(noiseVal);
+
+        return (int)(noiseVal*TERRAIN_HEIGHT);
+    }
+
+    /*void generateHeightmap(){
+        float noiseVal;
+        float noiseScale = 0.03f;
+        for(int y = 0; y < mheight; y++){
+          for(int x = 0; x < mwidth; x++){
+           // noiseDetail(3,0.5);
+            noiseVal = noise(x*noiseScale,y*noiseScale); //this generates the int value to put into the 2d array for height, all generated with perlin noise
+            this.map[x][y].theight = noiseVal*255;
+            //println(this.map[x][y].theight);
+          }
+        }
+    }*/
 }
+
+
+
+
+
+
+
+
 /*import java.util.Vector.*;
 Map world;
 

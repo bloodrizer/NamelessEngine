@@ -130,9 +130,10 @@ public class WorldModel implements IEventListener {
                 //int tile_id = (int)(Math.random()*10);
 
                 int tile_id = 0;
-                if (Math.random() < 0.2f){
+                /*if (Math.random() < 0.2f){
                     tile_id = 25;
-                }
+                }*/
+                tile_id = Terrain.get_height(i,j);
 
                 tile_data.put(new Point(i,j), new WorldTile(tile_id));
             }
