@@ -29,9 +29,9 @@ public class DebugOverlay {
                 )
         , Color.white);*/
 
-        OverlaySystem.ttf.drawString(10, 55, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
+        OverlaySystem.ttf.drawString(10, 50, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
 
-        OverlaySystem.ttf.drawString(10, 85, "Camera @: " +
+        OverlaySystem.ttf.drawString(10, 70, "Camera @: " +
                 Integer.toString( (int)WorldViewCamera.camera_x )+
                 "," + 
                 Integer.toString( (int)WorldViewCamera.camera_y ) +

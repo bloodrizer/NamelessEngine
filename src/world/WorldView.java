@@ -26,7 +26,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class WorldView implements IEventListener {
 
-    public TilesetRender bg_tileset = new TilesetRender();
+    public static TilesetRender bg_tileset = new TilesetRender();
 
     public WorldView(){
         EventManager.subscribe(this);
@@ -99,14 +99,21 @@ public class WorldView implements IEventListener {
         
     }
 
-    public Point getTileCoord(Point window_coord){
+
+
+    public static Point getTileCoord(Point window_coord){
         int x = window_coord.getX();
         int y = window_coord.getY();
+        return getTileCoord(x,y);
+    }
+
+    public static Point getTileCoord(int x, int y) {
+ 
 
         y = WindowRender.get_window_h()-y;  //invert it wtf
 
-        float world_x = x - WorldViewCamera.camera_x;
-        float world_y = y - WorldViewCamera.camera_y;
+        float world_x = x + WorldViewCamera.camera_x;
+        float world_y = y + WorldViewCamera.camera_y;
 
         x = (int) world_x / bg_tileset.TILE_SIZE;
         y = (int) world_y / bg_tileset.TILE_SIZE;

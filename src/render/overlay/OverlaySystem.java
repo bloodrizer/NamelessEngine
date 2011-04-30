@@ -28,6 +28,7 @@ public class OverlaySystem {
     //render whole overlay
     public void render() {
         DebugOverlay.render();
+        TileCoordOverlay.render();
     }
 
 

@@ -5,7 +5,12 @@
 
 package render.overlay;
 
+import ne.Input;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.Point;
+import org.newdawn.slick.Color;
+import render.WindowRender;
+import world.WorldView;
 
 /**
  *
@@ -13,7 +18,23 @@ import org.lwjgl.input.Mouse;
  */
 public class TileCoordOverlay {
     public static void render(){
+
+        if (!Input.key_state_alt){
+            return;
+        }
+
         int x = Mouse.getX();
         int y = Mouse.getY();
+
+
+        Point tile_coord = WorldView.getTileCoord(x,y);
+
+        y = WindowRender.get_window_h() - y;
+
+        OverlaySystem.ttf.drawString(x+20, y-10,
+                "["+Integer.toString(tile_coord.getX())+
+                ","+Integer.toString(tile_coord.getY())+
+                "]"
+        , Color.white);
     }
 }

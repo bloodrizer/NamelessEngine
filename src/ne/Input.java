@@ -30,6 +30,8 @@ public class Input {
         RCLICK
     };
 
+    public static boolean key_state_alt = false;
+
     public static void update(){
 
         //Mouse.
@@ -74,6 +76,24 @@ public class Input {
             rmb_pressed = false;
         }
 
+
+        //Keyboard Shit
+
+        
+
+        while (Keyboard.next()) {
+	    if (Keyboard.getEventKeyState()) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_LMENU) {
+		    key_state_alt = true;
+		}
+            }else{
+                if (Keyboard.getEventKey() == Keyboard.KEY_LMENU) {
+		    key_state_alt = false;
+		}
+            }
+        }
+
+        //----------------------------------------------------------------------
         
     }
 }
