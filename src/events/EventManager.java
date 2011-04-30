@@ -20,7 +20,7 @@ public class EventManager {
         listeners_sync.add(listener);
     }
 
-    public static int EVENT_TIMEOUT = 5000; //in ms
+    public static int EVENT_TIMEOUT = 500000; //in ms
 
     public static void notify_event(Event event){
 

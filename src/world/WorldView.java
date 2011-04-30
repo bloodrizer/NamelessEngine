@@ -40,13 +40,27 @@ public class WorldView implements IEventListener {
     public static int TILEMAP_W = 100;
     public static int TILEMAP_H = 100;
 
+
+
     public void render_background(){
 
-        for (int i = 0; i<TILEMAP_W; i++){
+        //System.out.println(WorldCluster.origin);
+
+        int x = WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE;
+        int y = WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE;
+        int size = WorldCluster.CLUSTER_SIZE*WorldChunk.CHUNK_SIZE;
+
+        for (int i = x; i<x+size; i++)
+        for (int j = y; j<y+size; j++)
+            {
+                bg_tileset.render_tile(i,j, 0);
+            }
+
+        /*for (int i = 0; i<TILEMAP_W; i++){
             for (int j = 0; j<TILEMAP_H; j++){
                bg_tileset.render_tile(i,j, 0);
             }
-        }
+        }*/
     }
 
     public void render_entities(){
@@ -71,14 +85,17 @@ public class WorldView implements IEventListener {
 
     public void render(){
 
+        WorldViewCamera.update();
+
         glLoadIdentity();
-        glTranslatef(camera_x, -camera_y, 0);
-        //camera.setMatrix();
+        //glTranslatef(camera_x, -camera_y, 0);
+        //glTranslatef(camera_x, -camera_y, 0);
+        WorldViewCamera.setMatrix();
   
         render_background();
         render_entities();
         
-
+        glLoadIdentity();
         
     }
 
@@ -88,8 +105,11 @@ public class WorldView implements IEventListener {
 
         y = WindowRender.get_window_h()-y;  //invert it wtf
 
-        x = x / bg_tileset.TILE_SIZE;
-        y = y / bg_tileset.TILE_SIZE;
+        float world_x = x - WorldViewCamera.camera_x;
+        float world_y = y - WorldViewCamera.camera_y;
+
+        x = (int) world_x / bg_tileset.TILE_SIZE;
+        y = (int) world_y / bg_tileset.TILE_SIZE;
 
         return new Point(x,y);
     }
@@ -108,8 +128,11 @@ public class WorldView implements IEventListener {
 
            EMouseDrag drag_event = (EMouseDrag)event;
            if (drag_event.type == MouseInputType.RCLICK){
-            camera_x += drag_event.dx;
-            camera_y += drag_event.dy;
+
+               WorldViewCamera.follow_target = false;
+            //camera_x += drag_event.dx*1.5;
+            //camera_y += drag_event.dy*1.5;
+               WorldViewCamera.move(drag_event.dx*1.5f,-drag_event.dy*1.5f);
            }
 
 
@@ -118,8 +141,10 @@ public class WorldView implements IEventListener {
        }else if(event instanceof  EMouseRelease){
            EMouseRelease drag_event = (EMouseRelease)event;
            if (drag_event.type == MouseInputType.RCLICK){
-            camera_x = 0.0f;
-            camera_y = 0.0f;
+                //camera_x = 0.0f;
+                //camera_y = 0.0f;
+               //WorldViewCamera.set(0.0f,0.0f);
+               WorldViewCamera.follow_target = true;
            }
        }
     }

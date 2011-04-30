@@ -46,8 +46,12 @@ public class Entity {
     }
 
     public boolean in_chunk(WorldChunk chunk){
-       if (chunk == null) { return false; }
-       return (this.chunk.equals(chunk));
+       if (chunk == null) {
+           System.out.println("Entity::in_chunk() - ent chunk is null");
+           return false;
+       }
+       //note: for some strange reason there are different object pointers that are compared
+       return (this.chunk.origin.equals(chunk.origin));
     }
 
     public void think(){
@@ -97,5 +101,9 @@ public class Entity {
     @Override
     public String toString(){
         return toString(this);
+    }
+
+    public boolean isPlayerEnt(){
+        return false;
     }
 }

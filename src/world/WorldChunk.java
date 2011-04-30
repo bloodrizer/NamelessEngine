@@ -8,6 +8,7 @@ package world;
 import game.ent.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.util.Point;
 
 /**
  *
@@ -15,12 +16,14 @@ import java.util.List;
  */
 public class WorldChunk {
     //todo: synch with server?
-    public static final int CHUNK_SIZE = 64;
+    public static final int CHUNK_SIZE = 16;
+
+    public Point origin = new Point(0,0);
 
     private List<Entity> ent_list = new ArrayList<Entity>(100);
 
     public WorldChunk(int chunk_x, int chunk_y){
-        
+        origin.setLocation(chunk_x, chunk_y);
     }
 
     public synchronized boolean add_entity(Entity ent){

@@ -14,6 +14,7 @@ import render.WindowRender;
  * @author Administrator
  */
 public class WorldViewport {
+
     public static Point origin = new Point(0,0);
     public static int w = WindowRender.get_window_w() / TilesetRender.TILE_SIZE;
     public static int h = WindowRender.get_window_h() / TilesetRender.TILE_SIZE;

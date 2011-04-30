@@ -19,12 +19,14 @@ import ui.GameUI;
 import world.WorldModel;
 
 import events.IEventListener;
+import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
 import ne.Input;
 import ne.Input.MouseInputType;
 import render.overlay.OverlaySystem;
 import world.Timer;
 import world.WorldView;
+import world.WorldViewCamera;
 
 /**
  *
@@ -63,9 +65,11 @@ public class ModeDefault implements IGameMode, IEventListener {
     }
 
     void spawn_player(Point location){
-        Entity player_ent = new Entity();
+        Entity player_ent = new EntityPlayer();
         EntityManager.add(player_ent);
         player_ent.spawn(12345, location);
+
+        WorldViewCamera.target.setLocation(location);
 
         player_ent.set_controller(new NpcController());
 

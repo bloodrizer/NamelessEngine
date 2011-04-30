@@ -45,6 +45,13 @@ public class TilesetRender {
         //int tile_id = (int)(80*Math.random());
         //int tile_id = 0;
 
+        if (i % 16 == 0){
+            tile_id = 8;
+        }
+        if (j % 16 == 0){
+            tile_id = 8;
+        }
+
         float tx = get_texture_x(tile_id);
         float ty = get_texture_y(tile_id);
         float ts = get_texture_size();

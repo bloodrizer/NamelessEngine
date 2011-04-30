@@ -7,6 +7,7 @@ package render.overlay;
 
 import org.newdawn.slick.Color;
 import world.Timer;
+import world.WorldViewCamera;
 
 public class DebugOverlay {
 
@@ -29,6 +30,14 @@ public class DebugOverlay {
         , Color.white);*/
 
         OverlaySystem.ttf.drawString(10, 55, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
+
+        OverlaySystem.ttf.drawString(10, 85, "Camera @: " +
+                Integer.toString( (int)WorldViewCamera.camera_x )+
+                "," + 
+                Integer.toString( (int)WorldViewCamera.camera_y ) +
+                " - " + WorldViewCamera.target.toString()
+                ,
+        Color.white);
     }
 
 }

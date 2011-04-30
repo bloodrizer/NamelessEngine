@@ -63,11 +63,13 @@ public class Input {
                 rmb_pressed = true;
                 new EMouseClick(new Point(Mouse.getX(),Mouse.getY()), MouseInputType.RCLICK).post();
             }else{  //mouse was pressed on previouse polling, so it should be draging
+                 Mouse.setGrabbed(true);
                  new EMouseDrag(dx, dy, MouseInputType.RCLICK).post();
             }
         }else{
             if (rmb_pressed){
-                 new EMouseRelease( MouseInputType.RCLICK).post();
+                Mouse.setGrabbed(false);
+                new EMouseRelease( MouseInputType.RCLICK).post();
             }
             rmb_pressed = false;
         }
