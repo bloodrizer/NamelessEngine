@@ -14,7 +14,7 @@ import world.util.Noise;
 public class Terrain {
     public static Noise noise = new Noise();
 
-    public static final int TERRAIN_HEIGHT = 32;    //255
+    public static final int TERRAIN_HEIGHT = 255;    //255
 
     public static void setup(){
         noise.noiseDetail(3,0.5f);

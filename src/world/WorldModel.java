@@ -133,9 +133,15 @@ public class WorldModel implements IEventListener {
                 /*if (Math.random() < 0.2f){
                     tile_id = 25;
                 }*/
-                tile_id = Terrain.get_height(i,j);
+                int height = Terrain.get_height(i,j);
+                if (height > 120){
+                    tile_id = 25;
+                }
 
-                tile_data.put(new Point(i,j), new WorldTile(tile_id));
+                WorldTile tile = new WorldTile(tile_id);
+                tile.set_height(height);
+
+                tile_data.put(new Point(i,j), tile);
             }
     }
 

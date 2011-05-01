@@ -41,7 +41,7 @@ public class Noise {
   float[] perlin;
   
   static final float PI = (float) Math.PI;
-  static final float DEG_TO_RAD = PI/180.0f;
+  public static final float DEG_TO_RAD = PI/180.0f;
 
   static final protected float cosLUT[];
   static final protected float SINCOS_PRECISION = 0.5f;

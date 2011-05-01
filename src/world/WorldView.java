@@ -5,6 +5,9 @@
 
 package world;
 
+import world.util.Raycast;
+import world.util.Noise;
+import org.lwjgl.opengl.GL11;
 import events.EMouseRelease;
 import ne.Input.MouseInputType;
 import events.IEventListener;
@@ -42,6 +45,8 @@ public class WorldView implements IEventListener {
 
 
 
+
+
     public void render_background(){
 
         //System.out.println(WorldCluster.origin);
@@ -59,7 +64,13 @@ public class WorldView implements IEventListener {
                     WorldTile tile = WorldModel.get_tile(i,j);
 
                     if (tile != null){
-                        bg_tileset.render_tile(i, j, tile.get_tile_id());
+
+                        //lil hack for terrain rendering visualization
+
+                        float g_color = ((float)tile.get_height() / 255)*2;        
+                        GL11.glColor3f(1.0f,g_color,1.0f);
+                        
+                        bg_tileset.render_tile_isometric(i, j, tile.get_tile_id());
                     }
                 }
                 
@@ -85,7 +96,7 @@ public class WorldView implements IEventListener {
 
         //IGenericRender render = Render.get_render(entity);
         //render.render(entity);
-
+        GL11.glColor3f(1.0f,1.0f,1.0f);
 
         bg_tileset.render_tile(entity.origin.getX(),entity.origin.getY(), 4);
     }
@@ -111,23 +122,56 @@ public class WorldView implements IEventListener {
 
 
     public static Point getTileCoord(Point window_coord){
+
+
         int x = window_coord.getX();
         int y = window_coord.getY();
         return getTileCoord(x,y);
+
+
     }
+    
+    public static boolean ISOMETRY_MODE = true;
+    public static float ISOMETRY_ANGLE = 45.0f;
+
+    //public static float ISOMETRY_Y_SCALE = 0.6f;
+    //public static float ISOMETRY_TILE_SCALE = 1.2f;
+    public static float ISOMETRY_Y_SCALE = 1.0f;
+    public static float ISOMETRY_TILE_SCALE = 1.0f;
 
     public static Point getTileCoord(int x, int y) {
- 
 
         y = WindowRender.get_window_h()-y;  //invert it wtf
 
-        float world_x = x + WorldViewCamera.camera_x;
-        float world_y = y + WorldViewCamera.camera_y;
+        if (!ISOMETRY_MODE){
 
-        x = (int) world_x / bg_tileset.TILE_SIZE;
-        y = (int) world_y / bg_tileset.TILE_SIZE;
+            float world_x = x + WorldViewCamera.camera_x;
+            float world_y = y + WorldViewCamera.camera_y;
 
-        return new Point(x,y);
+            x = (int) world_x / bg_tileset.TILE_SIZE;
+            y = (int) world_y / bg_tileset.TILE_SIZE;
+
+            return new Point(x-1,y-1);
+
+        }else{
+            //todo: use angle there
+            /*float world_x = (float)x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+            float world_y = (float)y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+
+            //gluPickMatrix((GLdouble)x, (GLdouble)(viewport[3] - y), 5.0, 5.0, viewport);
+
+            //x = (int) world_x / bg_tileset.TILE_SIZE;
+            //y = (int) world_y / bg_tileset.TILE_SIZE;
+
+            x = (int) world_x;
+            y = (int) world_y;*/
+
+            //return new Point((int) world_x,(int) world_y);
+
+            //return Raycast.getMousePosition(x,y);
+            return new Point(x,y);
+            
+        }
     }
 
     //todo: refact me
