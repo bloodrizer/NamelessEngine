@@ -34,9 +34,12 @@ public class TileCoordOverlay {
         y = WindowRender.get_window_h() - y;
 
         OverlaySystem.ttf.drawString(x+20, y-10,
-                "["+Integer.toString(tile_coord.getX())+
+                "Mouse: ["+Integer.toString(x)+
+                ","+Integer.toString(y)+
+                "] - World: ["+
+                    Integer.toString(tile_coord.getX())+
                 ","+Integer.toString(tile_coord.getY())+
-                "] - @ ["
+                "] - Chunk@: ["
                    +Integer.toString(chunk_coord.getX())+
                 ","+Integer.toString(chunk_coord.getY())+
                 "]"

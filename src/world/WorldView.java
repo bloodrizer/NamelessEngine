@@ -110,7 +110,7 @@ public class WorldView implements IEventListener {
         glLoadIdentity();
         //glTranslatef(camera_x, -camera_y, 0);
         //glTranslatef(camera_x, -camera_y, 0);
-        WorldViewCamera.setMatrix();
+        //WorldViewCamera.setMatrix();
   
         render_background();
         render_entities();
@@ -148,12 +148,25 @@ public class WorldView implements IEventListener {
             float world_x = x + WorldViewCamera.camera_x;
             float world_y = y + WorldViewCamera.camera_y;
 
+
+
             x = (int) world_x / bg_tileset.TILE_SIZE;
             y = (int) world_y / bg_tileset.TILE_SIZE;
 
             return new Point(x-1,y-1);
 
         }else{
+
+            //System.out.println(new Point(x,y));
+            
+            float world_x = (float)x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+            float world_y = (float)y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+
+
+            //System.out.println(new Point((int)world_x,(int)world_y));
+
+            //System.exit(0);
+
             //todo: use angle there
             /*float world_x = (float)x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
             float world_y = (float)y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
@@ -169,7 +182,7 @@ public class WorldView implements IEventListener {
             //return new Point((int) world_x,(int) world_y);
 
             //return Raycast.getMousePosition(x,y);
-            return new Point(x,y);
+            return new Point((int)world_x,(int)world_y);
             
         }
     }

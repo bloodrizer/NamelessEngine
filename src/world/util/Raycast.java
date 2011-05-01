@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.FloatBuffer;
 import org.lwjgl.util.Point;
+import render.WindowRender;
 
 /**
  *
@@ -37,9 +38,14 @@ public class Raycast {
         winX = (float)mouseX;
         winY = (float)viewport.get(3) - (float)mouseY;
 
-        GL11.glReadPixels(320, 200, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
+        GL11.glReadPixels(
+                WindowRender.get_window_w(),
+                WindowRender.get_window_h(),
+        1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
 
         GLU.gluUnProject(winX, winY, winZ.get(), modelview, projection, viewport, position);
+
+        System.out.println(position);
 
         return new Point((int)position.get(),(int)position.get());
     }
