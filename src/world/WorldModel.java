@@ -108,9 +108,10 @@ public class WorldModel implements IEventListener {
 
     public static WorldChunk precache_chunk(int x, int y){
         WorldChunk chunk = new WorldChunk(x, y);
-        build_chunk(chunk.origin);
+        //build_chunk(chunk.origin);
 
         chunk_data.put(new Point(x,y), chunk);
+        build_chunk(chunk.origin);
 
         return chunk;
     }
@@ -143,6 +144,10 @@ public class WorldModel implements IEventListener {
 
                 if (Terrain.is_tree(tile)){
                     tile.set_tile_id(50);   //debug only!
+
+                    Entity tree_ent = new Entity();
+                    EntityManager.add(tree_ent);
+                    tree_ent.spawn(1, new Point(i,j));
                 }
 
                 tile_data.put(new Point(i,j), tile);
