@@ -110,7 +110,7 @@ public class WorldView implements IEventListener {
         glLoadIdentity();
         //glTranslatef(camera_x, -camera_y, 0);
         //glTranslatef(camera_x, -camera_y, 0);
-        //WorldViewCamera.setMatrix();
+        WorldViewCamera.setMatrix();
   
         render_background();
         render_entities();
@@ -136,8 +136,8 @@ public class WorldView implements IEventListener {
 
     //public static float ISOMETRY_Y_SCALE = 0.6f;
     //public static float ISOMETRY_TILE_SCALE = 1.2f;
-    public static float ISOMETRY_Y_SCALE = 1.0f;
-    public static float ISOMETRY_TILE_SCALE = 1.0f;
+    public static float ISOMETRY_Y_SCALE = 0.6f;
+    public static float ISOMETRY_TILE_SCALE = 1.2f;
 
     public static Point getTileCoord(int x, int y) {
 
@@ -158,30 +158,28 @@ public class WorldView implements IEventListener {
         }else{
 
             //System.out.println(new Point(x,y));
+
+            x = x + (int)WorldViewCamera.camera_x;
+            y = y + (int)WorldViewCamera.camera_y;
+
+            x = (int)((float)x / ISOMETRY_TILE_SCALE);
+            y = (int)((float)y / ISOMETRY_Y_SCALE / ISOMETRY_TILE_SCALE);
+
             
-            float world_x = (float)x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
-            float world_y = (float)y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+            
+            float world_x = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+            float world_y = -x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
 
 
-            //System.out.println(new Point((int)world_x,(int)world_y));
+            //world_x = world_x * ISOMETRY_TILE_SCALE;
+            //world_y = world_y / ISOMETRY_Y_SCALE;
 
-            //System.exit(0);
+            x = (int) world_x / bg_tileset.TILE_SIZE;
+            y = (int) world_y / bg_tileset.TILE_SIZE;
 
-            //todo: use angle there
-            /*float world_x = (float)x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
-            float world_y = (float)y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
 
-            //gluPickMatrix((GLdouble)x, (GLdouble)(viewport[3] - y), 5.0, 5.0, viewport);
-
-            //x = (int) world_x / bg_tileset.TILE_SIZE;
-            //y = (int) world_y / bg_tileset.TILE_SIZE;
-
-            x = (int) world_x;
-            y = (int) world_y;*/
-
-            //return new Point((int) world_x,(int) world_y);
-
-            //return Raycast.getMousePosition(x,y);
             return new Point((int)world_x,(int)world_y);
             
         }
