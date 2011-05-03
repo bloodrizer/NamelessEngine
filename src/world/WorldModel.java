@@ -141,6 +141,10 @@ public class WorldModel implements IEventListener {
                 WorldTile tile = new WorldTile(tile_id);
                 tile.set_height(height);
 
+                if (Terrain.is_tree(tile)){
+                    tile.set_tile_id(50);   //debug only!
+                }
+
                 tile_data.put(new Point(i,j), tile);
             }
     }

@@ -33,6 +33,32 @@ public class Terrain {
         return (int)(noiseVal*TERRAIN_HEIGHT);
     }
 
+    public static int FORREST_HEIGHT = 120;
+    public static int TREE_RATE = 10;
+
+    public static boolean is_forrest(WorldTile tile){
+        if (tile.get_height() > FORREST_HEIGHT){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean is_tree(WorldTile tile){
+
+        if (!is_forrest(tile)){
+            return false;
+        }
+
+        int chance = (int)Math.round(
+                Math.random()* tile.get_height()
+                );
+        if (chance < TREE_RATE){
+            return true;
+        }
+
+        return false;
+    }
+
     /*void generateHeightmap(){
         float noiseVal;
         float noiseScale = 0.03f;

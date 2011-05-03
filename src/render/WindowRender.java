@@ -13,6 +13,9 @@ import org.lwjgl.opengl.GL11;
 /**
  *
  * All low-level render routine should go there
+ *
+ *
+ * note, it's not implementing IRenderer, as it is not designed for entity render
  */
 
 

@@ -17,6 +17,10 @@ public class WorldTile {
         return tile_id;
     }
 
+    public void set_tile_id( int tile_id){
+        this.tile_id = tile_id;
+    }
+
     public void set_height(int height){
         this.height = height;
     }

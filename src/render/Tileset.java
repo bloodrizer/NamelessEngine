@@ -21,13 +21,13 @@ import world.WorldView;
  *
  * @author Administrator
  */
-public class TilesetRender {
+public class Tileset{
     public static int TILE_SIZE = 32;
     public static int TILESET_SIZE = 8;
 
     public String texture_name = "tileset1.png";
 
-    public TilesetRender(){
+    public Tileset(){
     }
 
     static float get_texture_size(){

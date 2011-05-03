@@ -5,6 +5,7 @@
 
 package world;
 
+import render.EntityRenderer;
 import world.util.Noise;
 import org.lwjgl.opengl.GL11;
 import events.EMouseRelease;
@@ -18,7 +19,7 @@ import render.WindowRender;
 import game.ent.Entity;
 import java.util.Iterator;
 import game.ent.EntityManager;
-import render.TilesetRender;
+import render.Tileset;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -28,7 +29,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class WorldView implements IEventListener {
 
-    public static TilesetRender bg_tileset = new TilesetRender();
+    public static Tileset bg_tileset = new Tileset();
 
     public WorldView(){
         EventManager.subscribe(this);
@@ -96,8 +97,12 @@ public class WorldView implements IEventListener {
         //IGenericRender render = Render.get_render(entity);
         //render.render(entity);
         GL11.glColor3f(1.0f,1.0f,1.0f);
+        EntityRenderer renderer = entity.get_render();
+        renderer.render();  //render, lol
+       
+        
 
-        bg_tileset.render_sprite( entity.origin.getX(), entity.origin.getY(), 4);
+        //bg_tileset.render_sprite( entity.origin.getX(), entity.origin.getY(), 4);
     }
 
     //--------------------------------------------------------------------------
@@ -200,10 +205,18 @@ public class WorldView implements IEventListener {
 
             point = local2world(point);
 
+            //--------------------------------------------
+            //there is actually a hack there, but it works
+            //--------------------------------------------
+            int tile_x = point.getX()/ bg_tileset.TILE_SIZE;
+            if (point.getX()<0){ tile_x = tile_x-1; }
+            int tile_y = point.getY()/ bg_tileset.TILE_SIZE;
+            if (point.getY()<0){ tile_y = tile_y-1; }
+            //-----------------end of hack----------------
 
             point.setLocation(
-                    point.getX()/ bg_tileset.TILE_SIZE,
-                    point.getY()/ bg_tileset.TILE_SIZE
+                    tile_x,
+                    tile_y
             );
 
 

@@ -9,6 +9,8 @@ import events.EEntitySpawn;
 import events.network.EEntityMove;
 import game.ent.controller.IEntityController;
 import org.lwjgl.util.Point;
+import render.DebugRenderer;
+import render.EntityRenderer;
 import world.Timer;
 import world.WorldChunk;
 
@@ -105,5 +107,24 @@ public class Entity {
 
     public boolean isPlayerEnt(){
         return false;
+    }
+
+    //--------------------------------------------------------------------------
+    //                      A bit of rendering shit
+    //--------------------------------------------------------------------------
+
+    protected EntityRenderer render = null;
+
+    public EntityRenderer build_render(){
+        return new DebugRenderer();
+    }
+
+    public final EntityRenderer get_render(){
+        if (render == null ){
+            render = build_render();
+            render.set_entity(this);    //inject entity data
+        }
+
+        return render;
     }
 }

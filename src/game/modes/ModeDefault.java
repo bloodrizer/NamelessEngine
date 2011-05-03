@@ -14,7 +14,7 @@ import game.ent.Entity;
 import game.ent.EntityManager;
 import org.lwjgl.util.Point;
 import player.Player;
-import render.TilesetRender;
+import render.Tileset;
 import ui.GameUI;
 import world.WorldModel;
 
@@ -36,7 +36,7 @@ public class ModeDefault implements IGameMode, IEventListener {
 
     //private Tileset tileset = null;
 
-    private TilesetRender bg_tileset;
+    private Tileset bg_tileset;
     private WorldView  view;
     private WorldModel model;
 
@@ -48,7 +48,7 @@ public class ModeDefault implements IGameMode, IEventListener {
     }
 
     public void run(){
-        bg_tileset = new TilesetRender();
+        bg_tileset = new Tileset();
         view  = new WorldView();
         model = new WorldModel();
 
