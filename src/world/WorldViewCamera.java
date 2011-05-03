@@ -32,20 +32,35 @@ public class WorldViewCamera {
     }
 
     public static void setMatrix(){
-        GL11.glTranslatef(-camera_x, -camera_y, 0);
+        Point position = get_position();
+       
+        //position = WorldView.world2local(position);
+
+        GL11.glTranslatef(-position.getX(), -position.getY() , 0);
     }
 
-   
+    public static Point get_position(){
+        return new Point((int)camera_x, (int)camera_y);
+    }
+
     public static void update(){
         if (follow_target){
                 //todo: move to math
 
-                float target_x = target.getX() - 12;
-                float target_y = target.getY() - 8;
+                float target_x = (target.getX())*TilesetRender.TILE_SIZE;
+                float target_y = (target.getY())*TilesetRender.TILE_SIZE;
+
+                Point delta = WorldView.world2local(new Point((int)target_x,(int)target_y));
+                target_x = delta.getX();
+                target_y = delta.getY();
 
 
-                float dx = target_x * TilesetRender.TILE_SIZE - camera_x;
-		float dy = target_y * TilesetRender.TILE_SIZE - camera_y;
+                float dx = target_x - 12*TilesetRender.TILE_SIZE - camera_x;
+		float dy = target_y - 8*TilesetRender.TILE_SIZE -  camera_y;
+
+                
+                
+
 		double distance = Math.sqrt(dx * dx + dy * dy);
 
 		//normalize it to length 1 (preserving direction), then round it and

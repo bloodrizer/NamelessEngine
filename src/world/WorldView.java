@@ -5,7 +5,6 @@
 
 package world;
 
-import world.util.Raycast;
 import world.util.Noise;
 import org.lwjgl.opengl.GL11;
 import events.EMouseRelease;
@@ -70,7 +69,7 @@ public class WorldView implements IEventListener {
                         float g_color = ((float)tile.get_height() / 255)*2;        
                         GL11.glColor3f(1.0f,g_color,1.0f);
                         
-                        bg_tileset.render_tile_isometric(i, j, tile.get_tile_id());
+                        bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
                     }
                 }
                 
@@ -98,7 +97,7 @@ public class WorldView implements IEventListener {
         //render.render(entity);
         GL11.glColor3f(1.0f,1.0f,1.0f);
 
-        bg_tileset.render_tile(entity.origin.getX(),entity.origin.getY(), 4);
+        bg_tileset.render_sprite( entity.origin.getX(), entity.origin.getY(), 4);
     }
 
     //--------------------------------------------------------------------------
@@ -108,8 +107,7 @@ public class WorldView implements IEventListener {
         WorldViewCamera.update();
 
         glLoadIdentity();
-        //glTranslatef(camera_x, -camera_y, 0);
-        //glTranslatef(camera_x, -camera_y, 0);
+    
         WorldViewCamera.setMatrix();
   
         render_background();
@@ -139,6 +137,42 @@ public class WorldView implements IEventListener {
     public static float ISOMETRY_Y_SCALE = 0.6f;
     public static float ISOMETRY_TILE_SCALE = 1.2f;
 
+    //perform reverse isometric transformation
+    //transform screen point into the world representation in isometric space
+
+    public static Point local2world(Point point){
+        float x = point.getX();
+        float y = point.getY();
+
+        x = (x / ISOMETRY_TILE_SCALE);
+        y = (y / ISOMETRY_Y_SCALE / ISOMETRY_TILE_SCALE);
+
+        float world_x = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+        float world_y = -x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+
+        return new Point((int)world_x, (int)world_y);
+    }
+
+    //transform world x,y point into the screen isometric representation (rotate to the 45 angle and scale)
+    public static Point world2local(Point point){
+        float x = point.getX();
+        float y = point.getY();
+
+        float local_x = x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    -y*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+        float local_y = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+
+        local_y = local_y * ISOMETRY_Y_SCALE * ISOMETRY_TILE_SCALE;
+        local_x = local_x * ISOMETRY_TILE_SCALE;
+
+
+        return new Point((int)local_x, (int)local_y);
+    }
+    
+
     public static Point getTileCoord(int x, int y) {
 
         y = WindowRender.get_window_h()-y;  //invert it wtf
@@ -162,25 +196,18 @@ public class WorldView implements IEventListener {
             x = x + (int)WorldViewCamera.camera_x;
             y = y + (int)WorldViewCamera.camera_y;
 
-            x = (int)((float)x / ISOMETRY_TILE_SCALE);
-            y = (int)((float)y / ISOMETRY_Y_SCALE / ISOMETRY_TILE_SCALE);
+            Point point = new Point(x,y);
 
-            
-            
-            float world_x = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
-                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
-            float world_y = -x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
-                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+            point = local2world(point);
 
 
-            //world_x = world_x * ISOMETRY_TILE_SCALE;
-            //world_y = world_y / ISOMETRY_Y_SCALE;
+            point.setLocation(
+                    point.getX()/ bg_tileset.TILE_SIZE,
+                    point.getY()/ bg_tileset.TILE_SIZE
+            );
 
-            x = (int) world_x / bg_tileset.TILE_SIZE;
-            y = (int) world_y / bg_tileset.TILE_SIZE;
 
-
-            return new Point((int)world_x,(int)world_y);
+            return point;
             
         }
     }

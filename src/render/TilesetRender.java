@@ -8,6 +8,7 @@ package render;
 import java.io.FileInputStream;
 import java.io.IOException;
 import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.util.Point;
 import static org.lwjgl.util.glu.GLU.*;
 
 import org.newdawn.slick.opengl.Texture;
@@ -45,13 +46,6 @@ public class TilesetRender {
     public void render_tile(int i, int j, int tile_id){    
         Render.bind_texture(texture_name);
 
-        glBegin(GL_QUADS);
-
-        //glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        
-        //int tile_id = (int)(80*Math.random());
-        //int tile_id = tile.get_tile_id();
-
         if (i % WorldChunk.CHUNK_SIZE == 0){
             tile_id = 8;
         }
@@ -59,31 +53,57 @@ public class TilesetRender {
             tile_id = 8;
         }
 
+        //glColor3f(1.0f,1.0f,1.0f);
+        draw_quad(
+                i*TILE_SIZE,
+                j*TILE_SIZE,
+                TILE_SIZE-1,
+                TILE_SIZE-1,
+                tile_id
+        );
+    }
+
+    private void draw_quad(int x, int y, int w, int h, int tile_id){
+
         float tx = get_texture_x(tile_id);
         float ty = get_texture_y(tile_id);
         float ts = get_texture_size();
 
-        //glColor3f(1.0f,1.0f,1.0f);
-        
-
+        glBegin(GL_QUADS);
             glTexCoord2f(tx, ty);
-        glVertex2f( i*TILE_SIZE,         j*TILE_SIZE);
+        glVertex2f( x,   y);
             glTexCoord2f(tx+ts, ty);
-	glVertex2f((i+1)*TILE_SIZE-1 ,   j*TILE_SIZE);
+	glVertex2f( x+w, y);
             glTexCoord2f(tx+ts, ty+ts);
-	glVertex2f((i+1)*TILE_SIZE-1,    ((j+1)*TILE_SIZE-1));
+	glVertex2f( x+w, y+h);
             glTexCoord2f(tx, ty+ts);
-	glVertex2f(i*TILE_SIZE,          ((j+1)*TILE_SIZE-1));
+	glVertex2f( x,   y+h);
 
         glEnd();
-
     }
 
+    public void render_sprite(int i, int j, int tile_id){
 
+        Render.bind_texture(texture_name);
+
+        Point quad_coord = new Point(i*TILE_SIZE,j*TILE_SIZE);
+
+        quad_coord = WorldView.world2local(quad_coord);
+
+        int w = TILE_SIZE-1;
+        int h = TILE_SIZE-1;
+
+        draw_quad(
+                quad_coord.getX() - w/2,
+                quad_coord.getY(),
+                w,
+                h,
+                tile_id
+        );
+    }
 
     //wrapper for isometric background render
-
-    public void render_tile_isometric(int i, int j, int tile_id){
+    public void render_bg_tile(int i, int j, int tile_id){
         
         float scale = WorldView.ISOMETRY_TILE_SCALE;
         float angle = WorldView.ISOMETRY_Y_SCALE;
