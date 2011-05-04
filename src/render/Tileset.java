@@ -86,16 +86,19 @@ public class Tileset{
 
         Render.bind_texture(texture_name);
 
-        Point quad_coord = new Point(i*TILE_SIZE,j*TILE_SIZE);
+        //Point quad_coord = new Point(i*TILE_SIZE,j*TILE_SIZE);
 
-        quad_coord = WorldView.world2local(quad_coord);
+        int x_local = WorldView.world2local_x(i*TILE_SIZE,j*TILE_SIZE);
+        int y_local = WorldView.world2local_y(i*TILE_SIZE,j*TILE_SIZE);
+
+        //quad_coord = WorldView.world2local(quad_coord);
 
         int w = TILE_SIZE-1;
         int h = TILE_SIZE-1;
 
         draw_quad(
-                quad_coord.getX() - w/2,
-                quad_coord.getY(),
+                x_local - w/2,
+                y_local,
                 w,
                 h,
                 tile_id

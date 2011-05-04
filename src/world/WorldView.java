@@ -145,36 +145,69 @@ public class WorldView implements IEventListener {
     //perform reverse isometric transformation
     //transform screen point into the world representation in isometric space
 
-    public static Point local2world(Point point){
-        float x = point.getX();
-        float y = point.getY();
+    public static int local2world_x(float x, float y){
 
         x = (x / ISOMETRY_TILE_SCALE);
         y = (y / ISOMETRY_Y_SCALE / ISOMETRY_TILE_SCALE);
 
         float world_x = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
                     +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+
+        return (int)world_x;
+    }
+    public static int local2world_y(float x, float y){
+        
+        x = (x / ISOMETRY_TILE_SCALE);
+        y = (y / ISOMETRY_Y_SCALE / ISOMETRY_TILE_SCALE);
+
         float world_y = -x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
                     +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
 
-        return new Point((int)world_x, (int)world_y);
+        return (int)world_y;
     }
+
+    public static Point local2world(Point point){
+        float x = point.getX();
+        float y = point.getY();
+        
+        int world_x = local2world_x(x,y);
+        int world_y = local2world_y(x,y);
+        
+        return new Point(world_x, world_y);
+    }
+
+    //--------------------------------------------------------------------------
+    //                           World 2 Local
+    //--------------------------------------------------------------------------
+    public static int world2local_x(float x, float y){
+        float local_x = x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    -y*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+        
+         local_x = local_x * ISOMETRY_TILE_SCALE;
+
+         return (int)local_x;
+    }
+    public static int world2local_y(float x, float y){
+        float local_y = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
+                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
+        
+         local_y = local_y * ISOMETRY_Y_SCALE * ISOMETRY_TILE_SCALE;
+
+         return (int)local_y;
+    }
+
 
     //transform world x,y point into the screen isometric representation (rotate to the 45 angle and scale)
     public static Point world2local(Point point){
         float x = point.getX();
         float y = point.getY();
 
-        float local_x = x*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
-                    -y*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
-        float local_y = x*(float)Math.sin(ISOMETRY_ANGLE * Noise.DEG_TO_RAD)
-                    +y*(float)Math.cos(ISOMETRY_ANGLE * Noise.DEG_TO_RAD);
-
-        local_y = local_y * ISOMETRY_Y_SCALE * ISOMETRY_TILE_SCALE;
-        local_x = local_x * ISOMETRY_TILE_SCALE;
+        int local_x = world2local_x(x,y);
+        int local_y = world2local_y(x,y);
 
 
-        return new Point((int)local_x, (int)local_y);
+
+        return new Point( local_x, local_y);
     }
     
 
@@ -201,23 +234,21 @@ public class WorldView implements IEventListener {
             x = x + (int)WorldViewCamera.camera_x;
             y = y + (int)WorldViewCamera.camera_y;
 
-            Point point = new Point(x,y);
-
-            point = local2world(point);
+            
+            int local_x = local2world_x(x,y);
+            int local_y = local2world_y(x,y);
+            //point = local2world(point);
 
             //--------------------------------------------
             //there is actually a hack there, but it works
             //--------------------------------------------
-            int tile_x = point.getX()/ bg_tileset.TILE_SIZE;
-            if (point.getX()<0){ tile_x = tile_x-1; }
-            int tile_y = point.getY()/ bg_tileset.TILE_SIZE;
-            if (point.getY()<0){ tile_y = tile_y-1; }
+            int tile_x = local_x/ bg_tileset.TILE_SIZE;
+            if (local_x<0){ tile_x = tile_x-1; }
+            int tile_y = local_y/ bg_tileset.TILE_SIZE;
+            if (local_y<0){ tile_y = tile_y-1; }
             //-----------------end of hack----------------
 
-            point.setLocation(
-                    tile_x,
-                    tile_y
-            );
+            Point point = new Point(tile_x,tile_y);
 
 
             return point;
