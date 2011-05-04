@@ -6,8 +6,13 @@
 package ui;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.textfield.controller.TextField;
+import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;
+import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import ne.Game.GameModes;
+import ne.Main;
 
 
 
@@ -24,6 +29,8 @@ public class MainMenuUI implements IUserInterface, ScreenController{
 
     }
 
+    private static Screen screen = null;
+
     public void build_ui(Nifty nifty){
         nifty.fromXml(
                 MainMenuUI.class.getResource("main_menu_ui.xml").getPath(),
@@ -31,8 +38,32 @@ public class MainMenuUI implements IUserInterface, ScreenController{
         );
     }
 
+    public void login(){
+
+        TextFieldControl login = screen.findControl( "input_login",  TextFieldControl.class);
+        TextFieldControl passwd = screen.findControl( "input_password",  TextFieldControl.class);
+
+        String str_login = login.getText();
+        String str_passwd = passwd.getText();
+
+        //todo: log on there
+
+        Main.game.set_state(GameModes.Default);
+        //Main.game.run();
+
+        //login.
+    }
+
+
+
+
+
+
+
+
     public void bind(Nifty nifty, Screen screen) {
         //throw new UnsupportedOperationException("Not supported yet.");
+        this.screen = screen;
     }
 
     public void onStartScreen() {

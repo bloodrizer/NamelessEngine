@@ -22,21 +22,21 @@
         <panel childLayout="vertical" align="center" valign="center">
           <panel id="namePanel" childLayout="horizontal">
             <text style="nifty-label" id="labelName" text="Login: " width="150px" align="left" textVAlign="center" textHAlign="left"/>
-            <control id="name" name="textfield" text="" />
+            <control id="input_login" name="textfield" text="" />
           </panel>
 
           <panel childLayout="horizontal" height="8px" />
 
           <panel childLayout="horizontal">
             <text style="nifty-label" text="Password: " width="150px" align="left" textVAlign="center" textHAlign="left"/>
-            <control id="password" name="textfield" passwordChar="*" />
+            <control id="input_password" name="textfield" passwordChar="*" />
           </panel>
 
           <panel childLayout="horizontal" height="8px" />
           
           <panel childLayout="vertical" width="100%">
             <control id="backButton" name="button" label="Proceed" align="right">
-              <interact onClick="back()" />
+              <interact onClick="login()" />
             </control>
           </panel>
           

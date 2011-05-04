@@ -47,8 +47,13 @@ public class Game {
         Game.state = state;
     }
 
+
+    public static IGameMode __mode = null;
     public static IGameMode get_game_mode(){
-        IGameMode __mode = null;
+
+        if(__mode != null){
+            return __mode;
+        }
 
         switch(Game.state){
             case Default:
@@ -100,6 +105,9 @@ public class Game {
             //&& !ui.quit
             while(!Display.isCloseRequested() ) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+
+                //update it ftw
+                mode = Game.get_game_mode();
 
                 mode.update();
 
