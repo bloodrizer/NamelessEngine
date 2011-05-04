@@ -39,12 +39,15 @@ public class DebugRenderer extends EntityRenderer  {
             8   //hardcoded, lol
         );
 
-        /*Point ent_screen = WorldView.world2local(new Point(
+        /*int ent_screen_x = WorldView.world2local_x(
                 ent.origin.getX()*tileset.TILE_SIZE,
                 ent.origin.getY()*tileset.TILE_SIZE
-                ));
-
-        OverlaySystem.ttf.drawString(ent_screen.getX(), ent_screen.getY()+5, 
+        );
+        int ent_screen_y = WorldView.world2local_y(
+                ent.origin.getX()*tileset.TILE_SIZE,
+                ent.origin.getY()*tileset.TILE_SIZE
+        );
+        OverlaySystem.ttf.drawString(ent_screen_x, ent_screen_y+5,
                 ent.getClass().getName().
                 concat(":").
                 concat(ent.toString()),

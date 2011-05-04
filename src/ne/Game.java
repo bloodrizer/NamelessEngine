@@ -6,6 +6,12 @@
 package ne;
 
 
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
+import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
+import de.lessvoid.nifty.sound.SoundSystem;
+import de.lessvoid.nifty.sound.openal.OpenALSoundDevice;
+import de.lessvoid.nifty.tools.TimeProvider;
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.Widget;
@@ -66,33 +72,47 @@ public class Game {
 
         try {
             WindowRender.create();
-            LWJGLRenderer renderer = new LWJGLRenderer();
-            renderer.setUseSWMouseCursors(true);
 
-            Widget gameUI = mode.get_ui();
+            Nifty nifty = new Nifty(
+                new LwjglRenderDevice(),
+                new OpenALSoundDevice(),
+                new LwjglInputSystem(),
+                new TimeProvider()
+            );
+
+            IUserInterface gameUI = mode.get_ui();
 
             if (gameUI == null){
                 System.out.println("Unable to assign game UI");
-                gameUI = new DefaultUI();
+                //gameUI = new DefaultUI();
             }
+            gameUI.build_ui(nifty);
 
-            GUI gui = new GUI(gameUI, renderer);
+ 
+            //GUI gui = new GUI(gameUI, renderer);
 
-            ThemeManager themeManager = ThemeManager.createThemeManager(this.getClass().getResource("simple.xml"), renderer);
-            gui.applyTheme(themeManager);
+            /*ThemeManager themeManager = ThemeManager.createThemeManager(this.getClass().getResource("simple.xml"), renderer);
+            gui.applyTheme(themeManager);*/
 
             mode.run();
 
-            IUserInterface ui = (IUserInterface) gameUI;
-            while(!Display.isCloseRequested() && !ui.quit) {
+           //IUserInterface ui = (IUserInterface) gameUI;
+            //&& !ui.quit
+            while(!Display.isCloseRequested() ) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
                 mode.update();
-                gui.update();
+
+
+                if (nifty.render(false)){
+                    //end of nifty render
+                }
+
+                //gui.update();
                 Display.update();
             }
             
-            gui.destroy();
+            //gui.destroy();
             WindowRender.destroy();
         }
         catch(Exception e){

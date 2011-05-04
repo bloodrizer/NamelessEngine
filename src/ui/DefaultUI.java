@@ -5,12 +5,17 @@
 
 package ui;
 
+import de.lessvoid.nifty.Nifty;
 import de.matthiasmann.twl.Widget;
 
 /**
  *
  * @author Administrator
  */
-public class DefaultUI extends Widget implements IUserInterface {
+public class DefaultUI implements IUserInterface {
+
+    public void build_ui(Nifty nifty){
+
+    }
 
 }

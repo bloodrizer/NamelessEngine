@@ -23,8 +23,8 @@ public class ModeMainMenu implements IGameMode {
 
     }
 
-    public Widget get_ui(){
-        Widget wgt = new MainMenuUI();
+    public IUserInterface get_ui(){
+        IUserInterface wgt = new MainMenuUI();
 
         return wgt;
     }

@@ -18,7 +18,7 @@ public class Main {
         // TODO code application logic here
         Game game = new Game();
 
-        game.set_state(Game.GameModes.Default);
+        game.set_state(Game.GameModes.MainMenu);
         game.run();
     }
 

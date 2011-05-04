@@ -6,6 +6,7 @@
 package game.modes;
 
 import de.matthiasmann.twl.Widget;
+import ui.IUserInterface;
 
 /**
  *
@@ -15,5 +16,5 @@ public interface IGameMode {
     public void run();
     public void update();
     
-    public Widget get_ui();
+    public IUserInterface get_ui();
 }

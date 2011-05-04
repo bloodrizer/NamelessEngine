@@ -161,7 +161,17 @@
         <theme name="resizeHandle" ref="-defaults">
             <param name="background"><image>frame.resizeIcon</image></param>
         </theme>
-        <theme name="eeditfield" ref="editfield" allowWildcard="true">
+        
+        <theme name="editfield" ref="editfield" allowWildcard="true">
+
+        </theme>
+
+
+
+        <theme name="button" ref="-defaults" allowWildcard="true">
+            <param name=""><image>button.*</image></param>
+            <param name="border"><border>background.border</border></param>
+            <param name="textAlignment"><enum type="alignment">center</enum></param>
         </theme>
 
     </theme>

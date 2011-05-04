@@ -24,6 +24,7 @@ import game.ent.controller.NpcController;
 import ne.Input;
 import ne.Input.MouseInputType;
 import render.overlay.OverlaySystem;
+import ui.IUserInterface;
 import world.Timer;
 import world.WorldView;
 import world.WorldViewCamera;
@@ -91,7 +92,7 @@ public class ModeDefault implements IGameMode, IEventListener {
         //view.synchronize();
     }
 
-    public Widget get_ui(){
+    public IUserInterface get_ui(){
         return new GameUI();
     }
 
