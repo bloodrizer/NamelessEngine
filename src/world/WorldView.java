@@ -65,9 +65,9 @@ public class WorldView implements IEventListener {
                 //serious debug problems othervise
 
 
-                int chunk_x = (i)/WorldChunk.CHUNK_SIZE;
+                int chunk_x = (int)Math.floor((float)i / WorldChunk.CHUNK_SIZE);
                     //if (chunk_x<0){ chunk_x = chunk_x-1; }
-                int chunk_y = (j)/WorldChunk.CHUNK_SIZE;
+                int chunk_y = (int)Math.floor((float)j / WorldChunk.CHUNK_SIZE);
                     //if (chunk_y<0){ chunk_y = chunk_y-1; }
 
 
