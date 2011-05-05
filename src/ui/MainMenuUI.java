@@ -46,12 +46,8 @@ public class MainMenuUI implements IUserInterface, ScreenController{
         String str_login = login.getText();
         String str_passwd = passwd.getText();
 
-        //todo: log on there
+        Main.game.set_state(GameModes.InGame);
 
-        Main.game.set_state(GameModes.Default);
-        //Main.game.run();
-
-        //login.
     }
 
 

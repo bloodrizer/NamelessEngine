@@ -16,6 +16,7 @@ import game.ent.EntityManager;
 import game.ent.EntityPlayer;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import org.lwjgl.util.Point;
 import player.Player;
 
@@ -75,14 +76,14 @@ public class WorldModel implements IEventListener {
         return new Point(cx,cy);
     }
 
-    public static WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
+    public static synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
         WorldChunk chunk = get_chunk(chunk_x, chunk_y);
         if (chunk == null){
             chunk = precache_chunk(chunk_x, chunk_y);
         }
         return chunk;
     }
-    public static WorldChunk get_cached_chunk(Point location){
+    public static synchronized WorldChunk get_cached_chunk(Point location){
         return get_cached_chunk(location.getX(),location.getY());
     }
 
@@ -98,15 +99,29 @@ public class WorldModel implements IEventListener {
         Timer.tick();
 
 
-        for (Iterator iter = EntityManager.ent_list_sync.iterator(); iter.hasNext();) {
-           Entity entity = (Entity) iter.next();
-           if (entity.is_awake(Timer.get_time())){
-              entity.think();
-           }
+        Object[] list = EntityManager.ent_list_sync.toArray();
+        for(int i=EntityManager.ent_list_sync.size()-1; i>=0; i--){
+            Entity entity = (Entity)list[i];
+            if (entity.is_awake(Timer.get_time())){
+                  entity.think();
+            }
         }
+        /*synchronized (EntityManager.ent_list_sync){
+            for (Iterator iter = EntityManager.ent_list_sync.iterator(); iter.hasNext();) {
+               Entity entity = (Entity) iter.next();
+               if (entity.is_awake(Timer.get_time())){
+                  entity.think();
+               }
+            }
+        }*/
     }
 
     public static WorldChunk precache_chunk(int x, int y){
+        //NOTE: safe switch, debug only
+        /*if (!WorldCluster.chunk_in_cluster(new Point(x,y))){
+            return null;
+        }*/
+
         WorldChunk chunk = new WorldChunk(x, y);
         //build_chunk(chunk.origin);
 
@@ -117,6 +132,15 @@ public class WorldModel implements IEventListener {
     }
 
     public static void build_chunk(Point origin){
+        //safe switch there
+        /*WorldChunk chunk = chunk_data.get(origin);
+        if (!chunk.dirty){
+        return;
+        }
+        chunk.dirty = true;*/
+        /*StackTraceElement[] stackTrace = */
+        //System.out.println(Thread.currentThread().getStackTrace().toString());
+        Thread.currentThread().dumpStack();
 
         System.out.println("building data chunk @"+origin.toString());
 
@@ -154,20 +178,21 @@ public class WorldModel implements IEventListener {
             }
     }
 
-   
+    //clean all unused chunks and data
+    public synchronized void chunk_gc(){
 
+        for (Iterator<Map.Entry<Point, WorldChunk>> iter = chunk_data.entrySet().iterator();
+            iter.hasNext();) {
+            Map.Entry<Point, WorldChunk> entry = iter.next();
+            
+            WorldChunk __chunk = (WorldChunk)entry.getValue();
 
-
-
-
-
-
-
-
-
-
-
-
+            if (!WorldCluster.chunk_in_cluster(__chunk.origin)){
+                __chunk.unload();
+                iter.remove();  
+            }
+        }
+    }
 
 
     public static synchronized void move_entity(Entity entity, Point dest){
@@ -220,13 +245,20 @@ public class WorldModel implements IEventListener {
        }else if(event instanceof EEntityChangeChunk){
            EEntityChangeChunk e_change_chunk = (EEntityChangeChunk)event;
 
-           System.err.println("setting new chunk for ent "+Entity.toString(e_change_chunk.ent));
+           //System.err.println("setting new chunk @ for ent "+Entity.toString(e_change_chunk.ent));
            
            Entity ent = e_change_chunk.ent;
-           ent.set_chunk(e_change_chunk.to);
+           //ent.set_chunk(e_change_chunk.to);
+           e_change_chunk.to.add_entity(ent);
+
            if (ent.isPlayerEnt()){
                 WorldCluster.locate(e_change_chunk.to.origin);
+                chunk_gc();
            }
+
+           //TODO: only call on WorldCluster relocation!!!1111111
+           //perform garbage collect on expired chunks
+           
        }
 
 

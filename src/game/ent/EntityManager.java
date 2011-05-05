@@ -22,5 +22,9 @@ public class EntityManager {
         ent_list_sync.add(ent);
     }
 
+    public static synchronized void remove_entity(Entity ent){
+        ent_list_sync.remove(ent);
+    }
+
 
 }

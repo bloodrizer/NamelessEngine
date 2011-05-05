@@ -58,9 +58,23 @@ public class WorldView implements IEventListener {
         for (int i = x; i<x+size; i++)
         for (int j = y; j<y+size; j++)
             {
+                //NOTE: get_cached_chink is now deprecated function, as it can load random chunk data without checking, if it's inside
+                //of world cluster
+                //world cluster should cache it instead
+
+                //serious debug problems othervise
+
+
+                int chunk_x = (i)/WorldChunk.CHUNK_SIZE;
+                    //if (chunk_x<0){ chunk_x = chunk_x-1; }
+                int chunk_y = (j)/WorldChunk.CHUNK_SIZE;
+                    //if (chunk_y<0){ chunk_y = chunk_y-1; }
+
+
+
                 if (WorldModel.get_cached_chunk(
-                        i/WorldChunk.CHUNK_SIZE,
-                        j/WorldChunk.CHUNK_SIZE) != null){
+                        chunk_x,
+                        chunk_y) != null){
                     WorldTile tile = WorldModel.get_tile(i,j);
 
                     if (tile != null){

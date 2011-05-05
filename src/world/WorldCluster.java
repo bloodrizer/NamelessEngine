@@ -34,4 +34,14 @@ public class WorldCluster {
     public static void moveto(Point origin){
         origin.setLocation(origin);
     }
+
+    public static boolean chunk_in_cluster(Point point){
+        int x = point.getX();
+        int y = point.getY();
+        int cx = origin.getX();
+        int cy = origin.getY();
+
+        return ( x>=cx && x <=cx+CLUSTER_SIZE-1 ) && ( y>=cy && y <= cy + CLUSTER_SIZE-1 );
+
+    }
 }

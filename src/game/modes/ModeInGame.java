@@ -33,7 +33,7 @@ import world.WorldViewCamera;
  *
  * @author Administrator
  */
-public class ModeDefault implements IGameMode, IEventListener {
+public class ModeInGame implements IGameMode, IEventListener {
 
     //private Tileset tileset = null;
 
@@ -44,7 +44,7 @@ public class ModeDefault implements IGameMode, IEventListener {
 
     private OverlaySystem overlay;
     
-    public ModeDefault(){      
+    public ModeInGame(){
         EventManager.subscribe(this);
     }
 

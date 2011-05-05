@@ -27,4 +27,8 @@ public class Player {
         }
     }
 
+    public static Point get_origin(){
+        return new Point(player_ent.origin);
+    }
+
 }

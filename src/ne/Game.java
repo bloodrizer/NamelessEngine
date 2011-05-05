@@ -16,7 +16,7 @@ import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.Widget;
 import game.modes.IGameMode;
-import game.modes.ModeDefault;
+import game.modes.ModeInGame;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -40,7 +40,7 @@ import ui.MainMenuUI;
  */
 public class Game {
     public enum GameModes {
-        Undefined, MainMenu, Default
+        Undefined, MainMenu, InGame
     };
 
     static GameModes state = GameModes.Undefined;
@@ -61,8 +61,8 @@ public class Game {
         }
 
         switch(Game.state){
-            case Default:
-                __mode = new ModeDefault();
+            case InGame:
+                __mode = new ModeInGame();
             break;
 
             case MainMenu:
