@@ -14,6 +14,9 @@ import de.matthiasmann.twl.Widget;
  */
 public class GameUI implements IUserInterface {
     public void build_ui(Nifty nifty){
-
+         nifty.fromXml(
+                MainMenuUI.class.getResource("game_ui.xml").getPath(),
+                "start"
+        );
     }
 }

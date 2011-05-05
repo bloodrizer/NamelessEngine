@@ -92,8 +92,13 @@ public class ModeDefault implements IGameMode, IEventListener {
         //view.synchronize();
     }
 
+    IUserInterface ui = null;
     public IUserInterface get_ui(){
-        return new GameUI();
+        //return new GameUI();
+        if (ui == null){
+            ui = new GameUI();
+        }
+        return ui;
     }
 
     //--------------------------------------------------------------------------

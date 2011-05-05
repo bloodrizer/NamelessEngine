@@ -20,8 +20,6 @@ public class DebugRenderer extends EntityRenderer  {
 
     public DebugRenderer(){
 
-        System.out.println("new tileset!");
-
         tileset = new Tileset();
         tileset.texture_name = "tileset1.png";
     }

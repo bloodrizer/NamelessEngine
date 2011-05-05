@@ -24,6 +24,8 @@ import org.lwjgl.opengl.DisplayMode;
 import de.matthiasmann.twl.renderer.lwjgl.LWJGLRenderer;
 import de.matthiasmann.twl.theme.ThemeManager;
 import game.modes.ModeMainMenu;
+import java.util.Collections;
+import java.util.EnumMap;
 
 import org.lwjgl.opengl.GL11;
 import render.WindowRender;
@@ -48,10 +50,13 @@ public class Game {
     }
 
 
-    public static IGameMode __mode = null;
+    private static java.util.Map<GameModes,IGameMode> game_modes = 
+            Collections.synchronizedMap(new EnumMap<GameModes,IGameMode>(GameModes.class));
+
     public static IGameMode get_game_mode(){
 
-        if(__mode != null){
+        IGameMode __mode = game_modes.get(Game.state);
+        if (__mode!= null){
             return __mode;
         }
 
@@ -69,46 +74,43 @@ public class Game {
             break;
         }
 
+         game_modes.put(Game.state, __mode);
+         __mode.run();
+         //nifty.
+
+         IUserInterface gameUI = __mode.get_ui();
+         gameUI.build_ui(nifty);
+
          return __mode;
     }
 
+    public static Nifty nifty = null;
     public void run(){
-        IGameMode mode = Game.get_game_mode();
+        IGameMode mode = null;
 
         try {
             WindowRender.create();
 
-            Nifty nifty = new Nifty(
+            nifty = new Nifty(
                 new LwjglRenderDevice(),
                 new OpenALSoundDevice(),
                 new LwjglInputSystem(),
                 new TimeProvider()
             );
 
-            IUserInterface gameUI = mode.get_ui();
+            /*IUserInterface gameUI = mode.get_ui();
 
             if (gameUI == null){
                 System.out.println("Unable to assign game UI");
                 //gameUI = new DefaultUI();
             }
-            gameUI.build_ui(nifty);
+            gameUI.build_ui(nifty);*/
 
- 
-            //GUI gui = new GUI(gameUI, renderer);
-
-            /*ThemeManager themeManager = ThemeManager.createThemeManager(this.getClass().getResource("simple.xml"), renderer);
-            gui.applyTheme(themeManager);*/
-
-            mode.run();
-
-           //IUserInterface ui = (IUserInterface) gameUI;
-            //&& !ui.quit
             while(!Display.isCloseRequested() ) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
                 //update it ftw
                 mode = Game.get_game_mode();
-
                 mode.update();
 
 

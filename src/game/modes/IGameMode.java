@@ -5,6 +5,7 @@
 
 package game.modes;
 
+import de.lessvoid.nifty.Nifty;
 import de.matthiasmann.twl.Widget;
 import ui.IUserInterface;
 
