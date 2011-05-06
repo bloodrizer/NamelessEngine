@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>AppletLoader</title>
+  </head>
+  <body>
+
+  <applet code="org.lwjgl.util.applet.AppletLoader" archive="lwjgl_util_applet.jar" 
+  codebase="file://Z:\DEV\java\NamelessEngine\deploy" width="1024" height="760">
+  
+    <!-- The following tags are mandatory -->
+    
+    <!-- Name of Applet, will be used as name of directory it is saved in, and will uniquely identify it in cache -->
+    <param name="al_title" value="appletloadertest">
+    
+    <!-- Main Applet Class -->
+    <param name="al_main" value="ne.MainApplet">
+    
+    <!-- logo to paint while loading, will be centered -->
+    <param name="al_logo" value="appletlogo.png">
+    
+    <!-- progressbar to paint while loading. Will be painted on top of logo, width clipped to percentage done -->
+    <param name="al_progressbar" value="appletprogress.gif">
+    
+    <!-- List of Jars to add to classpath -->
+    <param name="al_jars" value="
+    lib/lwjgl_applet.jar,
+    lib/lwjgl.jar,
+    lib/jinput.jar, 
+    lib/lwjgl_util.jar, 
+    lib/nifty-1.2.jar, 
+    lib/nifty-default-controls-1.2.jar, 
+    lib/nifty-lwjgl-renderer-1.0.jar,
+    lib/nifty-openal-soundsystem-1.0.jar,
+    lib/nifty-style-black-1.2.jar,
+    lib/slick-util.jar,
+    lib/xpp3-1.1.4c.jar,
+    NamelessEngine.jar">
+    
+    <!-- signed windows natives jar in a jar --> 
+    <param name="al_windows" value="natives/windows_natives.jar">
+    
+    <!-- signed linux natives jar in a jar --> 
+    <param name="al_linux" value="natives/linux_natives.jar">
+  
+    
+    <!-- Tags under here are optional -->
+    
+    <!-- Version of Applet, important otherwise applet won't be cached, version change will update applet, must be int or float -->
+    <!-- <param name="al_version" value="0.1"> -->
+    
+    <!-- whether to use cache - defaults to true -->
+    <!-- <param name="al_cache" value="true"> -->
+    
+    <!-- background color to paint with, defaults to white -->
+    <!-- <param name="boxbgcolor" value="#000000"> -->
+    
+    <!-- foreground color to paint with, defaults to black -->
+    <!-- <param name="boxfgcolor" value="#ffffff"> -->
+    
+    <!-- whether to run in debug mode -->
+    <!-- <param name="al_debug" value="true"> -->
+    
+    <!-- whether to prepend host to cache path - defaults to true -->
+    <!-- <param name="al_prepend_host" value="true"> -->
+  	
+    <param name="separate_jvm" value="true">
+  </applet>
+
+  <p>
+    You should eventualy see awesome game
+  </p>
+
+  </body>
+</html>
