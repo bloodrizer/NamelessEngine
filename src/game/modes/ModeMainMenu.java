@@ -5,8 +5,6 @@
 
 package game.modes;
 
-import de.matthiasmann.twl.Button;
-import de.matthiasmann.twl.Widget;
 import ui.IUserInterface;
 import ui.MainMenuUI;
 

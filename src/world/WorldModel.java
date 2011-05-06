@@ -132,17 +132,9 @@ public class WorldModel implements IEventListener {
     }
 
     public static void build_chunk(Point origin){
-        //safe switch there
-        /*WorldChunk chunk = chunk_data.get(origin);
-        if (!chunk.dirty){
-        return;
-        }
-        chunk.dirty = true;*/
-        /*StackTraceElement[] stackTrace = */
-        //System.out.println(Thread.currentThread().getStackTrace().toString());
-        Thread.currentThread().dumpStack();
 
-        System.out.println("building data chunk @"+origin.toString());
+        //Thread.currentThread().dumpStack();
+        //System.out.println("building data chunk @"+origin.toString());
 
         int x = origin.getX()*WorldChunk.CHUNK_SIZE;
         int y = origin.getY()*WorldChunk.CHUNK_SIZE;

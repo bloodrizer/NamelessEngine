@@ -13,7 +13,11 @@
   <screen id="start" controller="ui.GameUI">
     <layer id="layer" childLayout="center">
 
-      </panel>
+        <!-- simple default console control that displays 25 lines. please note: event notification requires an id -->
+        <control id="console" width="90%" height="90%" name="nifty-console" lines="25" align="center" valign="center" visible="false"/>
     </layer>
   </screen>
+  <layer id="ui_panel_bottom">
+      
+  </layer>
 </nifty>

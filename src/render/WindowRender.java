@@ -5,6 +5,8 @@
 
 package render;
 
+import java.awt.Canvas;
+import ne.Game;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -25,7 +27,14 @@ public class WindowRender {
     static int WINDOW_H = 600;
 
     public static void create() throws LWJGLException {
- 
+
+        Canvas parent = Game.display_parent;
+
+        if(parent != null){
+            System.out.println("setting render parent");
+            Display.setParent(parent);
+        }
+
         Display.setDisplayMode(new DisplayMode(WINDOW_W, WINDOW_H));
         Display.create();
         Display.setTitle("The Nameless Engine");

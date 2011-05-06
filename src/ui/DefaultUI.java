@@ -6,7 +6,6 @@
 package ui;
 
 import de.lessvoid.nifty.Nifty;
-import de.matthiasmann.twl.Widget;
 
 /**
  *

@@ -5,7 +5,6 @@
 
 package game.modes;
 
-import de.matthiasmann.twl.Widget;
 import events.EMouseClick;
 import events.network.EPlayerLogon;
 import events.Event;
