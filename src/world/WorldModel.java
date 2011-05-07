@@ -321,11 +321,14 @@ public class WorldModel implements IEventListener {
             return MAP_SIZE;
         }
 
+        Point temp = new Point(0,0);
         public boolean blocked(Mover mover, int x, int y) {
             //throw new UnsupportedOperationException("Not supported yet.");
             //todo: check the mover type
+            temp.setLocation(x,y);
+            temp = local2world(temp);
 
-            WorldTile tile = get_tile(x, y);
+            WorldTile tile = get_tile(temp.getX(), temp.getY());
             if (tile == null){
                 return true;
             }

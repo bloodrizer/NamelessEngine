@@ -45,12 +45,12 @@ public class Path {
 		return (Step) steps.get(index);
 	}
 
-        public synchronized Step popStep(){
-            Step step = getStep(1);
-            Step __step = new Step(step.getX(), step.getY());
-            steps.remove(step);
+        public Step popStep(){
+                Step step = getStep(0);
+                Step __step = new Step(step.getX(), step.getY());
+                steps.remove(step);
 
-            return __step;
+                return __step;
         }
 
 	/**
@@ -114,6 +114,15 @@ public class Path {
 		private int x;
 		/** The y coordinate at the given step */
 		private int y;
+
+        @Override
+                public String toString(){
+                    return "@["+
+                            Integer.toString(x)+
+                            ","+
+                            Integer.toString(y)+
+                            "]";
+                }
 
 		/**
 		 * Create a new step
