@@ -28,6 +28,15 @@ public class Entity {
 
     private WorldChunk chunk = null;
 
+    private boolean blocking = false;
+
+    public boolean is_blocking(){
+        return blocking;
+    }
+    public void set_blocking(boolean blocking){
+        this.blocking = blocking;
+    }
+    //--------------------------------------------------------------------------
     public void spawn(int uid, Point origin){
         this.uid = uid;
         this.origin = origin;
@@ -38,7 +47,7 @@ public class Entity {
 
         set_next_think(Timer.get_time());
     }
-
+    //--------------------------------------------------------------------------
     public void set_chunk(WorldChunk chunk){
         this.chunk = chunk;
     }

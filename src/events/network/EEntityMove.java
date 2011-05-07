@@ -8,6 +8,8 @@ package events.network;
 import events.Event;
 import game.ent.Entity;
 import org.lwjgl.util.Point;
+import world.WorldModel;
+import world.WorldTile;
 
 /**
  *
@@ -35,6 +37,17 @@ public class EEntityMove extends NetworkEvent {
 
     public static String toString(EEntityMove event){
         return "[#"+Integer.toString(event.get_eventid())+"[EEntityMove] from @"+event.from.toString()+" to @"+event.to.toString()+"]";
+    }
+
+    //safe switch - do not allow to move at the place that is blocked
+    //TODO: recalculate astar path by posting new event
+
+    @Override
+    public void post(){
+        WorldTile tile = WorldModel.get_tile(this.to.getX(), this.to.getY());
+        if (!tile.is_blocked()){
+            super.post();
+        }
     }
 
     @Override

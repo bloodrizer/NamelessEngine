@@ -38,10 +38,24 @@ public class WorldCluster {
     public static boolean chunk_in_cluster(Point point){
         int x = point.getX();
         int y = point.getY();
+
+        return chunk_in_cluster(x,y);
+    }
+
+    public static boolean chunk_in_cluster(int x, int y){
+   
         int cx = origin.getX();
         int cy = origin.getY();
 
         return ( x>=cx && x <=cx+CLUSTER_SIZE-1 ) && ( y>=cy && y <= cy + CLUSTER_SIZE-1 );
 
+    }
+
+    //uberfast shit for pathfinding purposes
+    public boolean tile_in_cluster(int x, int y){
+        int cx = (int)Math.floor((float)x / WorldChunk.CHUNK_SIZE);
+        int cy = (int)Math.floor((float)y / WorldChunk.CHUNK_SIZE);
+
+        return chunk_in_cluster(cx,cy);
     }
 }

@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.Map;
 import org.lwjgl.util.Point;
 import player.Player;
+import world.util.astar.Mover;
+import world.util.astar.TileBasedMap;
 
 /**
  *
@@ -49,6 +51,12 @@ public class WorldModel implements IEventListener {
 
         return tile;
     }
+
+    //DEPRECATED DEPRECATED DEPRECATED
+    public static boolean tile_blocked(Point tile_origin){
+        return false;
+    }
+
     //--------------------------------------------------------------------------
     private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
 
@@ -65,7 +73,7 @@ public class WorldModel implements IEventListener {
 
         return chunk;
     }
-
+    //TODO: move to the WorldChunk
     public static Point get_chunk_coord(Point position) {
         //todo: use util point?
         //int CL_OFFSET = (WorldCluster.CLUSTER_SIZE-1)/2;
@@ -106,14 +114,6 @@ public class WorldModel implements IEventListener {
                   entity.think();
             }
         }
-        /*synchronized (EntityManager.ent_list_sync){
-            for (Iterator iter = EntityManager.ent_list_sync.iterator(); iter.hasNext();) {
-               Entity entity = (Entity) iter.next();
-               if (entity.is_awake(Timer.get_time())){
-                  entity.think();
-               }
-            }
-        }*/
     }
 
     public static WorldChunk precache_chunk(int x, int y){
@@ -156,6 +156,10 @@ public class WorldModel implements IEventListener {
                 }
 
                 WorldTile tile = new WorldTile(tile_id);
+                //important!
+                //tile should be registered before any action is performed on it
+                tile_data.put(new Point(i,j), tile);
+
                 tile.set_height(height);
 
                 if (Terrain.is_tree(tile)){
@@ -164,9 +168,11 @@ public class WorldModel implements IEventListener {
                     Entity tree_ent = new Entity();
                     EntityManager.add(tree_ent);
                     tree_ent.spawn(1, new Point(i,j));
+                    
+                    tree_ent.set_blocking(true);    //obstacle
                 }
 
-                tile_data.put(new Point(i,j), tile);
+                
             }
     }
 
@@ -184,16 +190,20 @@ public class WorldModel implements IEventListener {
                 iter.remove();  
             }
         }
+
+        //TODO: perform gc on expired tiles?
     }
 
 
-    public static synchronized void move_entity(Entity entity, Point dest){
+    public static synchronized void move_entity(Entity entity, Point coord_dest){
+        Point coord_from = new Point(entity.origin);  //defence copy
+        
         //System.out.println("world model::on entity move to:"+dest.toString());
-        entity.origin.setLocation(dest);
+        entity.origin.setLocation(coord_dest);
 
         //now with a chunk shit
         //----------------------------------------------------------------------
-        WorldChunk new_chunk = get_cached_chunk(get_chunk_coord(dest));
+        WorldChunk new_chunk = get_cached_chunk(get_chunk_coord(coord_dest));
         if (new_chunk != null && !entity.in_chunk(new_chunk)){
 
             WorldChunk ent_chunk = entity.get_chunk();
@@ -210,6 +220,14 @@ public class WorldModel implements IEventListener {
             e_change_chunk.post();
             //----------------------------------------------------------------------
         }
+        //now, after we succesfuly performed chunk routime,
+        //set valid entity pointers in chunks
+        WorldTile tile_from = get_tile(coord_from.getX(), coord_from.getY());
+        WorldTile tile_to   = get_tile(coord_dest.getX(), coord_dest.getY());
+
+        tile_from.remove_entity(entity);
+        tile_to.add_entity(entity);
+
         //----------------------------------------------------------------------
     }
 
@@ -232,6 +250,17 @@ public class WorldModel implements IEventListener {
            
            EEntityChangeChunk e_change_chunk = new EEntityChangeChunk(spawn_event.ent,null,new_chunk);
            e_change_chunk.post();
+
+           Point ent_origin = spawn_event.ent.origin;
+           WorldTile tile_to = get_tile(ent_origin.getX(), ent_origin.getY());
+           
+           if (tile_to != null){
+                tile_to.add_entity(spawn_event.ent);
+           }else{
+               System.err.println("Failed to assign spawned entity to tile: tile is null!");
+           }
+
+
            //spawn_event.ent.origin = spawn_event.origin;
            //-------------------------------------------------------------------
        }else if(event instanceof EEntityChangeChunk){
@@ -262,4 +291,81 @@ public class WorldModel implements IEventListener {
            move_entity(move_event.entity, move_event.getFrom());
        }
     }
+
+    //--------------------------------------------------------------------------
+    static final int MAP_SIZE = WorldCluster.CLUSTER_SIZE*WorldChunk.CHUNK_SIZE;
+    public static WorldModelTileMap tile_map = new WorldModelTileMap();
+
+    /*
+     *  WorldModelTileMap is a mediator between WorldModel and AStarPathfinder
+     *
+     *  it's a relatively small tilemap, that is using 0,0 - MAP_SIZE,MAP_SIZE local coord
+     *  for fast path calculation
+     *
+     *
+     *
+     */
+
+    public static class WorldModelTileMap implements TileBasedMap {
+
+        public void pathFinderVisited(int x, int y) {
+            //visited[x][y] = true;
+        }
+
+
+        public int getWidthInTiles() {
+            return MAP_SIZE;
+        }
+
+        public int getHeightInTiles() {
+            return MAP_SIZE;
+        }
+
+        public boolean blocked(Mover mover, int x, int y) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+            //todo: check the mover type
+
+            WorldTile tile = get_tile(x, y);
+            if (tile == null){
+                return true;
+            }
+
+            return tile.is_blocked();
+
+            //todo: check border collision
+        }
+
+        public float getCost(Mover mover, int sx, int sy, int tx, int ty) {
+            return 1;
+            //TODO: calculate different terrain types there
+        }
+
+        Point origin = new Point(0,0);
+        public Point world2local(Point world){
+            origin.setLocation(
+                    WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE,
+                    WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE);
+
+            world.setLocation(
+                    world.getX()-origin.getX(),
+                    world.getY()-origin.getY()
+            );
+            return world;
+        }
+
+        public Point local2world(Point world){
+            origin.setLocation(
+                    WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE,
+                    WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE);
+            
+            world.setLocation(
+                    world.getX()+origin.getX(),
+                    world.getY()+origin.getY()
+            );
+            return world;
+        }
+    }
+
+
+    //--------------------------------------------------------------------------
 }

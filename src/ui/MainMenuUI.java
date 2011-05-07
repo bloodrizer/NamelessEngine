@@ -32,10 +32,13 @@ public class MainMenuUI implements IUserInterface, ScreenController{
     private static Screen screen = null;
 
     public void build_ui(Nifty nifty){
-        nifty.fromXml(
+        nifty.fromXml("main_menu_ui.xml",
+                MainMenuUI.class.getResourceAsStream("main_menu_ui.xml"),
+                "start");
+        /*nifty.fromXml(
                 MainMenuUI.class.getResource("main_menu_ui.xml").getPath(),
                 "start"
-        );
+        );*/
     }
 
     public void login(){

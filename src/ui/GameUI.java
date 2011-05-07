@@ -18,10 +18,13 @@ public class GameUI implements IUserInterface, ScreenController {
     private static Screen screen = null;
     
     public void build_ui(Nifty nifty){
-         nifty.fromXml(
+         /*nifty.fromXml(
                 MainMenuUI.class.getResource("game_ui.xml").getPath(),
                 "start"
-        );
+        );*/
+        nifty.fromXml("game_ui.xml",
+                MainMenuUI.class.getResourceAsStream("game_ui.xml"),
+        "start");
     }
 
 

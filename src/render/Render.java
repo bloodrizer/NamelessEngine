@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import ne.Game;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -23,16 +24,18 @@ public class Render {
 
     public static Texture precache_texture(String name){
         try {
-            Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(
+            /*Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(
                 Render.class.getResource(name).getPath()
-            ));
+            ));*/
+            Texture texture = TextureLoader.getTexture("PNG", Render.class.getResourceAsStream(name));
 
             texture_cache.put(name, texture);
             return texture;
         }
         catch (IOException ex) {
             System.err.println(ex.getMessage() + '('+ Render.class.getResource(name).getPath()+ ')');
-            System.exit(0);
+            //System.exit(0);
+            Game.running = false;
         }
         return null;
     }

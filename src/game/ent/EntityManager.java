@@ -26,5 +26,8 @@ public class EntityManager {
         ent_list_sync.remove(ent);
     }
 
+    public Entity[] get_entities(){
+        return (Entity[]) ent_list_sync.toArray();
+    }
 
 }
