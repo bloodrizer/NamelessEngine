@@ -65,13 +65,10 @@ public class NpcController extends BaseController implements Mover {
         
 
         if (path!=null && path.getLength() > 0){
-            /*System.out.println("Following calculated path: size["+Integer.toString(
-                    path.getLength()
-                    )
-            );*/
             
-            for(int i = 0; i < path.getLength(); i++){
+            /*for(int i = 0; i < path.getLength(); i++){
                 //--------------------------------------------------------------
+                
                 Step tmp_step = path.getStep(i);
                 Point tmp = new Point(tmp_step.getX(),tmp_step.getY());
                 tmp = WorldModel.tile_map.local2world(tmp);
@@ -80,7 +77,7 @@ public class NpcController extends BaseController implements Mover {
                 System.out.println("path step #"+
                         Integer.toString(i)
                         +tmp.toString());
-            }
+            }*/
 
 
             Step step = path.popStep();

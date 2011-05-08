@@ -43,10 +43,6 @@ public class WorldView implements IEventListener {
     public static int TILEMAP_W = 100;
     public static int TILEMAP_H = 100;
 
-
-
-
-
     public void render_background(){
 
         //System.out.println(WorldCluster.origin);

@@ -22,23 +22,34 @@ import world.WorldView;
  * @author Administrator
  */
 public class Tileset{
+    //world grid size - critical for offset calculation
     public static int TILE_SIZE = 32;
-    public static int TILESET_SIZE = 8;
+
+    //TODO: set to non-static
+    public int TILESET_SIZE = 8;
+    public int TILESET_W = 8;
+    public int TILESET_H = 8;
+
+    public int sprite_w = 32;
+    public int sprite_h = 32;
 
     public String texture_name = "tileset1.png";
 
     public Tileset(){
     }
 
-    static float get_texture_size(){
-        return 1.0f / TILESET_SIZE;
+    float get_texture_w(){
+        return 1.0f / TILESET_W;
     }
-    static float get_texture_x(int tile_id){
-        return 1.0f / TILESET_SIZE * (tile_id);
+    float get_texture_h(){
+        return 1.0f / TILESET_H;
+    }
+    float get_texture_x(int tile_id){
+        return 1.0f / TILESET_W * (tile_id);
     }
 
-    static float get_texture_y(int tile_id){
-        return 1.0f / TILESET_SIZE * ((tile_id) / TILESET_SIZE );
+    float get_texture_y(int tile_id){
+        return 1.0f / TILESET_H * ((tile_id) / TILESET_H );
     }
 
     
@@ -53,12 +64,12 @@ public class Tileset{
             tile_id = 8;
         }
 
-        //glColor3f(1.0f,1.0f,1.0f);
+
         draw_quad(
                 i*TILE_SIZE,
                 j*TILE_SIZE,
-                TILE_SIZE-1,
-                TILE_SIZE-1,
+                sprite_w-1,
+                sprite_h-1,
                 tile_id
         );
     }
@@ -67,24 +78,36 @@ public class Tileset{
 
         float tx = get_texture_x(tile_id);
         float ty = get_texture_y(tile_id);
-        float ts = get_texture_size();
+        float ts_w = get_texture_w();
+        float ts_h = get_texture_h();
 
         glBegin(GL_QUADS);
             glTexCoord2f(tx, ty);
         glVertex2f( x,   y);
-            glTexCoord2f(tx+ts, ty);
+            glTexCoord2f(tx+ts_w, ty);
 	glVertex2f( x+w, y);
-            glTexCoord2f(tx+ts, ty+ts);
+            glTexCoord2f(tx+ts_w, ty+ts_h);
 	glVertex2f( x+w, y+h);
-            glTexCoord2f(tx, ty+ts);
+            glTexCoord2f(tx, ty+ts_h);
 	glVertex2f( x,   y+h);
 
         glEnd();
     }
 
     public void render_sprite(int i, int j, int tile_id){
+        
+        //glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         Render.bind_texture(texture_name);
+
+        //glBlendFunc (GL_ONE, GL_ONE);
+        
+        //glAlphaFunc(GL_GREATER,0.1f);
+        //glColor4f(1.0f,1.0f,1.0f,0.5f);
+
+        
+        //glBlendFunc(GL_DST_COLOR,GL_ZERO);
 
         //Point quad_coord = new Point(i*TILE_SIZE,j*TILE_SIZE);
 
@@ -96,13 +119,26 @@ public class Tileset{
         int w = TILE_SIZE-1;
         int h = TILE_SIZE-1;
 
+        /*
+         *  sprite offset ---->  *-----------------*
+         *                       |                 |
+         *          tile offset-----> * ----- *    |
+         *                       |    |       |    |
+         *                       |    |       |    |
+         *                       |    |       |    |
+         *                       *----*---X---*----*
+         *              +TILE_SIZE/2 -----^
+         */
+
+
         draw_quad(
-                x_local - w/2,
-                y_local,
-                w,
-                h,
+                x_local - sprite_w/2,
+                y_local - sprite_h + TILE_SIZE,
+                sprite_w-1,
+                sprite_h-1,
                 tile_id
         );
+
     }
 
     //wrapper for isometric background render

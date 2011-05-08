@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.io.FileInputStream;
 import java.io.IOException;
 import ne.Game;
+import org.lwjgl.opengl.GL11;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -26,8 +27,14 @@ public class Render {
         try {
             /*Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(
                 Render.class.getResource(name).getPath()
-            ));*/
+            ));*/ 
+            
             Texture texture = TextureLoader.getTexture("PNG", Render.class.getResourceAsStream(name));
+
+            //texture.
+
+            System.out.println(name+" 's alpha:");
+            System.out.println(texture.hasAlpha());
 
             texture_cache.put(name, texture);
             return texture;

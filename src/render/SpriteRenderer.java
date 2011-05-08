@@ -18,6 +18,10 @@ public class SpriteRenderer extends EntityRenderer {
         tileset = new Tileset();
     }
 
+    public Tileset get_tileset(){
+        return tileset;
+    }
+
     public void set_texture(String name){
         tileset.texture_name = name;
     }

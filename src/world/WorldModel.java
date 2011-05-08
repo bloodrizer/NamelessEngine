@@ -14,6 +14,7 @@ import events.network.EEntityMove;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityPlayer;
+import game.ent.EntityTree;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -163,9 +164,9 @@ public class WorldModel implements IEventListener {
                 tile.set_height(height);
 
                 if (Terrain.is_tree(tile)){
-                    tile.set_tile_id(50);   //debug only!
+                    //tile.set_tile_id(50);   //debug only!
 
-                    Entity tree_ent = new Entity();
+                    EntityTree tree_ent = new EntityTree();
                     EntityManager.add(tree_ent);
                     tree_ent.spawn(1, new Point(i,j));
                     
