@@ -6,8 +6,10 @@
 package ui;
 
 import de.lessvoid.nifty.Nifty;
+/*import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.controls.textfield.controller.TextField;
-import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;
+import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;*/import de.lessvoid.nifty.controls.TextField;
+
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -43,8 +45,8 @@ public class MainMenuUI implements IUserInterface, ScreenController{
 
     public void login(){
 
-        TextFieldControl login = screen.findControl( "input_login",  TextFieldControl.class);
-        TextFieldControl passwd = screen.findControl( "input_password",  TextFieldControl.class);
+        TextField login = screen.findNiftyControl( "input_login",  TextField.class);
+        TextField passwd = screen.findNiftyControl( "input_password",  TextField.class);
 
         String str_login = login.getText();
         String str_passwd = passwd.getText();

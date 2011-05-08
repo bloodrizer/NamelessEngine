@@ -112,11 +112,12 @@ public class Game {
                 //update it ftw
                 mode = Game.get_game_mode();
                 mode.update();
+                nifty.update();
 
 
-                if (nifty.render(false)){
-                    //end of nifty render
-                }
+                nifty.render(false);
+
+             
 
                 //gui.update();
                 Display.sync(60);

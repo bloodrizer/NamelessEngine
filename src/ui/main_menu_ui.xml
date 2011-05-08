@@ -14,11 +14,7 @@
     <layer id="layer" childLayout="center" backgroundImage="ui/background.jpeg">
 
       <panel id="dialog" style="nifty-panel" padding="18px,28px,28px,16px" childLayout="center" width="50%" height="38%" align="center" valign="center">
-       <!-- <effect>
-          <onStartScreen name="move" timeType="exp" factor="3.5" direction="top" mode="in" length="500" inherit="true"/>
-          <onEndScreen name="move" timeType="exp" factor="3.5" direction="bottom" mode="out" length="500" inherit="true"/>
-        </effect>
-       -->
+
         <panel childLayout="vertical" align="center" valign="center">
           <panel id="namePanel" childLayout="horizontal">
             <text style="nifty-label" id="labelName" text="Login: " width="150px" align="left" textVAlign="center" textHAlign="left"/>
