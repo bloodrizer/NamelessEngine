@@ -9,9 +9,11 @@ package ne;
  *
  * @author Administrator
  */
+import events.EKeyPress;
 import events.EMouseDrag;
 import events.EMouseClick;
 import events.EMouseRelease;
+import java.util.Collections;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -31,6 +33,9 @@ public class Input {
     };
 
     public static boolean key_state_alt = false;
+    private static java.util.Map<Integer,Boolean> key_states
+            = Collections.synchronizedMap(new java.util.HashMap<Integer,Boolean>(100));
+    
 
     public static void update(){
 
@@ -79,17 +84,24 @@ public class Input {
 
         //Keyboard Shit
 
-        
-
         while (Keyboard.next()) {
 	    if (Keyboard.getEventKeyState()) {
                 if (Keyboard.getEventKey() == Keyboard.KEY_LMENU) {
 		    key_state_alt = true;
 		}
+
+                Boolean state = key_states.get(Keyboard.getEventKey());
+                if(state == null || state == false){
+                    EKeyPress event = new EKeyPress(Keyboard.getEventKey());
+                    event.post();
+                }
+                key_states.put(Keyboard.getEventKey(), true);
+
             }else{
                 if (Keyboard.getEventKey() == Keyboard.KEY_LMENU) {
 		    key_state_alt = false;
 		}
+                key_states.put(Keyboard.getEventKey(), false);
             }
         }
 

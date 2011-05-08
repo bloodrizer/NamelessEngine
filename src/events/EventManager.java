@@ -17,7 +17,9 @@ public class EventManager {
     public static Collection listeners_sync = Collections.synchronizedCollection(listeners);
 
     public static void subscribe(IEventListener listener){
-        listeners_sync.add(listener);
+        if (!listeners_sync.contains(listener)){
+            listeners_sync.add(listener);
+        }
     }
 
     public static int EVENT_TIMEOUT = 500000; //in ms
