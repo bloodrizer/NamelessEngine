@@ -38,6 +38,19 @@ public class WorldTile {
         return false;
     }
 
+    //TODO: change to get_world_actor
+
+    public Entity get_obstacle(){
+        Object[] list = ent_list.toArray();
+        for(int i=ent_list.size()-1; i>=0; i--){
+            Entity entity = (Entity)list[i];
+            if (entity.is_blocking()){
+                return entity;
+            }
+        }
+        return null;
+    }
+
     public int get_tile_id(){
         return tile_id;
     }

@@ -8,6 +8,7 @@ package game.ent;
 import events.EEntitySpawn;
 import events.network.EEntityMove;
 import game.ent.controller.IEntityController;
+import java.util.ArrayList;
 import org.lwjgl.util.Point;
 import render.DebugRenderer;
 import render.EntityRenderer;
@@ -135,5 +136,12 @@ public class Entity {
         }
 
         return render;
+    }
+
+    //--------------------------------------------------------------------------
+    //                      A bit of actions shit
+    //--------------------------------------------------------------------------
+    public IEntityAction[] get_action_list(){
+        return new IEntityAction[0];
     }
 }

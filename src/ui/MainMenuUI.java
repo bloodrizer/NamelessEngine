@@ -6,9 +6,12 @@
 package ui;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.builder.LayerBuilder;
+import de.lessvoid.nifty.builder.ScreenBuilder;
 /*import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.controls.textfield.controller.TextField;
 import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;*/import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.controls.chatcontrol.builder.ChatBuilder;
 
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
@@ -37,10 +40,9 @@ public class MainMenuUI implements IUserInterface, ScreenController{
         nifty.fromXml("main_menu_ui.xml",
                 MainMenuUI.class.getResourceAsStream("main_menu_ui.xml"),
                 "start");
-        /*nifty.fromXml(
-                MainMenuUI.class.getResource("main_menu_ui.xml").getPath(),
-                "start"
-        );*/
+        
+      
+
     }
 
     public void login(){

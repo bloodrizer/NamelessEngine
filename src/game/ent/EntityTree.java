@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import java.util.ArrayList;
 import render.DebugRenderer;
 import render.EntityRenderer;
 import render.SpriteRenderer;
@@ -38,5 +39,27 @@ public class EntityTree extends Entity {
 
 
         return render;
+    }
+    //--------------------------------------------------------------------------
+
+
+    @Override
+    public IEntityAction[] get_action_list(){
+
+        class ActionCutTree extends BaseEntityAction{
+
+            @Override
+            public void execute() {
+                System.out.println("ActionCutTree");
+            }
+
+        }
+
+
+        EntActionList list = new EntActionList();
+        list.set_owner(this);
+        list.add_action(new ActionCutTree(),"Cut a tree");
+
+        return list.get_action_list();
     }
 }
