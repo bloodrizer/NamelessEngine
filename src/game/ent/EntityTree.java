@@ -59,6 +59,7 @@ public class EntityTree extends Entity {
         EntActionList list = new EntActionList();
         list.set_owner(this);
         list.add_action(new ActionCutTree(),"Cut a tree");
+        list.add_action(new ActionCutTree(),"Pick brunch");
 
         return list.get_action_list();
     }

@@ -131,7 +131,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
         IEntityAction[] action_list = ent.get_action_list();
 
         System.out.println("Fetched "+Integer.toString(action_list.length)+"actions");
-        for(int i=action_list.length-1; i>=0; i--){
+        for(int i=0; i<action_list.length; i++){
             popupMenu.addMenuItem(action_list[i].get_name(), "ui/branch_ico.png", action_list[i]);
         }
         //-------------------------------------------------
