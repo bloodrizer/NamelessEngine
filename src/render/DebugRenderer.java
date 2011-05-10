@@ -37,7 +37,7 @@ public class DebugRenderer extends EntityRenderer  {
             8   //hardcoded, lol
         );
 
-        /*int ent_screen_x = WorldView.world2local_x(
+        int ent_screen_x = WorldView.world2local_x(
                 ent.origin.getX()*tileset.TILE_SIZE,
                 ent.origin.getY()*tileset.TILE_SIZE
         );
@@ -49,6 +49,6 @@ public class DebugRenderer extends EntityRenderer  {
                 ent.getClass().getName().
                 concat(":").
                 concat(ent.toString()),
-        Color.white);*/
+        Color.white);
     }
 }

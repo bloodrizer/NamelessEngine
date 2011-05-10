@@ -22,6 +22,7 @@ import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
 import ne.Input;
 import ne.Input.MouseInputType;
+import org.lwjgl.opengl.GL11;
 import render.overlay.OverlaySystem;
 import ui.IUserInterface;
 import world.Timer;
@@ -86,9 +87,10 @@ public class ModeInGame implements IGameMode, IEventListener {
 
 
         view.render();
-        //render text overlay stack
+
+        
         overlay.render();
-        //view.synchronize();
+
     }
 
     IUserInterface ui = null;

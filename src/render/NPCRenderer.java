@@ -9,10 +9,7 @@ package render;
  * Composite npc renderer
  *
  *
- * It features basic animation and nwse sprite orientation
- *
- *
- *
+ * It features basic animation and [nwse] sprite orientation
  *
  *
  */

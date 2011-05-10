@@ -14,8 +14,17 @@ import java.util.List;
  * @author Administrator
  */
 public class WorldTile {
+
+    public enum TerrainType {
+        TERRAIN_FORREST,
+        TERRAIN_PLAIN,
+        TERRAIN_WATER
+    }
+
     private int tile_id = 0;
     private int height = 0;
+
+    public TerrainType terrain_type = TerrainType.TERRAIN_PLAIN;
 
     //allocate sum data for entity storing
     public List<Entity> ent_list = new ArrayList<Entity>(10);
@@ -28,6 +37,12 @@ public class WorldTile {
     }
 
     public boolean is_blocked(){
+
+        if (terrain_type == TerrainType.TERRAIN_WATER){
+            return true;
+        }
+
+
         Object[] list = ent_list.toArray();
         for(int i=ent_list.size()-1; i>=0; i--){
             Entity entity = (Entity)list[i];

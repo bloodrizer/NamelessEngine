@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 import org.lwjgl.util.Point;
 import player.Player;
+import world.WorldTile.TerrainType;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
 
@@ -171,6 +172,11 @@ public class WorldModel implements IEventListener {
                     tree_ent.spawn(1, new Point(i,j));
                     
                     tree_ent.set_blocking(true);    //obstacle
+                }
+
+                if (Terrain.is_lake(tile)){
+                    tile.set_tile_id(1);
+                    tile.terrain_type = TerrainType.TERRAIN_WATER;
                 }
 
                 

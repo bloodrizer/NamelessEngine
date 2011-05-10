@@ -34,6 +34,7 @@ public class Terrain {
     }
 
     public static int FORREST_HEIGHT = 120;
+    public static int LAKE_HEIGHT = 120;
     public static int TREE_RATE = 10;
 
     public static boolean is_forrest(WorldTile tile){
@@ -58,6 +59,14 @@ public class Terrain {
 
         return false;
     }
+
+    public static boolean is_lake(WorldTile tile){
+        if (tile.get_height() < 60){
+            return true;
+        }
+        return false;
+    }
+
 
     /*void generateHeightmap(){
         float noiseVal;

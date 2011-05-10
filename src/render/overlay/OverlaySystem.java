@@ -5,6 +5,7 @@
 package render.overlay;
         
 import java.awt.Font;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.TrueTypeFont;
 
 
@@ -23,12 +24,15 @@ public class OverlaySystem {
         font = new Font("Arial", Font.BOLD, 15);
         ttf = new TrueTypeFont(font, true);
 
+        
     }
 
     //render whole overlay
     public void render() {
+        
         DebugOverlay.render();
         TileCoordOverlay.render();
+
     }
 
 

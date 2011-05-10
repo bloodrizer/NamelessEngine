@@ -21,16 +21,16 @@ public class EntityPlayer extends Entity{
 
      @Override
      public EntityRenderer build_render(){
-        NPCRenderer render = new NPCRenderer();
-        render.set_texture("player.png");
+        NPCRenderer __render = new NPCRenderer();
+        __render.set_texture("player.png");
 
-        render.set_animation_length(8);
+        __render.set_animation_length(8);
 
 
-        render.get_tileset().sprite_w = 32;
-        render.get_tileset().sprite_h = 46;
+        __render.get_tileset().sprite_w = 32;
+        __render.get_tileset().sprite_h = 46;
 
-        return render;
+        return __render;
     }
 
 }

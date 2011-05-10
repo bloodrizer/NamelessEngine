@@ -5,6 +5,7 @@
 
 package world;
 
+import world.WorldTile.TerrainType;
 import render.EntityRenderer;
 import world.util.Noise;
 import org.lwjgl.opengl.GL11;
@@ -76,9 +77,12 @@ public class WorldView implements IEventListener {
                     if (tile != null){
 
                         //lil hack for terrain rendering visualization
-
-                        float g_color = ((float)tile.get_height() / 255)*2;        
-                        GL11.glColor3f(1.0f,g_color,1.0f);
+                        if (tile.terrain_type != TerrainType.TERRAIN_WATER){
+                            float g_color = ((float)tile.get_height() / 255)*2;
+                            GL11.glColor3f(1.0f,g_color,1.0f);
+                        }else{
+                            GL11.glColor3f(1.0f,1.0f,1.0f);
+                        }
                         
                         bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
                     }
