@@ -37,6 +37,15 @@ public class Entity {
     public void set_blocking(boolean blocking){
         this.blocking = blocking;
     }
+
+    public enum Orientation {
+        ORIENT_N,
+        ORIENT_W,
+        ORIENT_S,
+        ORIENT_E
+    }
+    public Orientation orientation = Orientation.ORIENT_N;
+
     //--------------------------------------------------------------------------
     public void spawn(int uid, Point origin){
         this.uid = uid;

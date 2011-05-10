@@ -49,7 +49,7 @@ public class Tileset{
     }
 
     float get_texture_y(int tile_id){
-        return 1.0f / TILESET_H * ((tile_id) / TILESET_H );
+        return 1.0f / TILESET_H * ((tile_id) / TILESET_W );
     }
 
     

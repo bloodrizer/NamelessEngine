@@ -5,6 +5,7 @@
 
 package game.ent.controller;
 
+import game.ent.Entity.Orientation;
 import ne.Game;
 import org.lwjgl.util.Point;
 import world.WorldModel;
@@ -90,15 +91,19 @@ public class NpcController extends BaseController implements Mover {
 
         if(owner.origin.getX() > __destination.getX()){
             owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
+            owner.orientation = Orientation.ORIENT_W;
         }
         if(owner.origin.getX() < __destination.getX()){
             owner.move_to(new Point(owner.origin.getX()+1, owner.origin.getY()));
+            owner.orientation = Orientation.ORIENT_E;
         }
         if(owner.origin.getY() > __destination.getY()){
             owner.move_to(new Point(owner.origin.getX(), owner.origin.getY()-1));
+            owner.orientation = Orientation.ORIENT_N;
         }
         if(owner.origin.getY() < __destination.getY()){
             owner.move_to(new Point(owner.origin.getX(), owner.origin.getY()+1));
+            owner.orientation = Orientation.ORIENT_S;
         }
 
         if(owner.origin.equals(destination)){
