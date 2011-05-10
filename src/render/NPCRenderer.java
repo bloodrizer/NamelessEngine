@@ -64,6 +64,8 @@ public class NPCRenderer extends EntityRenderer{
 
     @Override
     public void render(){
+        tileset.set_offset(ent.dx, ent.dy);
+
         tileset.render_sprite(
             ent.origin.getX(),
             ent.origin.getY(),

@@ -22,6 +22,15 @@ import world.WorldChunk;
 public class Entity {
 
     public Point origin;
+
+    /*
+     * This is an entity offset in tile coord system
+     * It's used to allow smooth entity movement from tile to tile - for a player using NPC controller or for a npc using lerp
+     */
+    
+    public float dx = 0.5f;
+    public float dy = 0.5f;
+
     private int uid = 0;
     private long next_think;
 

@@ -52,7 +52,14 @@ public class Tileset{
         return 1.0f / TILESET_H * ((tile_id) / TILESET_W );
     }
 
-    
+    private float dx = 0.0f;
+    private float dy = 0.0f;
+
+    //holy crap this shit is smely
+    public void set_offset(float dx, float dy){
+        this.dx = dx;
+        this.dy = dy;
+    }
 
     public void render_tile(int i, int j, int tile_id){    
         Render.bind_texture(texture_name);
@@ -66,8 +73,8 @@ public class Tileset{
 
 
         draw_quad(
-                i*TILE_SIZE,
-                j*TILE_SIZE,
+                i*TILE_SIZE + (int)(dx*TILE_SIZE),
+                j*TILE_SIZE + (int)(dy*TILE_SIZE),
                 sprite_w-1,
                 sprite_h-1,
                 tile_id
