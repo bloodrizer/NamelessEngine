@@ -95,9 +95,11 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
                 case Keyboard.KEY_F1:
                     toggle_console();
                 break;
-                case Keyboard.KEY_F12:
-                    
-
+                case Keyboard.KEY_DOWN:
+                    WorldView.ISOMETRY_TILE_SCALE -= 0.1f;
+                break;
+                case Keyboard.KEY_UP:
+                    WorldView.ISOMETRY_TILE_SCALE += 0.1f;
                 break;
             }
         }else if(event instanceof EMouseClick){

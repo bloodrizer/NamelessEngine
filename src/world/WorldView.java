@@ -155,6 +155,13 @@ public class WorldView implements IEventListener {
     //public static float ISOMETRY_TILE_SCALE = 1.2f;
     public static float ISOMETRY_Y_SCALE = 0.6f;
     public static float ISOMETRY_TILE_SCALE = 1.2f;
+    /*
+     * Sprites are rendering in 1:1 proportion, but
+     * tiles are rendering in 1:1.2 proportion, so
+     * we use this hack to avoid insane recalculations.
+     * See Tileset.java
+     */
+    public static float TILE_UPSCALE = 1.2f;
 
     //perform reverse isometric transformation
     //transform screen point into the world representation in isometric space

@@ -129,12 +129,12 @@ public class Tileset{
          *              +TILE_SIZE/2 -----^
          */
 
-
+         //TODO:recalculate sprite
         draw_quad(
                 x_local - sprite_w/2,
                 y_local - sprite_h + TILE_SIZE,
-                sprite_w-1,
-                sprite_h-1,
+                (int)(sprite_w / WorldView.TILE_UPSCALE * WorldView.ISOMETRY_TILE_SCALE),
+                (int)(sprite_h / WorldView.TILE_UPSCALE * WorldView.ISOMETRY_TILE_SCALE),
                 tile_id
         );
 
