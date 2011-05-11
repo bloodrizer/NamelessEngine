@@ -26,6 +26,13 @@ public class NPCRenderer extends EntityRenderer{
     private int ANIMATION_LENGTH = 0;
     private int frame_id = 0;
 
+    public void next_frame(){
+        frame_id++;
+        if(frame_id>=(ANIMATION_LENGTH-1)){     //4-frame animation, hardcoded, lol
+            frame_id = 0;
+        }
+    }
+
     public NPCRenderer(){
         tileset = new Tileset();
     }

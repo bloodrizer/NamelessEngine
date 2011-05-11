@@ -8,6 +8,7 @@ package game.ent.controller;
 import game.ent.Entity.Orientation;
 import ne.Game;
 import org.lwjgl.util.Point;
+import render.NPCRenderer;
 import world.WorldModel;
 import world.util.astar.AStarPathFinder;
 import world.util.astar.Mover;
@@ -30,7 +31,7 @@ public class NpcController extends BaseController implements Mover {
             //owner.move_to(destination);
             follow_path();
         }
-        //owner.sleep(100);
+        owner.sleep(200);
     }
 
     public void set_destination(Point destination){
@@ -81,10 +82,11 @@ public class NpcController extends BaseController implements Mover {
             return;
         }
 
+        ((NPCRenderer) owner.get_render()).next_frame();
 
         //owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
-        float dx = (float)(x-owner.origin.getX())*0.2f;
-        float dy = (float)(y-owner.origin.getY())*0.2f;
+        float dx = (float)(x-owner.origin.getX())*0.16f;
+        float dy = (float)(y-owner.origin.getY())*0.16f;
 
         System.out.println(Float.toString(dx)+","+Float.toString(dy));
 
