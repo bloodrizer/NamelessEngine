@@ -73,8 +73,8 @@ public class Tileset{
 
 
         draw_quad(
-                i*TILE_SIZE + (int)(dx*TILE_SIZE),
-                j*TILE_SIZE + (int)(dy*TILE_SIZE),
+                i*TILE_SIZE,
+                j*TILE_SIZE,
                 sprite_w-1,
                 sprite_h-1,
                 tile_id
@@ -102,24 +102,16 @@ public class Tileset{
     }
 
     public void render_sprite(int i, int j, int tile_id){
-        
-        //glEnable(GL_BLEND);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
         Render.bind_texture(texture_name);
 
-        //glBlendFunc (GL_ONE, GL_ONE);
-        
-        //glAlphaFunc(GL_GREATER,0.1f);
-        //glColor4f(1.0f,1.0f,1.0f,0.5f);
+        int x_world = i*TILE_SIZE + (int)(dx*TILE_SIZE);
+        int y_world = j*TILE_SIZE + (int)(dy*TILE_SIZE);
 
-        
-        //glBlendFunc(GL_DST_COLOR,GL_ZERO);
 
-        //Point quad_coord = new Point(i*TILE_SIZE,j*TILE_SIZE);
-
-        int x_local = WorldView.world2local_x(i*TILE_SIZE,j*TILE_SIZE);
-        int y_local = WorldView.world2local_y(i*TILE_SIZE,j*TILE_SIZE);
+        int x_local = WorldView.world2local_x(x_world,y_world);
+        int y_local = WorldView.world2local_y(x_world,y_world);
 
         //quad_coord = WorldView.world2local(quad_coord);
 

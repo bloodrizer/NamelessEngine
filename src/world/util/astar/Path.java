@@ -46,7 +46,7 @@ public class Path {
 	}
 
         public Step popStep(){
-                Step step = getStep(0);
+                Step step = getStep(1);
                 Step __step = new Step(step.getX(), step.getY());
                 steps.remove(step);
 

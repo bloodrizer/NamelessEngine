@@ -7,6 +7,7 @@ package world;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
+import player.Player;
 import render.Tileset;
 
 /**
@@ -47,8 +48,11 @@ public class WorldViewCamera {
         if (follow_target){
                 //todo: move to math
 
-                float target_x = (target.getX())*Tileset.TILE_SIZE;
-                float target_y = (target.getY())*Tileset.TILE_SIZE;
+                //TODO: FIXME! HERE IS AN UGLY HACK!
+               
+
+                float target_x = (target.getX())*Tileset.TILE_SIZE +  Player.get_ent().dx*Tileset.TILE_SIZE;
+                float target_y = (target.getY())*Tileset.TILE_SIZE +  Player.get_ent().dy*Tileset.TILE_SIZE;
 
                 Point delta = WorldView.world2local(new Point((int)target_x,(int)target_y));
                 target_x = delta.getX();

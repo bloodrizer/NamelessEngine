@@ -12,6 +12,8 @@ import game.ent.Entity;
  * @author Administrator
  */
 public interface IEntityController {
+
+
     public void attach(Entity entity);
     public void think();
 }

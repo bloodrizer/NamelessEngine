@@ -20,6 +20,7 @@ import world.util.astar.PathFinder;
  * @author Administrator
  */
 public class NpcController extends BaseController implements Mover {
+
     private Point destination = null;
 
     @Override
@@ -29,9 +30,11 @@ public class NpcController extends BaseController implements Mover {
             //owner.move_to(destination);
             follow_path();
         }
+        //owner.sleep(100);
     }
 
     public void set_destination(Point destination){
+
         this.destination = destination;
         //path.calculate(destination)
         calculate_path(
@@ -61,11 +64,54 @@ public class NpcController extends BaseController implements Mover {
             source.getX(), source.getY(), target.getX(), target.getY());
     }
 
+    public void change_tile(int x, int y){
+        owner.dx = 0.0f;
+        owner.dy = 0.0f;
+        /// owner.origin.setLocation(x, y);
+        owner.move_to(new Point(x,y));
+
+        step = null;
+    }
+    public void move_ent(int x, int y){
+
+        //wachky-hacky safe switch
+        if(WorldModel.get_tile(x, y).is_blocked()){
+            step = null;
+            path = null;
+            return;
+        }
+
+
+        //owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
+        float dx = (float)(x-owner.origin.getX())*0.2f;
+        float dy = (float)(y-owner.origin.getY())*0.2f;
+
+        System.out.println(Float.toString(dx)+","+Float.toString(dy));
+
+        owner.dx += dx;
+        owner.dy += dy;
+
+        //todo: use single % counter to maisure if to change tile or not
+
+        if (owner.dx > 1.0f || owner.dx < -1.0f){
+            change_tile(x,y);
+            return;
+        }
+        if (owner.dy > 1.0f || owner.dy < -1.0f){
+            change_tile(x,y);
+            return;
+        }
+         //owner.origin.setLocation(x, y);
+         //step = null;
+    }
+
+
+    Step step = null;
     public void follow_path(){
         Point __destination = new Point(this.destination);
         
 
-        if (path!=null && path.getLength() > 0){
+        if (path!=null && path.getLength() > 1){
             
             /*for(int i = 0; i < path.getLength(); i++){
                 //--------------------------------------------------------------
@@ -80,8 +126,9 @@ public class NpcController extends BaseController implements Mover {
                         +tmp.toString());
             }*/
 
-
-            Step step = path.popStep();
+            if(step == null){
+                step = path.popStep();
+            }
 
             Point location = new Point(step.getX(),step.getY());
             location = WorldModel.tile_map.local2world(location);
@@ -90,19 +137,19 @@ public class NpcController extends BaseController implements Mover {
         }
 
         if(owner.origin.getX() > __destination.getX()){
-            owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
+            move_ent(owner.origin.getX()-1, owner.origin.getY());
             owner.orientation = Orientation.ORIENT_W;
         }
         if(owner.origin.getX() < __destination.getX()){
-            owner.move_to(new Point(owner.origin.getX()+1, owner.origin.getY()));
+            move_ent(owner.origin.getX()+1, owner.origin.getY());
             owner.orientation = Orientation.ORIENT_E;
         }
         if(owner.origin.getY() > __destination.getY()){
-            owner.move_to(new Point(owner.origin.getX(), owner.origin.getY()-1));
+            move_ent(owner.origin.getX(), owner.origin.getY()-1);
             owner.orientation = Orientation.ORIENT_N;
         }
         if(owner.origin.getY() < __destination.getY()){
-            owner.move_to(new Point(owner.origin.getX(), owner.origin.getY()+1));
+            move_ent(owner.origin.getX(), owner.origin.getY()+1);
             owner.orientation = Orientation.ORIENT_S;
         }
 

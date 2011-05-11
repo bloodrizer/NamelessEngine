@@ -31,4 +31,8 @@ public class Player {
         return new Point(player_ent.origin);
     }
 
+    public static Entity get_ent(){
+        return player_ent;
+    }
+
 }
