@@ -23,7 +23,7 @@ public class NPCRenderer extends EntityRenderer{
 
     private Tileset tileset = null;
 
-    private int ANIMATION_LENGTH = 0;
+    public int ANIMATION_LENGTH = 0;
     private int frame_id = 0;
 
     public void next_frame(){
