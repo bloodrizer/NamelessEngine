@@ -5,11 +5,26 @@
 
 package ne;
 
+import de.lessvoid.nifty.NiftyInputConsumer;
+import de.lessvoid.nifty.spi.input.InputSystem;
+
 /**
  *
  * @author Administrator
  */
-public class NEInput {
+public class NEInput implements InputSystem {
+
+    public void forwardEvents(NiftyInputConsumer nic) {
+
+        //if(!nic.processKeyboardEvent(null))
+        //throw new UnsupportedOperationException("Not supported yet.");
+
+        //if (NiftyInputConsumer.processMouseEvent)
+    }
+
+    public void setMousePosition(int x, int y) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }
 /*public class OverlayInputSystem implements InputSystem {
