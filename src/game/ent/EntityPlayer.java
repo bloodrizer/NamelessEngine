@@ -27,8 +27,10 @@ public class EntityPlayer extends Entity{
         __render.set_animation_length(7);
 
 
-        __render.get_tileset().sprite_w = 64;
-        __render.get_tileset().sprite_h = 109;
+        /*__render.get_tileset().sprite_w = 64;
+        __render.get_tileset().sprite_h = 109;*/
+        __render.get_tileset().sprite_w = 46;
+        __render.get_tileset().sprite_h = 78;
 
         return __render;
     }

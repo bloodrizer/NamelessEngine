@@ -5,6 +5,8 @@
 
 package render;
 
+import org.lwjgl.opengl.GL11;
+
 /**
  *
  * @Simple simple sprite renderer for inanimated objects like trees / constructions
@@ -32,6 +34,16 @@ public class SpriteRenderer extends EntityRenderer {
 
     @Override
     public void render(){
+        GL11.glTexParameteri(
+                GL11.GL_TEXTURE_2D, 
+                GL11.GL_TEXTURE_MAG_FILTER,
+                GL11.GL_NEAREST);
+        
+        GL11.glTexParameteri(
+                GL11.GL_TEXTURE_2D,
+                GL11.GL_TEXTURE_MIN_FILTER,
+                GL11.GL_NEAREST);
+
         tileset.render_sprite(
             ent.origin.getX(),
             ent.origin.getY(),

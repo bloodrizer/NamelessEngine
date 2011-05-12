@@ -130,11 +130,15 @@ public class Tileset{
          */
 
          //TODO:recalculate sprite
+
+        int local_sprite_w = (int)((float)sprite_w * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE);
+        int local_sprite_h = (int)((float)sprite_h * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE);
+
         draw_quad(
-                x_local - sprite_w/2,
-                y_local - sprite_h + TILE_SIZE,
-                (int)(sprite_w / WorldView.TILE_UPSCALE * WorldView.ISOMETRY_TILE_SCALE),
-                (int)(sprite_h / WorldView.TILE_UPSCALE * WorldView.ISOMETRY_TILE_SCALE),
+                x_local - local_sprite_w/2,
+                y_local - local_sprite_h + (int)(TILE_SIZE * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE),
+                local_sprite_w,
+                local_sprite_h,
                 tile_id
         );
 

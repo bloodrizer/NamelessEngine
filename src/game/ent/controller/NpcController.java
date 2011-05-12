@@ -90,8 +90,6 @@ public class NpcController extends BaseController implements Mover {
         float dx = (float)(x-owner.origin.getX())*0.2f;
         float dy = (float)(y-owner.origin.getY())*0.2f;
 
-        System.out.println(Float.toString(dx)+","+Float.toString(dy));
-
         owner.dx += dx;
         owner.dy += dy;
 

@@ -69,6 +69,8 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
     public void bind(Nifty nifty, Screen screen) {
         //throw new UnsupportedOperationException("Not supported yet.");
         this.screen = screen;
+
+        //nifty.resetMouseInputEvents();
     }
 
     public void onStartScreen() {
@@ -94,6 +96,9 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
             switch(key_event.key){
                 case Keyboard.KEY_F1:
                     toggle_console();
+                break;
+                case Keyboard.KEY_I:
+                    toggle_inventory();
                 break;
                 case Keyboard.KEY_DOWN:
                     WorldView.ISOMETRY_TILE_SCALE -= 0.1f;
@@ -152,17 +157,16 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
     }
 
     public void toggle_console(){
-
         //ConsoleControl console = screen.findControl( "console",  ConsoleControl.class);
         Element element = screen.findElementByName("console");
-        if (!element.isVisible()){
-            element.setVisible(true);
-        }else{
-            element.setVisible(false);
+        element.setVisible(!element.isVisible());
+    }
+
+    public void toggle_inventory(){
+        //ConsoleControl console = screen.findControl( "console",  ConsoleControl.class);
+        Element element = screen.findElementByName("inventory_window");
+        if (element!=null){
+            element.setVisible(!element.isVisible());
         }
-        //console.
-        //nifty.
-        //screen.s
- 
     }
 }
