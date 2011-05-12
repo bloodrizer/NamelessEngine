@@ -7,6 +7,7 @@ package ne;
 
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.input.mouse.MouseInputEventProcessor;
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
 import de.lessvoid.nifty.sound.openal.OpenALSoundDevice;
@@ -91,12 +92,15 @@ public class Game {
         try {
             WindowRender.create();
 
+            LwjglInputSystem lwjgl_input = new LwjglInputSystem();
+
             nifty = new Nifty(
                 new LwjglRenderDevice(),
                 new OpenALSoundDevice(),
-                new LwjglInputSystem(),
+                lwjgl_input,
                 new TimeProvider()
             );
+            
 
             /*IUserInterface gameUI = mode.get_ui();
 
@@ -120,6 +124,10 @@ public class Game {
                 nifty.render(false);
 
                 
+
+                
+
+                 
 
                 //gui.update();
                 Display.sync(60);
