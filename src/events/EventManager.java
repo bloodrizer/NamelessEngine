@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import ne.ui.NE_GUI_System;
 import world.Timer;
 
 /**
@@ -25,10 +26,26 @@ public class EventManager {
     public static int EVENT_TIMEOUT = 500000; //in ms
 
     public static void notify_event(Event event){
-
+        
         if(event == null){
             return;
         }
+
+        NE_GUI_System.e_on_event(event);
+
+        /*
+         *  Note, that event manager does not notify
+         *  GUI System as regular listener.
+         *  It makes explicit call to ensure that
+         *  message is registered by GUI overlay first
+         *  and dispatched if nececary
+         */
+
+        if (event.is_dispatched()){
+            return; //do not allow to handle events, catched by gui overlay
+        }
+
+        
         register_event(event);
 
         synchronized(listeners_sync) {

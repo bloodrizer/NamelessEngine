@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import ne.Game;
 import org.lwjgl.opengl.GL11;
 
@@ -27,14 +28,17 @@ public class Render {
         try {
             /*Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(
                 Render.class.getResource(name).getPath()
-            ));*/ 
-            
-            Texture texture = TextureLoader.getTexture("PNG", Render.class.getResourceAsStream(name));
+            ));*/
+            Texture texture = null;
 
-            //texture.
+            InputStream texture_stream = Render.class.getResourceAsStream(name);
+            if (texture_stream != null){
+                texture = TextureLoader.getTexture("PNG", texture_stream);
+            }else{
+                System.err.println("precache_texture('"+name+"') - InputStream is null!");
+                Game.stop();
+            }
 
-            System.out.println(name+" 's alpha:");
-            System.out.println(texture.hasAlpha());
 
             texture_cache.put(name, texture);
             return texture;

@@ -31,6 +31,7 @@ import ui.IUserInterface;
  * @author Administrator
  */
 public class Game {
+
     public enum GameModes {
         Undefined, MainMenu, InGame
     };
@@ -118,22 +119,15 @@ public class Game {
                 //nifty.update();
 
                  //update it ftw
-                
-                
-                
-                
+  
                 //nifty.render(false);
-
-                
-
-                
-
-                 
 
                 //gui.update();
                 Display.sync(60);
                 Display.update();
             }
+
+            System.out.println("Game stopped, destroying lwjgl render...");
             
             //gui.destroy();
             WindowRender.destroy();
@@ -142,5 +136,9 @@ public class Game {
             e.printStackTrace();
         }
         
+    }
+
+    public static void stop() {
+        running = false;
     }
 }

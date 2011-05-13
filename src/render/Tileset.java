@@ -38,17 +38,19 @@ public class Tileset{
     public Tileset(){
     }
 
-    float get_texture_w(){
+    public float get_texture_w(){
         return 1.0f / TILESET_W;
     }
-    float get_texture_h(){
+    
+    public float get_texture_h(){
         return 1.0f / TILESET_H;
     }
-    float get_texture_x(int tile_id){
+
+    public float get_texture_x(int tile_id){
         return 1.0f / TILESET_W * (tile_id);
     }
 
-    float get_texture_y(int tile_id){
+    public float get_texture_y(int tile_id){
         return 1.0f / TILESET_H * ((tile_id) / TILESET_W );
     }
 
