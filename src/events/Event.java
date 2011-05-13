@@ -14,6 +14,15 @@ public class Event {
     private int eventid = 0;
     private long timestamp = 0;
 
+    private boolean dispatched = false;
+    public boolean is_dispatched(){
+        return dispatched;
+    }
+
+    public void dispatch(){
+        dispatched = true;
+    }
+
     //todo: move to network event?
     public void set_timestamp(long timestamp){
         this.timestamp = timestamp;

@@ -15,7 +15,7 @@ import java.util.Collections;
  */
 public class EntityManager {
 
-    static Collection<Entity> ent_list = new ArrayList<Entity>();
+    static final Collection<Entity> ent_list = new ArrayList<Entity>();
     public static Collection ent_list_sync = Collections.synchronizedCollection(ent_list);
 
     public static void add(Entity ent){

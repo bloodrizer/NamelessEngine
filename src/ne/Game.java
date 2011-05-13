@@ -113,15 +113,16 @@ public class Game {
             while(!Display.isCloseRequested() && running) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-               
-                
-
-                 //update it ftw
                 mode = Game.get_game_mode();
                 mode.update();
+                //nifty.update();
+
+                 //update it ftw
                 
-                nifty.update();
-                nifty.render(false);
+                
+                
+                
+                //nifty.render(false);
 
                 
 

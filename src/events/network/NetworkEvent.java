@@ -23,12 +23,12 @@ public class NetworkEvent extends Event {
         return false;
     }
 
-    private boolean dispatched = false;
-    public boolean is_dispatched(){
-        return dispatched;
+    private boolean synchronised = false;
+    public boolean is_synchronised(){
+        return synchronised;
     }
 
-    public void dispatch(){
-        dispatched = true;
+    public void synchronise(){
+        synchronised = true;
     }
 }

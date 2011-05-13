@@ -24,7 +24,7 @@
 
     </layer>
 
-    <layer id="windows" childLayout="absolute">
+    <!--<layer id="windows" childLayout="absolute">
       <control id="inventory_window" name="window" title="Inventory" width="500px" height="200px" 
         x="150px"
         y="200px"
@@ -32,7 +32,7 @@
         closeable="false"
         childLayout="vertical"
       >
-        <panel childLayout="vertical" backgroundColor="#9f9f9f" height="100%" width="100%">  <!-- main window panel? -->
+        <panel childLayout="vertical" backgroundColor="#9f9f9f" height="100%" width="100%"> 
 
             <panel heigth="400px" width="480px" childLayout="horizontal" backgroundColor="#9f6f9f">
                 <text text="Inventory goes there" style="base-font" align="center" color="#eeef" />
@@ -40,27 +40,27 @@
 
 
             <panel heigth="200px" width="480px" childLayout="horizontal" valign="bottom" backgroundColor="#002a">
-                <!--________________________________________________________-->
+                
                 <control id="quickslot1" name="droppable" padding="5px" width="46px" height="46px" align="center">
                   <effect>
                     <onActive name="border" post="true" color="#222f" border="1px" />
                   </effect>
                   <text text="Slot 1" style="base-font" color="#eeef" valign="center" width="100%" />
                 </control>
-                <!--________________________________________________________-->
+                
                 <control id="quickslot2" name="droppable" padding="5px" width="46px" height="46px" align="center">
                   <effect>
                     <onActive name="border" post="true" color="#222f" border="1px" />
                   </effect>
                   <text text="Slot 2" style="base-font" color="#eeef" valign="center" width="100%" />
                 </control>
-                <!--________________________________________________________-->
+                
             </panel>
         </panel>
 
       </control>
     </layer>
-
+    -->
 
   </screen>
   <layer id="ui_panel_bottom">

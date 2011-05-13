@@ -52,19 +52,23 @@ public class Input {
             int x = Mouse.getX();
             int y = Mouse.getY();
 
-            if (Mouse.getEventButtonState()) { //button pressed
+            /*if (Mouse.getEventButtonState()) { //button pressed
                 if( Mouse.getEventButton() == 0){   //lmb
                     new EMouseClick(new Point(x,y), MouseInputType.LCLICK).post();
+                    lmb_pressed = true;
                 }
                 if( Mouse.getEventButton() == 1){   //rmb
                     new EMouseClick(new Point(x,y), MouseInputType.RCLICK).post();
+                    rmb_pressed = true;
                 }
-            }
+            }else{
+                
+            }*/
 
             //System.out.println(Float.toString(dx)+","+Float.toString(dy));
 
             //--------------------------------LMB-----------------------------------
-            /*if (Mouse.isButtonDown(0)){
+            if (Mouse.isButtonDown(0)){
                 if (!lmb_pressed){
                     lmb_pressed = true;
                     new EMouseClick(new Point(Mouse.getX(),Mouse.getY()), MouseInputType.LCLICK).post();
@@ -93,7 +97,7 @@ public class Input {
                     new EMouseRelease( MouseInputType.RCLICK).post();
                 }
                 rmb_pressed = false;
-            }*/
+            }
         }
 
 

@@ -22,6 +22,7 @@ import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
 import ne.Input;
 import ne.Input.MouseInputType;
+import ne.ui.NE_GUI_System;
 import org.lwjgl.opengl.GL11;
 import render.overlay.OverlaySystem;
 import ui.IUserInterface;
@@ -40,6 +41,7 @@ public class ModeInGame implements IGameMode, IEventListener {
     private Tileset bg_tileset;
     private WorldView  view;
     private WorldModel model;
+    private NE_GUI_System gui;
 
 
     private OverlaySystem overlay;
@@ -54,6 +56,8 @@ public class ModeInGame implements IGameMode, IEventListener {
         model = new WorldModel();
 
         overlay = new OverlaySystem();
+
+        gui = new NE_GUI_System();
 
         Timer.init();   //very-very critical
 
@@ -88,7 +92,9 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         view.render();
 
-        
+        gui.render();
+
+
         overlay.render();
 
     }

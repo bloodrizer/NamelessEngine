@@ -42,7 +42,7 @@ public class MainMenuUI implements IUserInterface, ScreenController{
                 "start");
         
       
-
+        //UIItemContainer container = new UIItemContainer(nifty);
     }
 
     public void login(){

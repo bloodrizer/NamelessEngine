@@ -9,7 +9,6 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.controls.Menu;
-import de.lessvoid.nifty.controls.chatcontrol.builder.ChatBuilder;
 
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
@@ -44,41 +43,46 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
 
     Nifty nifty;
     public void build_ui(Nifty nifty){
-        
         EventManager.subscribe(this);
-        this.nifty = nifty;
-   
-        nifty.fromXml("game_ui.xml",
-                MainMenuUI.class.getResourceAsStream("game_ui.xml"),
-        "start");
 
-          /*Screen mainScreen = new ScreenBuilder("main") {{
-            controller(new GameUI());
-            layer(new LayerBuilder("layer") {{
-                backgroundColor("#003f");
-                childLayoutCenter();
+        /*this.nifty = nifty;
 
-                control(new ChatBuilder("chat", 14) {{
-                  sendLabel("Send Message");
-                }});
-            }});
-        }}.build(nifty);*/
+        nifty.loadStyleFile("nifty-default-styles.xml");
+        nifty.loadControlFile("nifty-default-controls.xml");
+
+        ScreenBuilder screen_builder = new ScreenBuilder("start");
+        screen_builder.controller(this);
+        
+        LayerBuilder ui_layer = new LayerBuilder("game_ui_layer");
+        ui_layer.childLayoutAbsolute();
+
+        screen_builder.layer(ui_layer);
+
+        Screen ui_screen = screen_builder.build(nifty);
+        nifty.addScreen("start", ui_screen);
+        nifty.gotoScreen("start");
+        //----------------------------------------------------------------------
+
+        inventory = new UIItemContainer(ui_layer);  //<-add a window
+        inventory.build(nifty, screen);
+        inventory.set_title("Inventory");
+        //inventory.show();*/
     }
-
+    public UIItemContainer inventory;   //test shit
+    //--------------------------------------------------------------------------
 
     public void bind(Nifty nifty, Screen screen) {
         //throw new UnsupportedOperationException("Not supported yet.");
         this.screen = screen;
 
-        //nifty.resetMouseInputEvents();
     }
 
     public void onStartScreen() {
-        //throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     public void onEndScreen() {
-        //throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     public static Element popup;
@@ -118,7 +122,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
 
     public void context_popup(EMouseClick event){
 
-        Point tile_origin = WorldView.getTileCoord(event.origin);
+        /*Point tile_origin = WorldView.getTileCoord(event.origin);
         WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
 
         Entity ent = tile.get_obstacle();
@@ -132,7 +136,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
         Menu<IEntityAction> popupMenu =
         popup.findNiftyControl("#menu", Menu.class);
         popupMenu.setWidth(new SizeValue("250px"));
-
+        
 
         //-------------------------------------------------
         IEntityAction[] action_list = ent.get_action_list();
@@ -141,7 +145,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
         for(int i=0; i<action_list.length; i++){
             popupMenu.addMenuItem(action_list[i].get_name(), "ui/branch_ico.png", action_list[i]);
         }
-        //-------------------------------------------------
+        //-------------------------------------------------*/
 
          // this is required and is not happening automatically!
         //popupMenu.addMenuItem("Cut tree", "ui/axe_ico.png", new GameUIItem("Something"));
@@ -149,7 +153,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
         //popupMenu.addMenuItem("Pick brunch", "ui/branch_ico.png", new GameUIItem("Something Else"));
 
 
-        nifty.showPopup(screen, popup.getId(), null);
+        //nifty.showPopup(screen, popup.getId(), null);
     }
 
     public void e_on_event_rollback(Event event) {
@@ -157,16 +161,11 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
     }
 
     public void toggle_console(){
-        //ConsoleControl console = screen.findControl( "console",  ConsoleControl.class);
-        Element element = screen.findElementByName("console");
-        element.setVisible(!element.isVisible());
+        /*Element element = screen.findElementByName("console");
+        element.setVisible(!element.isVisible());*/
     }
 
     public void toggle_inventory(){
-        //ConsoleControl console = screen.findControl( "console",  ConsoleControl.class);
-        Element element = screen.findElementByName("inventory_window");
-        if (element!=null){
-            element.setVisible(!element.isVisible());
-        }
+
     }
 }
