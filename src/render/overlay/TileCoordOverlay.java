@@ -51,11 +51,13 @@ public class TileCoordOverlay {
 
         WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
 
-        Object[] ent_list = tile.ent_list.toArray();
-        OverlaySystem.ttf.drawString(x+20, y+10, 
-                "entities:" + Integer.toString(ent_list.length) +
-                "blocked:" + Boolean.toString(tile.is_blocked())
-        );
+        if (tile != null){
+            Object[] ent_list = tile.ent_list.toArray();
+            OverlaySystem.ttf.drawString(x+20, y+10,
+                    "entities:" + Integer.toString(ent_list.length) +
+                    "blocked:" + Boolean.toString(tile.is_blocked())
+            );
+        }
 
     }
 }

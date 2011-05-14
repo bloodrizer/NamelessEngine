@@ -16,21 +16,32 @@ import static org.lwjgl.util.glu.GLU.*;
  */
 public class NE_GUI_Frame extends NE_GUI_Element{
 
-    float r = 0.0f;
-    float g = 0.0f;
-    float b = 0.0f;
-
     Tileset gui_tile;
 
-    public NE_GUI_Frame(){
-        r = (float)Math.random();
-        g = (float)Math.random();
-        b = (float)Math.random();
+    NE_GUI_Frame_Close close_button;
+
+    //public boolean closable = true;
+
+    public NE_GUI_Frame(boolean closable){
 
         gui_tile = new Tileset();
         //gui_tile.texture_name = "../ui/window_ui_small.png";
         gui_tile.TILESET_W = 4;
         gui_tile.TILESET_H = 4;
+
+
+        if (closable){
+            close_button = new NE_GUI_Frame_Close();
+
+            close_button.w = 32;
+            close_button.h = 32;
+            close_button.dragable = false;
+
+
+            add(close_button);
+        }
+
+
     }
 
     int t_window_w = 0;
@@ -46,6 +57,11 @@ public class NE_GUI_Frame extends NE_GUI_Element{
         t_window_w = tw;
         w = WIN_TILE_SIZE*t_window_w;
 
+        if (close_button != null){
+            close_button.x = w - close_button.w;
+            close_button.y = 0;
+        }
+
     }
     public void set_th(int th){
         t_window_h = th;
@@ -54,15 +70,10 @@ public class NE_GUI_Frame extends NE_GUI_Element{
 
     @Override
     public void render(){
-
-        /*glColor3f(r,g,b);
-        glBegin(GL_QUADS);
-            glVertex2f( x,   y);
-            glVertex2f( x+w, y);
-            glVertex2f( x+w, y+h);
-            glVertex2f( x,   y+h);
-        glEnd();*/
-
+        
+        if(!visible){
+            return;
+        }
         
         Render.bind_texture("../ui/window_ui_small.png");
 
@@ -102,6 +113,7 @@ public class NE_GUI_Frame extends NE_GUI_Element{
                 
             }
 
+            
         
         super.render();
     }

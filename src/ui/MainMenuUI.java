@@ -18,6 +18,11 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import ne.Game.GameModes;
 import ne.Main;
+import ne.ui.NE_GUI_Button;
+import ne.ui.NE_GUI_Frame;
+import ne.ui.NE_GUI_Input;
+import ne.ui.NE_GUI_Label;
+import ne.ui.NE_GUI_System;
 
 
 
@@ -28,7 +33,7 @@ import ne.Main;
  */
 
 
-public class MainMenuUI implements IUserInterface, ScreenController{
+public class MainMenuUI implements IUserInterface{
 
     public MainMenuUI(){
 
@@ -36,47 +41,55 @@ public class MainMenuUI implements IUserInterface, ScreenController{
 
     private static Screen screen = null;
 
-    public void build_ui(Nifty nifty){
-        nifty.fromXml("main_menu_ui.xml",
-                MainMenuUI.class.getResourceAsStream("main_menu_ui.xml"),
-                "start");
-        
-      
-        //UIItemContainer container = new UIItemContainer(nifty);
-    }
 
     public void login(){
 
-        TextField login = screen.findNiftyControl( "input_login",  TextField.class);
-        TextField passwd = screen.findNiftyControl( "input_password",  TextField.class);
-
-        String str_login = login.getText();
-        String str_passwd = passwd.getText();
-
-        Main.game.set_state(GameModes.InGame);
-
+       
     }
 
+    public void build_ui(Nifty nifty) {
+
+        NE_GUI_Frame frame = new NE_GUI_Frame(false);
+        NE_GUI_System.root.add(frame);
+        frame.set_tw(12);
+        frame.set_th(6);
+
+        NE_GUI_Input login_input = new NE_GUI_Input();
+        frame.add(login_input);
+        login_input.x = 180;
+        login_input.y = 50;
+        login_input.w = 120;
+        login_input.dragable = false;
+
+        NE_GUI_Input pass_input = new NE_GUI_Input();
+        frame.add(pass_input);
+        pass_input.x = 180;
+        pass_input.y = 80;
+        pass_input.w = 120;
+        pass_input.dragable = false;
+
+        NE_GUI_Label label1 = new NE_GUI_Label();
+        frame.add(label1);
+        label1.text = "Login";
+        label1.x = 100;
+        label1.y = 50;
+
+        NE_GUI_Label label2 = new NE_GUI_Label();
+        frame.add(label2);
+        label2.text = "Password";
+        label2.x = 100;
+        label2.y = 80;
 
 
+        NE_GUI_Button button = new NE_GUI_Button();
+        frame.add(button);
 
+        button.dragable = false;
 
-
-
-
-    public void bind(Nifty nifty, Screen screen) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-        this.screen = screen;
+        button.x = 140;
+        button.y = 120;
+        button.set_tw(3);
     }
-
-    public void onStartScreen() {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void onEndScreen() {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 
 
 }

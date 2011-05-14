@@ -6,12 +6,7 @@
 package ne.ui;
 
 import events.Event;
-import events.EventManager;
-import org.lwjgl.opengl.GL11;
-import events.IEventListener;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
 /**
  *
  * @author Administrator
@@ -21,22 +16,27 @@ public class NE_GUI_System {
 
     public static void render(){
         //glEnable(GL_TEXTURE_2D);
-        glDisable(GL_BLEND);
+        //glDisable(GL_BLEND);
 
         root.render();
 
-        glEnable(GL_BLEND);
+        //glEnable(GL_BLEND);
+    }
+
+    public void clear(){
+        root.clear();
     }
 
 
     public NE_GUI_System(){
 
+        //init root coord system
+        root.x = 0;
+        root.y = 0;
+
         //EventManager.subscribe(this);
 
-        NE_GUI_Frame frame = new NE_GUI_Frame();
-        root.add(frame);
-        frame.set_tw(8);
-        frame.set_th(5);
+        
     }
 
     public static void e_on_event(Event event) {

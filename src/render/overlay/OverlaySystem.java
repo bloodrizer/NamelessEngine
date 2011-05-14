@@ -20,8 +20,10 @@ public class OverlaySystem {
     private static Font font = null;
     public  static TrueTypeFont ttf = null;
 
+    public static final int FONT_SIZE = 15;
+
     public OverlaySystem() {
-        font = new Font("Arial", Font.BOLD, 15);
+        font = new Font("Arial", Font.BOLD, FONT_SIZE);
         ttf = new TrueTypeFont(font, true);
 
         

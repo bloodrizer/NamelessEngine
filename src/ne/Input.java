@@ -111,7 +111,10 @@ public class Input {
 
                 Boolean state = key_states.get(Keyboard.getEventKey());
                 if(state == null || state == false){
-                    EKeyPress event = new EKeyPress(Keyboard.getEventKey());
+                    EKeyPress event = new EKeyPress(
+                                Keyboard.getEventKey(),
+                                Keyboard.getEventCharacter()
+                            );
                     event.post();
                 }
                 key_states.put(Keyboard.getEventKey(), true);

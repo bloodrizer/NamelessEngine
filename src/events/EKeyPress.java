@@ -11,7 +11,10 @@ package events;
  */
 public class EKeyPress extends Event {
     public int key;
-    public EKeyPress(int key){
+    public char chr;
+    
+    public EKeyPress(int key, char chr){
         this.key = key;
+        this.chr = chr;
     }
 }
