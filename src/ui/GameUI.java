@@ -23,10 +23,12 @@ import events.IEventListener;
 import game.ent.Entity;
 import game.ent.IEntityAction;
 import ne.Input.MouseInputType;
+import ne.ui.NE_GUI_Inventory;
 import ne.ui.NE_GUI_Popup;
 import ne.ui.NE_GUI_System;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Point;
+import player.Player;
 import world.WorldModel;
 import world.WorldTile;
 import world.WorldView;
@@ -48,6 +50,12 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
     public void build_ui(Nifty nifty){
         EventManager.subscribe(this);
         ui = new NE_GUI_System();
+
+
+
+        NE_GUI_Inventory inventory = new NE_GUI_Inventory();
+        ui.root.add(inventory);
+        inventory.set_container(Player.get_ent().container);
 
     }
     public UIItemContainer inventory;   //test shit
