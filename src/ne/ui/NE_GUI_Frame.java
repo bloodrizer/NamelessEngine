@@ -37,7 +37,6 @@ public class NE_GUI_Frame extends NE_GUI_Element{
             close_button.h = 32;
             close_button.dragable = false;
 
-
             add(close_button);
         }
 
@@ -142,5 +141,9 @@ public class NE_GUI_Frame extends NE_GUI_Element{
             glVertex2f( x,   y+h);
         glEnd();
     }
+
+     public void on_close(){
+         
+     }
 
 }
