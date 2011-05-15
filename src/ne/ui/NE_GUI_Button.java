@@ -5,6 +5,7 @@
 
 package ne.ui;
 
+import events.EMouseClick;
 import org.newdawn.slick.Color;
 import render.overlay.OverlaySystem;
 
@@ -29,6 +30,8 @@ public class NE_GUI_Button extends NE_GUI_Element{
         //gui_tile.texture_name = "../ui/window_ui_small.png";
         gui_tile.TILESET_W = 4;
         gui_tile.TILESET_H = 4;
+
+        h = 32;
 
     }
 
@@ -109,6 +112,11 @@ public class NE_GUI_Button extends NE_GUI_Element{
                 glTexCoord2f(tx, ty+ts);
             glVertex2f( x,   y+h);
         glEnd();
+    }
+
+    @Override
+    public void e_on_mouse_click(EMouseClick e){
+          System.out.println("NE_GUI_Button::click");
     }
 
 }

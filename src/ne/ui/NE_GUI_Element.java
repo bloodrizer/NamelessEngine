@@ -13,6 +13,7 @@ import events.Event;
 import java.util.ArrayList;
 import java.util.Collection;
 import render.WindowRender;
+import ui.IUserInterface;
 
 /**
  *
@@ -73,19 +74,11 @@ public class NE_GUI_Element {
             NE_GUI_Element __elem = (NE_GUI_Element)elem[i];
             __elem.notify_event(e);
         }
-        
-        
-        /*if (e.is_dispatched()){
-            return;
-        }*/
-
-        if(!solid){
-            return; //do not check bounding for non-solid controls
-        }
 
         //catch mouse click inside of control area
 
         if (e instanceof EMouseClick){
+
             EMouseClick event = (EMouseClick)e;
 
             //this hack allows other controls to lose focus, even if event was dispatched
@@ -112,7 +105,13 @@ public class NE_GUI_Element {
                 my > y     &&
                 my < y+h
            ){
-                System.out.println("event in working area!");
+                if(!solid){
+                    return; //do not check bounding for non-solid controls
+                }
+                
+                System.out.println(
+                        this.toString()+" event in working area!"
+                );
                 System.out.println(event.origin);
 
                 e.dispatch();
@@ -151,11 +150,13 @@ public class NE_GUI_Element {
     }
 
     public void e_on_mouse_click(EMouseClick e){
-        //override me!
+        System.out.println("NE_GUI_Element::click");
     }
+
     public void e_on_mouse_out_click(EMouseClick e){
         //override me!
     }
+    
     public void e_on_key_press(EKeyPress e){
         //override me!
     }
@@ -170,4 +171,9 @@ public class NE_GUI_Element {
         children.clear();
     }
 
+
+    private IUserInterface controller;
+    public void set_controller(IUserInterface controller){
+        this.controller = controller;
+    }
 }

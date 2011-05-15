@@ -16,6 +16,8 @@ import de.lessvoid.nifty.controls.chatcontrol.builder.ChatBuilder;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import events.EMouseClick;
+import ne.Game;
 import ne.Game.GameModes;
 import ne.Main;
 import ne.ui.NE_GUI_Button;
@@ -33,10 +35,11 @@ import ne.ui.NE_GUI_System;
  */
 
 
-public class MainMenuUI implements IUserInterface{
+public class MainMenuUI implements IUserInterface {
 
+    public NE_GUI_System ui;
     public MainMenuUI(){
-
+         ui = new NE_GUI_System();
     }
 
     private static Screen screen = null;
@@ -49,8 +52,10 @@ public class MainMenuUI implements IUserInterface{
 
     public void build_ui(Nifty nifty) {
 
+        
+
         NE_GUI_Frame frame = new NE_GUI_Frame(false);
-        NE_GUI_System.root.add(frame);
+        ui.root.add(frame);
         frame.set_tw(12);
         frame.set_th(6);
 
@@ -81,7 +86,15 @@ public class MainMenuUI implements IUserInterface{
         label2.y = 80;
 
 
-        NE_GUI_Button button = new NE_GUI_Button();
+        NE_GUI_Button button = new NE_GUI_Button() {
+            @Override
+            public void e_on_mouse_click(EMouseClick e){
+                //NE_GUI_System.root.clear();
+                Main.game.set_state(Game.GameModes.InGame);
+                //Main.game.run();
+            }
+        };
+
         frame.add(button);
 
         button.dragable = false;
@@ -89,6 +102,10 @@ public class MainMenuUI implements IUserInterface{
         button.x = 140;
         button.y = 120;
         button.set_tw(3);
+    }
+
+    public NE_GUI_System get_nge_ui() {
+        return ui;
     }
 
 

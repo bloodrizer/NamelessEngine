@@ -12,9 +12,9 @@ import events.Event;
  * @author Administrator
  */
 public class NE_GUI_System {
-    public static final NE_GUI_Element root = new NE_GUI_Element(); //big invisible container
+    public final NE_GUI_Element root = new NE_GUI_Element(); //big invisible container
 
-    public static void render(){
+    public void render(){
         //glEnable(GL_TEXTURE_2D);
         //glDisable(GL_BLEND);
 
@@ -39,12 +39,12 @@ public class NE_GUI_System {
         
     }
 
-    public static void e_on_event(Event event) {
+    public void e_on_event(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
         root.notify_event(event);
     }
 
-    public static void e_on_event_rollback(Event event) {
+    public void e_on_event_rollback(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 }

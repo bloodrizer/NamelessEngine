@@ -23,7 +23,7 @@ public class Main {
         // TODO code application logic here
         game = new Game();
 
-        game.set_state(Game.GameModes.MainMenu);
+        game.set_state(Game.GameModes.InGame);
         game.run();
     }
 

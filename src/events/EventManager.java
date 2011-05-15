@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import ne.Game;
 import ne.ui.NE_GUI_System;
 import world.Timer;
 
@@ -31,7 +32,10 @@ public class EventManager {
             return;
         }
 
-        NE_GUI_System.e_on_event(event);
+        NE_GUI_System ui =  Game.get_game_mode().get_ui().get_nge_ui();
+        if(ui!=null){
+            ui.e_on_event(event);
+        }
 
         /*
          *  Note, that event manager does not notify

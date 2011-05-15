@@ -6,6 +6,7 @@
 package ui;
 
 import de.lessvoid.nifty.Nifty;
+import ne.ui.NE_GUI_System;
 
 /**
  *
@@ -14,4 +15,6 @@ import de.lessvoid.nifty.Nifty;
 public interface IUserInterface {
     public boolean quit = false;
     public void build_ui(Nifty nifty);
+
+    public NE_GUI_System get_nge_ui();
 }

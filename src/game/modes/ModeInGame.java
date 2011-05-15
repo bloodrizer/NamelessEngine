@@ -57,7 +57,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         overlay = new OverlaySystem();
 
-        gui = new NE_GUI_System();
+        //gui = new NE_GUI_System();
 
         Timer.init();   //very-very critical
 
@@ -92,7 +92,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         view.render();
 
-        gui.render();
+        get_ui().get_nge_ui().render();
 
 
         overlay.render();

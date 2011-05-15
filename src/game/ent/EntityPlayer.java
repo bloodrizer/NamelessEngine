@@ -9,8 +9,10 @@ import render.EntityRenderer;
 import render.NPCRenderer;
 
 /**
+ *  Entity, representing player on a game map
  *
- * @author Administrator
+ *  TODO: make EntityPlayer extanding NPC_Entity
+ *
  */
 public class EntityPlayer extends Entity{
 

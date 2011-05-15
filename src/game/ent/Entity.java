@@ -8,6 +8,7 @@ package game.ent;
 import events.EEntitySpawn;
 import events.network.EEntityMove;
 import game.ent.controller.IEntityController;
+import items.ItemContainer;
 import java.util.ArrayList;
 import org.lwjgl.util.Point;
 import render.DebugRenderer;
@@ -162,4 +163,9 @@ public class Entity {
     public IEntityAction[] get_action_list(){
         return new IEntityAction[0];
     }
+
+    //--------------------------------------------------------------------------
+    //  inventory
+    //--------------------------------------------------------------------------
+    public ItemContainer container = new ItemContainer();
 }

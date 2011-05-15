@@ -5,7 +5,9 @@
 
 package game.ent;
 
+import items.BaseItem;
 import java.util.ArrayList;
+import player.Player;
 import render.DebugRenderer;
 import render.EntityRenderer;
 import render.SpriteRenderer;
@@ -54,12 +56,23 @@ public class EntityTree extends Entity {
             }
 
         }
+        class ActionPickBranch extends BaseEntityAction{
+
+            @Override
+            public void execute() {
+                System.out.println("You got an awesome branch");
+                
+                BaseItem branch = BaseItem.produce("branch", 1);
+                Player.get_ent().container.add_item(branch);
+            }
+
+        }
 
 
         EntActionList list = new EntActionList();
         list.set_owner(this);
         list.add_action(new ActionCutTree(),"Cut a tree");
-        list.add_action(new ActionCutTree(),"Pick brunch");
+        list.add_action(new ActionPickBranch(),"Pick brunch");
 
         return list.get_action_list();
     }

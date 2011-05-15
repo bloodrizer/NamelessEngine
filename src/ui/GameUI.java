@@ -23,6 +23,8 @@ import events.IEventListener;
 import game.ent.Entity;
 import game.ent.IEntityAction;
 import ne.Input.MouseInputType;
+import ne.ui.NE_GUI_Popup;
+import ne.ui.NE_GUI_System;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Point;
 import world.WorldModel;
@@ -39,34 +41,14 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
 
     public GameUI(){
         //NOTE: using constructor of UI is deprecated. Use build_ui instead
+        
     }
 
     Nifty nifty;
     public void build_ui(Nifty nifty){
         EventManager.subscribe(this);
+        ui = new NE_GUI_System();
 
-        /*this.nifty = nifty;
-
-        nifty.loadStyleFile("nifty-default-styles.xml");
-        nifty.loadControlFile("nifty-default-controls.xml");
-
-        ScreenBuilder screen_builder = new ScreenBuilder("start");
-        screen_builder.controller(this);
-        
-        LayerBuilder ui_layer = new LayerBuilder("game_ui_layer");
-        ui_layer.childLayoutAbsolute();
-
-        screen_builder.layer(ui_layer);
-
-        Screen ui_screen = screen_builder.build(nifty);
-        nifty.addScreen("start", ui_screen);
-        nifty.gotoScreen("start");
-        //----------------------------------------------------------------------
-
-        inventory = new UIItemContainer(ui_layer);  //<-add a window
-        inventory.build(nifty, screen);
-        inventory.set_title("Inventory");
-        //inventory.show();*/
     }
     public UIItemContainer inventory;   //test shit
     //--------------------------------------------------------------------------
@@ -122,7 +104,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
 
     public void context_popup(EMouseClick event){
 
-        /*Point tile_origin = WorldView.getTileCoord(event.origin);
+        Point tile_origin = WorldView.getTileCoord(event.origin);
         WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
 
         Entity ent = tile.get_obstacle();
@@ -131,29 +113,21 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
             return;
         }
 
-        this.popup = nifty.createPopup("niftyPopupMenu");
+        NE_GUI_Popup __popup = new NE_GUI_Popup();
 
-        Menu<IEntityAction> popupMenu =
-        popup.findNiftyControl("#menu", Menu.class);
-        popupMenu.setWidth(new SizeValue("250px"));
-        
+        ui.root.add(__popup);
+        __popup.x = event.origin.getX();
+        __popup.y = event.get_window_y();
 
         //-------------------------------------------------
         IEntityAction[] action_list = ent.get_action_list();
 
         System.out.println("Fetched "+Integer.toString(action_list.length)+"actions");
         for(int i=0; i<action_list.length; i++){
-            popupMenu.addMenuItem(action_list[i].get_name(), "ui/branch_ico.png", action_list[i]);
+            //popupMenu.addMenuItem(action_list[i].get_name(), "ui/branch_ico.png", action_list[i]);
+            __popup.add_item(action_list[i]);
         }
-        //-------------------------------------------------*/
-
-         // this is required and is not happening automatically!
-        //popupMenu.addMenuItem("Cut tree", "ui/axe_ico.png", new GameUIItem("Something"));
-        //popupMenu.addMenuItemSeparator();
-        //popupMenu.addMenuItem("Pick brunch", "ui/branch_ico.png", new GameUIItem("Something Else"));
-
-
-        //nifty.showPopup(screen, popup.getId(), null);
+        
     }
 
     public void e_on_event_rollback(Event event) {
@@ -167,5 +141,9 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
 
     public void toggle_inventory(){
 
+    }
+    NE_GUI_System ui;
+    public NE_GUI_System get_nge_ui() {
+        return ui;
     }
 }
