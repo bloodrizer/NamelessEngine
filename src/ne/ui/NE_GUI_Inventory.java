@@ -5,19 +5,25 @@
 
 package ne.ui;
 
+import events.EContainerUpdate;
+import events.Event;
+import events.IEventListener;
 import items.BaseItem;
 import items.ItemContainer;
+import java.util.EventListener;
 
 /**
  *
  * @author Administrator
  */
-public class NE_GUI_Inventory extends NE_GUI_Frame{
+public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
     public NE_GUI_Inventory(){
         super(true);
 
         this.set_tw(7);
         this.set_th(5);
+
+        EventManager.subscribe(this);
     }
 
     ItemContainer container;
@@ -47,5 +53,18 @@ public class NE_GUI_Inventory extends NE_GUI_Frame{
     @Override
     public void render(){
         super.render();
+    }
+
+    public void e_on_event(Event event) {
+       // throw new UnsupportedOperationException("Not supported yet.");
+
+        if (event instanceof EContainerUpdate){
+            
+        }
+
+    }
+
+    public void e_on_event_rollback(Event event) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

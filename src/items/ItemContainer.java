@@ -5,6 +5,7 @@
 
 package items;
 
+import events.EContainerUpdate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -39,6 +40,7 @@ public class ItemContainer {
             }
             
             if (item.is_empty()){
+                on_update();
                 return;
             }
         }
@@ -46,6 +48,7 @@ public class ItemContainer {
         //no similar item found, or every stack is full -  adding new stack
         if(!is_full()){
             items.add(item.getItem());
+            on_update();
         }
      }
 
@@ -55,5 +58,10 @@ public class ItemContainer {
 
      public void remove_item(BaseItem item){
          int count = item.get_count();
+     }
+
+     public void on_update(){
+         EContainerUpdate event = new EContainerUpdate(this);
+         event.post();
      }
 }
