@@ -5,13 +5,6 @@
 
 package ne;
 
-
-import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.input.mouse.MouseInputEventProcessor;
-import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
-import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
-import de.lessvoid.nifty.sound.openal.OpenALSoundDevice;
-import de.lessvoid.nifty.tools.TimeProvider;
 import game.modes.IGameMode;
 import game.modes.ModeInGame;
 
@@ -69,10 +62,9 @@ public class Game {
 
          game_modes.put(Game.state, __mode);
          __mode.run();
-         //nifty.
 
          IUserInterface gameUI = __mode.get_ui();
-         gameUI.build_ui(nifty);
+         gameUI.build_ui();
 
          return __mode;
     }
@@ -81,8 +73,6 @@ public class Game {
     public static void set_canvas(Canvas display_parent){
         Game.display_parent = display_parent;
     }
-
-    public static Nifty nifty = null;
 
     //TODO: refact me
     public static boolean running = true;
@@ -93,36 +83,12 @@ public class Game {
         try {
             WindowRender.create();
 
-            LwjglInputSystem lwjgl_input = new LwjglInputSystem();
-
-            nifty = new Nifty(
-                new LwjglRenderDevice(),
-                new OpenALSoundDevice(),
-                lwjgl_input,
-                new TimeProvider()
-            );
-            
-
-            /*IUserInterface gameUI = mode.get_ui();
-
-            if (gameUI == null){
-                System.out.println("Unable to assign game UI");
-                //gameUI = new DefaultUI();
-            }
-            gameUI.build_ui(nifty);*/
-
             while(!Display.isCloseRequested() && running) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
                 mode = Game.get_game_mode();
                 mode.update();
-                //nifty.update();
-
-                 //update it ftw
-  
-                //nifty.render(false);
-
-                //gui.update();
+             
                 Display.sync(60);
                 Display.update();
             }

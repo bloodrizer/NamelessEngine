@@ -14,7 +14,7 @@ import ne.ui.NE_GUI_System;
  */
 public class DefaultUI implements IUserInterface {
 
-    public void build_ui(Nifty nifty){
+    public void build_ui(){
 
     }
     

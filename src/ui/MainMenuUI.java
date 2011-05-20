@@ -50,7 +50,7 @@ public class MainMenuUI implements IUserInterface {
        
     }
 
-    public void build_ui(Nifty nifty) {
+    public void build_ui() {
 
         
 

@@ -11,7 +11,6 @@ import events.EventManager;
 import events.IEventListener;
 import items.BaseItem;
 import items.ItemContainer;
-import java.util.EventListener;
 
 /**
  *
@@ -32,11 +31,9 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
         /* this is invisible container to store item icons
          * since NE_GUI_Inventory is container itself, we net
          * to separate window-related static elements
-         * from dinamic icons
-         */
-
-
+         * from dinamic icons */
         inv_layer = new NE_GUI_Element();
+
         inv_layer.x = 32;
         inv_layer.y = 32;
         inv_layer.solid = false;
@@ -48,6 +45,15 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
     public void set_container(ItemContainer container){
         this.container = container;
 
+    }
+
+    //returns item tile x position, based on the size of the frame container
+    private int get_item_x(int i){
+        return i % (this.t_window_w-2);
+    }
+     //returns item tile y position, based on the size of the frame container
+    private int get_item_y(int i){
+        return i / (this.t_window_w-2);
     }
 
     public void update(ItemContainer container){
@@ -64,11 +70,15 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
 
             NE_GUI_Label item_control = new NE_GUI_Label();
             inv_layer.add(item_control);
-            item_control.text = item.get_type()
-                    + Integer.toString(item.get_count());
+            /*item_control.text = item.get_type()
+                    + Integer.toString(item.get_count());*/
+            item_control.text = "i("+item.get_count()+")";
 
-            item_control.x = i * 64;
-            item_control.y = 0;
+            item_control.x = get_item_x(i) * 32;
+            item_control.y = get_item_y(i) * 32;
+
+
+
             item_control.w = 32;
             item_control.h = 32;
         }
@@ -81,12 +91,9 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
     }
 
     public void e_on_event(Event event) {
-       // throw new UnsupportedOperationException("Not supported yet.");
-
         if (event instanceof EContainerUpdate){
             update( ((EContainerUpdate) event).container);
         }
-
     }
 
     public void e_on_event_rollback(Event event) {

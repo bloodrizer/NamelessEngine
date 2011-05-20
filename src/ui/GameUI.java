@@ -38,7 +38,7 @@ import world.WorldView;
  *
  * @author Administrator
  */
-public class GameUI implements IUserInterface, ScreenController, IEventListener {
+public class GameUI implements IUserInterface,  IEventListener {
     private static Screen screen = null;
 
     public GameUI(){
@@ -46,19 +46,21 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
         
     }
 
-    Nifty nifty;
-    public void build_ui(Nifty nifty){
+    NE_GUI_Inventory inventory;
+
+
+    public void build_ui(){
         EventManager.subscribe(this);
         ui = new NE_GUI_System();
 
 
 
-        NE_GUI_Inventory inventory = new NE_GUI_Inventory();
+        inventory = new NE_GUI_Inventory();
         ui.root.add(inventory);
         inventory.set_container(Player.get_ent().container);
 
     }
-    public UIItemContainer inventory;   //test shit
+    //public UIItemContainer inventory;   //test shit
     //--------------------------------------------------------------------------
 
     public void bind(Nifty nifty, Screen screen) {
@@ -67,14 +69,7 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
 
     }
 
-    public void onStartScreen() {
-
-    }
-
-    public void onEndScreen() {
-
-    }
-
+   
     public static Element popup;
 
     public class GameUIItem {
@@ -148,8 +143,10 @@ public class GameUI implements IUserInterface, ScreenController, IEventListener 
     }
 
     public void toggle_inventory(){
-
+        inventory.visible = !inventory.visible;
     }
+
+
     NE_GUI_System ui;
     public NE_GUI_System get_nge_ui() {
         return ui;

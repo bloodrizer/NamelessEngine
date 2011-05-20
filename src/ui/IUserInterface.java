@@ -14,7 +14,7 @@ import ne.ui.NE_GUI_System;
  */
 public interface IUserInterface {
     public boolean quit = false;
-    public void build_ui(Nifty nifty);
+    public void build_ui();
 
     public NE_GUI_System get_nge_ui();
 }
