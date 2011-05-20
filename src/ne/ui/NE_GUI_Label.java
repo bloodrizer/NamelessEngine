@@ -22,8 +22,8 @@ public class NE_GUI_Label extends NE_GUI_Element {
         h = text.length()*OverlaySystem.FONT_SIZE;
 
         OverlaySystem.ttf.drawString(
-                x + parent.x,
-                y + parent.y,
+                get_x(),
+                get_y(),
                 text , Color.black);
 
     }

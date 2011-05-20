@@ -37,6 +37,21 @@ public class NE_GUI_Element {
     public int x = 100;
     public int y = 100;
 
+    public int get_x(){
+        if (parent!=null){
+            return this.x + parent.get_x();
+        }
+            return this.x;
+    }
+
+    public int get_y(){
+        if (parent!=null){
+            return this.y + parent.get_y();
+        }
+            return this.y;
+    }
+
+
     protected NE_GUI_Element parent = null;
     public void set_parent(NE_GUI_Element parent){
         this.parent = parent;

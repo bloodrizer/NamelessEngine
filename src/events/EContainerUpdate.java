@@ -12,7 +12,7 @@ import items.ItemContainer;
  * @author Administrator
  */
 public class EContainerUpdate extends Event{
-    ItemContainer container;
+    public ItemContainer container;
     public EContainerUpdate(ItemContainer container){
         this.container = container;
     }
