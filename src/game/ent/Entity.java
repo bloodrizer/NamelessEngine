@@ -5,10 +5,13 @@
 
 package game.ent;
 
+import actions.IAction;
 import events.EEntitySpawn;
 import events.network.EEntityMove;
+import game.ent.Entity;
 import game.ent.controller.IEntityController;
 import items.ItemContainer;
+import java.lang.Object;
 import java.util.ArrayList;
 import org.lwjgl.util.Point;
 import render.DebugRenderer;
@@ -160,8 +163,8 @@ public class Entity {
     //--------------------------------------------------------------------------
     //                      A bit of actions shit
     //--------------------------------------------------------------------------
-    public IEntityAction[] get_action_list(){
-        return new IEntityAction[0];
+    public ArrayList get_action_list(){
+        return new ArrayList<Entity>(0);
     }
 
     //--------------------------------------------------------------------------

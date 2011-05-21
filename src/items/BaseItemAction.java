@@ -3,17 +3,12 @@
  * and open the template in the editor.
  */
 
-package game.ent;
+package items;
 
 import actions.IAction;
 
-/**
- *
- * @author Administrator
-*/
-
-public class BaseEntityAction implements IAction<Entity>{
-    Entity owner = null;
+public class BaseItemAction implements IAction<BaseItem>{
+    BaseItem owner = null;
     String name = "undefined";
 
     public void set_name(String name){
@@ -28,11 +23,13 @@ public class BaseEntityAction implements IAction<Entity>{
         //do nothing
     }
 
-    public void set_owner(Entity owner) {
+    public void set_owner(BaseItem owner) {
         this.owner = owner;
     }
 
-    public Entity get_owner() {
+    public BaseItem get_owner() {
         return owner;
     }
+
 }
+

@@ -5,6 +5,7 @@
 
 package ne.ui;
 
+import actions.IAction;
 import events.EMouseClick;
 import game.ent.IEntityAction;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class NE_GUI_Popup extends NE_GUI_Element {
     }
 
     class NE_GUI_Popup_item extends NE_GUI_Button{
-        public IEntityAction action;
+        public IAction action;
 
         @Override
         public void e_on_mouse_click(EMouseClick e){
@@ -31,7 +32,7 @@ public class NE_GUI_Popup extends NE_GUI_Element {
 
     //Collection<NE_GUI_Popup_item> items = new ArrayList<NE_GUI_Popup_item>();
 
-    public void add_item(IEntityAction action){
+    public void add_item(IAction action){
         NE_GUI_Popup_item item = new NE_GUI_Popup_item();
         item.action = action;
         //items.add(item);

@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import actions.IAction;
 import java.util.ArrayList;
 
 /**
@@ -12,20 +13,21 @@ import java.util.ArrayList;
  * @author Administrator
  */
 public class EntActionList {
-    ArrayList<IEntityAction> action_list = new ArrayList<IEntityAction>(5);
+    ArrayList<IAction<Entity>> action_list = new ArrayList<IAction<Entity>>(5);
 
     Entity owner = null;
     public void set_owner( Entity owner){
         this.owner = owner;
     }
 
-    public void add_action(IEntityAction action, String name){
+    public void add_action(IAction<Entity> action, String name){
         action_list.add(action);
         action.set_name(name);
-        action.set_entity(owner);
+        action.set_owner(owner);
     }
 
-    public IEntityAction[] get_action_list(){
-        return (IEntityAction[]) action_list.toArray(new IEntityAction[0]);
+    public ArrayList get_action_list(){
+        //wtf there
+        return action_list;
     }
 }

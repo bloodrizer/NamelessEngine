@@ -5,6 +5,7 @@
 
 package ui;
 
+import actions.IAction;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
@@ -22,6 +23,8 @@ import events.EventManager;
 import events.IEventListener;
 import game.ent.Entity;
 import game.ent.IEntityAction;
+import java.util.ArrayList;
+import java.util.Iterator;
 import ne.Input.MouseInputType;
 import ne.ui.NE_GUI_Inventory;
 import ne.ui.NE_GUI_Popup;
@@ -123,12 +126,16 @@ public class GameUI implements IUserInterface,  IEventListener {
         __popup.y = event.get_window_y();
 
         //-------------------------------------------------
-        IEntityAction[] action_list = ent.get_action_list();
+        ArrayList action_list = ent.get_action_list();
+        //IAction<Entity>[] actions = (IAction<Entity>[]) action_list.toArray();
+        Iterator<IAction> itr = action_list.iterator();
 
-        System.out.println("Fetched "+Integer.toString(action_list.length)+"actions");
-        for(int i=0; i<action_list.length; i++){
-            //popupMenu.addMenuItem(action_list[i].get_name(), "ui/branch_ico.png", action_list[i]);
-            __popup.add_item(action_list[i]);
+        System.out.println("Fetched "+Integer.toString(action_list.size())+"actions");
+
+
+        while (itr.hasNext()){
+            IAction element = itr.next();
+            __popup.add_item(element);
         }
         
     }

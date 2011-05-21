@@ -11,6 +11,8 @@ import events.EventManager;
 import events.IEventListener;
 import items.BaseItem;
 import items.ItemContainer;
+import org.newdawn.slick.Color;
+import render.overlay.OverlaySystem;
 
 /**
  *
@@ -19,6 +21,27 @@ import items.ItemContainer;
 public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
 
     NE_GUI_Element inv_layer;
+
+
+    public class NE_GUI_Inventory_Item extends NE_GUI_Sprite {
+
+        BaseItem item;
+        NE_GUI_Inventory_Item(BaseItem item){
+            this.item = item;
+        }
+
+        @Override
+        public void render(){
+            super.render();
+            OverlaySystem.ttf.drawString(
+                get_x()+w-8,
+                get_y()+h-15,
+                Integer.toString(item.get_count()),
+                Color.black
+            );
+        }
+    }
+
 
     public NE_GUI_Inventory(){
         super(true);
@@ -68,21 +91,23 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
 
             BaseItem item = (BaseItem)items[i];
 
-            NE_GUI_Label item_control = new NE_GUI_Label();
+            NE_GUI_Inventory_Item item_control = new NE_GUI_Inventory_Item(item);
             inv_layer.add(item_control);
+
+            item_control.sprite_name = "gfx/items/"+ item.get_type() +".png";
+
             /*item_control.text = item.get_type()
                     + Integer.toString(item.get_count());*/
-            item_control.text = "i("+item.get_count()+")";
+
+            //item_control.text = "i("+item.get_count()+")";
 
             item_control.x = get_item_x(i) * 32;
             item_control.y = get_item_y(i) * 32;
 
-
-
             item_control.w = 32;
             item_control.h = 32;
-        }
 
+        }
     }
 
     @Override

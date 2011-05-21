@@ -12,7 +12,7 @@ package items;
 public class BaseItem{
 
     int count = 1;
-    int max_count = 2;
+    int max_count = 1;
     String type = "undefined";
 
     /*

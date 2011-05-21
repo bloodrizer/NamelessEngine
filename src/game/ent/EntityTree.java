@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import actions.IAction;
 import items.BaseItem;
 import java.util.ArrayList;
 import player.Player;
@@ -46,13 +47,15 @@ public class EntityTree extends Entity {
 
 
     @Override
-    public IEntityAction[] get_action_list(){
+    public ArrayList get_action_list(){
 
         class ActionCutTree extends BaseEntityAction{
 
             @Override
             public void execute() {
                 System.out.println("ActionCutTree");
+
+                System.out.print(owner);
             }
 
         }
