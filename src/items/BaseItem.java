@@ -5,6 +5,8 @@
 
 package items;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Administrator
@@ -20,6 +22,12 @@ public class BaseItem{
      * 
      *
      */
+
+    protected ItemContainer container;
+
+    public void set_container(ItemContainer container){
+        this.container = container;
+    }
 
     public static BaseItem produce(String type, int count){
         BaseItem item = new BaseItem();
@@ -98,6 +106,14 @@ public class BaseItem{
 
     public boolean is_empty() {
         return (count <= 0);
+    }
+
+    public ArrayList get_action_list() {
+        return new ArrayList<BaseItem>(0);
+    }
+
+    public void drop() {
+        container.remove_item(this);
     }
 
 }

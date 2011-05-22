@@ -19,7 +19,7 @@ public class NE_GUI_Sprite extends NE_GUI_Element {
 
     @Override
     public void render(){
-        
+
         Render.bind_texture(sprite_name);
 
         int x = this.get_x();

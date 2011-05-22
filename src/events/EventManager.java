@@ -52,13 +52,15 @@ public class EventManager {
         
         register_event(event);
 
-        synchronized(listeners_sync) {
-            for (Iterator iter = listeners_sync.iterator(); iter.hasNext();) {
+            IEventListener[] __listeners = (IEventListener[]) listeners_sync.toArray(new IEventListener[0] );
+            for(int i=0; i<__listeners.length;i++){
+                __listeners[i].e_on_event(event);
+            }
+            /*for (Iterator iter = listeners_sync.iterator(); iter.hasNext();) {
                IEventListener listener = (IEventListener) iter.next();
 
                listener.e_on_event(event);
-            }
-        }
+            }*/
     }
 
     public static void rollback_event(Event event){

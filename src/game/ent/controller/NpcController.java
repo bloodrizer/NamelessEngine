@@ -31,7 +31,7 @@ public class NpcController extends BaseController implements Mover {
             //owner.move_to(destination);
             follow_path();
         }
-        owner.sleep(50);
+        //owner.sleep(50);
     }
 
     public void set_destination(Point destination){

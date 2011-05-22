@@ -61,6 +61,10 @@ public class NE_GUI_Element {
     public boolean solid = true;
 
     public void render(){
+        render_children();
+    }
+
+    public void render_children(){
         if (children.isEmpty()){
             return;
         }
@@ -75,11 +79,20 @@ public class NE_GUI_Element {
     public boolean dragable = true;
     boolean drag_start = false;
 
+    /*
+     * This method is called by a NE_GUI_System when
+     * InputEvent is generated
+     *
+     * Method should route event through the children tree
+     * until event is not dispatched
+     */
     public void notify_event(Event e){
         //invisible controls do not handle events
         if(!visible){
             return;
         }
+
+        //System.out.println("Sending to children ["+children.size()+"]");
 
         //allow children to catch event and dispatch it,
         //before we handle it in parent control
@@ -89,15 +102,16 @@ public class NE_GUI_Element {
             NE_GUI_Element __elem = (NE_GUI_Element)elem[i];
             __elem.notify_event(e);
         }
-
+        
         //catch mouse click inside of control area
-
+        //System.out.println("Checking if event "+e.toString()+"is EMouseClick ");
         if (e instanceof EMouseClick){
 
             EMouseClick event = (EMouseClick)e;
 
             //this hack allows other controls to lose focus, even if event was dispatched
             if (event.is_dispatched()){
+                //System.out.println("Event is dispatched, lol, loosing focus");
                 e_on_mouse_out_click(event);
                 return;
             }
@@ -107,18 +121,18 @@ public class NE_GUI_Element {
 
             /*
              * now we should translate this coords into
-             * local coord system, sert by our parent control
+             * local coord system, set by our parent control
              */
-            if (parent != null){
-                mx = mx - parent.x;
-                my = my - parent.y;
-            }
+            /*if (parent != null){
+                mx = mx - parent.get_x();
+                my = my - parent.get_y();
+            }*/
+            //System.out.println("Checking if event in aabb");
 
-
-            if( mx > x     &&
-                mx < x+w   &&
-                my > y     &&
-                my < y+h
+            if( mx > get_x()     &&
+                mx < get_x()+w   &&
+                my > get_y()     &&
+                my < get_y()+h
            ){
                 if(!solid){
                     return; //do not check bounding for non-solid controls
@@ -136,7 +150,7 @@ public class NE_GUI_Element {
                 e_on_mouse_out_click(event);
             }
         }
-
+        //System.out.println("No, it's not");
          if (e instanceof EMouseRelease){
              drag_start = false;
          }
@@ -190,5 +204,10 @@ public class NE_GUI_Element {
     private IUserInterface controller;
     public void set_controller(IUserInterface controller){
         this.controller = controller;
+    }
+
+    @Override
+    public String toString(){
+        return "GUIElement[]";
     }
 }

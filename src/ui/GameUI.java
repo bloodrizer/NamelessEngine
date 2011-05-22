@@ -23,6 +23,7 @@ import events.EventManager;
 import events.IEventListener;
 import game.ent.Entity;
 import game.ent.IEntityAction;
+import items.BaseItemAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import ne.Input.MouseInputType;
@@ -109,6 +110,16 @@ public class GameUI implements IUserInterface,  IEventListener {
     }
 
     public void context_popup(EMouseClick event){
+
+        class DropItem extends BaseItemAction{
+
+            @Override
+            public void execute() {
+                System.out.println("ActionCutTree");
+                System.out.print(get_owner());
+            }
+
+        }
 
         Point tile_origin = WorldView.getTileCoord(event.origin);
         WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());

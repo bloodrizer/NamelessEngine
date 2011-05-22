@@ -48,6 +48,8 @@ public class ItemContainer {
         //no similar item found, or every stack is full -  adding new stack
         if(!is_full()){
             items.add(item.getItem());
+            item.set_container(this);   //required to provide contex-popup callback
+
             on_update();
         }
      }
@@ -57,7 +59,9 @@ public class ItemContainer {
      }
 
      public void remove_item(BaseItem item){
-         int count = item.get_count();
+         //int count = item.get_count();
+         items.remove(item);
+         on_update();
      }
 
      public void on_update(){

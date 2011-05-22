@@ -9,7 +9,7 @@ import actions.IAction;
 
 public class BaseItemAction implements IAction<BaseItem>{
     BaseItem owner = null;
-    String name = "undefined";
+    protected String name = "undefined";
 
     public void set_name(String name){
         this.name = name;
