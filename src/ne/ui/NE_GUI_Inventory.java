@@ -130,12 +130,13 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
         inv_layer.dragable = false;
         
         add(inv_layer);
+
     }
 
     ItemContainer container;
     public void set_container(ItemContainer container){
         this.container = container;
-
+        update(container);  //actualy required
     }
 
     //returns item tile x position, based on the size of the frame container

@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import items.BaseItem;
 import render.EntityRenderer;
 import render.NPCRenderer;
 
@@ -15,6 +16,12 @@ import render.NPCRenderer;
  *
  */
 public class EntityPlayer extends Entity{
+
+    public EntityPlayer(){
+        //inventory shit - debug only
+        BaseItem branch = BaseItem.produce("branch", 1);
+        this.container.add_item(branch);
+    }
 
     @Override
      public boolean isPlayerEnt(){

@@ -20,6 +20,7 @@ import world.WorldModel;
 import events.IEventListener;
 import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
+import items.BaseItem;
 import ne.Input;
 import ne.Input.MouseInputType;
 import ne.ui.NE_GUI_System;
