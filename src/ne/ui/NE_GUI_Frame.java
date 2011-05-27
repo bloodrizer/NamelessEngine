@@ -45,7 +45,7 @@ public class NE_GUI_Frame extends NE_GUI_Element{
 
     int t_window_w = 0;
     int t_window_h = 0;
-    int WIN_TILE_SIZE = 32;
+    public static final int WIN_TILE_SIZE = 32;
 
     /*
      *  Set window size in tiles
@@ -75,6 +75,7 @@ public class NE_GUI_Frame extends NE_GUI_Element{
         }
         
         Render.bind_texture("../ui/window_ui_small.png");
+        glColor3f(1.0f, 1.0f, 1.0f);
 
         int tile_id = 0;
 

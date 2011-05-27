@@ -16,6 +16,10 @@ import player.Player;
 public class InventoryOverlay {
         public static void render(){
 
+        if (Player.get_ent() == null){
+            return;
+        }
+
 
         BaseItem[] items = (BaseItem[]) Player.get_ent().container.items.toArray(new BaseItem[0]);
 

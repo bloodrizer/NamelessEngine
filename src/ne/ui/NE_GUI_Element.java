@@ -97,8 +97,11 @@ public class NE_GUI_Element {
         //allow children to catch event and dispatch it,
         //before we handle it in parent control
 
+        //note that we iterate items in the reverse order as larger index meens larger z-order and
+        //therefore larger priority in event dispatching
+
         Object[] elem =  children.toArray();
-        for(int i = 0; i<elem.length; i++){
+        for(int i = elem.length-1; i>=0; i--){
             NE_GUI_Element __elem = (NE_GUI_Element)elem[i];
             __elem.notify_event(e);
         }
