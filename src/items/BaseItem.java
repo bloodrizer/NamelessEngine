@@ -28,12 +28,17 @@ public class BaseItem{
     public void set_container(ItemContainer container){
         this.container = container;
     }
+    //debug only, not safe
+    public ItemContainer get_container(){
+        return container;
+    }
 
     public static BaseItem produce(String type, int count){
         BaseItem item = new BaseItem();
 
         item.set_type(type);
         item.set_count(count);
+        
 
         return item;
     }
@@ -80,6 +85,9 @@ public class BaseItem{
      */
     public BaseItem getItem() {
         BaseItem item = BaseItem.produce(type, count);
+
+        //should be set too to avoid bugs
+        item.set_container(container);
         return item;
     }
 
@@ -113,6 +121,10 @@ public class BaseItem{
     }
 
     public void drop() {
+        if(container==null){
+            System.err.println("Failed to drop item, no container");
+            return;
+        }
         container.remove_item(this);
     }
 

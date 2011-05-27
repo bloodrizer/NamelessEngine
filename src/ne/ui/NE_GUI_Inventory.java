@@ -69,7 +69,9 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
                 @Override
                 public void execute() {
                     System.out.println("Item is dropped");
-                    item.drop();
+                    if(item!=null){
+                        item.drop();
+                    }
                 }
 
             }
@@ -77,11 +79,11 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
             System.out.println("Popup there");
 
             NE_GUI_Popup __popup = new NE_GUI_Popup();
-            //NE_GUI_System ui =  Game.get_game_mode().get_ui().get_nge_ui();
+            NE_GUI_System ui =  Game.get_game_mode().get_ui().get_nge_ui();
 
 
-            //ui.root.add(__popup);
-            add(__popup);
+            ui.root.add(__popup);
+            //add(__popup);
             __popup.x = event.origin.getX();
             __popup.y = event.get_window_y();
 
@@ -160,6 +162,11 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
 
             BaseItem item = (BaseItem)items[i];
 
+            //HACK HACK HACK (hides problem with container assigment)
+            if (item.get_container() == null){
+                item.set_container(container);
+            }
+
             NE_GUI_Inventory_Item item_control = new NE_GUI_Inventory_Item(item);
             inv_layer.add(item_control);
 
@@ -170,6 +177,8 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
 
             item_control.w = 32;
             item_control.h = 32;
+
+            item_control.dragable = false;
         }
     }
 

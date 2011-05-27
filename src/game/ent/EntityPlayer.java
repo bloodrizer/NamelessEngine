@@ -21,6 +21,7 @@ public class EntityPlayer extends Entity{
         //inventory shit - debug only
         BaseItem branch = BaseItem.produce("branch", 1);
         this.container.add_item(branch);
+        System.out.println(branch.get_container());
     }
 
     @Override
