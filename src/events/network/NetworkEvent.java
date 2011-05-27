@@ -6,13 +6,16 @@
 package events.network;
 
 import events.Event;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
 
 /**
  *
  * @author Administrator
  */
 @interface NetID {
-    int id();
+    String id();
 }
 
 
@@ -30,5 +33,13 @@ public class NetworkEvent extends Event {
 
     public void synchronise(){
         synchronised = true;
+    }
+
+    public String get_id(){
+        return "0x0000";
+    }
+
+    public String[] serialize(){
+        return new String[] {get_id()};
     }
 }

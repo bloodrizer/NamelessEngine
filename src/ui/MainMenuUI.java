@@ -10,13 +10,15 @@ import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 /*import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.controls.textfield.controller.TextField;
-import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;*/import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;*/
+import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.controls.chatcontrol.builder.ChatBuilder;
 
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import events.EMouseClick;
+import events.network.ESelectCharacter;
 import ne.Game;
 import ne.Game.GameModes;
 import ne.Main;
@@ -119,12 +121,17 @@ public class MainMenuUI implements IUserInterface {
                 //Main.game.run();
                 Io.connect();
 
-                boolean login_result = Io.login(login_input.text, pass_input.text);
-                if(login_result){
-                    Main.game.set_state(Game.GameModes.InGame);
+                Io.login(login_input.text, pass_input.text);
+                /*if(login_result){
+                    //Main.game.set_state(Game.GameModes.InGame);
+
+                    System.out.println("Loged in successfuly!");
+
+                    ESelectCharacter event = new ESelectCharacter();
+                    event.post();
                 }else{
                     show_message("Failed to log in");
-                }
+                }*/
             }
         };
 

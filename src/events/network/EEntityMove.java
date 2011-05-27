@@ -15,7 +15,7 @@ import world.WorldTile;
  *
  * @author Administrator
  */
-@NetID(id=1)
+@NetID(id="")
 public class EEntityMove extends NetworkEvent {
     private Point from = new Point();
     private Point to   = new Point();

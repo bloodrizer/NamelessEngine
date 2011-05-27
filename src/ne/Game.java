@@ -14,6 +14,7 @@ import game.modes.ModeMainMenu;
 import java.awt.Canvas;
 import java.util.Collections;
 import java.util.EnumMap;
+import ne.io.Io;
 
 import org.lwjgl.opengl.GL11;
 import render.WindowRender;
@@ -79,6 +80,8 @@ public class Game {
 
     public void run(){
         IGameMode mode = null;
+
+        Io.init();  //init io layer
 
         try {
             WindowRender.create();

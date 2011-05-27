@@ -6,8 +6,11 @@
 package ne.io;
 
 import events.Event;
+import events.EventManager;
 import events.IEventListener;
 import events.network.EPlayerLogon;
+import events.network.ESelectCharacter;
+import events.network.NetworkEvent;
 
 import java.io.*;
 import java.net.*;
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ne.Game;
+import ne.Main;
 import org.lwjgl.util.Point;
 
 /**
@@ -24,143 +29,125 @@ import org.lwjgl.util.Point;
 
 public class Io implements IEventListener {
 
-    private static Socket tcp_sock = null;
+    static Io INSTANCE;
+    static IoLayer charserv_io;
+    static IoLayer gameserv_io;
 
-    static PrintWriter out = null;
-    static BufferedReader in = null;
+    public static void init(){
+        INSTANCE = new Io();
+    }
+
+    public static void update() {
+        if(charserv_io!=null){
+            //System.out.println("updating char serv layer");
+            charserv_io.update();   //update network data
+        }
+        if(gameserv_io!=null){
+            //System.out.println("updating game serv layer");
+            gameserv_io.update();
+        }
+    }
 
     public Io(){
-        
+        EventManager.subscribe(this);
     }
-
-    static Collection<String[]> packets = new ArrayList<String[]>(100);
-
-    private static class Receiver implements Runnable{
-        /**
-         * run() вызовется после запуска нити из конструктора клиента чата.
-         */
-        public void run() {
-            while (!tcp_sock.isClosed()) {
-                String line = null;
-                try {
-
-                    line = in.readLine();
-                    //parse_network_data(line.split(" "));
-                    packets.add(line.split(" "));
-
-                } catch (IOException e) {
-                    if ("Socket closed".equals(e.getMessage())) {
-                        break;
-                    }
-                    System.out.println("Connection lost");
-                    close();
-                }
-                if (line == null) {
-                    System.out.println("Server has closed connection");
-                    close(); // ...закрываемся
-                } else {
-                    System.out.println("Server:" + line);
-                }
-            }
-        }
-    }
-
-    //method is synchronised to prevent double closing
-    public static synchronized void close() {
-        if (!tcp_sock.isClosed()) {
-            try {
-                tcp_sock.close();
-                System.exit(0);
-            } catch (IOException ignored) {
-                ignored.printStackTrace();
-            }
-        }
-    }
-
-    static Thread recv_thread;
+    
 
     public static void connect(){
-        try {
-            tcp_sock = new Socket("admin.edi.inteliec.eu", 8022);
-
-            out = new PrintWriter(tcp_sock.getOutputStream(), true);
-            in =  new BufferedReader(new InputStreamReader(
-                                        tcp_sock.getInputStream()));
-        }
-        catch(Exception e){
-            e.printStackTrace();
+        if(charserv_io!=null){
+            return;
         }
 
-        recv_thread = new Thread(new Receiver());
-        recv_thread.start();
+        System.out.println("starting charserv io");
 
-        System.out.println("Connected successfuly!");
+        charserv_io = new IoLayer("admin.edi.inteliec.eu", 8022){
+
+           @Override
+           protected void parse_network_data(String[] data){
+ 
+                if (data[0].equals("0x0027") && data.length == 5){
+
+                    Main.game.set_state(Game.GameModes.InGame);
+                    
+                    /*
+                     *  Our connection is accepted by char server,
+                     *  start game and connect to game server
+                     */
+
+                    gameserv_io = new IoLayer(
+                            data[3],
+                            Integer.parseInt(data[4])
+                    ){
+                        @Override
+                        protected void parse_network_data(String[] data){
+
+                            if (data[0].equals("0x0100") && data.length == 3){      //spawn player
+
+                                System.out.println("spawning player");
+
+                                EPlayerLogon event = new EPlayerLogon(new Point(
+                                        Integer.parseInt( data[1] ),
+                                        Integer.parseInt( data[2] )
+                                ));
+                                event.post();
+                            }
+                        }
+                    };
+
+                    gameserv_io.sock_send("0x0050 123");
+                }
+                if (data[0].equals("0x0012")){      //player loged in
+                    ESelectCharacter event = new ESelectCharacter();
+                    event.post();
+                }
+
+            }
+        };
         //TODO: GUI EVENT THERE
+        //System.out.println("Connected successfuly!");
+
     }
 
     public static boolean login(String login, String pass){
-        sock_send("0x0000 "+login+" "+pass);
+        
+        System.out.println("Loging in");
+        charserv_io.sock_send("0x0010 "+login+" "+pass);
+
+        /*sock_send("0x0010 "+login+" "+pass);
         //System.out.println(sock_recv());
 
         String[] reply = sock_recv();
-        if (reply.length < 3){
+        if (reply.length < 2){
             System.out.println("Malformed server reply:"+reply);
             return false;   //malformed request
         }
 
-        if (reply[2].equals("0x00")){
+        if (reply[1].equals("0x00")){
+            //hacky shit there
+            recv_thread.start();
+            //now we recieved socket data and can start background thread
             return true;
         }else{
             System.out.println("Unexpected result:"+reply);
             return false;
-        }
+        }*/
+        return false;
     }
 
 
-    public static void update(){
-        Object[] packets_arr =  packets.toArray();
-        for(int i = 0; i<packets_arr.length; i++){
-            String[] data = (String[])packets_arr[i];
-            parse_network_data(data);
-        }
 
-        packets.clear();    //must be cleared, or VERY FUNNY effect occurs
-    }
 
-    private static String[] sock_recv(){
-        try {
-            return in.readLine().split(" ");
-        } catch (IOException ex) {
-            Logger.getLogger(Io.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-    private static void sock_send(String msg){
-        out.println(msg);
-    }
-
-    private void send_network_event(Event event){
-        //System.event
-    }
-
-    private static void parse_network_data(String[] data){
-        if (data[0].equals("0x0100") && data.length == 3){      //spawn player
-            //System.out.println("Player @"+data[1]+";"+data[2]);
-            //debug only
-            EPlayerLogon event = new EPlayerLogon(new Point(
-                    Integer.parseInt( data[1] ),
-                    Integer.parseInt( data[2] )
-            ));
-            event.post();
-        }
-    }
 
 
     //--------------------------------------------------------------------------
 
 
     public void e_on_event(Event event){
+        /*if(!event.is_local()){
+            NetworkEvent net_event = (NetworkEvent)event;
 
+            send_network_event(net_event);
+        }*/
     }
     
     public void e_on_event_rollback(Event event){

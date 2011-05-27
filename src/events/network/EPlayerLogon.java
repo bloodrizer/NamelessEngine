@@ -12,7 +12,7 @@ import org.lwjgl.util.Point;
  *
  * @author Administrator
  */
-@NetID(id=2)
+@NetID(id="0x0000")
 public class EPlayerLogon extends NetworkEvent{
     public Point origin = null;
     public EPlayerLogon(Point origin){

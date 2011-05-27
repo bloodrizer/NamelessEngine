@@ -48,6 +48,10 @@ public class WorldViewCamera {
         if (follow_target){
                 //todo: move to math
 
+                if(target == null || Player.get_ent()==null){
+                    return;
+                }
+
                 //TODO: FIXME! HERE IS AN UGLY HACK!
                
 

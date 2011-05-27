@@ -7,6 +7,7 @@ package game.modes;
 
 import events.EventManager;
 import ne.Input;
+import ne.io.Io;
 import ne.ui.NE_GUI_System;
 import render.overlay.OverlaySystem;
 import ui.IUserInterface;
@@ -26,6 +27,8 @@ public class ModeMainMenu implements IGameMode {
     }
 
     public void update(){
+        Io.update();
+
         Input.update();
         EventManager.update();
         
