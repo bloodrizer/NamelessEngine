@@ -23,6 +23,7 @@ import game.ent.controller.NpcController;
 import items.BaseItem;
 import ne.Input;
 import ne.Input.MouseInputType;
+import ne.io.Io;
 import ne.ui.NE_GUI_System;
 import org.lwjgl.opengl.GL11;
 import render.overlay.OverlaySystem;
@@ -65,9 +66,7 @@ public class ModeInGame implements IGameMode, IEventListener {
         //synchronize with server
         //init world
 
-        //debug only
-        EPlayerLogon event = new EPlayerLogon(new Point(5,5));
-        event.post();
+        
     }
 
     void spawn_player(Point location){
@@ -86,6 +85,9 @@ public class ModeInGame implements IGameMode, IEventListener {
 
 
     public void update(){
+
+        Io.update();
+
         Input.update();
         EventManager.update();
         model.update();

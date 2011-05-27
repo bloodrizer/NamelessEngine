@@ -8,6 +8,7 @@ package player;
 import game.ent.Entity;
 import game.ent.controller.NpcController;
 import org.lwjgl.util.Point;
+import ui.GameUI;
 
 /**
  *
@@ -18,6 +19,8 @@ public class Player {
     static Entity player_ent = null;
     public static void set_ent(Entity ent){
         player_ent = ent;
+
+        GameUI.inventory.set_container(player_ent.container);
     }
 
     public static void move(Point dest){

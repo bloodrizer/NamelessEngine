@@ -50,7 +50,7 @@ public class GameUI implements IUserInterface,  IEventListener {
         
     }
 
-    NE_GUI_Inventory inventory;
+    public static NE_GUI_Inventory inventory;
 
 
     public void build_ui(){
@@ -61,7 +61,6 @@ public class GameUI implements IUserInterface,  IEventListener {
 
         inventory = new NE_GUI_Inventory();
         ui.root.add(inventory);
-        inventory.set_container(Player.get_ent().container);
 
     }
     //public UIItemContainer inventory;   //test shit
