@@ -14,7 +14,8 @@ import events.network.EEntityMove;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityPlayer;
-import game.ent.EntityTree;
+import game.ent.EntityStone;
+import game.ent.enviroment.EntityTree;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -177,6 +178,14 @@ public class WorldModel implements IEventListener {
                 if (Terrain.is_lake(tile)){
                     tile.set_tile_id(1);
                     tile.terrain_type = TerrainType.TERRAIN_WATER;
+                }
+
+                if (Math.random()*100<0.25f){
+                    EntityStone stone_ent = new EntityStone();
+                    EntityManager.add(stone_ent);
+                    stone_ent.spawn(1, new Point(i,j));
+
+                    stone_ent.set_blocking(true);
                 }
 
                 

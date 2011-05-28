@@ -96,6 +96,8 @@ public class Game {
                 Display.update();
             }
 
+            running = false;    //requered to stop other threads, if closed
+
             System.out.println("Game stopped, destroying lwjgl render...");
             
             //gui.destroy();

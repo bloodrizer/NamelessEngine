@@ -3,9 +3,12 @@
  * and open the template in the editor.
  */
 
-package game.ent;
+package game.ent.enviroment;
 
 import actions.IAction;
+import game.ent.BaseEntityAction;
+import game.ent.EntActionList;
+import game.ent.Entity;
 import items.BaseItem;
 import java.util.ArrayList;
 import player.Player;

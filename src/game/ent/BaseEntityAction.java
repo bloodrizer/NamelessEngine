@@ -13,8 +13,8 @@ import actions.IAction;
 */
 
 public class BaseEntityAction implements IAction<Entity>{
-    Entity owner = null;
-    String name = "undefined";
+    protected Entity owner = null;
+    protected String name = "undefined";
 
     public void set_name(String name){
         this.name = name;
