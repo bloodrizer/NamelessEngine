@@ -29,10 +29,12 @@ import java.util.Iterator;
 import ne.Input.MouseInputType;
 import ne.ui.NE_GUI_Inventory;
 import ne.ui.NE_GUI_Popup;
+import ne.ui.NE_GUI_QuickslotBar;
 import ne.ui.NE_GUI_System;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Point;
 import player.Player;
+import render.WindowRender;
 import world.WorldModel;
 import world.WorldTile;
 import world.WorldView;
@@ -44,41 +46,42 @@ import world.WorldView;
  */
 public class GameUI implements IUserInterface,  IEventListener {
     private static Screen screen = null;
-
-    public GameUI(){
-        //NOTE: using constructor of UI is deprecated. Use build_ui instead
-        
-    }
-
+    public static Element popup;
     public static NE_GUI_Inventory inventory;
 
 
+    public GameUI(){
+        //NOTE: using constructor of UI is deprecated. Use build_ui instead
+    }
+
+/*
+ *
+ * Create all game controls - menus, inventory, slots, etc.
+ *
+ */
     public void build_ui(){
         EventManager.subscribe(this);
         ui = new NE_GUI_System();
 
 
+        
+       
+        NE_GUI_QuickslotBar quickslots = new NE_GUI_QuickslotBar();
+        ui.root.add(quickslots);
+
+        quickslots.x = WindowRender.get_window_w() / 2  - quickslots.w /2;
+        quickslots.y = WindowRender.get_window_h() - quickslots.h - 10;
+        
+        /*
+         * Inventory goes after quickslots, as items of inventory should have higher 
+         * z-axis index
+         * Otherwise quickslot drag-n-drop would look lame
+         */
 
         inventory = new NE_GUI_Inventory();
         ui.root.add(inventory);
 
-    }
-    //public UIItemContainer inventory;   //test shit
-    //--------------------------------------------------------------------------
 
-    public void bind(Nifty nifty, Screen screen) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-        this.screen = screen;
-
-    }
-
-   
-    public static Element popup;
-
-    public class GameUIItem {
-        public GameUIItem(String name){
-            
-        }
     }
 
     public void e_on_event(Event event) {

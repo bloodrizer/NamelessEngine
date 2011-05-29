@@ -18,6 +18,7 @@ import java.util.Collections;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.Point;
+import render.WindowRender;
 
 public class Input {
 
@@ -36,6 +37,17 @@ public class Input {
     private static java.util.Map<Integer,Boolean> key_states
             = Collections.synchronizedMap(new java.util.HashMap<Integer,Boolean>(100));
     
+
+    public static int get_mx(){
+        return Mouse.getX();
+    }
+
+    /*
+     * Return mouse Y coord in *INVERTED* screen coord system (0 at top, H at bottom)
+     */
+    public static int get_my(){
+        return WindowRender.get_window_h()-Mouse.getY();
+    }
 
     public static void update(){
 

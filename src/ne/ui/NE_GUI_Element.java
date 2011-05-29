@@ -5,6 +5,7 @@
 
 package ne.ui;
 
+import events.EGUIDrop;
 import events.EKeyPress;
 import events.EMouseClick;
 import events.EMouseDrag;
@@ -12,6 +13,8 @@ import events.EMouseRelease;
 import events.Event;
 import java.util.ArrayList;
 import java.util.Collection;
+import ne.Input;
+import org.lwjgl.util.Point;
 import render.WindowRender;
 import ui.IUserInterface;
 
@@ -132,11 +135,7 @@ public class NE_GUI_Element {
             }*/
             //System.out.println("Checking if event in aabb");
 
-            if( mx > get_x()     &&
-                mx < get_x()+w   &&
-                my > get_y()     &&
-                my < get_y()+h
-           ){
+            if( is_client_rect(mx,my)){
                 if(!solid){
                     return; //do not check bounding for non-solid controls
                 }
@@ -155,6 +154,9 @@ public class NE_GUI_Element {
         }
         //System.out.println("No, it's not");
          if (e instanceof EMouseRelease){
+             if (drag_start){   //this meens, object was in drag state, so we should trigger drop event
+                drop();
+             }
              drag_start = false;
          }
 
@@ -169,6 +171,14 @@ public class NE_GUI_Element {
 
         }
 
+        if (e instanceof EGUIDrop){
+            EGUIDrop event = (EGUIDrop)e;
+
+            if (is_client_rect(event.coord.getX(), event.coord.getY())){
+                e_on_grab(event);
+            }
+        }
+
         if (e instanceof EKeyPress){
             EKeyPress event = (EKeyPress)e;
 
@@ -176,13 +186,36 @@ public class NE_GUI_Element {
         }
     }
 
+    private boolean is_client_rect(int mx, int my){
+        return  mx > get_x()     &&
+                mx < get_x()+w   &&
+                my > get_y()     &&
+                my < get_y()+h;
+    }
+
     public void drag(int dx, int dy){
         x = x + dx;
         y = y - dy;
     }
 
+    public void drop(){
+        e_on_drop();
+
+
+        EGUIDrop drop_event = new EGUIDrop(new Point(Input.get_mx(),Input.get_my()), this);
+        drop_event.post();
+    }
+
     public void e_on_mouse_click(EMouseClick e){
-        System.out.println("NE_GUI_Element::click");
+        System.out.println(this+"::click");
+    }
+
+    public void e_on_drop(){
+        //override me!
+    }
+
+    public void e_on_grab(EGUIDrop event){
+        //override me!
     }
 
     public void e_on_mouse_out_click(EMouseClick e){

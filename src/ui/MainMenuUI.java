@@ -72,6 +72,7 @@ public class MainMenuUI implements IUserInterface {
         label1.y = frame.h/2-7;
         
     }
+    
 
     public void build_ui() {
 

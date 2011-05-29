@@ -53,6 +53,8 @@ public class IoLayer implements IEventListener{
         recv_thread = new Thread(new Receiver());
 
         //System.out.println("Starting listening thread");
+        
+        recv_thread.setDaemon(true);
         recv_thread.start();
 
         System.out.println("Successfuly created io layer '"+host+"':"+port);
