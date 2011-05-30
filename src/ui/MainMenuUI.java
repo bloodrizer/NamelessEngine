@@ -24,6 +24,7 @@ import ne.Game.GameModes;
 import ne.Main;
 import ne.io.Io;
 import ne.ui.NE_GUI_Button;
+import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Frame;
 import ne.ui.NE_GUI_Input;
 import ne.ui.NE_GUI_Label;
@@ -117,22 +118,8 @@ public class MainMenuUI implements IUserInterface {
         NE_GUI_Button button = new NE_GUI_Button() {
             @Override
             public void e_on_mouse_click(EMouseClick e){
-                //NE_GUI_System.root.clear();
-                //Main.game.set_state(Game.GameModes.InGame);
-                //Main.game.run();
                 Io.connect();
-
                 Io.login(login_input.text, pass_input.text);
-                /*if(login_result){
-                    //Main.game.set_state(Game.GameModes.InGame);
-
-                    System.out.println("Loged in successfuly!");
-
-                    ESelectCharacter event = new ESelectCharacter();
-                    event.post();
-                }else{
-                    show_message("Failed to log in");
-                }*/
             }
         };
 
@@ -143,6 +130,13 @@ public class MainMenuUI implements IUserInterface {
         button.x = 140;
         button.y = 120;
         button.set_tw(3);
+
+        //-------------------------------------
+        //debug shit
+
+        NE_GUI_Craft craft = new NE_GUI_Craft();
+        ui.root.add(craft);
+
 
         
     }

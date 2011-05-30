@@ -21,6 +21,12 @@ public class NE_GUI_QuickslotBar extends NE_GUI_Element {
 
     public static final int SLOT_COUNT = 10;
     public static int active_slot = 0;
+
+    /*
+     * This gui element represents single slot in a quickslot bar
+     *
+     * TODO: change it to the container with drag-n-drop support
+     */
     
     public class NE_GUI_Quickslot extends NE_GUI_Sprite {
 
