@@ -15,7 +15,7 @@ import render.NPCRenderer;
  *  TODO: make EntityPlayer extanding NPC_Entity
  *
  */
-public class EntityPlayer extends Entity{
+public class EntityPlayer extends EntityNPC {
 
     public EntityPlayer(){
         //inventory shit - debug only
