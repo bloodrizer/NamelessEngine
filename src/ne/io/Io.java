@@ -114,8 +114,8 @@ public class Io implements IEventListener {
                                 Entity ent = EntityManager.get_entity(Integer.parseInt( data[1]));
                                 if (ent!=null){
                                     ent.move_to(new Point(
-                                            Integer.parseInt( data[2] ),
-                                            Integer.parseInt( data[3] )
+                                            Integer.parseInt( data[3] ),
+                                            Integer.parseInt( data[4] )
                                     ));
                                 }else{
                                     System.err.println("EntityMove::invalid id");
