@@ -5,6 +5,9 @@
 
 package game.ent;
 
+import render.EntityRenderer;
+import render.NPCRenderer;
+
 /**
  *  This is generic class for every NPC,
  *  mostly players
@@ -13,4 +16,20 @@ package game.ent;
 public class EntityNPC extends EntityActor {
     //name to show above
     public String name = "undefined";
+
+     @Override
+     public EntityRenderer build_render(){
+        NPCRenderer __render = new NPCRenderer();
+        __render.set_texture("player_hd.png");
+
+        __render.set_animation_length(7);
+
+
+        /*__render.get_tileset().sprite_w = 64;
+        __render.get_tileset().sprite_h = 109;*/
+        __render.get_tileset().sprite_w = 46;
+        __render.get_tileset().sprite_h = 78;
+
+        return __render;
+    }
 }

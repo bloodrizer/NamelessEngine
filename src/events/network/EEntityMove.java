@@ -8,6 +8,7 @@ package events.network;
 import events.Event;
 import game.ent.Entity;
 import org.lwjgl.util.Point;
+import player.Player;
 import world.WorldModel;
 import world.WorldTile;
 
@@ -53,5 +54,23 @@ public class EEntityMove extends NetworkEvent {
     @Override
     public String toString(){
         return toString(this);
+    }
+
+    @Override
+    public String get_id(){
+        if (this.entity == Player.get_ent()){
+            return "0x0260";
+        }
+        return "0x0280";
+        
+    }
+
+    @Override
+    public String[] serialize(){
+        return new String[] {
+            get_id(),
+            Integer.toString(this.entity.origin.getX()),
+            Integer.toString(this.entity.origin.getY()),
+        };
     }
 }

@@ -59,6 +59,10 @@ public class Entity {
     }
     public Orientation orientation = Orientation.ORIENT_N;
 
+    public int get_uid(){
+        return this.uid;
+    }
+
     //--------------------------------------------------------------------------
     public void spawn(int uid, Point origin){
         this.uid = uid;

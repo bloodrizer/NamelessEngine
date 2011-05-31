@@ -105,7 +105,7 @@ public class NPCRenderer extends EntityRenderer{
             OverlaySystem.ttf.drawString(
                     ent_screen_x,
                     ent_screen_y+5,
-                npc_ent.name,
+                npc_ent.name + " #"+npc_ent.get_uid(),
             Color.white);
 
         }

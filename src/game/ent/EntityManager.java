@@ -26,8 +26,18 @@ public class EntityManager {
         ent_list_sync.remove(ent);
     }
 
-    public Entity[] get_entities(){
-        return (Entity[]) ent_list_sync.toArray();
+    public static Entity[] get_entities(){
+        return (Entity[]) ent_list_sync.toArray(new Entity[0]);
+    }
+
+    public static Entity get_entity(int entity_id){
+        Entity[] list = get_entities();
+        for(int i = 0; i< list.length; i++){
+            if (list[i].get_uid() == entity_id){
+                return list[i];
+            }
+        }
+        return null;
     }
 
 }

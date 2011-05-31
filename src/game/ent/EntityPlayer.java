@@ -12,6 +12,8 @@ import render.NPCRenderer;
 /**
  *  Entity, representing player on a game map
  *
+ * Note that due to the buggy player ent checking, this class
+ * must be used *ONLY!!!!* for main player instancing
  *  TODO: make EntityPlayer extanding NPC_Entity
  *
  */

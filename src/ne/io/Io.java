@@ -5,12 +5,17 @@
 
 package ne.io;
 
+import events.EEntitySpawn;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.EPlayerLogon;
 import events.network.ESelectCharacter;
 import events.network.NetworkEvent;
+import game.ent.Entity;
+import game.ent.EntityManager;
+import game.ent.EntityNPC;
+import game.ent.EntityPlayer;
 
 import java.io.*;
 import java.net.*;
@@ -21,6 +26,7 @@ import java.util.logging.Logger;
 import ne.Game;
 import ne.Main;
 import org.lwjgl.util.Point;
+import player.Player;
 
 /**
  *
@@ -68,6 +74,8 @@ public class Io implements IEventListener {
                 if (data[0].equals("0x0027") && data.length == 5){
 
                     Main.game.set_state(Game.GameModes.InGame);
+
+                    Player.character_id = Integer.parseInt(data[2]);
                     
                     /*
                      *  Our connection is accepted by char server,
@@ -91,10 +99,34 @@ public class Io implements IEventListener {
                                 ));
                                 event.post();
                             }
+
+                            if (data[0].equals("0x0200")){  //EntSpawn
+                                //4 123 0 3 9
+                                Entity player_ent = new EntityNPC();
+                                EntityManager.add(player_ent);
+                                player_ent.spawn(Integer.parseInt( data[2] )    //uid
+                                        , new Point(
+                                      Integer.parseInt( data[4] ),
+                                      Integer.parseInt( data[5] )
+                                ));
+                            }
+                            if (data[0].equals("0x0280")){  //ENTMove
+                                Entity ent = EntityManager.get_entity(Integer.parseInt( data[1]));
+                                if (ent!=null){
+                                    ent.move_to(new Point(
+                                            Integer.parseInt( data[2] ),
+                                            Integer.parseInt( data[3] )
+                                    ));
+                                }else{
+                                    System.err.println("EntityMove::invalid id");
+                                }
+                            }
                         }
                     };
 
-                    gameserv_io.sock_send("0x0050 123");
+
+
+                    gameserv_io.sock_send("0x0050 "+Player.character_id);
                 }
                 if (data[0].equals("0x0012")){      //player loged in
                     ESelectCharacter event = new ESelectCharacter();

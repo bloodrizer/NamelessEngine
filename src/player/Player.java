@@ -17,6 +17,7 @@ import ui.GameUI;
 public class Player {
 
     static Entity player_ent = null;
+    public static int character_id;
     public static void set_ent(Entity ent){
         player_ent = ent;
 
