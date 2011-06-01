@@ -69,8 +69,8 @@ public class EEntityMove extends NetworkEvent {
     public String[] serialize(){
         return new String[] {
             get_id(),
-            Integer.toString(this.entity.origin.getX()),
-            Integer.toString(this.entity.origin.getY()),
+            Integer.toString(this.to.getX()),
+            Integer.toString(this.to.getY())
         };
     }
 }
