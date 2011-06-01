@@ -5,6 +5,7 @@
 
 package game.craft;
 
+import items.BaseItem;
 import java.util.Collections;
 
 /**
@@ -16,5 +17,11 @@ public class CraftGroup {
 
         public void add_recipe(CraftRecipe[] items, String result){
             recipes.put(items, result);
+        }
+
+        public CraftRecipe[] get_aviable_recipes(BaseItem[] items){
+
+
+            return null;
         }
 }

@@ -108,6 +108,13 @@ public class Io implements IEventListener {
                                       Integer.parseInt( data[5] )
                                 ));
                             }
+                            if (data[0].equals("0x0201")){  //EntRemove
+                                Entity ent = EntityManager.get_entity(
+                                        Integer.parseInt( data[1] )
+                                );
+                                EntityManager.remove_entity(ent);
+
+                            }
                             if (data[0].equals("0x0280")){  //ENTMove
                                 Entity ent = EntityManager.get_entity(Integer.parseInt( data[1]));
                                 if (ent!=null){
