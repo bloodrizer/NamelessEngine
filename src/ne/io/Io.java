@@ -45,11 +45,9 @@ public class Io implements IEventListener {
 
     public static void update() {
         if(charserv_io!=null){
-            //System.out.println("updating char serv layer");
             charserv_io.update();   //update network data
         }
         if(gameserv_io!=null){
-            //System.out.println("updating game serv layer");
             gameserv_io.update();
         }
     }
