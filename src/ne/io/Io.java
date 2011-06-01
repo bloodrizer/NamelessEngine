@@ -145,41 +145,13 @@ public class Io implements IEventListener {
         System.out.println("Loging in");
         charserv_io.sock_send("0x0010 "+login+" "+pass);
 
-        /*sock_send("0x0010 "+login+" "+pass);
-        //System.out.println(sock_recv());
-
-        String[] reply = sock_recv();
-        if (reply.length < 2){
-            System.out.println("Malformed server reply:"+reply);
-            return false;   //malformed request
-        }
-
-        if (reply[1].equals("0x00")){
-            //hacky shit there
-            recv_thread.start();
-            //now we recieved socket data and can start background thread
-            return true;
-        }else{
-            System.out.println("Unexpected result:"+reply);
-            return false;
-        }*/
         return false;
     }
 
-
-
-
-
-
     //--------------------------------------------------------------------------
 
-
     public void e_on_event(Event event){
-        /*if(!event.is_local()){
-            NetworkEvent net_event = (NetworkEvent)event;
 
-            send_network_event(net_event);
-        }*/
     }
     
     public void e_on_event_rollback(Event event){

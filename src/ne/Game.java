@@ -5,6 +5,7 @@
 
 package ne;
 
+import events.network.EPlayerLogout;
 import game.modes.IGameMode;
 import game.modes.ModeInGame;
 
@@ -17,6 +18,7 @@ import java.util.EnumMap;
 import ne.io.Io;
 
 import org.lwjgl.opengl.GL11;
+import player.Player;
 import render.WindowRender;
 import ui.IUserInterface;
 
@@ -86,17 +88,28 @@ public class Game {
         try {
             WindowRender.create();
 
-            while(!Display.isCloseRequested() && running) {
+            while(running) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
                 mode = Game.get_game_mode();
-                mode.update();
+
+                
+
+
+               mode.update();
              
-                Display.sync(60);
-                Display.update();
+               Display.sync(60);
+               Display.update();
+
+               if (Display.isCloseRequested()){  
+                    if (Player.get_ent() != null){
+                        EPlayerLogout event = new EPlayerLogout();
+                        event.post();
+                    }
+                    running = false;
+               }
             }
 
-            running = false;    //requered to stop other threads, if closed
+            
 
             System.out.println("Game stopped, destroying lwjgl render...");
             
