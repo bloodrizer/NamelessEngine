@@ -116,6 +116,9 @@ public class WorldModel implements IEventListener {
             if (entity.is_awake(Timer.get_time())){
                   entity.think();
             }
+            if (entity.is_next_frame(Timer.get_time())){
+                  entity.next_frame();
+            }
         }
     }
 

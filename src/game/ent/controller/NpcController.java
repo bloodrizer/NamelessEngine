@@ -9,6 +9,7 @@ import game.ent.Entity.Orientation;
 import ne.Game;
 import org.lwjgl.util.Point;
 import render.NPCRenderer;
+import world.Timer;
 import world.WorldModel;
 import world.util.astar.AStarPathFinder;
 import world.util.astar.Mover;
@@ -22,7 +23,7 @@ import world.util.astar.PathFinder;
  */
 public class NpcController extends BaseController implements Mover {
 
-    private Point destination = null;
+    public Point destination = null;
     
     public Path path = null;
     public Step step = null;
@@ -30,16 +31,22 @@ public class NpcController extends BaseController implements Mover {
     @Override
     public void think() {
         if (destination != null){
-            //blah
-            //owner.move_to(destination);
+
+            owner.set_next_frame(100);
+
             follow_path();
+            return;
         }
-        //owner.sleep(50);
+
+        owner.set_next_frame(200000);
     }
 
     public void set_destination(Point destination){
 
+        owner.next_frame = Timer.get_time();
+
         this.destination = destination;
+        
         //path.calculate(destination)
         calculate_path(
                 destination.getX(),
@@ -90,13 +97,11 @@ public class NpcController extends BaseController implements Mover {
             return;
         }
 
-        ((NPCRenderer) owner.get_render()).next_frame();
-
         //owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
 
         //displacement = 1.0f / (owner.get_renderer().ANIMATION_LENGTH-2)   //1 start frame + 1 end frame + iterated animation
-        float dx = (float)(x-owner.origin.getX())*0.2f;
-        float dy = (float)(y-owner.origin.getY())*0.2f;
+        float dx = (float)(x-owner.origin.getX())*0.1f;
+        float dy = (float)(y-owner.origin.getY())*0.1f;
 
         owner.dx += dx;
         owner.dy += dy;
@@ -156,6 +161,7 @@ public class NpcController extends BaseController implements Mover {
             this.destination = null;    //clean up destination
             step = null;                //this is required too
             path = null;
+            ((NPCRenderer)owner.get_render()).set_frame(0);
         }
     }
 }

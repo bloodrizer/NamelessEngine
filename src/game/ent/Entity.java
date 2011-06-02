@@ -51,6 +51,8 @@ public class Entity {
         this.blocking = blocking;
     }
 
+    
+
     public enum Orientation {
         ORIENT_N,
         ORIENT_W,
@@ -100,6 +102,31 @@ public class Entity {
         //sleep(50);
     }
 
+    public long frame_time_ms = 0;
+    public long next_frame;
+
+    public boolean is_next_frame(long current_time_ms){
+        if (current_time_ms > next_frame){
+            next_frame = current_time_ms;
+            return true;
+        }
+        return false;
+    }
+        
+    public void next_frame(){
+        next_frame = next_frame+frame_time_ms;
+
+        EntityRenderer renderer = get_render();
+        if (renderer!=null){
+            renderer.next_frame();
+        }
+    }
+
+    public void set_next_frame(long frame_time_ms) {
+        this.frame_time_ms = frame_time_ms;
+        
+    }
+
     public void set_controller(IEntityController controller){
         this.controller = controller;
         controller.attach(this);
@@ -127,6 +154,7 @@ public class Entity {
         }
         return false;
     }
+   
 
     public static String toString(Entity ent){
         return "[uid:'"+ent.uid+"' @("+

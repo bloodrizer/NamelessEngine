@@ -20,4 +20,8 @@ public class EntityRenderer {
     public void render(){
         //do nothing
     }
+
+    public void next_frame(){
+        
+    }
 }

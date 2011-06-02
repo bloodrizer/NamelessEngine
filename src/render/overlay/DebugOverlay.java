@@ -31,16 +31,21 @@ public class DebugOverlay {
         if (Player.get_ent() != null){
             NpcController npc_controller = (NpcController)Player.get_ent().controller;
 
-            OverlaySystem.ttf.drawString(10, 25, "Player path:" +
+            OverlaySystem.ttf.drawString(10, 25, "Player dest:" + npc_controller.destination + " path:" +
                    npc_controller.path + ";" +
                    " Step:" + npc_controller.step
+            , Color.white);
+            
+            OverlaySystem.ttf.drawString(10, 45, "ft: "
+                    + ""+ Player.get_ent().frame_time_ms +
+                    " ;nft:"+(Player.get_ent().next_frame-Timer.get_time())
             , Color.white);
         }
         //-----------------------------------
 
-        OverlaySystem.ttf.drawString(10, 50, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
+        OverlaySystem.ttf.drawString(10, 70, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
 
-        OverlaySystem.ttf.drawString(10, 70, "Camera @: " +
+        OverlaySystem.ttf.drawString(10, 90, "Camera @: " +
                 Integer.toString( (int)WorldViewCamera.camera_x )+
                 "," + 
                 Integer.toString( (int)WorldViewCamera.camera_y ) +
