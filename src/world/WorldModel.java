@@ -362,8 +362,8 @@ public class WorldModel implements IEventListener {
             //TODO: calculate different terrain types there
         }
 
-        Point origin = new Point(0,0);
-        public Point world2local(Point world){
+        static Point origin = new Point(0,0);
+        public synchronized Point world2local(Point world){
             origin.setLocation(
                     WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE,
                     WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE);
@@ -375,11 +375,11 @@ public class WorldModel implements IEventListener {
             return world;
         }
 
-        public Point local2world(Point world){
+        public synchronized Point local2world(Point world){
             origin.setLocation(
                     WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE,
                     WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE);
-            
+
             world.setLocation(
                     world.getX()+origin.getX(),
                     world.getY()+origin.getY()

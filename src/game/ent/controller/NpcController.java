@@ -5,8 +5,13 @@
 
 package game.ent.controller;
 
+import events.EEntityChangeChunk;
+import events.Event;
+import events.EventManager;
+import events.IEventListener;
 import events.network.EEntitySetPath;
 import game.ent.Entity.Orientation;
+import java.util.EventListener;
 import org.lwjgl.util.Point;
 import render.NPCRenderer;
 import world.Timer;
@@ -20,16 +25,20 @@ import world.util.astar.Path.Step;
  *
  * @author Administrator
  */
-public class NpcController extends BaseController implements Mover {
+public class NpcController extends BaseController implements Mover, IEventListener {
 
     public Point destination = null;
-    public static final int SYNCH_CHUNK_SIZE = 1;
+    public static final int SYNCH_CHUNK_SIZE = 5;
     
     public Path path = null;
     public Step step = null;
 
 
     int path_synch_counter = 0;
+
+    public NpcController(){
+        EventManager.subscribe(this);
+    }
 
     @Override
     public void think() {
@@ -57,8 +66,8 @@ public class NpcController extends BaseController implements Mover {
                 destination.getX(),
                 destination.getY()
         );
-    }
 
+    }
 
 
     private static AStarPathFinder finder = new AStarPathFinder(
@@ -75,16 +84,24 @@ public class NpcController extends BaseController implements Mover {
         Point source = new Point(owner.origin);
         source = WorldModel.tile_map.world2local(source);
 
-
         //WorldModel.clearVisited();
         path = finder.findPath(this,
             source.getX(), source.getY(), target.getX(), target.getY());
+        
         step = null;
-        /*if (path.steps!= null && path.steps.size() > 0 ){
+        /*
+         * There is a bug in the path calculation
+         * First element is player position, so it's incorrect
+         */
+        if (path != null && path.getLength()>=1){
             path.steps.remove(0);
-        }*/
+        }
     }
 
+    /*
+     * THIS IS FNG BULLSHIT
+     * MOVE THIS TO PLAYER CONTROLLER
+     */
     public void change_tile(int x, int y){
         owner.dx = 0.0f;
         owner.dy = 0.0f;
@@ -97,10 +114,15 @@ public class NpcController extends BaseController implements Mover {
         System.out.println("changing tile");
         if (owner.isPlayerEnt() && path != null){
             System.out.println("path counter:"+path_synch_counter);
-            if (path_synch_counter == 0){    //we are in the point of
-                Point __dest;
-                Step __step;
+            System.out.println(path);
 
+
+            if (path_synch_counter == 0){    //we are in the point of
+                
+                Step __step = null;
+
+
+                //we have some trajectory left
                 if (path.getLength()>0){
                     //extract checkpoint step
                     if (path.getLength()>SYNCH_CHUNK_SIZE){
@@ -108,36 +130,43 @@ public class NpcController extends BaseController implements Mover {
                     }else{
                         __step = path.getStep(path.getLength()-1);
                     }
-                }else{
-                    __step = step;  //load pushed step;
+
+                    notify_path(__step);
                 }
-
-                __dest = new Point(__step.getX(),__step.getY());
-                __dest = WorldModel.tile_map.local2world(__dest);
-
-                System.out.println("sending step [" +
-                        __step +
-                        "] w2l ["+ __dest +
-                        "] (length:" + path.getLength() + ")"
-                );
-
-                System.out.println(path);
-
-
-                
-
-                EEntitySetPath dest_event = new EEntitySetPath(owner, __dest);
-                dest_event.post();
             }
             path_synch_counter++;
             if (path_synch_counter>=SYNCH_CHUNK_SIZE){
                 path_synch_counter = 0;
             }
-
         }
         //--------------------------------------------
+        //ABSOLUTELY REQUIRED OR WEIRED SHIT WILL OCCUR
+        if (path!=null && path.getLength()>0){
+            path.steps.remove(0);   //erase step
+        }
 
     }
+
+    private void notify_path(Step __step){
+        Point __dest = new Point(__step.getX(),__step.getY());
+
+        System.out.println("converting point dest "+__dest+"to world coord");
+
+        __dest = WorldModel.tile_map.local2world(__dest);
+
+        System.out.println("sending step [" +
+            __step +
+            "] w2l ["+ __dest +
+            "] (length:" + path.getLength() + ")"
+        );
+
+        System.out.println(path);
+
+        EEntitySetPath dest_event = new EEntitySetPath(owner, __dest);
+        dest_event.post();
+    }
+
+
     public void move_ent(int x, int y){
 
         //wachky-hacky safe switch
@@ -174,11 +203,11 @@ public class NpcController extends BaseController implements Mover {
     public void follow_path(){
         Point __destination = new Point(this.destination);
 
-        if (path!=null && path.getLength() > 1){
+        if (path!=null && path.getLength() > 0){
 
 
             if(step == null || step.equals(owner.origin)){  //this is safe hack, that hides the 'ent-lock' glitch
-                step = path.popStep();
+                step = path.getStep(0);
             }
 
             Point location = new Point(step.getX(),step.getY());
@@ -212,5 +241,27 @@ public class NpcController extends BaseController implements Mover {
             path = null;
             ((NPCRenderer)owner.get_render()).set_frame(0);
         }
+    }
+
+    /*
+     * This is extremely important!!!!
+     * When player crosses chunk border,
+     * WorldModel.WorldModelTileMap coord anchor changes
+     *
+     * That means, ALL PREVIOUS PATH COORDINATES ARE INVALID!
+     * We should recalculate them right away
+     */
+
+    public void e_on_event(Event event) {
+       //throw new UnsupportedOperationException("Not supported yet.");
+        if (event instanceof EEntityChangeChunk){
+            if (((EEntityChangeChunk)event).ent.isPlayerEnt() && destination!=null){
+                calculate_path(destination.getX(),destination.getY());
+            }
+        }
+    }
+
+    public void e_on_event_rollback(Event event) {
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 }

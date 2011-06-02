@@ -118,7 +118,7 @@ public class IoLayer implements IEventListener{
      * Use serialized NetworkEvent messages instead
      */
     public void sock_send(String msg){
-        System.err.println("Sending message '"+msg+"'");
+        System.err.println(host+" >>'"+msg+"'");
         out.println(msg);
     }
 
