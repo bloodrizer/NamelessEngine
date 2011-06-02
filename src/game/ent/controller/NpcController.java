@@ -111,10 +111,10 @@ public class NpcController extends BaseController implements Mover, IEventListen
         step = null;
 
         //------------path synchronisation-----------
-        System.out.println("changing tile");
+        //System.out.println("changing tile");
         if (owner.isPlayerEnt() && path != null){
-            System.out.println("path counter:"+path_synch_counter);
-            System.out.println(path);
+            //System.out.println("path counter:"+path_synch_counter);
+            //System.out.println(path);
 
 
             if (path_synch_counter == 0){    //we are in the point of
@@ -150,17 +150,17 @@ public class NpcController extends BaseController implements Mover, IEventListen
     private void notify_path(Step __step){
         Point __dest = new Point(__step.getX(),__step.getY());
 
-        System.out.println("converting point dest "+__dest+"to world coord");
+        //System.out.println("converting point dest "+__dest+"to world coord");
 
         __dest = WorldModel.tile_map.local2world(__dest);
 
-        System.out.println("sending step [" +
+        /*System.out.println("sending step [" +
             __step +
             "] w2l ["+ __dest +
             "] (length:" + path.getLength() + ")"
         );
 
-        System.out.println(path);
+        System.out.println(path);*/
 
         EEntitySetPath dest_event = new EEntitySetPath(owner, __dest);
         dest_event.post();
