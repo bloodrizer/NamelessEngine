@@ -23,6 +23,9 @@ import world.util.astar.PathFinder;
 public class NpcController extends BaseController implements Mover {
 
     private Point destination = null;
+    
+    public Path path = null;
+    public Step step = null;
 
     @Override
     public void think() {
@@ -44,7 +47,8 @@ public class NpcController extends BaseController implements Mover {
         );
     }
 
-    Path path = null;
+
+
     private static AStarPathFinder finder = new AStarPathFinder(
             WorldModel.tile_map,
             50,
@@ -63,6 +67,10 @@ public class NpcController extends BaseController implements Mover {
         //WorldModel.clearVisited();
         path = finder.findPath(this,
             source.getX(), source.getY(), target.getX(), target.getY());
+        step = null;
+        /*if (path.steps!= null && path.steps.size() > 0 ){
+            path.steps.remove(0);
+        }*/
     }
 
     public void change_tile(int x, int y){
@@ -108,32 +116,21 @@ public class NpcController extends BaseController implements Mover {
     }
 
 
-    Step step = null;
     public void follow_path(){
         Point __destination = new Point(this.destination);
         
 
         if (path!=null && path.getLength() > 1){
-            
-            /*for(int i = 0; i < path.getLength(); i++){
-                //--------------------------------------------------------------
-                
-                Step tmp_step = path.getStep(i);
-                Point tmp = new Point(tmp_step.getX(),tmp_step.getY());
-                tmp = WorldModel.tile_map.local2world(tmp);
-                //--------------------------------------------------------------
-                
-                System.out.println("path step #"+
-                        Integer.toString(i)
-                        +tmp.toString());
-            }*/
 
-            if(step == null){
+
+            if(step == null || step.equals(owner.origin)){  //this is safe hack, that hides the 'ent-lock' glitch
                 step = path.popStep();
             }
 
             Point location = new Point(step.getX(),step.getY());
             location = WorldModel.tile_map.local2world(location);
+
+            
 
             __destination.setLocation(location.getX(), location.getY());
         }
@@ -157,6 +154,8 @@ public class NpcController extends BaseController implements Mover {
 
         if(owner.origin.equals(destination)){
             this.destination = null;    //clean up destination
+            step = null;                //this is required too
+            path = null;
         }
     }
 }

@@ -16,7 +16,14 @@ import java.util.ArrayList;
  */
 public class Path {
 	/** The list of steps building up this path */
-	private ArrayList steps = new ArrayList();
+
+
+        @Override
+        public String toString(){
+            return "Path" + steps + "(" + steps.size() + ")";
+        }
+
+	public ArrayList steps = new ArrayList();
 
 	/**
 	 * Create an empty path

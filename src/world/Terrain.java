@@ -13,6 +13,9 @@ import world.util.Noise;
  */
 public class Terrain {
     public static Noise noise = new Noise();
+    static {
+        noise.noiseSeed(123456);
+    }
 
     public static final int TERRAIN_HEIGHT = 255;    //255
 

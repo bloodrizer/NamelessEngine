@@ -16,6 +16,7 @@ import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityNPC;
 import game.ent.EntityPlayer;
+import game.ent.controller.NpcController;
 
 import java.io.*;
 import java.net.*;
@@ -100,9 +101,12 @@ public class Io implements IEventListener {
 
                             if (data[0].equals("0x0200")){  //EntSpawn
                                 //4 123 0 3 9
-                                Entity player_ent = new EntityNPC();
-                                EntityManager.add(player_ent);
-                                player_ent.spawn(Integer.parseInt( data[2] )    //uid
+                                Entity mplayer_ent = new EntityNPC();
+                                mplayer_ent.set_controller(new NpcController());
+
+
+                                EntityManager.add(mplayer_ent);
+                                mplayer_ent.spawn(Integer.parseInt( data[2] )    //uid
                                         , new Point(
                                       Integer.parseInt( data[4] ),
                                       Integer.parseInt( data[5] )
@@ -118,10 +122,22 @@ public class Io implements IEventListener {
                             if (data[0].equals("0x0280")){  //ENTMove
                                 Entity ent = EntityManager.get_entity(Integer.parseInt( data[1]));
                                 if (ent!=null){
-                                    ent.move_to(new Point(
-                                            Integer.parseInt( data[3] ),
-                                            Integer.parseInt( data[4] )
-                                    ));
+
+                                    if(ent.controller != null){
+                                        ((NpcController)ent.controller).set_destination(new Point(
+                                                    Integer.parseInt( data[3] ),
+                                                    Integer.parseInt( data[4] )
+                                        ));
+
+                                    }else{
+                                        ent.move_to(new Point(
+                                                Integer.parseInt( data[3] ),
+                                                Integer.parseInt( data[4] )
+                                        ));
+                                    }
+
+
+
                                 }else{
                                     System.err.println("EntityMove::invalid id");
                                 }

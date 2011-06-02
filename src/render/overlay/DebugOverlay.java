@@ -5,7 +5,9 @@
 
 package render.overlay;
 
+import game.ent.controller.NpcController;
 import org.newdawn.slick.Color;
+import player.Player;
 import world.Timer;
 import world.WorldViewCamera;
 
@@ -24,10 +26,17 @@ public class DebugOverlay {
                 "MB"
         , Color.white);
 
-        /*OverlaySystem.ttf.drawString(10, 25, Long.toString(
-                Timer.get_time()
-                )
-        , Color.white);*/
+        //----------player debug------------
+
+        if (Player.get_ent() != null){
+            NpcController npc_controller = (NpcController)Player.get_ent().controller;
+
+            OverlaySystem.ttf.drawString(10, 25, "Player path:" +
+                   npc_controller.path + ";" +
+                   " Step:" + npc_controller.step
+            , Color.white);
+        }
+        //-----------------------------------
 
         OverlaySystem.ttf.drawString(10, 50, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
 
