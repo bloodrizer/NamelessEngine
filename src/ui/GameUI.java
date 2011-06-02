@@ -6,16 +6,7 @@
 package ui;
 
 import actions.IAction;
-import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.builder.LayerBuilder;
-import de.lessvoid.nifty.builder.ScreenBuilder;
-import de.lessvoid.nifty.controls.Menu;
 
-import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.screen.ScreenController;
-
-import de.lessvoid.nifty.tools.SizeValue;
 import events.EKeyPress;
 import events.EMouseClick;
 import events.Event;
@@ -45,8 +36,7 @@ import world.WorldView;
  * @author Administrator
  */
 public class GameUI implements IUserInterface,  IEventListener {
-    private static Screen screen = null;
-    public static Element popup;
+
     public static NE_GUI_Inventory inventory;
 
 

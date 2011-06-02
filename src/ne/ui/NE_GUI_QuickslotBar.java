@@ -134,7 +134,7 @@ public class NE_GUI_QuickslotBar extends NE_GUI_Element {
             slot.w = 32;
             slot.h = 32;
 
-            slot.sprite_name = "../ui/inv_slot.png";
+            slot.sprite_name = "/ui/inv_slot.png";
 
             slot.dragable = false;
 

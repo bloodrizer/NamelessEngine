@@ -5,18 +5,6 @@
 
 package ui;
 
-import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.builder.LayerBuilder;
-import de.lessvoid.nifty.builder.ScreenBuilder;
-/*import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.controls.textfield.controller.TextField;
-import de.lessvoid.nifty.controls.textfield.controller.TextFieldControl;*/
-import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.controls.chatcontrol.builder.ChatBuilder;
-
-import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.screen.ScreenController;
 import events.EMouseClick;
 import events.network.ESelectCharacter;
 import ne.Game;
@@ -45,9 +33,6 @@ public class MainMenuUI implements IUserInterface {
     public MainMenuUI(){
          ui = new NE_GUI_System();
     }
-
-    private static Screen screen = null;
-
 
     public void login(){
 

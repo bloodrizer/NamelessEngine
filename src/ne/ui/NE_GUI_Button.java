@@ -56,7 +56,7 @@ public class NE_GUI_Button extends NE_GUI_Element{
         }
         
         //
-        Render.bind_texture("../ui/window_ui_small.png");
+        Render.bind_texture("/ui/window_ui_small.png");
         
 
         int tile_id = 0;

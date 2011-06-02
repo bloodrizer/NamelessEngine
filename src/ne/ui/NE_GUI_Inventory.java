@@ -100,7 +100,7 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
             NE_GUI_InventoryItem item_control = new NE_GUI_InventoryItem(item);
             inv_layer.add(item_control);
 
-            item_control.sprite_name = "gfx/items/"+ item.get_type() +".png";
+            item_control.sprite_name = "/render/gfx/items/"+ item.get_type() +".png";
 
             item_control.x = get_item_x(i) * 32;
             item_control.y = get_item_y(i) * 32;

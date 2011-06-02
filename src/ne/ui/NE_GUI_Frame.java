@@ -74,7 +74,7 @@ public class NE_GUI_Frame extends NE_GUI_Element{
             return;
         }
         
-        Render.bind_texture("../ui/window_ui_small.png");
+        Render.bind_texture("/ui/window_ui_small.png");
         glColor3f(1.0f, 1.0f, 1.0f);
 
         int tile_id = 0;

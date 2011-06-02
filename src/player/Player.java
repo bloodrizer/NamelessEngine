@@ -5,6 +5,7 @@
 
 package player;
 
+import events.network.EEntitySetPath;
 import game.ent.Entity;
 import game.ent.controller.NpcController;
 import org.lwjgl.util.Point;

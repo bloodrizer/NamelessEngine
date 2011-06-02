@@ -5,25 +5,16 @@
 
 package ne.io;
 
-import events.EEntitySpawn;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.EPlayerLogon;
 import events.network.ESelectCharacter;
-import events.network.NetworkEvent;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityNPC;
-import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
 
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ne.Game;
 import ne.Main;
 import org.lwjgl.util.Point;
@@ -121,26 +112,25 @@ public class Io implements IEventListener {
                             }
                             if (data[0].equals("0x0280")){  //ENTMove
                                 Entity ent = EntityManager.get_entity(Integer.parseInt( data[1]));
-                                if (ent!=null){
+                                if (ent==null){
+                                    System.err.println("EntityMove::invalid id");
+                                    return;
+                                }
 
-                                    if(ent.controller != null){
-                                        ((NpcController)ent.controller).set_destination(new Point(
-                                                    Integer.parseInt( data[3] ),
-                                                    Integer.parseInt( data[4] )
-                                        ));
+                                 if(data[2].equals("2")){   //assign path
+                                     if (ent.controller != null){
+                                            ((NpcController)ent.controller).set_destination(new Point(
+                                                        Integer.parseInt( data[3] ),
+                                                        Integer.parseInt( data[4] )
+                                            ));
+                                     }
 
-                                    }else{
+                                 }else{   //assign position
                                         ent.move_to(new Point(
                                                 Integer.parseInt( data[3] ),
                                                 Integer.parseInt( data[4] )
                                         ));
-                                    }
-
-
-
-                                }else{
-                                    System.err.println("EntityMove::invalid id");
-                                }
+                                 }
                             }
                         }
                     };

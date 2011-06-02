@@ -5,8 +5,8 @@
 
 package game.ent.controller;
 
+import events.network.EEntitySetPath;
 import game.ent.Entity.Orientation;
-import ne.Game;
 import org.lwjgl.util.Point;
 import render.NPCRenderer;
 import world.Timer;
@@ -15,7 +15,6 @@ import world.util.astar.AStarPathFinder;
 import world.util.astar.Mover;
 import world.util.astar.Path;
 import world.util.astar.Path.Step;
-import world.util.astar.PathFinder;
 
 /**
  *
@@ -24,9 +23,13 @@ import world.util.astar.PathFinder;
 public class NpcController extends BaseController implements Mover {
 
     public Point destination = null;
+    public static final int SYNCH_CHUNK_SIZE = 1;
     
     public Path path = null;
     public Step step = null;
+
+
+    int path_synch_counter = 0;
 
     @Override
     public void think() {
@@ -42,6 +45,8 @@ public class NpcController extends BaseController implements Mover {
     }
 
     public void set_destination(Point destination){
+
+        path_synch_counter = 0; //reset synchronisation counter
 
         owner.next_frame = Timer.get_time();
 
@@ -87,6 +92,51 @@ public class NpcController extends BaseController implements Mover {
         owner.move_to(new Point(x,y));
 
         step = null;
+
+        //------------path synchronisation-----------
+        System.out.println("changing tile");
+        if (owner.isPlayerEnt() && path != null){
+            System.out.println("path counter:"+path_synch_counter);
+            if (path_synch_counter == 0){    //we are in the point of
+                Point __dest;
+                Step __step;
+
+                if (path.getLength()>0){
+                    //extract checkpoint step
+                    if (path.getLength()>SYNCH_CHUNK_SIZE){
+                        __step = path.getStep(SYNCH_CHUNK_SIZE);
+                    }else{
+                        __step = path.getStep(path.getLength()-1);
+                    }
+                }else{
+                    __step = step;  //load pushed step;
+                }
+
+                __dest = new Point(__step.getX(),__step.getY());
+                __dest = WorldModel.tile_map.local2world(__dest);
+
+                System.out.println("sending step [" +
+                        __step +
+                        "] w2l ["+ __dest +
+                        "] (length:" + path.getLength() + ")"
+                );
+
+                System.out.println(path);
+
+
+                
+
+                EEntitySetPath dest_event = new EEntitySetPath(owner, __dest);
+                dest_event.post();
+            }
+            path_synch_counter++;
+            if (path_synch_counter>=SYNCH_CHUNK_SIZE){
+                path_synch_counter = 0;
+            }
+
+        }
+        //--------------------------------------------
+
     }
     public void move_ent(int x, int y){
 
@@ -123,7 +173,6 @@ public class NpcController extends BaseController implements Mover {
 
     public void follow_path(){
         Point __destination = new Point(this.destination);
-        
 
         if (path!=null && path.getLength() > 1){
 

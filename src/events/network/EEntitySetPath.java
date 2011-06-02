@@ -5,10 +5,8 @@
 
 package events.network;
 
-import events.Event;
 import game.ent.Entity;
 import org.lwjgl.util.Point;
-import player.Player;
 import world.WorldModel;
 import world.WorldTile;
 
@@ -16,8 +14,7 @@ import world.WorldTile;
  *
  * @author Administrator
  */
-@NetID(id="")
-public class EEntityMove extends Event {
+public class EEntitySetPath extends NetworkEvent {
     private Point from = new Point();
     private Point to   = new Point();
     public Entity entity = null;
@@ -30,14 +27,14 @@ public class EEntityMove extends Event {
         return new Point(to);
     }
 
-    public EEntityMove(Entity entity, Point target){
+    public EEntitySetPath(Entity entity, Point target){
         this.entity = entity;
         this.from.setLocation(entity.origin);
         this.to.setLocation(target);
     }
 
-    public static String toString(EEntityMove event){
-        return "[#"+Integer.toString(event.get_eventid())+"[EEntityMove] from @"+event.from.toString()+" to @"+event.to.toString()+"]";
+    public static String toString(EEntitySetPath event){
+        return "[#"+Integer.toString(event.get_eventid())+"[EEntitySetPath] from @"+event.from.toString()+" to @"+event.to.toString()+"]";
     }
 
     //safe switch - do not allow to move at the place that is blocked
@@ -46,7 +43,7 @@ public class EEntityMove extends Event {
     @Override
     public void post(){
         WorldTile tile = WorldModel.get_tile(this.to.getX(), this.to.getY());
-        if (!tile.is_blocked()){
+        if (tile!=null && !tile.is_blocked()){
             super.post();
         }
     }
@@ -56,21 +53,19 @@ public class EEntityMove extends Event {
         return toString(this);
     }
 
-    /*@Override
+    @Override
     public String get_id(){
-        if (this.entity == Player.get_ent()){
-            return "0x0260";
-        }
-        return "0x0280";
-        
-    }*/
+        return "0x260";
 
-    /*@Override
+    }
+
+    @Override
     public String[] serialize(){
         return new String[] {
             get_id(),
+            //"2",    //meens movement with destination
             Integer.toString(this.to.getX()),
             Integer.toString(this.to.getY())
         };
-    }*/
+    }
 }

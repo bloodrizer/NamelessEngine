@@ -5,7 +5,7 @@
 
 package ui;
 
-import de.lessvoid.nifty.Nifty;
+
 import ne.ui.NE_GUI_System;
 
 /**
