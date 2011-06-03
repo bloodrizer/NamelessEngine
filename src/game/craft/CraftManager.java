@@ -12,7 +12,7 @@ import java.util.Collections;
  * @author Administrator
  */
 public class CraftManager {
-    private static java.util.Map<String,CraftGroup> groups =
+    public static java.util.Map<String,CraftGroup> groups =
             Collections.synchronizedMap(new java.util.HashMap<String,CraftGroup>(6));
 
     public static boolean is_empty(){

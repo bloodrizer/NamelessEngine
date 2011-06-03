@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class BaseItem{
 
     int count = 1;
-    int max_count = 1;
+    int max_count = 64;
     String type = "undefined";
 
     /*
@@ -35,6 +35,8 @@ public class BaseItem{
 
     public static BaseItem produce(String type, int count){
         BaseItem item = new BaseItem();
+
+        //TODO: set max count there based on item type
 
         item.set_type(type);
         item.set_count(count);

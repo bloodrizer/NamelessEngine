@@ -28,7 +28,7 @@ public class DebugOverlay {
 
         //----------player debug------------
 
-        if (Player.get_ent() != null){
+        /*if (Player.get_ent() != null){
             NpcController npc_controller = (NpcController)Player.get_ent().controller;
 
             OverlaySystem.ttf.drawString(10, 25, "Player dest:" + npc_controller.destination + " path:" +
@@ -40,7 +40,7 @@ public class DebugOverlay {
                     + ""+ Player.get_ent().frame_time_ms +
                     " ;nft:"+(Player.get_ent().next_frame-Timer.get_time())
             , Color.white);
-        }
+        }*/
         //-----------------------------------
 
         OverlaySystem.ttf.drawString(10, 70, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);

@@ -18,4 +18,9 @@ public class CraftRecipe {
         count = i;
     }
 
+    @Override
+    public String toString(){
+        return "[Recipe: "+item+"("+count+")]";
+    }
+
 }
