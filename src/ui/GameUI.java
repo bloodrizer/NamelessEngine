@@ -18,6 +18,7 @@ import items.BaseItemAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import ne.Input.MouseInputType;
+import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Inventory;
 import ne.ui.NE_GUI_Popup;
 import ne.ui.NE_GUI_QuickslotBar;
@@ -38,6 +39,7 @@ import world.WorldView;
 public class GameUI implements IUserInterface,  IEventListener {
 
     public static NE_GUI_Inventory inventory;
+    public static NE_GUI_Craft craft;
 
 
     public GameUI(){
@@ -71,6 +73,15 @@ public class GameUI implements IUserInterface,  IEventListener {
         inventory = new NE_GUI_Inventory();
         ui.root.add(inventory);
 
+        inventory.x = 10;
+        inventory.y = 130;
+
+        craft = new NE_GUI_Craft();
+        ui.root.add(craft);
+
+        craft.x = 10;
+        craft.y = 300;
+
 
     }
 
@@ -84,6 +95,9 @@ public class GameUI implements IUserInterface,  IEventListener {
                 break;
                 case Keyboard.KEY_I:
                     toggle_inventory();
+                break;
+                case Keyboard.KEY_Q:
+                    toggle_craft();
                 break;
                 case Keyboard.KEY_DOWN:
                     WorldView.ISOMETRY_TILE_SCALE -= 0.1f;
@@ -154,6 +168,10 @@ public class GameUI implements IUserInterface,  IEventListener {
 
     public void toggle_inventory(){
         inventory.visible = !inventory.visible;
+    }
+    
+    public void toggle_craft(){
+        craft.visible = !craft.visible;
     }
 
 

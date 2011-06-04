@@ -11,6 +11,8 @@ import game.craft.CraftGroup;
 import game.craft.CraftManager;
 import game.craft.CraftRecipe;
 import items.BaseItem;
+import ne.Game;
+import ne.Main;
 import player.Player;
 
 /**
@@ -27,12 +29,12 @@ public class NE_GUI_Craft extends NE_GUI_Frame {
         super(true);
 
         CraftManager.init();
-
+        String[] craft_groups = CraftManager.get_groups();
 
         this.set_tw(5);
-        this.set_th(8);
+        this.set_th(craft_groups.length+2);
 
-        String[] craft_groups = CraftManager.get_groups();
+        
         for (int i = 0; i<craft_groups.length; i++){
 
             final int _index = i;
@@ -46,17 +48,20 @@ public class NE_GUI_Craft extends NE_GUI_Frame {
                 @Override
                 public void e_on_mouse_click(EMouseClick e){
                     CraftGroup group = CraftManager.groups.get(text);
-                    //BaseItem[] items = Player.get_ent().container.items.toArray(new BaseItem[0]);
-                    BaseItem[] items = {
+                    BaseItem[] items = Player.get_ent().container.items.toArray(new BaseItem[0]);
+                    
+                    /*BaseItem[] items = {
                             BaseItem.produce("branch",5),
                             BaseItem.produce("stone",5)
-                            };
+                    };*/
                     
                     CraftFormula[] recipes = group.get_aviable_recipes(items);
-                    for(int i = 0; i<recipes.length; i++){
+                    /*for(int i = 0; i<recipes.length; i++){
                         System.out.println(recipes[i]);
+                    }*/
+                    if (recipes.length>0){
+                        show_recipes(this, recipes);
                     }
-
                     
                 }
             };
@@ -69,8 +74,18 @@ public class NE_GUI_Craft extends NE_GUI_Frame {
             button.dragable = false;
         }
         //-----------
-        //recipes_layer = new NE_GUI_CraftRecipes();
+        
         //add(recipes_layer);
 
+    }
+
+    public void show_recipes(NE_GUI_Button button, CraftFormula[] recipes){
+        recipes_layer = new NE_GUI_CraftRecipes();
+        Game.get_game_mode().get_ui().get_nge_ui().root.add(recipes_layer);
+
+        recipes_layer.x = button.get_x() + button.w/2;
+        recipes_layer.y = button.get_y() + button.h/2;
+
+        recipes_layer.update(recipes);
     }
 }

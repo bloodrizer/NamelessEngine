@@ -69,6 +69,9 @@ public class MainMenuUI implements IUserInterface {
         frame.set_tw(12);
         frame.set_th(6);
 
+        frame.x = 190;
+        frame.y = 190;
+
         login_input = new NE_GUI_Input();
         frame.add(login_input);
         login_input.x = 180;
@@ -116,14 +119,6 @@ public class MainMenuUI implements IUserInterface {
         button.y = 120;
         button.set_tw(3);
 
-        //-------------------------------------
-        //debug shit
-
-        NE_GUI_Craft craft = new NE_GUI_Craft();
-        ui.root.add(craft);
-
-
-        
     }
 
     public NE_GUI_System get_nge_ui() {

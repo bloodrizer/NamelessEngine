@@ -81,6 +81,13 @@ public class BaseItem{
     public void add_count(int count) {
         set_count(this.count + count);
     }
+    public void del_count(int count) {
+        set_count(this.count - count);
+
+        if(this.count <= 0){
+            drop();
+        }
+    }
 
     /*
      * Get a defensive copy of BaseItem

@@ -47,15 +47,15 @@ public class Terrain {
         return false;
     }
 
-    public static boolean is_tree(WorldTile tile){
+    public static boolean is_tree(float random, WorldTile tile){
 
         if (!is_forrest(tile)){
             return false;
         }
 
         int chance = (int)Math.round(
-                Math.random()* tile.get_height()
-                );
+                random* tile.get_height()
+        );
         if (chance < TREE_RATE){
             return true;
         }

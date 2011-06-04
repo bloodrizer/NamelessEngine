@@ -19,6 +19,7 @@ import game.ent.enviroment.EntityTree;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import org.lwjgl.util.Point;
 import player.Player;
 import world.WorldTile.TerrainType;
@@ -139,6 +140,9 @@ public class WorldModel implements IEventListener {
 
     public static void build_chunk(Point origin){
 
+        Random chunk_random = new Random();
+        chunk_random.setSeed(origin.getX()*10000+origin.getY());    //set chunk-specific seed
+
         //Thread.currentThread().dumpStack();
         //System.out.println("building data chunk @"+origin.toString());
 
@@ -168,9 +172,10 @@ public class WorldModel implements IEventListener {
 
                 tile.set_height(height);
 
-                if (Terrain.is_tree(tile)){
-                    //tile.set_tile_id(50);   //debug only!
-
+                if (Terrain.is_tree(
+                        chunk_random.nextFloat(),
+                        tile)
+                ){
                     EntityTree tree_ent = new EntityTree();
                     EntityManager.add(tree_ent);
                     tree_ent.spawn(1, new Point(i,j));
@@ -183,7 +188,8 @@ public class WorldModel implements IEventListener {
                     tile.terrain_type = TerrainType.TERRAIN_WATER;
                 }
 
-                if (Math.random()*100<0.25f){
+                if (chunk_random.nextFloat()*100<0.25f){
+
                     EntityStone stone_ent = new EntityStone();
                     EntityManager.add(stone_ent);
                     stone_ent.spawn(1, new Point(i,j));

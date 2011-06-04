@@ -58,9 +58,34 @@ public class ItemContainer {
          return ( items.size() >= max_items );
      }
 
+     /*
+      * Remove N items from container
+      * with set item type
+      * This function can work with multiple stacks
+      */
+
      public void remove_item(BaseItem item){
+         int remove_count = item.count; //shows how much items left to remove
+         
+         BaseItem[] elem =  items.toArray(new BaseItem[0]);
+         for(int i = 0; i<elem.length; i++){
+
+             if (elem[i].type.equals(item.type)){
+                 if(elem[i].count <= remove_count){
+                     remove_count -= elem[i].count;
+                     items.remove(elem[i]); //erase this item stack completely
+                 }else{
+                     elem[i].del_count(remove_count);
+                     remove_count = 0;
+                 }
+             }
+         }
+         
+
          //int count = item.get_count();
-         items.remove(item);
+         //items.remove(item);
+         //INVALID!!!!!!
+
          on_update();
      }
 
