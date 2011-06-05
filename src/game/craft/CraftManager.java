@@ -34,11 +34,19 @@ public class CraftManager {
         }, "stone_axe");
 
 
-        CraftGroup armor_groop = new CraftGroup();
+        /*CraftGroup armor_groop = new CraftGroup();
         groups.put("Armor", armor_groop);
 
         CraftGroup weapon_groop = new CraftGroup();
-        groups.put("Weapon", armor_groop);
+        groups.put("Weapon", armor_groop);*/
+
+        CraftGroup building_groop = new CraftGroup();
+        groups.put("Buildings", building_groop);
+
+        building_groop.add_recipe(
+        new CraftRecipe[] {
+            new CraftRecipe("branch",5)
+        }, "fire");
     }
 
     public static String[] get_groups(){

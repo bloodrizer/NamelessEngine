@@ -28,6 +28,12 @@ public class EntityPlayer extends EntityNPC {
         this.container.add_item(
                 BaseItem.produce("stone", 20)
         );
+        this.container.add_item(
+                BaseItem.produce("stone_axe", 1)
+        );
+        this.container.add_item(
+                BaseItem.produce("wood_block", 64)
+        );
         //System.out.println(branch.get_container());
     }
 
