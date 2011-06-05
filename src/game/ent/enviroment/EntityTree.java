@@ -56,9 +56,8 @@ public class EntityTree extends Entity {
 
             @Override
             public void execute() {
-                System.out.println("ActionCutTree");
-
-                System.out.print(owner);
+                BaseItem item = BaseItem.produce("wood_block", 1);
+                Player.get_ent().container.add_item(item);
             }
 
         }
@@ -77,7 +76,13 @@ public class EntityTree extends Entity {
 
         EntActionList list = new EntActionList();
         list.set_owner(this);
-        list.add_action(new ActionCutTree(),"Cut a tree");
+
+        if(Player.get_ent().container.has_item(
+                BaseItem.produce("stone_axe", 1)
+                )){
+                    list.add_action(new ActionCutTree(),"Cut a tree");
+                }
+
         list.add_action(new ActionPickBranch(),"Pick brunch");
 
         return list.get_action_list();

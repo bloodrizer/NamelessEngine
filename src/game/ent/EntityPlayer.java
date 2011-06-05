@@ -21,9 +21,14 @@ public class EntityPlayer extends EntityNPC {
 
     public EntityPlayer(){
         //inventory shit - debug only
-        BaseItem branch = BaseItem.produce("branch", 1);
-        this.container.add_item(branch);
-        System.out.println(branch.get_container());
+        //BaseItem branch = BaseItem.produce("branch", 20);
+        this.container.add_item(
+                BaseItem.produce("branch", 20)
+        );
+        this.container.add_item(
+                BaseItem.produce("stone", 20)
+        );
+        //System.out.println(branch.get_container());
     }
 
     @Override

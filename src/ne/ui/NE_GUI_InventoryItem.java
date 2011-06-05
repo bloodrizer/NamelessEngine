@@ -37,8 +37,14 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
         @Override
         public void render(){
             super.render();
+
+            int xoffset = 8;
+            if (item.get_count()>=10){
+                xoffset = 16;
+            }
+
             OverlaySystem.ttf.drawString(
-                get_x()+w-8,
+                get_x()+w-xoffset,
                 get_y()+h-15,
                 Integer.toString(item.get_count()),
                 Color.black

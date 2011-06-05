@@ -9,6 +9,7 @@ import game.ent.controller.NpcController;
 import org.newdawn.slick.Color;
 import player.Player;
 import world.Timer;
+import world.WorldTimer;
 import world.WorldViewCamera;
 
 public class DebugOverlay {
@@ -25,6 +26,10 @@ public class DebugOverlay {
                     Float.toString( total/(1024.0f*1024) ) +
                 "MB"
         , Color.white);
+
+        OverlaySystem.ttf.drawString(10, 25, "time: "
+                    + WorldTimer.datetime.getTime()
+            , Color.white);
 
         //----------player debug------------
 

@@ -80,13 +80,32 @@ public class ItemContainer {
                  }
              }
          }
-         
-
-         //int count = item.get_count();
-         //items.remove(item);
-         //INVALID!!!!!!
 
          on_update();
+     }
+      /*
+      * Return true if container has N items of set type
+      * This function can work with multiple stacks
+      */
+     public boolean has_item(BaseItem item){
+         int ref_count = item.count;
+
+         BaseItem[] elem =  items.toArray(new BaseItem[0]);
+         for(int i = 0; i<elem.length; i++){
+             if (elem[i].type.equals(item.type)){
+                 if(elem[i].count <= ref_count){
+                     ref_count -= elem[i].count;
+                 }else{
+                     ref_count = 0;
+                 }
+             }
+         }
+
+         if( ref_count == 0 ){
+             return true;
+         }else{
+            return false;
+         }
      }
 
      public void on_update(){

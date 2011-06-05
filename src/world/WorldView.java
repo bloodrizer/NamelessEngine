@@ -5,6 +5,7 @@
 
 package world;
 
+import org.lwjgl.util.vector.Vector3f;
 import world.WorldTile.TerrainType;
 import render.EntityRenderer;
 import world.util.Noise;
@@ -31,6 +32,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class WorldView implements IEventListener {
 
     public static Tileset bg_tileset = new Tileset();
+
 
     public WorldView(){
         EventManager.subscribe(this);
@@ -79,6 +81,10 @@ public class WorldView implements IEventListener {
                         //lil hack for terrain rendering visualization
                         if (tile.terrain_type != TerrainType.TERRAIN_WATER){
                             float g_color = ((float)tile.get_height() / 255)*2;
+
+                            //get terrain color according to the time
+                            //Vector3f g_color_time = WorldTimer.get_sun_color();
+                            
                             GL11.glColor3f(1.0f,g_color,1.0f);
                         }else{
                             GL11.glColor3f(1.0f,1.0f,1.0f);

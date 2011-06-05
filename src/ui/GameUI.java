@@ -147,7 +147,7 @@ public class GameUI implements IUserInterface,  IEventListener {
         //IAction<Entity>[] actions = (IAction<Entity>[]) action_list.toArray();
         Iterator<IAction> itr = action_list.iterator();
 
-        System.out.println("Fetched "+Integer.toString(action_list.size())+"actions");
+        System.out.println("Fetched "+Integer.toString(action_list.size())+" actions");
 
 
         while (itr.hasNext()){

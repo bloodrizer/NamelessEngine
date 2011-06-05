@@ -14,7 +14,7 @@ import events.network.EEntityMove;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityPlayer;
-import game.ent.EntityStone;
+import game.ent.enviroment.EntityStone;
 import game.ent.enviroment.EntityTree;
 import java.util.Collections;
 import java.util.Iterator;
@@ -109,6 +109,7 @@ public class WorldModel implements IEventListener {
         //2. check if think call is allowed
         //3. call think
         Timer.tick();
+        WorldTimer.tick();
 
 
         Object[] list = EntityManager.ent_list_sync.toArray();
