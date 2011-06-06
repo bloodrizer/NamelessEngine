@@ -52,7 +52,9 @@ public class NE_GUI_System {
                         ent_building.spawn(54321, tile_coord);
                         ent_building.set_blocking(true);
 
-                        Player.get_ent().container.remove_item(item);
+                        Player.get_ent().container.remove_item(
+                            BaseItem.produce(item.get_type(), 1)
+                        );
                     }else{
                         System.err.println("item-related entity is null");
                     }

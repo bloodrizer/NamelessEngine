@@ -31,7 +31,7 @@ public class Io implements IEventListener {
     static IoLayer charserv_io;
     static IoLayer gameserv_io;
     public static int PROTO_VER = 1000;
-    public static String CLIENT_VER = "1.0.0";
+    public static String CLIENT_VER = "1.0.1";
 
     public static void init(){
         INSTANCE = new Io();
