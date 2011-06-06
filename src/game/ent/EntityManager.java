@@ -19,7 +19,13 @@ public class EntityManager {
     public static Collection ent_list_sync = Collections.synchronizedCollection(ent_list);
 
     public static void add(Entity ent){
-        ent_list_sync.add(ent);
+        if (!ent_list_sync.contains(ent)){
+            ent_list_sync.add(ent);
+        }
+    }
+
+    public static boolean has_ent(Entity ent){
+        return ent_list_sync.contains(ent);
     }
 
     public static synchronized void remove_entity(Entity ent){

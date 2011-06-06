@@ -56,8 +56,10 @@ public class EntityTree extends Entity {
 
             @Override
             public void execute() {
-                BaseItem item = BaseItem.produce("wood_block", 1);
-                Player.get_ent().container.add_item(item);
+                if (assert_range()){
+                    BaseItem item = BaseItem.produce("wood_block", 1);
+                    Player.get_ent().container.add_item(item);
+                }
             }
 
         }
@@ -65,10 +67,10 @@ public class EntityTree extends Entity {
 
             @Override
             public void execute() {
-                System.out.println("You got an awesome branch");
-                
-                BaseItem branch = BaseItem.produce("branch", 1);
-                Player.get_ent().container.add_item(branch);
+                if (assert_range()){
+                    BaseItem item = BaseItem.produce("branch", 1);
+                    Player.get_ent().container.add_item(item);
+                }
             }
 
         }

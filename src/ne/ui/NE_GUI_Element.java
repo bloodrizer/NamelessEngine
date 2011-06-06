@@ -140,10 +140,10 @@ public class NE_GUI_Element {
                     return; //do not check bounding for non-solid controls
                 }
                 
-                System.out.println(
+                /*System.out.println(
                         this.toString()+" event in working area!"
                 );
-                System.out.println(event.origin);
+                System.out.println(event.origin);*/
 
                 e.dispatch();
                 e_on_mouse_click(event);

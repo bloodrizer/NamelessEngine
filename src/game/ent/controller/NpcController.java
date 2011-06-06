@@ -173,6 +173,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
         if(WorldModel.get_tile(x, y).is_blocked()){
             step = null;
             path = null;
+            destination = null;
             return;
         }
 

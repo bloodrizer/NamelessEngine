@@ -34,6 +34,9 @@ public class EntityPlayer extends EntityNPC {
         this.container.add_item(
                 BaseItem.produce("wood_block", 64)
         );
+        this.container.add_item(
+                BaseItem.produce("fire", 1)
+        );
         //System.out.println(branch.get_container());
     }
 

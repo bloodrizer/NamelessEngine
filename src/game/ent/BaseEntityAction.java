@@ -6,6 +6,7 @@
 package game.ent;
 
 import actions.IAction;
+import player.Player;
 
 /**
  *
@@ -34,5 +35,22 @@ public class BaseEntityAction implements IAction<Entity>{
 
     public Entity get_owner() {
         return owner;
+    }
+
+    /*
+     * This helper method asserts if player is in range of
+     * action owner in order to take action
+     *
+     * return true if in range
+     * return false if not AND sets entity as destination
+     */
+
+    public boolean assert_range(){
+        if (Player.in_range(owner)){
+            return true;
+        }else{
+            Player.move(owner.origin);
+            return false;
+        }
     }
 }

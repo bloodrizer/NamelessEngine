@@ -40,10 +40,13 @@ public class EntityStone extends Entity {
 
             @Override
             public void execute() {
-                System.out.println("You got an awesome stone");
-
-                BaseItem stone = BaseItem.produce("stone", 1);
-                Player.get_ent().container.add_item(stone);
+                if (Player.in_range(owner)){
+                    BaseItem stone = BaseItem.produce("stone", 1);
+                    Player.get_ent().container.add_item(stone);
+                }else{
+                    Player.move(owner.origin);
+                }
+                //TODO: else - move close to entity
             }
 
         }

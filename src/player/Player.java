@@ -17,6 +17,8 @@ import ui.GameUI;
  */
 public class Player {
 
+    static final int range = 2; //2 tiles
+
     static Entity player_ent = null;
     public static int character_id;
     public static void set_ent(Entity ent){
@@ -24,6 +26,11 @@ public class Player {
 
         GameUI.inventory.set_container(player_ent.container);
     }
+
+    /*
+     * Set player destination to specified point
+     * This method does not move player ent, it only sets position for entity controller
+     */
 
     public static void move(Point dest){
         if (player_ent != null){
@@ -38,6 +45,23 @@ public class Player {
 
     public static Entity get_ent(){
         return player_ent;
+    }
+
+    /*
+     * Return true if current entity is in range of player action
+     *
+     */
+    public static boolean in_range(Entity ent){
+        int dx = player_ent.origin.getX() - ent.origin.getX();
+        int dy = player_ent.origin.getY() - ent.origin.getY();
+
+        //System.out.println("range:" + (dx*dx + dy*dy));
+
+        if ( range*range >= dx*dx + dy*dy ){
+            return true;
+        }
+
+        return false;
     }
 
 }

@@ -67,6 +67,8 @@ public class Entity {
 
     //--------------------------------------------------------------------------
     public void spawn(int uid, Point origin){
+        EntityManager.add(this);
+
         this.uid = uid;
         this.origin = origin;
 

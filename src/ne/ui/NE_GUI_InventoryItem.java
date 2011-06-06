@@ -69,6 +69,7 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
             //and getting parent of this wrapper
 
 
+
             NE_GUI_Inventory inventory = (NE_GUI_Inventory) __parent;
             inventory.update(inventory.container);
         }
