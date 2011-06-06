@@ -7,6 +7,7 @@ package ne.ui;
 
 import actions.IAction;
 import events.EContainerUpdate;
+import events.EGUIDrop;
 import events.EMouseClick;
 import events.Event;
 import events.EventManager;
@@ -115,6 +116,16 @@ public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
     @Override
     public void render(){
         super.render();
+    }
+
+    @Override
+    public void e_on_grab(EGUIDrop event){
+        System.out.println("dispatching event");
+        event.dispatch();
+        /*if (event.element instanceof NE_GUI_InventoryItem){
+            
+        }*/
+        //TODO: do some shit there
     }
 
     public void e_on_event(Event event) {

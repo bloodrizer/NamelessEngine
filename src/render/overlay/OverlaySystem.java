@@ -34,6 +34,7 @@ public class OverlaySystem {
         
         DebugOverlay.render();
         TileCoordOverlay.render();
+        VersionOverlay.render();
         //InventoryOverlay.render();
 
     }

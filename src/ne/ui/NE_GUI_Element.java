@@ -152,16 +152,15 @@ public class NE_GUI_Element {
                 e_on_mouse_out_click(event);
             }
         }
-        //System.out.println("No, it's not");
-         if (e instanceof EMouseRelease){
+
+         if (e instanceof EMouseRelease && !e.is_dispatched()){
              if (drag_start){   //this meens, object was in drag state, so we should trigger drop event
                 drop();
              }
              drag_start = false;
          }
 
-        //todo: check if draggable!!!!
-        if (e instanceof EMouseDrag){
+        if (e instanceof EMouseDrag && !e.is_dispatched()){
             EMouseDrag event = (EMouseDrag)e;
 
             if (drag_start && dragable){
@@ -171,7 +170,7 @@ public class NE_GUI_Element {
 
         }
 
-        if (e instanceof EGUIDrop){
+        if (e instanceof EGUIDrop && !e.is_dispatched()){
             EGUIDrop event = (EGUIDrop)e;
 
             if (is_client_rect(event.coord.getX(), event.coord.getY())){
