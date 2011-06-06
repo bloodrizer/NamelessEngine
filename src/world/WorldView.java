@@ -106,9 +106,10 @@ public class WorldView implements IEventListener {
     public Vector3f get_tile_color(WorldTile tile){
         float g_color = ((float)tile.get_height() / 255);
         utl_tile_color.set(
-                0.5f + tile.light_level,
-                g_color+ tile.light_level,
-                0.5f+ tile.light_level);
+                0.5f + tile.light_level     + WorldTimer.get_light_amt(),
+                g_color+ tile.light_level   + WorldTimer.get_light_amt(),
+                0.5f+ tile.light_level      + WorldTimer.get_light_amt()
+        );
 
         return utl_tile_color;
     }
@@ -134,9 +135,9 @@ public class WorldView implements IEventListener {
         );
 
         GL11.glColor3f(
-            0.5f + tile.light_level,
-            0.5f + tile.light_level,
-            0.5f + tile.light_level
+            0.5f + tile.light_level + WorldTimer.get_light_amt(),
+            0.5f + tile.light_level + WorldTimer.get_light_amt(),
+            0.5f + tile.light_level + WorldTimer.get_light_amt()
         );
 
 

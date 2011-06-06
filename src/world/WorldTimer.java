@@ -18,24 +18,32 @@ public class WorldTimer {
     public static final Calendar datetime = Calendar.getInstance();
     static {
         //java.util.Timer timer = new java.util.Timer();
-        datetime.set(Calendar.HOUR_OF_DAY, 9);
-    }
-
-    /*TimerTask task = new TimerTask() {
-              public void run()
-              {
-                 tick();
-              }
-          };*/
-
-    public WorldTimer(){
-          datetime.set(Calendar.HOUR_OF_DAY, 9);   //early morning
-          //timer.schedule(task, 0, 300);
+        datetime.set(Calendar.HOUR_OF_DAY, 4);
     }
 
 
     public static void tick(){
         datetime.add(Calendar.MINUTE,1);
+    }
+
+    public static float get_light_amt(){
+
+        float hour = datetime.get(Calendar.HOUR_OF_DAY) + datetime.get(Calendar.MINUTE)/60.0f;
+        float amt = 1.0f;
+
+        if (hour < 7 || hour >= 21){
+            amt = 0.0f;
+        }
+        if ( hour >=7 && hour <= 10  ) {
+            amt = (hour-7)/3.0f;
+        }
+        if ( hour >= 17 && hour < 21){
+            amt = (21.0f-hour)/5.0f;
+        }
+   
+        amt = amt/2.0f;
+
+        return amt;
     }
 
     public static Vector3f get_sun_color(){

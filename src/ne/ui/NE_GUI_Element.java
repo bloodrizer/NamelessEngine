@@ -166,6 +166,7 @@ public class NE_GUI_Element {
             if (drag_start && dragable){
 
                 drag((int)event.dx, (int)event.dy);
+                e_on_drag();
             }
 
         }
@@ -210,6 +211,10 @@ public class NE_GUI_Element {
     }
 
     public void e_on_drop(){
+        //override me!
+    }
+
+    public void e_on_drag(){
         //override me!
     }
 

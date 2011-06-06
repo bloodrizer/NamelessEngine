@@ -62,7 +62,17 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
         }
 
         @Override
+        public void e_on_drag(){
+            this.w = 24;
+            this.h = 24;
+        }
+
+        @Override
         public void e_on_drop(){
+            this.w = 32;
+            this.h = 32;
+
+
             //update container, lol
             NE_GUI_Element __parent = parent.parent;    //lol, hacky shit
             //there we getting wrapper layer for inventory item
