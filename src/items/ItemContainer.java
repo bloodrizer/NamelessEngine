@@ -64,6 +64,10 @@ public class ItemContainer {
       * This function can work with multiple stacks
       */
 
+     public void remove_item(String type, int count){
+         remove_item(BaseItem.produce(type, count));
+     }
+
      public void remove_item(BaseItem item){
          int remove_count = item.count; //shows how much items left to remove
          
