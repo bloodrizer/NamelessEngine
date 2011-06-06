@@ -14,6 +14,7 @@ import java.util.List;
  * @author Administrator
  */
 public class WorldTile {
+    public float light_level = 0.0f;
 
     public enum TerrainType {
         TERRAIN_FORREST,

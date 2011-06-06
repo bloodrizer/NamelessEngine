@@ -55,7 +55,8 @@ public class TileCoordOverlay {
             Object[] ent_list = tile.ent_list.toArray();
             OverlaySystem.ttf.drawString(x+20, y+10,
                     "entities:" + Integer.toString(ent_list.length) +
-                    "blocked:" + Boolean.toString(tile.is_blocked())
+                    "blocked:" + Boolean.toString(tile.is_blocked()) +
+                    "light level" + tile.light_level
             );
         }
 

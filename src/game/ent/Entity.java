@@ -31,6 +31,8 @@ public class Entity {
      * This is an entity offset in tile coord system
      * It's used to allow smooth entity movement from tile to tile - for a player using NPC controller or for a npc using lerp
      */
+
+    public float light_amt = 0.0f;
     
     public float dx = 0.0f;
     public float dy = 0.0f;

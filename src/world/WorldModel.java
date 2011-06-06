@@ -16,10 +16,12 @@ import game.ent.EntityManager;
 import game.ent.EntityPlayer;
 import game.ent.enviroment.EntityStone;
 import game.ent.enviroment.EntityTree;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import ne.Main;
 import org.lwjgl.util.Point;
 import player.Player;
 import world.WorldTile.TerrainType;
@@ -37,6 +39,12 @@ public class WorldModel implements IEventListener {
     //--------------------------------------------------------------------------
     private static Point util_point     = new Point(0,0);
     private static Point __stack_point  = new Point(0,0);
+
+    private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
+
+    public static void invalidate_light(){
+        light_outdated = true;
+    }
 
     //todo: use actual stack there
     private static void push_point(Point point){
@@ -112,9 +120,9 @@ public class WorldModel implements IEventListener {
         WorldTimer.tick();
 
 
-        Object[] list = EntityManager.ent_list_sync.toArray();
+        Object[] ent_list = EntityManager.ent_list_sync.toArray();
         for(int i=EntityManager.ent_list_sync.size()-1; i>=0; i--){
-            Entity entity = (Entity)list[i];
+            Entity entity = (Entity)ent_list[i];
             if (entity.is_awake(Timer.get_time())){
                   entity.think();
             }
@@ -122,6 +130,82 @@ public class WorldModel implements IEventListener {
                   entity.next_frame();
             }
         }
+
+        //here comes tricky part - recalculate light emission
+        //TODO: use tile array iteration
+        if (light_outdated){
+            recalculate_light();
+            light_outdated = false;
+        }
+        //THIS IS FUCKING SLOOOOOOOOOOW
+        
+        /*Collection c = tile_data.keySet();
+        Iterator itr = c.iterator();
+        while(itr.hasNext()){
+            //WorldTile tile = (WorldTile)itr.next();
+            Point coord = (Point)itr.next();
+            WorldTile tile = tile_data.get(coord);
+
+            tile.light_level = 0.0f;
+            for(int i=0; i<EntityManager.ent_list_sync.size(); i++){
+                Entity entity = (Entity)ent_list[i];
+                tile.light_level += get_light_amt(coord.getX(),coord.getY(),entity);
+                         //System.out.println(tile.light_level);
+           }
+        }*/
+
+    }
+
+    public void recalculate_light(){
+
+        Object[] ent_list = EntityManager.ent_list_sync.toArray();
+
+        int x = WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE;
+        int y = WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE;
+        int size = WorldCluster.CLUSTER_SIZE*WorldChunk.CHUNK_SIZE;
+
+        for (int i = x; i<x+size; i++)
+        for (int j = y; j<y+size; j++){
+             int chunk_x = (int)Math.floor((float)i / WorldChunk.CHUNK_SIZE);
+             int chunk_y = (int)Math.floor((float)j / WorldChunk.CHUNK_SIZE);
+
+             if (WorldModel.get_cached_chunk(
+                        chunk_x,
+                        chunk_y) != null)
+             {
+                 WorldTile tile = WorldModel.get_tile(i,j);
+
+                 if (tile != null){
+                     tile.light_level = 0.0f;
+
+                     for(int e_id=0; e_id<ent_list.length; e_id++){
+                         Entity entity = (Entity)ent_list[e_id];
+                         if (entity.light_amt > 0.0f){
+                            tile.light_level += get_light_amt(i,j,entity);
+                         }
+                         //System.out.println(tile.light_level);
+                     }
+                     //Main.game.running = false;
+                     //System.exit(0);
+
+
+                 }
+             }
+        }
+    }
+
+    /*
+     * This function returns light ammount, casted by entity 'ent' at the tile
+     */
+    private float get_light_amt(int x, int y, Entity ent){
+        int dx = ent.origin.getX()-x;
+        int dy = ent.origin.getY()-y;
+        //float disst = (float)Math.sqrt(dx*dx+dy*dy);
+        float disst = dx*dx+dy*dy;
+
+        return ent.light_amt / disst;
+
+        //return 0.1f;
     }
 
     public static WorldChunk precache_chunk(int x, int y){
@@ -227,6 +311,10 @@ public class WorldModel implements IEventListener {
         //System.out.println("world model::on entity move to:"+dest.toString());
         entity.origin.setLocation(coord_dest);
 
+        if (entity.light_amt > 0.0f){
+            invalidate_light();
+        }
+
         //now with a chunk shit
         //----------------------------------------------------------------------
         WorldChunk new_chunk = get_cached_chunk(get_chunk_coord(coord_dest));
@@ -284,6 +372,10 @@ public class WorldModel implements IEventListener {
                 tile_to.add_entity(spawn_event.ent);
            }else{
                System.err.println("Failed to assign spawned entity to tile: tile is null!");
+           }
+
+           if (spawn_event.ent.light_amt > 0.0f){
+                invalidate_light();
            }
 
 

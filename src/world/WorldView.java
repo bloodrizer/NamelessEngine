@@ -80,12 +80,12 @@ public class WorldView implements IEventListener {
 
                         //lil hack for terrain rendering visualization
                         if (tile.terrain_type != TerrainType.TERRAIN_WATER){
-                            float g_color = ((float)tile.get_height() / 255)*2;
+                            
 
                             //get terrain color according to the time
                             //Vector3f g_color_time = WorldTimer.get_sun_color();
-                            
-                            GL11.glColor3f(1.0f,g_color,1.0f);
+                            Vector3f tile_color = get_tile_color(tile);
+                            GL11.glColor3f(tile_color.x,tile_color.y,tile_color.z);
                         }else{
                             GL11.glColor3f(1.0f,1.0f,1.0f);
                         }
@@ -102,6 +102,16 @@ public class WorldView implements IEventListener {
             }
         }*/
     }
+    static Vector3f utl_tile_color = new Vector3f();
+    public Vector3f get_tile_color(WorldTile tile){
+        float g_color = ((float)tile.get_height() / 255);
+        utl_tile_color.set(
+                0.5f + tile.light_level,
+                g_color+ tile.light_level,
+                0.5f+ tile.light_level);
+
+        return utl_tile_color;
+    }
 
     public void render_entities(){
         
@@ -117,6 +127,19 @@ public class WorldView implements IEventListener {
         //IGenericRender render = Render.get_render(entity);
         //render.render(entity);
         GL11.glColor3f(1.0f,1.0f,1.0f);
+
+        WorldTile tile = WorldModel.get_tile(
+            entity.origin.getX(),
+            entity.origin.getY()
+        );
+
+        GL11.glColor3f(
+            0.5f + tile.light_level,
+            0.5f + tile.light_level,
+            0.5f + tile.light_level
+        );
+
+
         EntityRenderer renderer = entity.get_render();
         renderer.render();  //render, lol
        

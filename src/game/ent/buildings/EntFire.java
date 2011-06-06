@@ -12,6 +12,11 @@ import render.SpriteRenderer;
  * Fire. Builded with 5 branches
  */
 public class EntFire extends EntBuilding {
+
+    public EntFire(){
+        this.light_amt = 15.0f;
+    }
+
     @Override
     public EntityRenderer build_render(){
         SpriteRenderer __render = new SpriteRenderer();
