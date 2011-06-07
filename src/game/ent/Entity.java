@@ -53,7 +53,14 @@ public class Entity {
         this.blocking = blocking;
     }
 
-    
+    //helper functions for code beautification
+    public int x(){
+        return origin.getX();
+    }
+
+    public int y(){
+        return origin.getY();
+    }
 
     public enum Orientation {
         ORIENT_N,

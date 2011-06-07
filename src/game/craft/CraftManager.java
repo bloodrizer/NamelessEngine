@@ -47,6 +47,11 @@ public class CraftManager {
         new CraftRecipe[] {
             new CraftRecipe("branch",5)
         }, "fire");
+
+        building_groop.add_recipe(
+        new CraftRecipe[] {
+            new CraftRecipe("wood_block",5)
+        }, "fence");
     }
 
     public static String[] get_groups(){
