@@ -20,6 +20,7 @@ import java.util.Iterator;
 import ne.Game;
 import ne.Input.MouseInputType;
 import org.newdawn.slick.Color;
+import render.AreaRenderer;
 import render.overlay.OverlaySystem;
 
 /**
@@ -31,7 +32,7 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
     NE_GUI_Element inv_layer;
 
 
-
+    AreaRenderer area_renderer;
 
 
     public NE_GUI_Inventory(){
@@ -51,6 +52,20 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
             public void e_on_mouse_click(EMouseClick e){
                 System.out.println("InventoryLayer::click");
             }
+
+            @Override
+            public void render(){
+                int qx;
+                int qy;
+
+                for(int i=0; i< 15; i++){
+                    qx = get_x() + get_item_x(i) * (32+8) - 20;
+                    qy = get_y() + get_item_y(i) * (32+8) - 12;
+                    area_renderer.render(qx, qy, 40, 40);
+                }
+
+                super.render();
+            }
         };
 
         inv_layer.x = 32;
@@ -63,6 +78,10 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
         inv_layer.dragable = false;
         
         add(inv_layer);
+
+        area_renderer = new AreaRenderer();
+        area_renderer.set_rect(0, 96, 48, 48);  //bg
+        //area_renderer.set_rect(48, 96, 48, 48);  //invisible bg
 
     }
 
@@ -103,11 +122,13 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
 
             item_control.sprite_name = "/render/gfx/items/"+ item.get_type() +".png";
 
-            item_control.x = get_item_x(i) * 32;
-            item_control.y = get_item_y(i) * 32;
+            item_control.x = get_item_x(i) * (32+8) - 16;
+            item_control.y = get_item_y(i) * (32+8) - 8;
 
             item_control.w = 32;
             item_control.h = 32;
+
+            
 
             //item_control.dragable = false;
         }

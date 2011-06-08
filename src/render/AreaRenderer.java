@@ -68,8 +68,11 @@ public class AreaRenderer {
     }
 
     public void render(int quad_x, int quad_y){
+        render(quad_x,quad_y,w,h);
+    }
+    public void render(int quad_x, int quad_y, int quad_w, int quad_h){
         glColor3f(1.0f, 1.0f, 1.0f);
         Render.bind_texture(texture_name);
-        draw_quad(quad_x,quad_y,w,h);
+        draw_quad(quad_x,quad_y,quad_w,quad_h);
     }
 }

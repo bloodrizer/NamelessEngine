@@ -29,6 +29,8 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
     
         //NE_GUI_Quickslot quickslot;
 
+        //AreaRenderer area_renderer;
+
         BaseItem item;
         NE_GUI_InventoryItem(BaseItem item){
             this.item = item;
