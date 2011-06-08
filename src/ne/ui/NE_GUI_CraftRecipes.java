@@ -14,7 +14,7 @@ import player.Player;
  * This gui control represents a layer of recipes for set subcategory
  * of craft menu
  */
-public class NE_GUI_CraftRecipes extends NE_GUI_Frame {
+public class NE_GUI_CraftRecipes extends NE_GUI_FrameModern {
 
     public NE_GUI_CraftRecipes(){
         super(true);

@@ -26,7 +26,7 @@ import render.overlay.OverlaySystem;
  *
  * @author Administrator
  */
-public class NE_GUI_Inventory extends NE_GUI_Frame implements IEventListener{
+public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListener{
 
     NE_GUI_Element inv_layer;
 
