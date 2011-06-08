@@ -30,6 +30,7 @@ public class BuildManager {
             return;
         }
         links.put("fire", EntFire.class);
+        links.put("fence", EntFence.class);
     }
 
     public static Class get_building(String _type) {

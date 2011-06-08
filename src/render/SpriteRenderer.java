@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 public class SpriteRenderer extends EntityRenderer {
 
     private Tileset tileset = null;
-    private int tile_id = 0;
+    protected int tile_id = 0;
 
     public SpriteRenderer(){
         tileset = new Tileset();

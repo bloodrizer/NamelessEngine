@@ -14,6 +14,7 @@ import ne.io.Io;
 import ne.ui.NE_GUI_Button;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Frame;
+import ne.ui.NE_GUI_FrameModern;
 import ne.ui.NE_GUI_Input;
 import ne.ui.NE_GUI_Label;
 import ne.ui.NE_GUI_System;
@@ -64,7 +65,7 @@ public class MainMenuUI implements IUserInterface {
 
        
 
-        NE_GUI_Frame frame = new NE_GUI_Frame(false);
+        NE_GUI_FrameModern frame = new NE_GUI_FrameModern();
         ui.root.add(frame);
         frame.set_tw(12);
         frame.set_th(6);

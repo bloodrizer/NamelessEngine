@@ -37,6 +37,22 @@ public class WorldTile {
         ent_list.remove(ent);
     }
 
+    /*
+     * Check if tile has entity assigned to it
+     *
+     */
+    public boolean has_ent(Class ent_class){
+        Object[] list = ent_list.toArray();
+        for(int i=ent_list.size()-1; i>=0; i--){
+            Entity ent = (Entity)list[i];
+
+            if (ent_class.isInstance(ent)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean is_blocked(){
 
         if (terrain_type == TerrainType.TERRAIN_WATER){

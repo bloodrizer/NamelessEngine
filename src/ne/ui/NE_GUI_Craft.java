@@ -19,7 +19,7 @@ import player.Player;
  *
  * @author Administrator
  */
-public class NE_GUI_Craft extends NE_GUI_Frame {
+public class NE_GUI_Craft extends NE_GUI_FrameModern {
 
 
     NE_GUI_CraftRecipes recipes_layer;
