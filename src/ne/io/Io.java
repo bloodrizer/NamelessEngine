@@ -5,6 +5,7 @@
 
 package ne.io;
 
+import events.EPlayerAuthorise;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
@@ -142,7 +143,9 @@ public class Io implements IEventListener {
                     gameserv_io.sock_send("0x0050 "+Player.character_id);
                 }
                 if (data[0].equals("0x0012")){      //player loged in
-                    ESelectCharacter event = new ESelectCharacter();
+                    /*ESelectCharacter event = new ESelectCharacter();
+                    event.post();*/
+                    EPlayerAuthorise event = new EPlayerAuthorise();
                     event.post();
                 }
 

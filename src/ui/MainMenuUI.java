@@ -6,6 +6,10 @@
 package ui;
 
 import events.EMouseClick;
+import events.EPlayerAuthorise;
+import events.Event;
+import events.EventManager;
+import events.IEventListener;
 import events.network.ESelectCharacter;
 import ne.Game;
 import ne.Game.GameModes;
@@ -17,6 +21,7 @@ import ne.ui.NE_GUI_Frame;
 import ne.ui.NE_GUI_FrameModern;
 import ne.ui.NE_GUI_Input;
 import ne.ui.NE_GUI_Label;
+import ne.ui.NE_GUI_SpriteArea;
 import ne.ui.NE_GUI_System;
 
 
@@ -28,7 +33,7 @@ import ne.ui.NE_GUI_System;
  */
 
 
-public class MainMenuUI implements IUserInterface {
+public class MainMenuUI implements IUserInterface,  IEventListener {
 
     public NE_GUI_System ui;
     public MainMenuUI(){
@@ -62,6 +67,8 @@ public class MainMenuUI implements IUserInterface {
     
 
     public void build_ui() {
+
+        EventManager.subscribe(this);
 
        
 
@@ -120,10 +127,65 @@ public class MainMenuUI implements IUserInterface {
         button.y = 120;
         button.set_tw(3);
 
+        //----------------------------------------------------------------------
+        //show_char_select();
+
     }
+
 
     public NE_GUI_System get_nge_ui() {
         return ui;
+    }
+
+    public void e_on_event(Event event) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        if (event instanceof EPlayerAuthorise){
+            show_char_select();
+        }
+    }
+
+    public void e_on_event_rollback(Event event) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private void show_char_select() {
+        NE_GUI_FrameModern char_select = new NE_GUI_FrameModern();
+        ui.root.add(char_select);
+        char_select.set_tw(10);
+        char_select.set_th(8);
+        char_select.x = 220;
+        char_select.y = 160;
+
+        NE_GUI_Button char_button;
+        NE_GUI_SpriteArea char_sprite;
+        for(int i = 0; i< 3; i++){
+            char_button = new NE_GUI_Button() {
+                @Override
+                public void e_on_mouse_click(EMouseClick e){
+                    ESelectCharacter event = new ESelectCharacter();
+                    event.post();
+                }
+            };
+            char_select.add(char_button);
+            char_button.set_tw(3);
+            char_button.x = 160;
+            char_button.y = 55 + i * 60;
+            char_button.text = "Char #"+i;
+
+
+            char_sprite = new NE_GUI_SpriteArea();
+            char_select.add(char_sprite);
+            char_sprite.set_rect(48, 96, 48, 48);
+
+            /*char_sprite.set_size(64, 64, 40,
+                    55 + i * 60);*/
+
+            char_sprite.w = 60;
+            char_sprite.h = 60;
+            char_sprite.x = 60;
+            char_sprite.y = 37 + i * 64;
+
+        }
     }
 
 

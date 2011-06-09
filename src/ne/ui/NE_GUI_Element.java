@@ -54,6 +54,13 @@ public class NE_GUI_Element {
             return this.y;
     }
 
+    public void set_size(int x, int y, int w, int h){
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+    }
+
 
     protected NE_GUI_Element parent = null;
     public void set_parent(NE_GUI_Element parent){
