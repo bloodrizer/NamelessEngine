@@ -16,6 +16,7 @@ import ne.Game.GameModes;
 import ne.Main;
 import ne.io.Io;
 import ne.ui.NE_GUI_Button;
+import ne.ui.NE_GUI_CharEquip;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Frame;
 import ne.ui.NE_GUI_FrameModern;
@@ -128,7 +129,14 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         button.set_tw(3);
 
         //----------------------------------------------------------------------
-        //show_char_select();
+        //here is debug shit
+        NE_GUI_CharEquip char_screen = new NE_GUI_CharEquip();
+        ui.root.add(char_screen);
+        char_screen.set_tw(6);
+        char_screen.set_th(6);
+
+        char_screen.x = 590;
+        char_screen.y = 15;
 
     }
 
