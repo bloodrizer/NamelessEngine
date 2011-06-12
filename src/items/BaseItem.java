@@ -16,6 +16,15 @@ public class BaseItem{
     int count = 1;
     int max_count = 64;
     String type = "undefined";
+    String slot = "undefined";
+
+    public void set_slot(String slot){
+        this.slot = slot;
+    }
+
+    public String get_slot(){
+        return slot;
+    }
 
     /*
      * Create an instance of BaseItem

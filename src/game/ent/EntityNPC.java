@@ -5,6 +5,9 @@
 
 package game.ent;
 
+import items.BaseItem;
+import items.EquipContainer;
+import items.ItemContainer;
 import render.EntityRenderer;
 import render.NPCRenderer;
 
@@ -16,6 +19,12 @@ import render.NPCRenderer;
 public class EntityNPC extends EntityActor {
     //name to show above
     public String name = "undefined";
+
+    public EquipContainer equipment;
+
+    public void EquipItem(BaseItem item){
+        //if (BaseItem)
+    }
 
      @Override
      public EntityRenderer build_render(){
