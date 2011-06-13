@@ -14,6 +14,7 @@ import org.newdawn.slick.TrueTypeFont;
  * @author Administrator
  */
 public class OverlaySystem {
+
     
     public DebugOverlay debug = null;
 
@@ -25,8 +26,13 @@ public class OverlaySystem {
     public OverlaySystem() {
         font = new Font("Arial", Font.BOLD, FONT_SIZE);
         ttf = new TrueTypeFont(font, true);
+    }
 
-        
+    public static TrueTypeFont precache_font(int size){
+        Font _font = new Font("Arial", Font.BOLD, size);
+        TrueTypeFont _ttf = new TrueTypeFont(_font, true);
+
+        return _ttf;
     }
 
     //render whole overlay

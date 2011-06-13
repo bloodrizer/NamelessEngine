@@ -72,8 +72,18 @@ public class NE_GUI_Input extends NE_GUI_Element{
             if (text.length()>0){
                 text = text.substring(0,text.length()-1);
             }
-        }else{
+        }
+        else if (e.key == Keyboard.KEY_RETURN){
+            e_on_submit();
+        
+        }
+        else{
             text = text + e.chr;
         }
     }
+
+    public void e_on_submit(){
+        
+    }
+
 }

@@ -17,6 +17,7 @@ import ne.Main;
 import ne.io.Io;
 import ne.ui.NE_GUI_Button;
 import ne.ui.NE_GUI_CharEquip;
+import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Frame;
 import ne.ui.NE_GUI_FrameModern;
@@ -137,6 +138,17 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
 
         char_screen.x = 590;
         char_screen.y = 15;
+
+        //----------------------------------------------------------------------
+        //chat debug
+
+        NE_GUI_Chat chat_box = new NE_GUI_Chat();
+        ui.root.add(chat_box);
+        chat_box.set_tw(16);
+        chat_box.set_th(4);
+
+        chat_box.x = 160;
+        chat_box.y = 460;
 
     }
 
