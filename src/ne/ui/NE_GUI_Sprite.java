@@ -38,5 +38,7 @@ public class NE_GUI_Sprite extends NE_GUI_Element {
                 glTexCoord2f(0.0f, 0.0f+1.0f);
             glVertex2f( x,   y+h);
         glEnd();
+
+        super.render();
     }
 }

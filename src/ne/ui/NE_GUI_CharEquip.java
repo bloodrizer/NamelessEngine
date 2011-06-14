@@ -5,6 +5,9 @@
 
 package ne.ui;
 
+import java.util.HashMap;
+import org.lwjgl.util.Point;
+import java.util.Map;
 import items.EquipContainer;
 import game.ent.EntityPlayer;
 import player.Player;
@@ -46,6 +49,7 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
          */
         public void assign_item(BaseItem item){
             this.item = item.getItem();
+            ((NE_GUI_CharEquip)parent).update();
         }
 
         //allow click based slot select
@@ -96,6 +100,9 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
 
     //--------------------------------------------------------------------------
     public static final int SLOT_COUNT = 4;
+
+    public static NE_GUI_EquipSlot[] equip_slots = new NE_GUI_EquipSlot[SLOT_COUNT];
+    public NE_GUI_SpriteArea char_body;
     
     public NE_GUI_CharEquip(){
 
@@ -106,10 +113,14 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
             NE_GUI_EquipSlot slot = new NE_GUI_EquipSlot();
             add(slot);
 
+            equip_slots[i] = slot;  //save slot pointer
+
             //slot.slot_type = ((EntityPlayer)Player.get_ent()).equipment.slot_list[i];
 
             //static slot list will be enough for now
             //use npc-related slot list later
+
+            //assign slot type
             slot.slot_type = EquipContainer.slot_list[i];
 
             slot.x = 20; //size+offset
@@ -124,6 +135,51 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
             slot.id = i;
 
         }
+
+       
+
+      
+
+        char_body = new NE_GUI_SpriteArea();
+        char_body.area_renderer.texture_name = "/ui/char_body_female.png";
+        char_body.set_rect(0, 0, 393, 510); //shitty aestetic tweaks
+        char_body.x = 60;
+        char_body.y = 20;
+
+        char_body.w = 200;
+        char_body.h = 256;
+
+        add(char_body);
+    }
+
+   HashMap<String,Point> attachments = new HashMap<String,Point>(SLOT_COUNT);
+   {
+        attachments.put("head", new Point(98,40));
+   }
+
+    public void update(){
+
+        System.out.println("Updating equipment preview");
+
+        char_body.clear();
+
+        for(int i=0; i<SLOT_COUNT; i++){
+            Point attach = attachments.get(equip_slots[i].slot_type);
+            if(attach != null && equip_slots[i].item != null){
+
+                 System.out.println("Assigning item sprite");
+
+                 NE_GUI_Sprite equip_sprite = new NE_GUI_Sprite();
+                 equip_sprite.sprite_name = "/render/gfx/equip/"
+                      +equip_slots[i].item.get_type()+".png";
+
+                 equip_sprite.set_size(attach.getX() - 32, attach.getY() - 32, 64, 64);
+                 char_body.add(equip_sprite);
+            }else{
+                System.out.println("attach is null or item is null");
+            }
+        }
+
     }
 
 

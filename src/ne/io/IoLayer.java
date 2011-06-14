@@ -74,7 +74,9 @@ public class IoLayer implements IEventListener{
                 try {
                     line = in.readLine();
                     //parse_network_data(line.split(" "));
-                    packets.add(line.split(" "));
+                    if (line != null){
+                        packets.add(line.split(" "));
+                    }
 
                 } catch (IOException e) {
                     if ("Socket closed".equals(e.getMessage())) {

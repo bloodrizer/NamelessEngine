@@ -77,7 +77,7 @@ public class GameUI implements IUserInterface,  IEventListener {
         char_equip.set_th(6);
 
 
-        char_equip.x = WindowRender.get_window_w()-210;
+        char_equip.x = WindowRender.get_window_w()-280;
         char_equip.y = 15;
 
 
