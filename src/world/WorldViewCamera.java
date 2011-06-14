@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 import player.Player;
 import render.Tileset;
+import render.WindowRender;
 
 /**
  *
@@ -62,9 +63,11 @@ public class WorldViewCamera {
                 target_x = delta.getX();
                 target_y = delta.getY();
 
+                int dxt = WindowRender.get_window_w()/Tileset.TILE_SIZE /2;
+                int dyt = WindowRender.get_window_h()/Tileset.TILE_SIZE /2;
 
-                float dx = target_x - 12*Tileset.TILE_SIZE - camera_x;
-		float dy = target_y - 8*Tileset.TILE_SIZE -  camera_y;
+                float dx = target_x - dxt*Tileset.TILE_SIZE - camera_x;
+		float dy = target_y - dyt*Tileset.TILE_SIZE - camera_y;
 
                 
                 

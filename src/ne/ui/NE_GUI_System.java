@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.lwjgl.util.Point;
 import player.Player;
 import render.WindowRender;
+import world.WorldModel;
 import world.WorldView;
 
 /**

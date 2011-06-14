@@ -23,7 +23,7 @@ import world.WorldChunk;
  *
  * @author Administrator
  */
-public class Entity {
+public class Entity implements Comparable {
 
     public Point origin;
 
@@ -60,6 +60,22 @@ public class Entity {
 
     public int y(){
         return origin.getY();
+    }
+
+    public int compareTo(Object ent) {
+        if (!(ent instanceof Entity)){
+            throw new ClassCastException("Entity instance expected.");
+        }
+
+        int hc_this = this.origin.getY()*10000 + this.origin.getX();
+
+        if(ent == null || ((Entity)ent).origin == null){
+            return hc_this;
+        }
+
+        int hc_ent = ((Entity)ent).origin.getY()*10000 + ((Entity)ent).origin.getX();
+
+        return hc_this - hc_ent;
     }
 
     public enum Orientation {
