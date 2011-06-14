@@ -154,7 +154,7 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
 
    HashMap<String,Point> attachments = new HashMap<String,Point>(SLOT_COUNT);
    {
-        attachments.put("head", new Point(98,40));
+        attachments.put("head", new Point(98,34));
    }
 
     public void update(){

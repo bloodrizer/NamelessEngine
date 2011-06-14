@@ -25,5 +25,6 @@ public class NE_GUI_SpriteArea extends NE_GUI_Element{
     @Override
     public void render(){
         area_renderer.render(get_x(), get_y(), w, h);
+        super.render();
     }
 }
