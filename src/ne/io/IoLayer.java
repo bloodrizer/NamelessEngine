@@ -35,13 +35,16 @@ public class IoLayer implements IEventListener{
         
         //System.out.println("creating socket and i/o buffers");
         try {
-            layer_sock = new Socket(host, port);
+            SocketAddress sockaddr = new InetSocketAddress(host, port);
+            layer_sock = new Socket();
+            layer_sock.connect(sockaddr, 5000); //5ms
+            //layer_sock.setSoTimeout(5000);
 
             out = new PrintWriter(layer_sock.getOutputStream(), true);
             in =  new BufferedReader(new InputStreamReader(
                                         layer_sock.getInputStream()));
         }
-        catch(Exception e){
+        catch(IOException e){
             e.printStackTrace();
         }
         
@@ -105,7 +108,7 @@ public class IoLayer implements IEventListener{
         if (!layer_sock.isClosed()) {
             try {
                 layer_sock.close();
-                System.exit(0);
+                //System.exit(0);
             } catch (IOException ignored) {
                 ignored.printStackTrace();
             }

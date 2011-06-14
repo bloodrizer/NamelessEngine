@@ -22,7 +22,7 @@ public class EquipContainer {
      */
      public boolean has_slot(String slot){
         for (int i=0; i<slot_list.length; i++){
-            if (slot_list.equals(slot)){
+            if (slot_list[i].equals(slot)){
                 return true;
             }
         }

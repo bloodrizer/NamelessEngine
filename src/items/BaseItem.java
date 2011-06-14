@@ -18,8 +18,9 @@ public class BaseItem{
     String type = "undefined";
     String slot = "undefined";
 
-    public void set_slot(String slot){
+    public BaseItem set_slot(String slot){
         this.slot = slot;
+        return this;
     }
 
     public String get_slot(){
@@ -106,6 +107,8 @@ public class BaseItem{
 
         //should be set too to avoid bugs
         item.set_container(container);
+        //this too
+        item.set_slot(slot);
         return item;
     }
 

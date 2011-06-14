@@ -44,6 +44,12 @@ public class EntityPlayer extends EntityNPC {
                 BaseItem.produce("fence", 64)
         );
         //System.out.println(branch.get_container());
+
+
+        //----------- equip test -----------
+        this.container.add_item(
+                BaseItem.produce("valkyrie_helmet", 1).set_slot("head")
+        );
     }
 
     @Override

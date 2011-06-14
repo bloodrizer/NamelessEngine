@@ -5,6 +5,9 @@
 
 package ne.ui;
 
+import items.EquipContainer;
+import game.ent.EntityPlayer;
+import player.Player;
 import render.Render;
 import events.EMouseClick;
 import events.EGUIDrop;
@@ -18,6 +21,7 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
 
         BaseItem item;
         public int id;
+        String slot_type;
 
         @Override
         public void e_on_grab(EGUIDrop event){
@@ -26,25 +30,22 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
             if (event.element instanceof NE_GUI_InventoryItem){
                 NE_GUI_InventoryItem item_control = (NE_GUI_InventoryItem)(event.element);
 
-                assign_item(item_control.item);
+                //assign_item(item_control.item);
+                if(item_control.item.get_slot().equals(slot_type)){
+                    assign_item(item_control.item);
+                    Player.get_ent().container.remove_item(item_control.item);
+                }else{
+                    System.err.println("Ent type '"+ item_control.item.get_slot()+ "' not equals '"+ slot_type +"'");
+                }
             }
         }
 
+        /*
+         * This copypaste is priobably not nececery
+         *
+         */
         public void assign_item(BaseItem item){
-            this.item = item;
-
-            Object[] slots = parent.children.toArray();
-
-            //Iterate other quickslots and remove item, if allready assigned
-
-            for (int i = 0; i<slots.length; i++){
-                NE_GUI_EquipSlot slot = (NE_GUI_EquipSlot) slots[i];
-
-                //note that we probably can not compare items due to defence coping
-                if ( slot != this && slot.item != null && slot.item == item){
-                    slot.item = null;
-                }
-            }
+            this.item = item.getItem();
         }
 
         //allow click based slot select
@@ -104,6 +105,12 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
         for (int i = 0; i<SLOT_COUNT; i++){
             NE_GUI_EquipSlot slot = new NE_GUI_EquipSlot();
             add(slot);
+
+            //slot.slot_type = ((EntityPlayer)Player.get_ent()).equipment.slot_list[i];
+
+            //static slot list will be enough for now
+            //use npc-related slot list later
+            slot.slot_type = EquipContainer.slot_list[i];
 
             slot.x = 20; //size+offset
             slot.y = 20 + i*(32+8);

@@ -117,8 +117,13 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         NE_GUI_Button button = new NE_GUI_Button() {
             @Override
             public void e_on_mouse_click(EMouseClick e){
-                Io.connect();
-                Io.login(login_input.text, pass_input.text);
+                try{
+                    Io.connect();
+                    Io.login(login_input.text, pass_input.text);
+                }
+                catch(Exception ex){
+                    show_message(ex.getMessage());
+                }
             }
         };
 

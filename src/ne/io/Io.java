@@ -15,6 +15,11 @@ import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityNPC;
 import game.ent.controller.NpcController;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ne.Game;
 import ne.Main;
@@ -59,7 +64,28 @@ public class Io implements IEventListener {
 
         System.out.println("starting charserv io");
 
-        charserv_io = new IoLayer("admin.edi.inteliec.eu", 8022){
+        Properties p = new Properties();
+        String server_url=":";
+        try {
+            p.load(new FileInputStream("client.ini"));
+            server_url = p.getProperty("server_url");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        System.out.println(server_url);
+       
+        String[] server_params = server_url.split(":");
+        System.out.println(server_params[0]);
+        System.out.println(server_params[1]);
+
+        if(server_params.length != 2){
+            server_params = new String[] {"admin.edi.inteliec.eu","8022"};
+        }
+
+        charserv_io = new IoLayer(server_params[0], Integer.parseInt(server_params[1])){
+        //charserv_io = new IoLayer("admin.edi.inteliec.eu", 8022){
+
 
            @Override
            protected void parse_network_data(String[] data){
