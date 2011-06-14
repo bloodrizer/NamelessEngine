@@ -18,6 +18,8 @@ import items.BaseItemAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import ne.Input.MouseInputType;
+import ne.ui.NE_GUI_CharEquip;
+import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Inventory;
 import ne.ui.NE_GUI_Popup;
@@ -40,6 +42,8 @@ public class GameUI implements IUserInterface,  IEventListener {
 
     public static NE_GUI_Inventory inventory;
     public static NE_GUI_Craft craft;
+    public static NE_GUI_Chat chat_box;
+    public static NE_GUI_CharEquip char_equip;
 
 
     public GameUI(){
@@ -63,11 +67,26 @@ public class GameUI implements IUserInterface,  IEventListener {
 
         quickslots.x = WindowRender.get_window_w() / 2  - quickslots.w /2;
         quickslots.y = WindowRender.get_window_h() - quickslots.h - 10;
-        
+
+
+        //----------------------------------------------------------------------
+        //here is debug shit
+        char_equip = new NE_GUI_CharEquip();
+        ui.root.add(char_equip);
+        char_equip.set_tw(6);
+        char_equip.set_th(6);
+
+
+        char_equip.x = WindowRender.get_window_w()-210;
+        char_equip.y = 15;
+
+
         /*
-         * Inventory goes after quickslots, as items of inventory should have higher 
+         * Inventory goes after quickslots, as items of inventory should have higher
          * z-axis index
          * Otherwise quickslot drag-n-drop would look lame
+         *
+         * Same for equip shit
          */
 
         inventory = new NE_GUI_Inventory();
@@ -82,6 +101,18 @@ public class GameUI implements IUserInterface,  IEventListener {
         craft.x = 10;
         craft.y = 300;
 
+        //----------------------------------------------------------------------
+        //chat debug
+
+        chat_box = new NE_GUI_Chat();
+        ui.root.add(chat_box);
+        chat_box.set_tw(16);
+        chat_box.set_th(4);
+
+        chat_box.x = 260;
+        chat_box.y = WindowRender.get_window_h() - 200;
+
+
 
     }
 
@@ -91,13 +122,22 @@ public class GameUI implements IUserInterface,  IEventListener {
             EKeyPress key_event = (EKeyPress) event;
             switch(key_event.key){
                 case Keyboard.KEY_F1:
-                    toggle_console();
+                    //toggle_console();
                 break;
                 case Keyboard.KEY_I:
-                    toggle_inventory();
+                    inventory.toggle();
                 break;
                 case Keyboard.KEY_Q:
-                    toggle_craft();
+                    craft.toggle();
+                break;
+                case Keyboard.KEY_E:
+                    char_equip.toggle();
+                break;
+                case Keyboard.KEY_G:    //toggle grid
+                    WorldView.DRAW_GRID = !WorldView.DRAW_GRID;
+                break;
+                case Keyboard.KEY_RETURN:
+                    chat_box.toggle();
                 break;
                 case Keyboard.KEY_DOWN:
                     WorldView.ISOMETRY_TILE_SCALE -= 0.1f;
@@ -161,18 +201,6 @@ public class GameUI implements IUserInterface,  IEventListener {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void toggle_console(){
-        /*Element element = screen.findElementByName("console");
-        element.setVisible(!element.isVisible());*/
-    }
-
-    public void toggle_inventory(){
-        inventory.visible = !inventory.visible;
-    }
-    
-    public void toggle_craft(){
-        craft.visible = !craft.visible;
-    }
 
 
     NE_GUI_System ui;

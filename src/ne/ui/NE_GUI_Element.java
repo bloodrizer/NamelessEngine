@@ -257,4 +257,14 @@ public class NE_GUI_Element {
     public String toString(){
         return "GUIElement[]";
     }
+
+    public void toggle(){
+        this.visible = !this.visible;
+    }
+
+    //ultra-useful helper function to set window on center
+    public void center(){
+        this.x = WindowRender.get_window_w()/2 - w/2;
+        this.y = WindowRender.get_window_h()/2 - h/2;
+    }
 }

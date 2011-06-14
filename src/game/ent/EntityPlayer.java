@@ -35,6 +35,9 @@ public class EntityPlayer extends EntityNPC {
                 BaseItem.produce("wood_block", 64)
         );
         this.container.add_item(
+                BaseItem.produce("wood_wall", 64)
+        );
+        this.container.add_item(
                 BaseItem.produce("fire", 1)
         );
         this.container.add_item(
@@ -50,16 +53,14 @@ public class EntityPlayer extends EntityNPC {
 
      @Override
      public EntityRenderer build_render(){
-        NPCRenderer __render = new NPCRenderer();
+        /*NPCRenderer __render = new NPCRenderer();
         __render.set_texture("player_hd.png");
 
-        __render.set_animation_length(7);
+        __render.set_animation_length(7);*/
 
+        NPCRenderer __render = (NPCRenderer)(super.build_render());
 
-        /*__render.get_tileset().sprite_w = 64;
-        __render.get_tileset().sprite_h = 109;*/
-        __render.get_tileset().sprite_w = 46;
-        __render.get_tileset().sprite_h = 78;
+        
 
         return __render;
     }

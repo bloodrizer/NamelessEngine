@@ -25,19 +25,32 @@ public class EntityNPC extends EntityActor {
     public void EquipItem(BaseItem item){
         //if (BaseItem)
     }
+    public String race = "female";
+    {
+        if (Math.random() > 0.25f){
+           race = "male";
+        }
+    }
+    //note, that simle male/female sex would not be enough, as we may have elven shit or zergs, etc
 
      @Override
      public EntityRenderer build_render(){
         NPCRenderer __render = new NPCRenderer();
-        __render.set_texture("player_hd.png");
+
+        if (race.equals("male")){
+            __render.set_texture("player_hd.png");
+        }
+        else if(race.equals("female"))
+         {
+            __render.set_texture("player_hd_female.png");
+        }
 
         __render.set_animation_length(7);
 
+        float SPRITE_SCALE = 1.2f;
 
-        /*__render.get_tileset().sprite_w = 64;
-        __render.get_tileset().sprite_h = 109;*/
-        __render.get_tileset().sprite_w = 46;
-        __render.get_tileset().sprite_h = 78;
+        __render.get_tileset().sprite_w = (int)(46 * SPRITE_SCALE);
+        __render.get_tileset().sprite_h = (int)(78 * SPRITE_SCALE); //78
 
         return __render;
     }

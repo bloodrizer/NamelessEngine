@@ -49,6 +49,11 @@ public class NE_GUI_System {
                         System.out.println("spawning building");
 
                         Point tile_coord = WorldView.getTileCoord(ex,ey);
+
+                        if (WorldModel.tile_blocked(tile_coord)){
+                            return; //do not allow to build on blocked tile
+                        }
+
                         ent_building.spawn(54321, tile_coord);
                         ent_building.set_blocking(true);
 

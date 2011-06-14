@@ -79,8 +79,9 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         frame.set_tw(12);
         frame.set_th(6);
 
-        frame.x = 190;
-        frame.y = 190;
+        //frame.x = 190;
+        //frame.y = 190;
+        frame.center();
 
         login_input = new NE_GUI_Input();
         frame.add(login_input);
@@ -129,27 +130,7 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         button.y = 120;
         button.set_tw(3);
 
-        //----------------------------------------------------------------------
-        //here is debug shit
-        NE_GUI_CharEquip char_screen = new NE_GUI_CharEquip();
-        ui.root.add(char_screen);
-        char_screen.set_tw(6);
-        char_screen.set_th(6);
-
-        char_screen.x = 590;
-        char_screen.y = 15;
-
-        //----------------------------------------------------------------------
-        //chat debug
-
-        NE_GUI_Chat chat_box = new NE_GUI_Chat();
-        ui.root.add(chat_box);
-        chat_box.set_tw(16);
-        chat_box.set_th(4);
-
-        chat_box.x = 160;
-        chat_box.y = 460;
-
+        
     }
 
 
@@ -173,8 +154,9 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         ui.root.add(char_select);
         char_select.set_tw(10);
         char_select.set_th(8);
-        char_select.x = 220;
-        char_select.y = 160;
+        /*char_select.x = 220;
+        char_select.y = 160;*/
+        char_select.center();
 
         NE_GUI_Button char_button;
         NE_GUI_SpriteArea char_sprite;

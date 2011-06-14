@@ -66,14 +66,23 @@ public class Tileset{
             tile_id = 8;
         }
 
-
-        draw_quad(
-                i*TILE_SIZE,
-                j*TILE_SIZE,
-                sprite_w-1,
-                sprite_h-1,
-                tile_id
-        );
+        if (WorldView.DRAW_GRID){
+            draw_quad(
+                    i*TILE_SIZE,
+                    j*TILE_SIZE,
+                    sprite_w-1,
+                    sprite_h-1,
+                    tile_id
+            );
+        }else{
+            draw_quad(
+                    i*TILE_SIZE,
+                    j*TILE_SIZE,
+                    sprite_w,
+                    sprite_h,
+                    tile_id
+            );
+        }
     }
 
     private void draw_quad(int x, int y, int w, int h, int tile_id){

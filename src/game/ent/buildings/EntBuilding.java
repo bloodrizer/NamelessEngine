@@ -6,10 +6,12 @@
 package game.ent.buildings;
 
 import game.ent.Entity;
+import render.EntityRenderer;
+import render.SpriteRenderer;
 
 /**
  * Basic class for all constructions
  */
 public class EntBuilding extends Entity {
-
+   
 }

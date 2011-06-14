@@ -46,6 +46,8 @@ public class WorldView implements IEventListener {
     public static int TILEMAP_W = 100;
     public static int TILEMAP_H = 100;
 
+    public static boolean DRAW_GRID = false;
+
     public void render_background(){
 
         //System.out.println(WorldCluster.origin);
@@ -184,7 +186,7 @@ public class WorldView implements IEventListener {
     //public static float ISOMETRY_Y_SCALE = 0.6f;
     //public static float ISOMETRY_TILE_SCALE = 1.2f;
     public static float ISOMETRY_Y_SCALE = 0.6f;
-    public static float ISOMETRY_TILE_SCALE = 1.2f;
+    public static float ISOMETRY_TILE_SCALE = 1.0f;
     /*
      * Sprites are rendering in 1:1 proportion, but
      * tiles are rendering in 1:1.2 proportion, so

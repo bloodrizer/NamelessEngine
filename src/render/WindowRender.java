@@ -23,8 +23,8 @@ import org.lwjgl.opengl.GL11;
 
 public class WindowRender {
 
-    static int WINDOW_W = 800;
-    static int WINDOW_H = 600;
+    static int WINDOW_W = 1024;
+    static int WINDOW_H = 768;
 
     public static void create() throws LWJGLException {
 
