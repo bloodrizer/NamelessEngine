@@ -118,19 +118,5 @@ public class NPCRenderer extends EntityRenderer{
 
         }
 
-
-        /*int ent_screen_x = WorldView.world2local_x(
-                ent.origin.getX()*tileset.TILE_SIZE,
-                ent.origin.getY()*tileset.TILE_SIZE
-        );
-        int ent_screen_y = WorldView.world2local_y(
-                ent.origin.getX()*tileset.TILE_SIZE,
-                ent.origin.getY()*tileset.TILE_SIZE
-        );
-        OverlaySystem.ttf.drawString(ent_screen_x, ent_screen_y+5,
-                "dx:"+Float.toString(ent.dx) +
-                ","+
-                "dy:"+Float.toString(ent.dy),
-        Color.white);*/
     }
 }

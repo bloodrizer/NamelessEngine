@@ -9,11 +9,14 @@ import events.EPlayerAuthorise;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
+import events.network.EChatMessage;
 import events.network.EPlayerLogon;
 import events.network.ESelectCharacter;
+import game.build.BuildManager;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityNPC;
+import game.ent.buildings.EntBuilding;
 import game.ent.controller.NpcController;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class Io implements IEventListener {
     static Io INSTANCE;
     static IoLayer charserv_io;
     static IoLayer gameserv_io;
+    static IoLayer chatserver_io;
     public static int PROTO_VER = 1010;
     public static String CLIENT_VER = "1.0.1";
 
@@ -49,6 +53,9 @@ public class Io implements IEventListener {
         }
         if(gameserv_io!=null){
             gameserv_io.update();
+        }
+        if(chatserver_io!=null){
+            chatserver_io.update();
         }
     }
 
@@ -90,7 +97,7 @@ public class Io implements IEventListener {
            @Override
            protected void parse_network_data(String[] data){
  
-                if (data[0].equals("0x0027") && data.length == 5){
+                if (data[0].equals("0x0027")){
 
                     Main.game.set_state(Game.GameModes.InGame);
 
@@ -101,68 +108,19 @@ public class Io implements IEventListener {
                      *  start game and connect to game server
                      */
 
-                    gameserv_io = new IoLayer(
-                            data[3],
-                            Integer.parseInt(data[4])
+                    chatserver_io = new IoLayer(
+                        data[5],
+                        Integer.parseInt(data[6])
                     ){
                         @Override
                         protected void parse_network_data(String[] data){
-
-                            if (data[0].equals("0x0100") && data.length == 3){      //spawn player
-
-                                System.out.println("spawning player");
-
-                                EPlayerLogon event = new EPlayerLogon(new Point(
-                                        Integer.parseInt( data[1] ),
-                                        Integer.parseInt( data[2] )
-                                ));
-                                event.post();
-                            }
-
-                            if (data[0].equals("0x0200")){  //EntSpawn
-                                //4 123 0 3 9
-                                Entity mplayer_ent = new EntityNPC();
-                                mplayer_ent.set_controller(new NpcController());
-
-
-                                EntityManager.add(mplayer_ent);
-                                mplayer_ent.spawn(Integer.parseInt( data[2] )    //uid
-                                        , new Point(
-                                      Integer.parseInt( data[4] ),
-                                      Integer.parseInt( data[5] )
-                                ));
-                            }
-                            if (data[0].equals("0x0201")){  //EntRemove
-                                Entity ent = EntityManager.get_entity(
-                                        Integer.parseInt( data[1] )
-                                );
-                                EntityManager.remove_entity(ent);
-
-                            }
-                            if (data[0].equals("0x0280")){  //ENTMove
-                                Entity ent = EntityManager.get_entity(Integer.parseInt( data[1]));
-                                if (ent==null){
-                                    System.err.println("EntityMove::invalid id");
-                                    return;
-                                }
-
-                                 if(data[2].equals("2")){   //assign path
-                                     if (ent.controller != null){
-                                            ((NpcController)ent.controller).set_destination(new Point(
-                                                        Integer.parseInt( data[3] ),
-                                                        Integer.parseInt( data[4] )
-                                            ));
-                                     }
-
-                                 }else{   //assign position
-                                        ent.move_to(new Point(
-                                                Integer.parseInt( data[3] ),
-                                                Integer.parseInt( data[4] )
-                                        ));
-                                 }
-                            }
                         }
                     };
+
+                    gameserv_io = new GameServerLayer(
+                        data[3],
+                        Integer.parseInt(data[4])
+                    );
 
 
 

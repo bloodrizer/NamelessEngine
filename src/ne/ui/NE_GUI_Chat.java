@@ -6,6 +6,9 @@
 package ne.ui;
 
 import events.EMouseClick;
+import events.Event;
+import events.network.EChatMessage;
+import player.Player;
 
 /**
  *
@@ -60,6 +63,20 @@ public class NE_GUI_Chat extends NE_GUI_FrameModern {
         String text = input.text;
         input.text = "";
 
-        chat_history.add_line(text);
+        //chat_history.add_line(text);
+
+        EChatMessage message = new EChatMessage(Player.character_id,text);
+        message.post();
+    }
+
+    @Override
+    public void notify_event(Event e){
+        //((NE_GUI_Element)this).notify_event(e);
+        super.notify_event(e);
+
+        if (e instanceof EChatMessage){
+            EChatMessage chat_event = (EChatMessage)e;
+            chat_history.add_line(chat_event.uid + " says: " + chat_event.message);
+        }
     }
 }

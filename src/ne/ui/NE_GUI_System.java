@@ -7,6 +7,7 @@ package ne.ui;
 
 import events.EGUIDrop;
 import events.Event;
+import events.network.EBuildStructure;
 import game.build.BuildManager;
 import game.ent.buildings.EntBuilding;
 import items.BaseItem;
@@ -36,13 +37,13 @@ public class NE_GUI_System {
         @Override
         public void e_on_grab(EGUIDrop event){
             if (event.element instanceof NE_GUI_InventoryItem){
-                try {
+
                     BaseItem item = ((NE_GUI_InventoryItem) event.element).item;
                     System.out.println("WorldArea: grabed item " + item.get_type());
                     Class building = BuildManager.get_building(item.get_type());
 
                     if (building!= null){
-                        EntBuilding ent_building = (EntBuilding) building.newInstance();
+                        //EntBuilding ent_building = (EntBuilding) building.newInstance();
 
                         int ex = event.coord.getX();
                         int ey = WindowRender.get_window_h()-event.coord.getY();
@@ -55,8 +56,13 @@ public class NE_GUI_System {
                             return; //do not allow to build on blocked tile
                         }
 
-                        ent_building.spawn(54321, tile_coord);
-                        ent_building.set_blocking(true);
+                        /*ent_building.spawn(54321, tile_coord);
+                        ent_building.set_blocking(true);*/
+
+                        EBuildStructure build_event = new EBuildStructure(tile_coord,item.get_type());
+                        build_event.post();
+
+
 
                         Player.get_ent().container.remove_item(
                             BaseItem.produce(item.get_type(), 1)
@@ -64,12 +70,6 @@ public class NE_GUI_System {
                     }else{
                         System.err.println("item-related entity is null");
                     }
-
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(NE_GUI_System.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(NE_GUI_System.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
 

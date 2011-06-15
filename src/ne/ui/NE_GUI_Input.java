@@ -80,6 +80,8 @@ public class NE_GUI_Input extends NE_GUI_Element{
         else{
             text = text + e.chr;
         }
+
+        e.dispatch();
     }
 
     public void e_on_submit(){

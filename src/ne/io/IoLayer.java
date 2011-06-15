@@ -28,10 +28,12 @@ public class IoLayer implements IEventListener{
     Thread recv_thread;
 
     String host;
+    int port;
 
     public IoLayer(String host, int port){
 
         this.host = host;
+        this.port = port;
         
         //System.out.println("creating socket and i/o buffers");
         try {
@@ -123,7 +125,7 @@ public class IoLayer implements IEventListener{
      * Use serialized NetworkEvent messages instead
      */
     public void sock_send(String msg){
-        System.err.println(host+" >>'"+msg+"'");
+        System.err.println(host+":"+port+" >>'"+msg+"'");
         out.println(msg);
     }
 
