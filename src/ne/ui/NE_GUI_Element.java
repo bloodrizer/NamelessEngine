@@ -107,7 +107,7 @@ public class NE_GUI_Element {
         //allow children to catch event and dispatch it,
         //before we handle it in parent control
 
-        //note that we iterate items in the reverse order as larger index meens larger z-order and
+        //note that we iterate items in the reverse order as larger index means larger z-order and
         //therefore larger priority in event dispatching
 
         Object[] elem =  children.toArray();
@@ -122,7 +122,7 @@ public class NE_GUI_Element {
 
             EMouseClick event = (EMouseClick)e;
 
-            //this hack allows other controls to lose focus, even if event was dispatched
+            //this hack allows other controls to loose focus, even if event was dispatched
             if (event.is_dispatched()){
                 //System.out.println("Event is dispatched, lol, loosing focus");
                 e_on_mouse_out_click(event);

@@ -143,11 +143,9 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
         char_body = new NE_GUI_SpriteArea();
         char_body.area_renderer.texture_name = "/ui/char_body_female.png";
         char_body.set_rect(0, 0, 393, 510); //shitty aestetic tweaks
-        char_body.x = 60;
-        char_body.y = 20;
+        char_body.set_size(60, 20, 200, 256);
 
-        char_body.w = 200;
-        char_body.h = 256;
+        char_body.dragable = false;
 
         add(char_body);
     }
@@ -170,6 +168,8 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
                  System.out.println("Assigning item sprite");
 
                  NE_GUI_Sprite equip_sprite = new NE_GUI_Sprite();
+                 equip_sprite.dragable = false; //not sure about it, but lock sprite for now
+
                  equip_sprite.sprite_name = "/render/gfx/equip/"
                       +equip_slots[i].item.get_type()+".png";
 
