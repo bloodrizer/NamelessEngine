@@ -22,10 +22,18 @@ import player.Player;
 public class GameServerLayer extends IoLayer {
      public GameServerLayer(String host, int port){
          super(host,port);
+         String[] whitelist = {
+            "0x0010",
+            "0x260",
+            "0x220",
+            "0x02A0"
+         };
+         set_whitelist(whitelist);
      }
 
      @Override
      protected void parse_network_data(String[] data){
+
 
          if (data[0].equals("0x0100") && data.length == 3){      //spawn player
             System.out.println("spawning player");
@@ -57,25 +65,25 @@ public class GameServerLayer extends IoLayer {
          }
 
          if (data[0].equals("0x0200")){  //EntSpawn
-                                //4 123 0 3 9
+             //4 123 0 3 9
 
-                                int spawn_type = Integer.parseInt( data[1] );
+            int spawn_type = Integer.parseInt( data[1] );
 
-                                switch (spawn_type){
-                                    case 4: //player_ent
-                                        Entity mplayer_ent = new EntityNPC();
-                                        mplayer_ent.set_controller(new NpcController());
+            switch (spawn_type){
+                case 4: //player_ent
+                    Entity mplayer_ent = new EntityNPC();
+                    mplayer_ent.set_controller(new NpcController());
 
 
-                                        //EntityManager.add(mplayer_ent);       ?
-                                        mplayer_ent.spawn(Integer.parseInt( data[2] )    //uid
+                    //EntityManager.add(mplayer_ent);       ?
+                    mplayer_ent.spawn(Integer.parseInt( data[2] )    //uid
                                                 , new Point(
                                               Integer.parseInt( data[4] ),
                                               Integer.parseInt( data[5] )
                                         ));
-                                    break;
+                    break;
 
-                                    case 0: //object
+                    case 0: //object
 
                                             Class building = BuildManager.get_building(data[2]);
                                             EntBuilding ent_building;
@@ -133,4 +141,5 @@ public class GameServerLayer extends IoLayer {
                                  }
                             }
     }
+
 }

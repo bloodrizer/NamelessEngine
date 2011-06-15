@@ -93,6 +93,12 @@ public class Io implements IEventListener {
         charserv_io = new IoLayer(server_params[0], Integer.parseInt(server_params[1])){
         //charserv_io = new IoLayer("admin.edi.inteliec.eu", 8022){
 
+            {
+                 String[] whitelist = {
+                    "0x0026"
+                 };
+                 set_whitelist(whitelist);
+            }
 
            @Override
            protected void parse_network_data(String[] data){
@@ -112,6 +118,15 @@ public class Io implements IEventListener {
                         data[5],
                         Integer.parseInt(data[6])
                     ){
+
+                        {
+
+                            String[] whitelist = {
+                                "0x0026"
+                            };
+                            set_whitelist(whitelist);
+                        }
+
                         @Override
                         protected void parse_network_data(String[] data){
                         }

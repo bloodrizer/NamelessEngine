@@ -12,6 +12,7 @@ import events.network.NetworkEvent;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import ne.Game;
 
@@ -29,6 +30,13 @@ public class IoLayer implements IEventListener{
 
     String host;
     int port;
+
+    //String[] whitelist_array = {};
+    ArrayList<String> event_whitelist = new ArrayList<String>(64);
+
+    public void set_whitelist(String[] whitelist_array){
+        event_whitelist = new ArrayList(Arrays.asList(whitelist_array));
+    }
 
     public IoLayer(String host, int port){
 
@@ -97,7 +105,20 @@ public class IoLayer implements IEventListener{
         }
     }
 
+
+    private boolean whitelisted(String packet_id) {
+        if (!this.event_whitelist.isEmpty()){
+            return this.event_whitelist.contains(packet_id);
+        }
+        return true;
+    }
+
     private void send_network_event(NetworkEvent event){
+
+        if (!whitelisted(event.get_id())){
+            return;
+        }
+
         String[] tokens = event.serialize();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i<tokens.length; i++){
