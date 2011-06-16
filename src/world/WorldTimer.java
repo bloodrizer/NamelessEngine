@@ -24,6 +24,10 @@ public class WorldTimer {
 
     public static void tick(){
         datetime.add(Calendar.MINUTE,1);
+
+        if(datetime.get(Calendar.MINUTE) == 0){
+            e_on_new_hour();
+        }
     }
 
     public static float get_light_amt(){
@@ -46,58 +50,18 @@ public class WorldTimer {
         return amt;
     }
 
-    public static Vector3f get_sun_color(){
-        
-        float hour = datetime.get(Calendar.HOUR_OF_DAY) + datetime.get(Calendar.MINUTE)*0.01f;
+    public static boolean is_night(){
+       float hour = datetime.get(Calendar.HOUR_OF_DAY) + datetime.get(Calendar.MINUTE)/60.0f;
+       return (hour < 7 || hour >= 21);
+    }
 
-        if ( hour <= 7 ) {
-            return new Vector3f(0.0f,0.0f,0.0f);
+    private static void e_on_new_hour() {
+        if (is_night()){
+            //there is slight chance of spawning zombie each hour
+
+            //TODO: check if camera is not centered on this area and spawn a zombie
+            //if !(WorldCamera.tile_in_fov()){ //etc
         }
-
-        if ( hour > 7 && hour <= 17 ) {
-            float percentage = (
-                    (hour-7) / 10
-                  );
-
-            float r = ( 0.0f + 1.0f * percentage );
-            float g = ( 0.0f + 1.0f * percentage );
-            float b = ( 0.0f + 0.765f * percentage );
-
-            return new Vector3f(r,g,b);
-        }
-
-        if ( hour > 17 && hour < 21){
-
-            float percentage = (
-                    (hour-17) / 4
-                  );
-
-            float r = 1.0f;
-            float g = 1.0f - ( 0.235f + 0.765f * percentage );
-            //float g = 1.0f - ( 0.0f + 0.765f * percentage );
-            float b = 0.882f - ( 0.235f + 0.647f * percentage );
-            //float b = 0.765f - ( 0.0f + 0.647f * percentage );
-
-            return new Vector3f(r,g,b);
-
-        }
-
-        if ( hour >= 21){
-
-            float percentage = (
-                    (hour-17) / 4
-                  );
-
-            float r = 1.0f - ( 0.235f + 0.647f * percentage );
-            float g = 0.235f - ( 0.235f * percentage );
-            float b = 0.235f - ( 0.235f * percentage );
-
-            return new Vector3f(r,g,b);
-
-        }
-
-        return new Vector3f(0.2f,0.2f,0.2f);
-
     }
 
     public void stop_timer() {

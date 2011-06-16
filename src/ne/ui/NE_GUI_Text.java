@@ -23,12 +23,7 @@ class NE_GUI_Text extends NE_GUI_Element{
     TrueTypeFont chat_ttf;
 
     public NE_GUI_Text(){
-
         chat_ttf = OverlaySystem.precache_font(FONT_SIZE);
-
-        lines.add("foo");
-        lines.add("bar");
-        lines.add("buzz");
     }
 
     @Override

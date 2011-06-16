@@ -8,6 +8,7 @@ package game.ent;
 import actions.IAction;
 import events.EEntitySpawn;
 import events.network.EEntityMove;
+import game.combat.Combat;
 import game.ent.Entity;
 import game.ent.controller.IEntityController;
 import items.ItemContainer;
@@ -26,6 +27,10 @@ import world.WorldChunk;
 public class Entity implements Comparable {
 
     public Point origin;
+    /*
+     * Combat handles all in-game combat mechanic, as stats, damage infliction and damage taking
+     */
+    Combat combat;
 
     /*
      * This is an entity offset in tile coord system
@@ -60,6 +65,15 @@ public class Entity implements Comparable {
 
     public int y(){
         return origin.getY();
+    }
+
+    public void set_combat(Combat combat){
+        this.combat = combat;
+        combat.set_owner(this);
+    }
+
+    public Combat get_combat(){
+        return combat;
     }
 
     public int compareTo(Object ent) {

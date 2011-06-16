@@ -24,6 +24,11 @@ public class NE_GUI_Chat extends NE_GUI_FrameModern {
         final NE_GUI_Chat __chat_control = this;
 
         chat_history = new NE_GUI_Text();
+
+        chat_history.add_line("Wellcome to the Nameless Game. There are currently 19876 players online");
+        chat_history.add_line("Controls: I - inventory, E - equip, Q - craft, L - chatlog, G - toggle grid");
+
+
         add(chat_history);
         chat_history.x = 40;
         chat_history.y = 15;

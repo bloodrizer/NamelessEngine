@@ -136,7 +136,7 @@ public class GameUI implements IUserInterface,  IEventListener {
                 case Keyboard.KEY_G:    //toggle grid
                     WorldView.DRAW_GRID = !WorldView.DRAW_GRID;
                 break;
-                case Keyboard.KEY_RETURN:
+                case Keyboard.KEY_L:
                     chat_box.toggle();
                 break;
                 case Keyboard.KEY_DOWN:
