@@ -100,7 +100,7 @@ public class NPCRenderer extends EntityRenderer{
 
             EntityNPC npc_ent = (EntityNPC) ent;
             
-            int ent_screen_x = WorldView.world2local_x(
+            /*int ent_screen_x = WorldView.world2local_x(
                 (ent.origin.getX() + ent.dx )*tileset.TILE_SIZE,
                 (ent.origin.getY() + ent.dy )*tileset.TILE_SIZE
             ) - npc_ent.name.length()/2*8;
@@ -114,7 +114,7 @@ public class NPCRenderer extends EntityRenderer{
                     ent_screen_x,
                     ent_screen_y+5,
                 npc_ent.name + " #"+npc_ent.get_uid(),
-            Color.white);
+            Color.white);*/
 
         }
 
