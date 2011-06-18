@@ -23,6 +23,7 @@ import game.ent.controller.NpcController;
 import items.BaseItem;
 import ne.Input;
 import ne.Input.MouseInputType;
+import ne.effects.EffectsSystem;
 import ne.io.Io;
 import ne.ui.NE_GUI_System;
 import org.lwjgl.opengl.GL11;
@@ -44,6 +45,8 @@ public class ModeInGame implements IGameMode, IEventListener {
     private WorldView  view;
     private WorldModel model;
     private NE_GUI_System gui;
+    private EffectsSystem fx;
+
 
 
     private OverlaySystem overlay;
@@ -58,6 +61,8 @@ public class ModeInGame implements IGameMode, IEventListener {
         model = new WorldModel();
 
         overlay = new OverlaySystem();
+
+        fx = new EffectsSystem();
 
         //gui = new NE_GUI_System();
 
@@ -97,9 +102,10 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         get_ui().get_nge_ui().render();
 
-
         overlay.render();
 
+        fx.update();
+        fx.render();
     }
 
     IUserInterface ui = null;

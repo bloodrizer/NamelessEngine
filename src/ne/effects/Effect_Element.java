@@ -29,6 +29,7 @@ public class Effect_Element {
     public synchronized void add(Effect_Element child){
         children.add(child);
         child.set_parent(this);
+        child.spawn();
     }
 
     public boolean remove(Effect_Element child){
@@ -86,6 +87,10 @@ public class Effect_Element {
      */
     private boolean is_expired() {
         return spawn_time+life_time < Timer.get_time();
+    }
+
+    public int get_life_left(){
+        return (int) (spawn_time + life_time - Timer.get_time());
     }
 
 }

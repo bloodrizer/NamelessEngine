@@ -108,6 +108,7 @@ public class Io implements IEventListener {
                     Main.game.set_state(Game.GameModes.InGame);
 
                     Player.character_id = Integer.parseInt(data[2]);
+                    //Player.get_ent().set_uid(Player.character_id);
                     
                     /*
                      *  Our connection is accepted by char server,

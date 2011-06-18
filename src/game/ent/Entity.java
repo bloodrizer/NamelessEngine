@@ -92,6 +92,10 @@ public class Entity implements Comparable {
         return hc_this - hc_ent;
     }
 
+    public void set_uid(int uid) {
+        this.uid = uid;
+    }
+
     public enum Orientation {
         ORIENT_N,
         ORIENT_W,

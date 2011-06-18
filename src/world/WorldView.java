@@ -5,6 +5,7 @@
 
 package world;
 
+import ne.effects.EffectsSystem;
 import org.lwjgl.util.vector.Vector3f;
 import world.WorldTile.TerrainType;
 import render.EntityRenderer;
@@ -32,7 +33,6 @@ import static org.lwjgl.opengl.GL11.*;
 public class WorldView implements IEventListener {
 
     public static Tileset bg_tileset = new Tileset();
-
 
     public WorldView(){
         EventManager.subscribe(this);
