@@ -5,9 +5,13 @@
 
 package world;
 
+import game.ent.controller.NpcController;
+import game.ent.monsters.Zombie;
 import java.util.Calendar;
 import java.util.TimerTask;
+import org.lwjgl.util.Point;
 import org.lwjgl.util.vector.Vector3f;
+import player.Player;
 
 /**
  *
@@ -61,6 +65,17 @@ public class WorldTimer {
 
             //TODO: check if camera is not centered on this area and spawn a zombie
             //if !(WorldCamera.tile_in_fov()){ //etc
+
+            float chance = (float)Math.random()*100;
+            if(chance>5){
+                Zombie zombie = new Zombie();
+                zombie.spawn(99999, new Point(
+                        Player.get_ent().origin.getX() + (int)(Math.random()*20-10),
+                        Player.get_ent().origin.getY() +(int)(Math.random()*20-10)
+                    )
+                );
+                //zombie.set_controller(new NpcController());
+            }
         }
     }
 

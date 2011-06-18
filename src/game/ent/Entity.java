@@ -30,7 +30,7 @@ public class Entity implements Comparable {
     /*
      * Combat handles all in-game combat mechanic, as stats, damage infliction and damage taking
      */
-    Combat combat;
+    protected Combat combat;
 
     /*
      * This is an entity offset in tile coord system
