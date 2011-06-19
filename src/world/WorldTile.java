@@ -33,6 +33,7 @@ public class WorldTile {
 
     public void add_entity(Entity ent){
         ent_list.add(ent);
+        ent.tile = this;
     }
     public void remove_entity(Entity ent){
         ent_list.remove(ent);

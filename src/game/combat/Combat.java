@@ -36,10 +36,10 @@ public abstract class Combat {
         return hp>0;
     }
 
+
     /*
      * This method inflicts damage on given entity,
      * based on current combat mechanics of this entity
-     *
      */
     public void inflict_damage(Entity ent){
 

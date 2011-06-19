@@ -19,6 +19,7 @@ import render.DebugRenderer;
 import render.EntityRenderer;
 import world.Timer;
 import world.WorldChunk;
+import world.WorldTile;
 
 /**
  *
@@ -27,6 +28,8 @@ import world.WorldChunk;
 public class Entity implements Comparable {
 
     public Point origin;
+
+    public WorldTile tile;  //the tile entity is currently assigned to
     /*
      * Combat handles all in-game combat mechanic, as stats, damage infliction and damage taking
      */
@@ -85,7 +88,7 @@ public class Entity implements Comparable {
     }
 
     public Combat get_combat(){
-        return combat;
+        return this.combat;
     }
 
     public int compareTo(Object ent) {

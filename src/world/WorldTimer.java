@@ -66,8 +66,8 @@ public class WorldTimer {
             //TODO: check if camera is not centered on this area and spawn a zombie
             //if !(WorldCamera.tile_in_fov()){ //etc
 
-            float chance = (float)Math.random()*100;
-            if(chance>5){
+            float chance = (float)Math.random()*100.0f;
+            if(chance < 50 ){
                 Zombie zombie = new Zombie();
                 zombie.spawn(99999, new Point(
                         Player.get_ent().origin.getX() + (int)(Math.random()*20-10),

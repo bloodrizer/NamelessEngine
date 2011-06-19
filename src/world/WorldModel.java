@@ -132,6 +132,7 @@ public class WorldModel implements IEventListener {
 
             if (entity.is_garbage()){
                 EntityManager.remove_entity(entity);
+                entity.tile.remove_entity(entity);
             }
         }
 
