@@ -11,6 +11,9 @@ import events.Event;
 import events.EventManager;
 import game.ent.Entity;
 import game.ent.EntityManager;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.util.Point;
 import player.Player;
 import render.Tileset;
@@ -90,8 +93,11 @@ public class ModeInGame implements IGameMode, IEventListener {
 
 
     public void update(){
-
-        Io.update();
+        try {
+            Io.update();
+        } catch (IOException ex) {
+            Logger.getLogger(ModeInGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Input.update();
         EventManager.update();

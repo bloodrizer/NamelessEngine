@@ -51,6 +51,18 @@ public class Entity implements Comparable {
 
     private boolean blocking = false;
 
+    /*
+     * This flag indicates that this entity is no longer required by WorldModel
+     * This entity will be cleared with next gc cycle.
+     */
+    protected boolean garbage = false;
+    public boolean is_garbage(){
+        return garbage;
+    }
+    public void trash(){
+        garbage = true;
+    }
+
     public boolean is_blocking(){
         return blocking;
     }

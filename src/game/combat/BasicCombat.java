@@ -19,10 +19,26 @@ public class BasicCombat extends Combat{
         
         ETakeDamage event = new ETakeDamage(this.owner, damage);
         event.post();
+
+        hp = hp-damage.amt;
+
+        if (!is_alive()){
+            die();
+        }
+    }
+
+    public void die(){
+        //TODO: post event there
+        owner.trash();
     }
 
     public int get_damage_amt(){
         return 5;
+    }
+
+    @Override
+    public int get_max_hp(){
+        return 10;
     }
 
     @Override
