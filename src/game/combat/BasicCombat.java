@@ -5,15 +5,20 @@
 
 package game.combat;
 
+import events.ETakeDamage;
 import game.ent.Entity;
 
 /**
  *  This is generic combat engine, that is only inflicting damage based on hp
  */
 public class BasicCombat extends Combat{
+
+
     @Override
     public void take_damage(Damage damage){
-
+        
+        ETakeDamage event = new ETakeDamage(this.owner, damage);
+        event.post();
     }
 
     public int get_damage_amt(){
@@ -22,6 +27,8 @@ public class BasicCombat extends Combat{
 
     @Override
     public void inflict_damage(Entity ent){
+        super.inflict_damage(ent);
+
         Combat ent_combat = ent.get_combat();
         if (ent_combat != null){
             //do something there

@@ -5,6 +5,9 @@
 
 package world;
 
+import game.ent.monsters.EntMonster;
+import org.lwjgl.input.Mouse;
+import render.Render;
 import ne.effects.EffectsSystem;
 import org.lwjgl.util.vector.Vector3f;
 import world.WorldTile.TerrainType;
@@ -165,7 +168,26 @@ public class WorldView implements IEventListener {
         render_entities();
         
         glLoadIdentity();
+
+        update_cursor();
+    }
+
+    public void update_cursor(){
+        //Render.set_cursor("/render/ico_default.png");
+        int x = Mouse.getX();
+        int y = Mouse.getY();
+
+        Point tile_coord = WorldView.getTileCoord(x,y);
+        WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
+        Entity ent = tile.get_actor();
         
+
+        if (ent != null && ent instanceof EntMonster){
+            Render.set_cursor("/render/ico_sword.png");
+        }else{
+            Render.set_cursor("/render/ico_default.png");
+        }
+
     }
 
 

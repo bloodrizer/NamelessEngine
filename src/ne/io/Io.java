@@ -20,6 +20,7 @@ import game.ent.buildings.EntBuilding;
 import game.ent.controller.NpcController;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class Io implements IEventListener {
         INSTANCE = new Io();
     }
 
-    public static void update() {
+    public static void update() throws IOException {
         if(charserv_io!=null){
             charserv_io.update();   //update network data
         }
@@ -62,9 +63,15 @@ public class Io implements IEventListener {
     public Io(){
         EventManager.subscribe(this);
     }
+
+    public static void reset(){
+        charserv_io = null;
+        gameserv_io = null;
+        chatserver_io = null;
+    }
     
 
-    public static void connect(){
+    public static void connect() throws SocketTimeoutException, IOException{
         if(charserv_io!=null){
             return;
         }
@@ -72,27 +79,24 @@ public class Io implements IEventListener {
         System.out.println("starting charserv io");
 
         Properties p = new Properties();
-        String server_url=":";
+        String server_url = null;
         try {
             p.load(new FileInputStream("client.ini"));
             server_url = p.getProperty("server_url");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }
+        catch (IOException ex) {
+            //that is not a real problem, you know
+            server_url=":";
         }
 
-        System.out.println(server_url);
-       
+        System.out.println("server url:"+server_url);
         String[] server_params = server_url.split(":");
-        System.out.println(server_params[0]);
-        System.out.println(server_params[1]);
 
         if(server_params.length != 2){
             server_params = new String[] {"admin.edi.inteliec.eu","8022"};
         }
 
         charserv_io = new IoLayer(server_params[0], Integer.parseInt(server_params[1])){
-        //charserv_io = new IoLayer("admin.edi.inteliec.eu", 8022){
-
             {
                  String[] whitelist = {
                     "0x0026"
@@ -101,7 +105,7 @@ public class Io implements IEventListener {
             }
 
            @Override
-           protected void parse_network_data(String[] data){
+           protected void parse_network_data(String[] data) throws IOException{
  
                 if (data[0].equals("0x0027")){
 

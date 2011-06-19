@@ -5,6 +5,7 @@
 
 package game.combat;
 
+import events.ETakeDamage;
 import game.ent.Entity;
 
 /**
@@ -21,7 +22,6 @@ public abstract class Combat {
     }
 
     public void take_damage(Damage damage){
-        
     }
 
     public int get_hp(){

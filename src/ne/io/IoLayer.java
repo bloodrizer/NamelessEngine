@@ -14,6 +14,8 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ne.Game;
 
 /*
@@ -38,13 +40,13 @@ public class IoLayer implements IEventListener{
         event_whitelist = new ArrayList(Arrays.asList(whitelist_array));
     }
 
-    public IoLayer(String host, int port){
+    public IoLayer(String host, int port) throws IOException{
 
         this.host = host;
         this.port = port;
         
         //System.out.println("creating socket and i/o buffers");
-        try {
+
             SocketAddress sockaddr = new InetSocketAddress(host, port);
             layer_sock = new Socket();
             layer_sock.connect(sockaddr, 5000); //5ms
@@ -53,11 +55,18 @@ public class IoLayer implements IEventListener{
             out = new PrintWriter(layer_sock.getOutputStream(), true);
             in =  new BufferedReader(new InputStreamReader(
                                         layer_sock.getInputStream()));
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
         
+        /*catch(IOException e){
+            e.printStackTrace();
+            Logger.getLogger(IoLayer.class.getName()).log(Level.SEVERE, null, e);
+        }*/
+
+        /*
+         catch(java.net.SocketTimeoutException e){
+            Io.reset();
+            e.printStackTrace();  <<connection timed out there
+            return;
+        }*/
         //System.out.println("Subscribing");
         EventManager.subscribe(this);
 
@@ -79,11 +88,11 @@ public class IoLayer implements IEventListener{
     private class Receiver implements Runnable{
 
         public void run() {
-            while (!layer_sock.isClosed() && Game.running ) {
+            while (!layer_sock.isClosed() && Game.running && in!=null) {
                 String line = null;
                 try {
                     line = in.readLine();
-                    //parse_network_data(line.split(" "));
+
                     if (line != null){
                         packets.add(line.split(" "));
                     }
@@ -146,11 +155,13 @@ public class IoLayer implements IEventListener{
      * Use serialized NetworkEvent messages instead
      */
     public void sock_send(String msg){
-        System.err.println(host+":"+port+" >>'"+msg+"'");
-        out.println(msg);
+        if (out!=null){
+            System.err.println(host+":"+port+" >>'"+msg+"'");
+            out.println(msg);
+        }
     }
 
-    public void update(){
+    public void update() throws IOException{
         Object[] packets_arr =  packets.toArray();
         for(int i = 0; i<packets_arr.length; i++){
             //System.out.println("handling packet");
@@ -161,7 +172,7 @@ public class IoLayer implements IEventListener{
         packets.clear();    //must be cleared, or VERY FUNNY effect occurs
     }
 
-    protected void parse_network_data(String[] data){
+    protected void parse_network_data(String[] data) throws IOException{
         System.out.println("io_layer::parse_network_data");
         //OVERRIDE ME!!!!
     }

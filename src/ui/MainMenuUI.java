@@ -55,14 +55,16 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         NE_GUI_Frame frame = new NE_GUI_Frame(true);
         ui.root.add(frame);
         frame.set_tw(
-                (message.length()*8 / NE_GUI_Frame.WIN_TILE_SIZE)  + 2
+                (message.length()*10 / NE_GUI_Frame.WIN_TILE_SIZE)  + 2
                 );
         frame.set_th(3);
+
+        frame.center();
 
         NE_GUI_Label label1 = new NE_GUI_Label();
         frame.add(label1);
         label1.text = message;
-        label1.x = frame.w/2 - (message.length()/2*8) + 16;
+        label1.x = frame.w/2 - (message.length()/2*10) + 24;
         label1.y = frame.h/2-7;
         
     }
@@ -118,11 +120,19 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
             @Override
             public void e_on_mouse_click(EMouseClick e){
                 try{
+                    Io.reset();
                     Io.connect();
                     Io.login(login_input.text, pass_input.text);
                 }
+
+                catch (java.net.SocketTimeoutException ex){
+                    show_message("Connection timed out");
+                }
                 catch(Exception ex){
-                    show_message(ex.getMessage());
+
+                    ex.printStackTrace();
+                    //System.out.println(ex);
+                    show_message(ex.toString());
                 }
             }
         };

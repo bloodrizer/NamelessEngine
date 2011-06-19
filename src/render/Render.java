@@ -6,12 +6,23 @@
 
 package render;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.util.Collections;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.IntBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
 import ne.Game;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Cursor;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import org.newdawn.slick.opengl.Texture;
@@ -45,7 +56,9 @@ public class Render {
         }
         catch (IOException ex) {
             System.err.println(ex.getMessage() + '('+ Render.class.getResource(name).getPath()+ ')');
-            //System.exit(0);
+            Logger.getLogger(Render.class.getName()).log(Level.SEVERE,
+                    ex.getMessage() + '('+ Render.class.getResource(name).getPath()+ ')',
+            ex);
             Game.running = false;
         }
         return null;
@@ -67,4 +80,69 @@ public class Render {
             texture.bind();
         }
     }
+
+   static String cursor_name = "";
+
+   public static void set_cursor(String cursor_name){
+
+       /*
+        This is little security check to prevent memory overhype
+        */
+
+       if(Render.cursor_name.equals(cursor_name)){
+           return;
+       }
+       Render.cursor_name = cursor_name;
+
+
+        
+        IntBuffer ib = getHandMousePointer(cursor_name);
+        Texture newCursor = get_texture(cursor_name);
+        try {
+            
+            org.lwjgl.input.Cursor c = new org.lwjgl.input.Cursor(
+                    newCursor.getImageWidth(),
+                    newCursor.getImageHeight(),
+                    0, 
+                    newCursor.getImageHeight()-1,
+                    1, ib, null);
+            Mouse.setNativeCursor(c);
+            
+        } catch (LWJGLException ex) {
+            Logger.getLogger(Render.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static final int CURSOR_SIZE = 32;
+
+    public static IntBuffer getHandMousePointer(String cursor_name)
+    {
+        Image c=Toolkit.getDefaultToolkit().getImage(Icon.class.getResource(cursor_name));
+        BufferedImage biCursor=new BufferedImage(CURSOR_SIZE,CURSOR_SIZE,BufferedImage.TYPE_INT_ARGB);
+        while(!biCursor.createGraphics().drawImage(c,0,
+                CURSOR_SIZE-1,
+                CURSOR_SIZE-1,0,0,0,
+                CURSOR_SIZE-1,
+                CURSOR_SIZE-1,null))
+          try
+          {
+            Thread.sleep(5);
+          }
+          catch(InterruptedException e)
+          {
+          }
+
+        int[] data=biCursor.getRaster().getPixels(0,0,CURSOR_SIZE,CURSOR_SIZE,(int[])null);
+
+        IntBuffer ib=BufferUtils.createIntBuffer(CURSOR_SIZE*CURSOR_SIZE);
+        for(int i=0;i<data.length;i+=4)
+          ib.put(data[i] |
+                 data[i+1]<<8|
+                 data[i+2]<<16|
+                 data[i+3]<<24
+          );
+        ib.flip();
+        return ib;
+    }
+
 }

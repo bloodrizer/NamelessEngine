@@ -16,8 +16,8 @@ import game.ent.Entity;
  *
  */
 public class ETakeDamage extends Event{
-    Entity ent;
-    Damage dmg;
+    public Entity ent;
+    public Damage dmg;
 
     public ETakeDamage(Entity taker, Damage dmg){
         this.ent = taker;
