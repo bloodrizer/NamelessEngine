@@ -7,6 +7,7 @@ package game.combat;
 
 import events.ETakeDamage;
 import game.ent.Entity;
+import game.ent.EntityActor;
 
 /**
  *  This is generic combat engine, that is only inflicting damage based on hp
@@ -23,13 +24,17 @@ public class BasicCombat extends Combat{
         hp = hp-damage.amt;
 
         if (!is_alive()){
-            die();
+            die(damage.inflictor);
         }
     }
 
-    public void die(){
+    public void die(Entity killer){
         //TODO: post event there
         owner.trash();
+
+        if (owner instanceof EntityActor){
+            ((EntityActor)owner).die(killer);
+        }
     }
 
     public int get_damage_amt(){
@@ -48,7 +53,9 @@ public class BasicCombat extends Combat{
         Combat ent_combat = ent.get_combat();
         if (ent_combat != null){
             //do something there
-            ent_combat.take_damage(new Damage(get_damage_amt()));
+            Damage dmg = new Damage(get_damage_amt());
+            dmg.set_inflictor(this.owner);
+            ent_combat.take_damage(dmg);
         }
     }
         

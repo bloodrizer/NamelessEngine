@@ -179,6 +179,9 @@ public class WorldView implements IEventListener {
 
         Point tile_coord = WorldView.getTileCoord(x,y);
         WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
+        if(tile==null){
+            return;
+        }
         Entity ent = tile.get_actor();
         
 

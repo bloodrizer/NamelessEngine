@@ -27,9 +27,9 @@ public class WorldTimer {
 
 
     public static void tick(){
-        datetime.add(Calendar.MINUTE,1);
+        datetime.add(Calendar.SECOND,15);
 
-        if(datetime.get(Calendar.MINUTE) == 0){
+        if(datetime.get(Calendar.MINUTE) == 0 && datetime.get(Calendar.SECOND) == 0){
             e_on_new_hour();
         }
     }
@@ -67,7 +67,7 @@ public class WorldTimer {
             //if !(WorldCamera.tile_in_fov()){ //etc
 
             float chance = (float)Math.random()*100.0f;
-            if(chance < 50 ){
+            if(chance < 90 ){
                 Zombie zombie = new Zombie();
                 zombie.spawn(99999, new Point(
                         Player.get_ent().origin.getX() + (int)(Math.random()*20-10),

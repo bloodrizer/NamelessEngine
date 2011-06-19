@@ -10,5 +10,8 @@ package game.ent;
  * @author Administrator
  */
 public class EntityActor extends Entity {
-
+    
+    public void die(Entity killer){
+        
+    }
 }

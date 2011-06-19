@@ -8,6 +8,7 @@ package game.ent.monsters;
 import game.combat.BasicCombat;
 import game.combat.Damage;
 import game.combat.Damage.DamageType;
+import game.ent.Entity;
 import game.ent.controller.NpcController;
 import render.EntityRenderer;
 import render.NPCRenderer;
@@ -44,4 +45,9 @@ public class Zombie extends EntMonster {
          
          sleep(500);
      }
+
+    @Override
+    public void die(Entity killer){
+        drop_loot(killer,"bone",1,20);
+    }
 }
