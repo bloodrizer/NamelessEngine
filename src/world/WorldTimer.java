@@ -22,7 +22,8 @@ public class WorldTimer {
     public static final Calendar datetime = Calendar.getInstance();
     static {
         //java.util.Timer timer = new java.util.Timer();
-        datetime.set(Calendar.HOUR_OF_DAY, 4);
+        datetime.set(Calendar.HOUR_OF_DAY, 1);
+        datetime.set(Calendar.SECOND, 0);
     }
 
 
@@ -66,7 +67,7 @@ public class WorldTimer {
             //TODO: check if camera is not centered on this area and spawn a zombie
             //if !(WorldCamera.tile_in_fov()){ //etc
 
-            float chance = (float)Math.random()*100.0f;
+            int chance = (int)(Math.random()*100);
             if(chance < 90 ){
                 Zombie zombie = new Zombie();
                 zombie.spawn(99999, new Point(
