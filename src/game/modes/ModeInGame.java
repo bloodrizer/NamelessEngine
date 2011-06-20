@@ -11,6 +11,9 @@ import events.Event;
 import events.EventManager;
 import game.ent.Entity;
 import game.ent.EntityManager;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.util.Point;
 import player.Player;
 import render.Tileset;
@@ -18,8 +21,10 @@ import ui.GameUI;
 import world.WorldModel;
 
 import events.IEventListener;
+import game.combat.BasicCombat;
 import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
+import game.ent.monsters.EntMonster;
 import items.BaseItem;
 import ne.Input;
 import ne.Input.MouseInputType;
@@ -30,6 +35,7 @@ import org.lwjgl.opengl.GL11;
 import render.overlay.OverlaySystem;
 import ui.IUserInterface;
 import world.Timer;
+import world.WorldTile;
 import world.WorldView;
 import world.WorldViewCamera;
 
@@ -82,6 +88,7 @@ public class ModeInGame implements IGameMode, IEventListener {
         WorldViewCamera.target.setLocation(location);
 
         player_ent.set_controller(new NpcController());
+        player_ent.set_combat(new BasicCombat());
 
         Player.set_ent(player_ent);
     }
@@ -90,8 +97,11 @@ public class ModeInGame implements IGameMode, IEventListener {
 
 
     public void update(){
-
-        Io.update();
+        try {
+            Io.update();
+        } catch (IOException ex) {
+            Logger.getLogger(ModeInGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Input.update();
         EventManager.update();
@@ -137,7 +147,13 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         //System.out.println(tile_origin);
         if (event.type == MouseInputType.LCLICK) {
-            Player.move(tile_origin);
+            WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
+            Entity ent = tile.get_actor();
+            if (ent != null && ent instanceof EntMonster){
+                Player.attack(ent);
+            }else{
+                Player.move(tile_origin);
+            }
         }
         //todo: use Player.player_ent.controller.set_target(tile_origin);
     }

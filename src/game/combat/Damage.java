@@ -5,6 +5,8 @@
 
 package game.combat;
 
+import game.ent.Entity;
+
 /**
  *
  * @author Administrator
@@ -20,6 +22,11 @@ public class Damage {
 
     public DamageType type = DamageType.DMG_GENERIC;
     public int amt; //amount of damage
+    public Entity inflictor;
+
+    public void set_inflictor(Entity inflictor){
+        this.inflictor = inflictor;
+    }
 
     public Damage(int amt, DamageType type){
         this.amt = amt;

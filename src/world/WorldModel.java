@@ -129,6 +129,11 @@ public class WorldModel implements IEventListener {
             if (entity.is_next_frame(Timer.get_time())){
                   entity.next_frame();
             }
+
+            if (entity.is_garbage()){
+                EntityManager.remove_entity(entity);
+                entity.tile.remove_entity(entity);
+            }
         }
 
         //here comes tricky part - recalculate light emission

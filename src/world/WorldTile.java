@@ -6,6 +6,7 @@
 package world;
 
 import game.ent.Entity;
+import game.ent.EntityActor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class WorldTile {
 
     public void add_entity(Entity ent){
         ent_list.add(ent);
+        ent.tile = this;
     }
     public void remove_entity(Entity ent){
         ent_list.remove(ent);
@@ -71,6 +73,18 @@ public class WorldTile {
     }
 
     //TODO: change to get_world_actor
+
+    //this is more safe and more useful version of get_obstacle
+    public Entity get_actor(){
+        Object[] list = ent_list.toArray();
+        for(int i=ent_list.size()-1; i>=0; i--){
+            Entity entity = (Entity)list[i];
+            if (entity instanceof EntityActor){
+                return entity;
+            }
+        }
+        return null;
+    }
 
     public Entity get_obstacle(){
         Object[] list = ent_list.toArray();

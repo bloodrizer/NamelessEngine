@@ -5,9 +5,13 @@
 
 package world;
 
+import game.ent.controller.NpcController;
+import game.ent.monsters.Zombie;
 import java.util.Calendar;
 import java.util.TimerTask;
+import org.lwjgl.util.Point;
 import org.lwjgl.util.vector.Vector3f;
+import player.Player;
 
 /**
  *
@@ -18,14 +22,15 @@ public class WorldTimer {
     public static final Calendar datetime = Calendar.getInstance();
     static {
         //java.util.Timer timer = new java.util.Timer();
-        datetime.set(Calendar.HOUR_OF_DAY, 4);
+        datetime.set(Calendar.HOUR_OF_DAY, 1);
+        datetime.set(Calendar.SECOND, 0);
     }
 
 
     public static void tick(){
-        datetime.add(Calendar.MINUTE,1);
+        datetime.add(Calendar.SECOND,15);
 
-        if(datetime.get(Calendar.MINUTE) == 0){
+        if(datetime.get(Calendar.MINUTE) == 0 && datetime.get(Calendar.SECOND) == 0){
             e_on_new_hour();
         }
     }
@@ -61,6 +66,17 @@ public class WorldTimer {
 
             //TODO: check if camera is not centered on this area and spawn a zombie
             //if !(WorldCamera.tile_in_fov()){ //etc
+
+            int chance = (int)(Math.random()*100);
+            if(chance < 90 ){
+                Zombie zombie = new Zombie();
+                zombie.spawn(99999, new Point(
+                        Player.get_ent().origin.getX() + (int)(Math.random()*20-10),
+                        Player.get_ent().origin.getY() +(int)(Math.random()*20-10)
+                    )
+                );
+                //zombie.set_controller(new NpcController());
+            }
         }
     }
 

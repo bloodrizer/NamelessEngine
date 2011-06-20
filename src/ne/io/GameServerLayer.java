@@ -12,6 +12,7 @@ import game.ent.EntityManager;
 import game.ent.EntityNPC;
 import game.ent.buildings.EntBuilding;
 import game.ent.controller.NpcController;
+import java.io.IOException;
 import org.lwjgl.util.Point;
 import player.Player;
 
@@ -20,7 +21,7 @@ import player.Player;
  * @author Administrator
  */
 public class GameServerLayer extends IoLayer {
-     public GameServerLayer(String host, int port){
+     public GameServerLayer(String host, int port) throws IOException{
          super(host,port);
          String[] whitelist = {
             "0x0010",

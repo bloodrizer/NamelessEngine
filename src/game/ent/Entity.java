@@ -19,6 +19,7 @@ import render.DebugRenderer;
 import render.EntityRenderer;
 import world.Timer;
 import world.WorldChunk;
+import world.WorldTile;
 
 /**
  *
@@ -27,10 +28,12 @@ import world.WorldChunk;
 public class Entity implements Comparable {
 
     public Point origin;
+
+    public WorldTile tile;  //the tile entity is currently assigned to
     /*
      * Combat handles all in-game combat mechanic, as stats, damage infliction and damage taking
      */
-    Combat combat;
+    protected Combat combat;
 
     /*
      * This is an entity offset in tile coord system
@@ -50,6 +53,18 @@ public class Entity implements Comparable {
     private WorldChunk chunk = null;
 
     private boolean blocking = false;
+
+    /*
+     * This flag indicates that this entity is no longer required by WorldModel
+     * This entity will be cleared with next gc cycle.
+     */
+    protected boolean garbage = false;
+    public boolean is_garbage(){
+        return garbage;
+    }
+    public void trash(){
+        garbage = true;
+    }
 
     public boolean is_blocking(){
         return blocking;
@@ -73,7 +88,7 @@ public class Entity implements Comparable {
     }
 
     public Combat get_combat(){
-        return combat;
+        return this.combat;
     }
 
     public int compareTo(Object ent) {

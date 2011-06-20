@@ -65,4 +65,17 @@ public class Player {
         return false;
     }
 
+    public static void attack(Entity ent) {
+        if (ent == null){
+            System.err.println("Trying to attack null entity");
+            return;
+        }
+
+        if (in_range(ent)){
+            player_ent.get_combat().inflict_damage(ent);
+        }else{
+            move(ent.origin);
+        }
+    }
+
 }

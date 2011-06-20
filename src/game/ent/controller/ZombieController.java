@@ -3,15 +3,12 @@
  * and open the template in the editor.
  */
 
-package game.ent;
+package game.ent.controller;
 
 /**
  *
  * @author Administrator
  */
-public class EntityActor extends Entity {
+public class ZombieController extends NpcController {
     
-    public void die(Entity killer){
-        
-    }
 }

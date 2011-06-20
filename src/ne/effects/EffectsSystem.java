@@ -5,6 +5,7 @@
 
 package ne.effects;
 
+import events.ETakeDamage;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
@@ -33,6 +34,12 @@ public class EffectsSystem implements IEventListener{
         if (event instanceof EChatMessage){
             root.add(new FXTextBubble(
                 (EChatMessage)event
+            ));
+        }
+
+        if (event instanceof ETakeDamage){
+            root.add(new FXDamage(
+                (ETakeDamage)event
             ));
         }
     }
