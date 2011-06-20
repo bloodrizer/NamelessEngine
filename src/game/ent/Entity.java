@@ -139,6 +139,13 @@ public class Entity implements Comparable {
 
         set_next_think(Timer.get_time());
     }
+
+    //this is a debug version of spawn method, that use temporary timestamp-based uid
+    public void spawn(Point origin){
+        int __uid = (int)Timer.get_time();
+        spawn(__uid, origin);
+    }
+
     //--------------------------------------------------------------------------
     public void set_chunk(WorldChunk chunk){
         this.chunk = chunk;

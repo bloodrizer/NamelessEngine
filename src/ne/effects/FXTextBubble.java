@@ -31,7 +31,7 @@ public class FXTextBubble extends Effect_Element {
     static AreaRenderer bubble_sprite = new AreaRenderer(){
         {
             texture_name = "/render/gfx/effects/bubble.png";
-            set_size(32,32);
+            set_size(64,64);
         }
     };
 
@@ -85,7 +85,10 @@ public class FXTextBubble extends Effect_Element {
         bubble_sprite.render(x+8, y, message.length()*8, 24);
 
         bubble_sprite.set_rect(24, 0, 8, 32);
-        bubble_sprite.render(x+8+message.length()*8, y, 8, 24);
+        bubble_sprite.render(x+8 + message.length()*8, y, 8, 24);
+
+        bubble_sprite.set_rect(0, 32, 7, 4);
+        bubble_sprite.render(x + message.length()*4, y+23, 7, 4);
 
         Color text_color;
 

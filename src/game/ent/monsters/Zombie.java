@@ -42,6 +42,10 @@ public class Zombie extends EntMonster {
          if(!WorldTimer.is_night()){
              combat.take_damage(new Damage(1,DamageType.DMG_FIRE));
          }
+
+         if ((int)(Math.random()*100) < 3){
+             say_message("Braaains!");
+         }
          
          sleep(500);
      }

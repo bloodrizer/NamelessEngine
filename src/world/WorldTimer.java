@@ -70,7 +70,7 @@ public class WorldTimer {
             int chance = (int)(Math.random()*100);
             if(chance < 90 ){
                 Zombie zombie = new Zombie();
-                zombie.spawn(99999, new Point(
+                zombie.spawn(new Point(
                         Player.get_ent().origin.getX() + (int)(Math.random()*20-10),
                         Player.get_ent().origin.getY() +(int)(Math.random()*20-10)
                     )
