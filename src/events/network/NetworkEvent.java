@@ -23,7 +23,12 @@ public class NetworkEvent extends Event {
 
     @Override
     public boolean is_local(){
-        return false;
+        return local;
+    }
+
+    private boolean local = false;
+    public void set_local(boolean b) {
+        this.local = true;
     }
 
     private boolean synchronised = false;

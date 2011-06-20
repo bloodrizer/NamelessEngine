@@ -123,6 +123,9 @@ public class WorldModel implements IEventListener {
         Object[] ent_list = EntityManager.ent_list_sync.toArray();
         for(int i=EntityManager.ent_list_sync.size()-1; i>=0; i--){
             Entity entity = (Entity)ent_list[i];
+
+            entity.update();
+
             if (entity.is_awake(Timer.get_time())){
                   entity.think();
             }

@@ -36,6 +36,9 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
     int path_synch_counter = 0;
 
+    public int NEXT_FRAME_DELAY = 100;
+    public float MOVE_SPEED = 0.1f;
+
     public NpcController(){
         EventManager.subscribe(this);
     }
@@ -44,7 +47,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
     public void think() {
         if (destination != null){
 
-            owner.set_next_frame(100);
+            owner.set_next_frame(NEXT_FRAME_DELAY);
 
             follow_path();
             return;
@@ -85,8 +88,17 @@ public class NpcController extends BaseController implements Mover, IEventListen
         source = WorldModel.tile_map.world2local(source);
 
         //WorldModel.clearVisited();
-        path = finder.findPath(this,
-            source.getX(), source.getY(), target.getX(), target.getY());
+        try{
+            path = finder.findPath(this,
+                source.getX(), source.getY(), target.getX(), target.getY());
+        }
+        catch(ArrayIndexOutOfBoundsException ex){
+            /*
+             * This is a temorary workaround for astar pathfind.
+             * If entity tries to pathfind outside of the loaded data, it's probably should be removed
+             */
+            path = null;
+        }
         
         step = null;
         /*
@@ -180,8 +192,8 @@ public class NpcController extends BaseController implements Mover, IEventListen
         //owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
 
         //displacement = 1.0f / (owner.get_renderer().ANIMATION_LENGTH-2)   //1 start frame + 1 end frame + iterated animation
-        float dx = (float)(x-owner.origin.getX())*0.1f;
-        float dy = (float)(y-owner.origin.getY())*0.1f;
+        float dx = (float)(x-owner.origin.getX())*MOVE_SPEED;
+        float dy = (float)(y-owner.origin.getY())*MOVE_SPEED;
 
         owner.dx += dx;
         owner.dy += dy;

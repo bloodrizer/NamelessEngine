@@ -29,10 +29,16 @@ public class Zombie extends EntMonster {
     }
 
     public Zombie(){
-        set_controller(new NpcController());
+        NpcController __controller = new NpcController();
+        __controller.NEXT_FRAME_DELAY = 200;
+        __controller.MOVE_SPEED = 0.02f;
+
+        set_controller(__controller);
         set_combat(new BasicCombat());
 
         set_blocking(true);
+
+        
     }
 
     @Override

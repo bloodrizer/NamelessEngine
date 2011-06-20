@@ -89,6 +89,10 @@ public class Entity implements Comparable {
         this.combat = combat;
         combat.set_owner(this);
     }
+    public void set_ai(AI ai){
+        this.ai = ai;
+        ai.set_owner(this);
+    }
 
     public Combat get_combat(){
         return this.combat;
@@ -165,11 +169,18 @@ public class Entity implements Comparable {
     }
 
     public void think(){
+        if (ai != null){
+            ai.think();
+        }
+    }
+
+    public void update(){
         if (controller != null){
             controller.think();
         }
-
-        //sleep(50);
+        if (ai != null){
+            ai.update();
+        }
     }
 
     public long frame_time_ms = 0;

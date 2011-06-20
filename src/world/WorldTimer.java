@@ -5,6 +5,7 @@
 
 package world;
 
+import game.ai.BasicMobAI;
 import game.ent.controller.NpcController;
 import game.ent.monsters.Zombie;
 import java.util.Calendar;
@@ -75,6 +76,7 @@ public class WorldTimer {
                         Player.get_ent().origin.getY() +(int)(Math.random()*20-10)
                     )
                 );
+                zombie.set_ai(new BasicMobAI());
                 //zombie.set_controller(new NpcController());
             }
         }
