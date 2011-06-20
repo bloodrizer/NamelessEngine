@@ -5,6 +5,8 @@
 
 package ne.effects;
 
+import render.AreaRenderer;
+import ne.ui.NE_GUI_SpriteArea;
 import render.Render;
 import events.network.EChatMessage;
 import game.ent.Entity;
@@ -25,6 +27,13 @@ public class FXTextBubble extends Effect_Element {
 
     Entity ent;
     String message;
+
+    static AreaRenderer bubble_sprite = new AreaRenderer(){
+        {
+            texture_name = "/render/gfx/effects/bubble.png";
+            set_size(32,32);
+        }
+    };
 
     FXTextBubble(EChatMessage eChatMessage) {
         Entity player_ent = EntityManager.get_entity(eChatMessage.uid);
@@ -67,19 +76,16 @@ public class FXTextBubble extends Effect_Element {
         glEnable(GL_TEXTURE_2D);
         glColor4f(1.0f,1.0f,1.0f,1.0f);
 
-        Render.bind_texture("/render/gfx/effects/bubble.png");
+        //Render.bind_texture("/render/gfx/effects/bubble.png");
 
-        glBegin(GL_QUADS);
-                glTexCoord2f(0.0f, 0.0f);
-            glVertex2f( x,   y);
-                glTexCoord2f(0.0f+1.0f, 0.0f);
-            glVertex2f( x+w, y);
-                glTexCoord2f(0.0f+1.0f, 0.0f+1.0f);
-            glVertex2f( x+w, y+h);
-                glTexCoord2f(0.0f, 0.0f+1.0f);
-            glVertex2f( x,   y+h);
-        glEnd();
+        bubble_sprite.set_rect(0, 0, 8, 32);
+        bubble_sprite.render(x, y, 8, 24);
 
+        bubble_sprite.set_rect(8, 0, 16, 32);
+        bubble_sprite.render(x+8, y, message.length()*8, 24);
+
+        bubble_sprite.set_rect(24, 0, 8, 32);
+        bubble_sprite.render(x+8+message.length()*8, y, 8, 24);
 
         Color text_color;
 
@@ -91,8 +97,8 @@ public class FXTextBubble extends Effect_Element {
 
 
         OverlaySystem.ttf.drawString(
-                ent_screen_x,
-                ent_screen_y - 10,
+                ent_screen_x + 4,
+                ent_screen_y - 11,
         message, text_color);
 
         /*OverlaySystem.ttf.drawString(200, 200,

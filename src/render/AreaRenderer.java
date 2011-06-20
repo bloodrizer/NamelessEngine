@@ -25,6 +25,11 @@ public class AreaRenderer {
         
     }
 
+    public void set_size(int w, int h){
+        TEXTURE_W = w;
+        TEXTURE_H = h;
+    }
+
     public void set_coord(int x, int y){
         this.x = x;
         this.y = y;

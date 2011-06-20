@@ -8,6 +8,7 @@ package game.ent;
 import actions.IAction;
 import events.EEntitySpawn;
 import events.network.EEntityMove;
+import game.ai.AI;
 import game.combat.Combat;
 import game.ent.Entity;
 import game.ent.controller.IEntityController;
@@ -34,6 +35,8 @@ public class Entity implements Comparable {
      * Combat handles all in-game combat mechanic, as stats, damage infliction and damage taking
      */
     protected Combat combat;
+
+    protected AI ai;
 
     /*
      * This is an entity offset in tile coord system
