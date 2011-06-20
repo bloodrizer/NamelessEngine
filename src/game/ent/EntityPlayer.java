@@ -8,6 +8,7 @@ package game.ent;
 import items.BaseItem;
 import render.EntityRenderer;
 import render.NPCRenderer;
+import world.WorldModel;
 
 /**
  *  Entity, representing player on a game map
@@ -69,6 +70,27 @@ public class EntityPlayer extends EntityNPC {
         
 
         return __render;
+    }
+
+    /*@Override
+     public void update(){
+         super.update();
+
+     }*/
+
+    @Override
+    public void e_on_change_item(){
+        if (get_active_item() != null && get_active_item().get_type().equals("torch")){
+             light_amt = 5.0f;
+             WorldModel.invalidate_light();
+        }else{
+             if (light_amt != 0.0f){
+                light_amt = 0.0f;
+                WorldModel.invalidate_light();
+            }
+        }
+
+        
     }
 
 }

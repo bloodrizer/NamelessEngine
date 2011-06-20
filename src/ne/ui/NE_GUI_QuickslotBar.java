@@ -5,6 +5,7 @@
 
 package ne.ui;
 
+import player.Player;
 import events.EMouseClick;
 import events.EGUIDrop;
 import items.BaseItem;
@@ -46,7 +47,6 @@ public class NE_GUI_QuickslotBar extends NE_GUI_Element {
 
         public void assign_item(BaseItem item){
             this.item = item;
-
             Object[] slots = parent.children.toArray();
 
             //Iterate other quickslots and remove item, if allready assigned
@@ -59,13 +59,17 @@ public class NE_GUI_QuickslotBar extends NE_GUI_Element {
                     slot.item = null;
                 }
             }
+
+            if (NE_GUI_QuickslotBar.active_slot == id){
+                Player.get_player_ent().set_active_item(item); //set player item and update data
+            }
         }
 
         //allow click based slot select
         @Override
         public void e_on_mouse_click(EMouseClick e){
             NE_GUI_QuickslotBar.active_slot = id;
-            //todo: meke slot select method
+            Player.get_player_ent().set_active_item(item); //set player item and update data
         }
 
         @Override

@@ -7,7 +7,9 @@ package player;
 
 import events.network.EEntitySetPath;
 import game.ent.Entity;
+import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
+import items.BaseItem;
 import org.lwjgl.util.Point;
 import ui.GameUI;
 
@@ -47,6 +49,10 @@ public class Player {
     public static Entity get_ent(){
         return player_ent;
     }
+    //helper function to avoid excessive typecasting
+    public static EntityPlayer get_player_ent(){
+        return (EntityPlayer)player_ent;
+    }
 
     /*
      * Return true if current entity is in range of player action
@@ -77,5 +83,4 @@ public class Player {
             move(ent.origin);
         }
     }
-
 }
