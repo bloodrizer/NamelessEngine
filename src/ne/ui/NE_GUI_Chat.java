@@ -8,6 +8,7 @@ package ne.ui;
 import events.EMouseClick;
 import events.Event;
 import events.network.EChatMessage;
+import ne.Console;
 import player.Player;
 
 /**
@@ -69,6 +70,11 @@ public class NE_GUI_Chat extends NE_GUI_FrameModern {
         input.text = "";
 
         //chat_history.add_line(text);
+
+        if (text.length()>0 && text.charAt(0) == '/' ){
+            Console.execute_cmd(text);
+            return;
+        }
 
         EChatMessage message = new EChatMessage(Player.character_id,text);
         message.post();
