@@ -17,6 +17,7 @@ import ne.Main;
 import ne.io.Io;
 import ne.ui.NE_GUI_Button;
 import ne.ui.NE_GUI_CharEquip;
+import ne.ui.NE_GUI_CharScreen;
 import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Frame;
@@ -144,8 +145,6 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         button.x = 140;
         button.y = 120;
         button.set_tw(3);
-
-        
     }
 
 

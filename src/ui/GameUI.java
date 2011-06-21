@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import ne.Input.MouseInputType;
 import ne.ui.NE_GUI_CharEquip;
+import ne.ui.NE_GUI_CharScreen;
 import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Inventory;
@@ -112,7 +113,15 @@ public class GameUI implements IUserInterface,  IEventListener {
         chat_box.x = 260;
         chat_box.y = WindowRender.get_window_h() - 200;
 
+        //----------------------------------------------------------------------
+        NE_GUI_CharScreen char_screen = new NE_GUI_CharScreen();
+        char_screen.set_tw(5);
+        char_screen.set_th(6);
 
+        char_screen.x = 850;
+        char_screen.y = 300;
+
+        ui.root.add(char_screen);
 
     }
 

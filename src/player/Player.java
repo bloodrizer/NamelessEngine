@@ -10,6 +10,7 @@ import game.ent.Entity;
 import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
 import items.BaseItem;
+import ne.ui.NE_GUI_CharScreen;
 import org.lwjgl.util.Point;
 import ui.GameUI;
 
@@ -28,6 +29,8 @@ public class Player {
         ent.set_uid(character_id);  //special hack to synchronize client-side entity_id and server_side entity_id
 
         GameUI.inventory.set_container(player_ent.container);
+
+        NE_GUI_CharScreen.update_stats();
     }
 
     /*
