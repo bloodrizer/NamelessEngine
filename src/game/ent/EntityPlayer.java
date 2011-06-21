@@ -5,6 +5,8 @@
 
 package game.ent;
 
+import game.combat.BasicCombat;
+import game.combat.Combat;
 import items.BaseItem;
 import render.EntityRenderer;
 import render.NPCRenderer;
@@ -21,6 +23,14 @@ import world.WorldModel;
 public class EntityPlayer extends EntityNPC {
 
     public EntityPlayer(){
+
+        Combat __combat = new BasicCombat();
+        __combat.set_hp(500);
+        
+
+        set_blocking(true);
+        set_combat(__combat);
+
         //inventory shit - debug only
         //BaseItem branch = BaseItem.produce("branch", 20);
         this.container.add_item(
@@ -81,7 +91,7 @@ public class EntityPlayer extends EntityNPC {
     @Override
     public void e_on_change_item(){
         if (get_active_item() != null && get_active_item().get_type().equals("torch")){
-             light_amt = 5.0f;
+             light_amt = 4.0f;
              WorldModel.invalidate_light();
         }else{
              if (light_amt != 0.0f){

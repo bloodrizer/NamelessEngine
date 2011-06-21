@@ -148,6 +148,8 @@ public class NE_GUI_QuickslotBar extends NE_GUI_Element {
     }
 
 
+
+
     @Override
     public void render(){
         super.render();

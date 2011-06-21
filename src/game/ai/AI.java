@@ -6,6 +6,7 @@
 package game.ai;
 
 import game.ent.Entity;
+import world.util.Fov;
 
 /**
  *
@@ -24,5 +25,14 @@ public class AI {
 
     public void think(){
         
+    }
+
+    public boolean entity_in_fov(Entity ent){
+        //todo: implement combat.get_fov();
+        if (Fov.in_range(owner.origin, ent.origin, 5)){
+            return true;
+        }
+
+        return false;
     }
 }

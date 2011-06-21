@@ -186,6 +186,8 @@ public class NpcController extends BaseController implements Mover, IEventListen
             step = null;
             path = null;
             destination = null;
+
+            e_on_obstacle(x,y);
             return;
         }
 
@@ -276,5 +278,9 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
     public void e_on_event_rollback(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void e_on_obstacle(int x, int y) {
+        //throw new UnsupportedOperationException("Not yet implemented");
     }
 }

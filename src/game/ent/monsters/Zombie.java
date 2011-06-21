@@ -9,6 +9,7 @@ import game.combat.BasicCombat;
 import game.combat.Damage;
 import game.combat.Damage.DamageType;
 import game.ent.Entity;
+import game.ent.controller.MobController;
 import game.ent.controller.NpcController;
 import render.EntityRenderer;
 import render.NPCRenderer;
@@ -29,7 +30,7 @@ public class Zombie extends EntMonster {
     }
 
     public Zombie(){
-        NpcController __controller = new NpcController();
+        MobController __controller = new MobController();
         __controller.NEXT_FRAME_DELAY = 200;
         __controller.MOVE_SPEED = 0.02f;
 

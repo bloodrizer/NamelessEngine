@@ -5,8 +5,11 @@
 
 package game.ai;
 
+import game.ent.Entity;
 import game.ent.controller.NpcController;
 import org.lwjgl.util.Point;
+import player.Player;
+import world.util.Fov;
 
 /**
  *
@@ -26,6 +29,25 @@ public class BasicMobAI extends AI{
     @Override
     public void update(){
         state = AIState.STATE_ROAMING;
+
+        //here is perceptron polling
+
+        Entity[] ents = Fov.get_entity_in_radius(owner.origin, 5);
+
+        for (int i=0; i<ents.length; i++){
+
+            //Replace it with fraction system
+
+            if (ents[i].isPlayerEnt()){
+                state = AIState.STATE_CHASE;
+            }
+        }
+
+
+        
+        /*if (entity_in_fov()){
+            
+        }*/
     }
 
     @Override
@@ -45,6 +67,12 @@ public class BasicMobAI extends AI{
 
                     npc_ctrl.set_destination(new Point(x,y));
                 }
+            break;
+
+            case STATE_CHASE:
+                //Entity player_ent = Player.get_ent();
+                npc_ctrl.set_destination(Player.get_origin());
+
             break;
         }
     }

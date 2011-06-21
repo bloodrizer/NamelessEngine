@@ -88,7 +88,7 @@ public class ModeInGame implements IGameMode, IEventListener {
         WorldViewCamera.target.setLocation(location);
 
         player_ent.set_controller(new NpcController());
-        player_ent.set_combat(new BasicCombat());
+        //player_ent.set_combat(new BasicCombat());
 
         Player.set_ent(player_ent);
     }
