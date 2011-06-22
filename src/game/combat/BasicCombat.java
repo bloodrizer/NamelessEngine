@@ -38,7 +38,7 @@ public class BasicCombat extends Combat{
     }
 
     public int get_damage_amt(){
-        return 5;
+        return 2;
     }
 
     @Override

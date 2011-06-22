@@ -34,6 +34,7 @@ public class Input {
     };
 
     public static boolean key_state_alt = false;
+    public static boolean key_state_ctrl = false;
     private static java.util.Map<Integer,Boolean> key_states
             = Collections.synchronizedMap(new java.util.HashMap<Integer,Boolean>(100));
     
@@ -120,6 +121,9 @@ public class Input {
                 if (Keyboard.getEventKey() == Keyboard.KEY_LMENU) {
 		    key_state_alt = true;
 		}
+                if (Keyboard.getEventKey() == Keyboard.KEY_LCONTROL) {
+		    key_state_ctrl = true;
+		}
 
                 Boolean state = key_states.get(Keyboard.getEventKey());
                 if(state == null || state == false){
@@ -134,6 +138,9 @@ public class Input {
             }else{
                 if (Keyboard.getEventKey() == Keyboard.KEY_LMENU) {
 		    key_state_alt = false;
+		}
+                 if (Keyboard.getEventKey() == Keyboard.KEY_LCONTROL) {
+		    key_state_ctrl = false;
 		}
                 key_states.put(Keyboard.getEventKey(), false);
             }

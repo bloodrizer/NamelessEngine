@@ -24,6 +24,7 @@ import events.IEventListener;
 import game.combat.BasicCombat;
 import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
+import game.ent.controller.PlayerController;
 import game.ent.monsters.EntMonster;
 import items.BaseItem;
 import ne.Input;
@@ -87,7 +88,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         WorldViewCamera.target.setLocation(location);
 
-        player_ent.set_controller(new NpcController());
+        player_ent.set_controller(new PlayerController());
         //player_ent.set_combat(new BasicCombat());
 
         Player.set_ent(player_ent);

@@ -5,6 +5,8 @@
 
 package world;
 
+import game.ent.buildings.EntBuilding;
+import player.Player;
 import game.ent.monsters.EntMonster;
 import org.lwjgl.input.Mouse;
 import render.Render;
@@ -36,6 +38,12 @@ import static org.lwjgl.opengl.GL11.*;
 public class WorldView implements IEventListener {
 
     public static Tileset bg_tileset = new Tileset();
+
+    public static Point highlited_tile = null;
+
+    public static void highlight_tile(Point tile_coord) {
+        highlited_tile = tile_coord;
+    }
 
     public WorldView(){
         EventManager.subscribe(this);
@@ -139,10 +147,22 @@ public class WorldView implements IEventListener {
             entity.origin.getY()
         );
 
+
+        float r, g, b;
+        r = g = b =  0.5f + tile.light_level + WorldTimer.get_light_amt();
+
+        if (entity instanceof EntBuilding && entity.get_combat() != null){
+
+            float hp_rate = 1.0f - (float)entity.get_combat().get_hp() / (float)entity.get_combat().get_max_hp();
+            r = r - hp_rate * 0.1f;
+            g = g - hp_rate * 0.3f;
+            b = b - hp_rate * 0.3f;
+        }
+
         GL11.glColor3f(
-            0.5f + tile.light_level + WorldTimer.get_light_amt(),
-            0.5f + tile.light_level + WorldTimer.get_light_amt(),
-            0.5f + tile.light_level + WorldTimer.get_light_amt()
+            r,
+            g,
+            b
         );
 
 
@@ -173,6 +193,12 @@ public class WorldView implements IEventListener {
     }
 
     public void update_cursor(){
+
+        if (Player.is_combat_mode()){
+            Render.set_cursor("/render/ico_sword.png");
+            return;
+        }
+
         //Render.set_cursor("/render/ico_default.png");
         int x = Mouse.getX();
         int y = Mouse.getY();
@@ -185,7 +211,7 @@ public class WorldView implements IEventListener {
         Entity ent = tile.get_actor();
         
 
-        if (ent != null && ent instanceof EntMonster){
+        if (ent != null && ent instanceof EntMonster ){
             Render.set_cursor("/render/ico_sword.png");
         }else{
             Render.set_cursor("/render/ico_default.png");

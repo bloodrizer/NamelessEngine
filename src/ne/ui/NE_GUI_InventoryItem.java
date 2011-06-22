@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import ne.Game;
 import ne.Input.MouseInputType;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.util.Point;
 import org.newdawn.slick.Color;
 import render.overlay.OverlaySystem;
+import world.WorldView;
 
 /**
  *
@@ -67,12 +70,22 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
         public void e_on_drag(){
             this.w = 24;
             this.h = 24;
+
+            int x = Mouse.getX();
+            int y = Mouse.getY();
+
+            Point tile_coord = WorldView.getTileCoord(x, y);
+
+            System.out.println("setting highlight tile @"+tile_coord);
+            WorldView.highlight_tile(tile_coord);
         }
 
         @Override
         public void e_on_drop(){
             this.w = 32;
             this.h = 32;
+
+            WorldView.highlight_tile(null);
 
 
             //update container, lol

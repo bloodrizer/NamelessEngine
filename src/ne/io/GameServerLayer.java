@@ -7,6 +7,7 @@ package ne.io;
 
 import events.network.*;
 import game.build.BuildManager;
+import game.combat.BasicCombat;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityNPC;
@@ -99,6 +100,7 @@ public class GameServerLayer extends IoLayer {
                                             //EntityManager.add(ent_building);
 
                                             //ent_building.spawn(54321, tile_coord);
+                                            ent_building.set_combat(new BasicCombat());
                                             ent_building.set_blocking(true);
 
                                             ent_building.spawn( 54321           //<<<<<< UID THERE!!!!!!!!!!

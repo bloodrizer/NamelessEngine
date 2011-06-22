@@ -66,7 +66,18 @@ public class Tileset{
             tile_id = 8;
         }
 
-        if (WorldView.DRAW_GRID){
+        if ( WorldView.highlited_tile != null &&
+                WorldView.highlited_tile.getX() == i &&
+                WorldView.highlited_tile.getY() == j )
+        {
+            draw_quad(
+                    i*TILE_SIZE +2,
+                    j*TILE_SIZE +2,
+                    sprite_w-4,
+                    sprite_h-4,
+                    tile_id
+            );
+        }else if (WorldView.DRAW_GRID ){
             draw_quad(
                     i*TILE_SIZE,
                     j*TILE_SIZE,
