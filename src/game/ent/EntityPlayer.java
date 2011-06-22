@@ -49,6 +49,9 @@ public class EntityPlayer extends EntityNPC {
                 BaseItem.produce("wood_wall", 64)
         );
         this.container.add_item(
+                BaseItem.produce("wood_floor", 64)
+        );
+        this.container.add_item(
                 BaseItem.produce("fire", 1)
         );
         this.container.add_item(

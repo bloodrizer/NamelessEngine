@@ -12,16 +12,11 @@ import render.SpriteRenderer;
  *
  * @author Administrator
  */
-public class EntWoodWall extends EntBuilding {
-
-    public EntWoodWall(){
-        set_blocking(true);
-    }
-
+public class EntWoodFloor extends EntBuilding {
     @Override
     public EntityRenderer build_render(){
         SpriteRenderer __render = new SpriteRenderer();
-        __render.set_texture("/render/gfx/ents/wood_wall.png");
+        __render.set_texture("/render/gfx/ents/wood_floor.png");
 
         __render.get_tileset().sprite_w = 60;
         __render.get_tileset().sprite_h = 60;

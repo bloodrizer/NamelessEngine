@@ -57,6 +57,11 @@ public class CraftManager {
         new CraftRecipe[] {
             new CraftRecipe("wood_block",25)
         }, "wood_wall");
+
+        building_groop.add_recipe(
+        new CraftRecipe[] {
+            new CraftRecipe("wood_block",5)
+        }, "wood_floor");
     }
 
     public static String[] get_groups(){

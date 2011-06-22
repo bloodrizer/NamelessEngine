@@ -101,7 +101,7 @@ public class GameServerLayer extends IoLayer {
 
                                             //ent_building.spawn(54321, tile_coord);
                                             ent_building.set_combat(new BasicCombat());
-                                            ent_building.set_blocking(true);
+                                            //ent_building.set_blocking(true);
 
                                             ent_building.spawn( 54321           //<<<<<< UID THERE!!!!!!!!!!
                                                     , new Point(
