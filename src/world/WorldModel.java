@@ -25,6 +25,7 @@ import ne.Main;
 import org.lwjgl.util.Point;
 import player.Player;
 import world.WorldTile.TerrainType;
+import world.util.NLTimer;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
 
@@ -145,23 +146,7 @@ public class WorldModel implements IEventListener {
             recalculate_light();
             light_outdated = false;
         }
-        //THIS IS FUCKING SLOOOOOOOOOOW
         
-        /*Collection c = tile_data.keySet();
-        Iterator itr = c.iterator();
-        while(itr.hasNext()){
-            //WorldTile tile = (WorldTile)itr.next();
-            Point coord = (Point)itr.next();
-            WorldTile tile = tile_data.get(coord);
-
-            tile.light_level = 0.0f;
-            for(int i=0; i<EntityManager.ent_list_sync.size(); i++){
-                Entity entity = (Entity)ent_list[i];
-                tile.light_level += get_light_amt(coord.getX(),coord.getY(),entity);
-                         //System.out.println(tile.light_level);
-           }
-        }*/
-
     }
 
     public void recalculate_light(){
@@ -231,7 +216,57 @@ public class WorldModel implements IEventListener {
         return chunk;
     }
 
+    private static WorldTile build_chunk_tile(int i, int j, Random chunk_random){
+        int tile_id = 0;
+        int height = Terrain.get_height(i,j);
+
+        if (height > 120){
+            tile_id = 25;
+        }
+
+        WorldTile tile = new WorldTile(tile_id);
+                //important!
+                //tile should be registered before any action is performed on it
+        tile_data.put(new Point(i,j), tile);
+        tile.set_height(height);
+
+                //tile.moisture = Terrain.get_moisture(x, y);
+
+        if (Terrain.is_tree(
+               chunk_random.nextFloat(),
+               tile)
+         ){
+             EntityTree tree_ent = new EntityTree();
+             EntityManager.add(tree_ent);
+             tree_ent.spawn(1, new Point(i,j));
+
+             tree_ent.set_blocking(true);    //obstacle
+         }
+
+         if (Terrain.is_lake(tile)){
+             tile.set_tile_id(1);
+             tile.terrain_type = TerrainType.TERRAIN_WATER;
+         }
+
+         if (chunk_random.nextFloat()*100<0.25f){
+
+             EntityStone stone_ent = new EntityStone();
+             EntityManager.add(stone_ent);
+             stone_ent.spawn(1, new Point(i,j));
+
+             stone_ent.set_blocking(true);
+         }
+
+        return tile;
+    }
+
     public static void build_chunk(Point origin){
+
+        Terrain.aquatic_tiles.clear();
+
+        System.out.println("loading chunk @"+origin.getX()+","+origin.getY());
+
+        NLTimer.push();
 
         Random chunk_random = new Random();
         chunk_random.setSeed(origin.getX()*10000+origin.getY());    //set chunk-specific seed
@@ -242,58 +277,47 @@ public class WorldModel implements IEventListener {
         int x = origin.getX()*WorldChunk.CHUNK_SIZE;
         int y = origin.getY()*WorldChunk.CHUNK_SIZE;
         int size = WorldChunk.CHUNK_SIZE;
+        
+        final int OFFSET = WorldChunk.CHUNK_SIZE;
+          //final int OFFSET = 0;
 
-        for (int i = x; i<x+size; i++)
+        /*
+         * Iterate throught the chunk using offset (for smooth moisture map transition)
+         *
+         */
+
+        for (int i = x - OFFSET; i<x+size+OFFSET; i++ ){
+            for (int j = y - OFFSET; j<y+size+OFFSET; j++){
+                //probably unnecacary
+                //boolean is_acquatic = false;
+                if ( i>= x && i<x+size && j >=y && j < y+size){
+                    WorldTile tile = build_chunk_tile(i,j, chunk_random);
+                    /*if (tile.terrain_type == TerrainType.TERRAIN_WATER){
+                        is_acquatic = true;
+                    }*/
+                }
+
+                /*if ( is_acquatic || Terrain.is_lake(Terrain.get_height(i, j))){
+                    //System.out.println("adding aquatic tile @"+i+","+j);
+                    Terrain.aquatic_tiles.add(new Point(i,j));
+                }*/
+                if (Terrain.is_lake(Terrain.get_height(i, j))){
+                    Terrain.aquatic_tiles.add(new Point(i,j));
+                }
+            }
+        }
+
+        //System.out.println("calculating moisture map with "+Terrain.aquatic_tiles.size()+" aquatic tiles");
+
+        for (int i = x; i<x+size; i++){
             for (int j = y; j<y+size; j++)
             {
-                //implement different tile_id there
-                //int tile_id = (int)(Math.random()*10);
-
-                int tile_id = 0;
-                /*if (Math.random() < 0.2f){
-                    tile_id = 25;
-                }*/
-                int height = Terrain.get_height(i,j);
-                if (height > 120){
-                    tile_id = 25;
-                }
-
-                WorldTile tile = new WorldTile(tile_id);
-                //important!
-                //tile should be registered before any action is performed on it
-                tile_data.put(new Point(i,j), tile);
-
-                tile.set_height(height);
-
+                WorldTile tile = get_tile(i, j);
                 tile.moisture = Terrain.get_moisture(i, j);
-
-                if (Terrain.is_tree(
-                        chunk_random.nextFloat(),
-                        tile)
-                ){
-                    EntityTree tree_ent = new EntityTree();
-                    EntityManager.add(tree_ent);
-                    tree_ent.spawn(1, new Point(i,j));
-                    
-                    tree_ent.set_blocking(true);    //obstacle
-                }
-
-                if (Terrain.is_lake(tile)){
-                    tile.set_tile_id(1);
-                    tile.terrain_type = TerrainType.TERRAIN_WATER;
-                }
-
-                if (chunk_random.nextFloat()*100<0.25f){
-
-                    EntityStone stone_ent = new EntityStone();
-                    EntityManager.add(stone_ent);
-                    stone_ent.spawn(1, new Point(i,j));
-
-                    stone_ent.set_blocking(true);
-                }
-
-                
             }
+        }
+        NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());
+        //System.out.println("HM Size:" + Terrain.heightmap_cached.size());
     }
 
     //clean all unused chunks and data
@@ -392,6 +416,9 @@ public class WorldModel implements IEventListener {
            //spawn_event.ent.origin = spawn_event.origin;
            //-------------------------------------------------------------------
        }else if(event instanceof EEntityChangeChunk){
+
+           
+
            EEntityChangeChunk e_change_chunk = (EEntityChangeChunk)event;
 
            //System.err.println("setting new chunk @ for ent "+Entity.toString(e_change_chunk.ent));
@@ -401,6 +428,8 @@ public class WorldModel implements IEventListener {
            e_change_chunk.to.add_entity(ent);
 
            if (ent.isPlayerEnt()){
+                update_terrain();
+
                 WorldCluster.locate(e_change_chunk.to.origin);
                 chunk_gc();
            }
@@ -423,6 +452,18 @@ public class WorldModel implements IEventListener {
     //--------------------------------------------------------------------------
     static final int MAP_SIZE = WorldCluster.CLUSTER_SIZE*WorldChunk.CHUNK_SIZE;
     public static WorldModelTileMap tile_map = new WorldModelTileMap();
+
+    /*
+     * update_terrain is called whenever player_ent crosses a border of terrain
+     and new portion of terrain generation is required
+     *
+     */
+
+    private void update_terrain() {
+        Terrain.heightmap_cached.clear();
+        //System.out.println("clearing aquatic tiles data");
+        //Terrain.aquatic_tiles.clear();
+    }
 
     /*
      *  WorldModelTileMap is a mediator between WorldModel and AStarPathfinder
