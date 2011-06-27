@@ -314,6 +314,7 @@ public class WorldModel implements IEventListener {
             {
                 WorldTile tile = get_tile(i, j);
                 tile.moisture = Terrain.get_moisture(i, j);
+                tile.update_biome_type();
             }
         }
         NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());

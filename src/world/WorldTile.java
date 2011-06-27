@@ -51,6 +51,96 @@ public class WorldTile {
     public TerrainType terrain_type = TerrainType.TERRAIN_PLAIN;
     public BiomeType biome_type = BiomeType.BIOME_GRASSLAND;
 
+    public void update_biome_type(){
+        int elevation_zone = height / (255/4);  //1-4 elevation zone
+
+        int moisture_zone = 1;
+        if ( moisture < 1.0f ){
+            moisture_zone =  (int)( moisture / ( 1.0f / 4.0f ) ) + 1;
+        }
+
+        switch(elevation_zone){
+            case 1:
+                switch(moisture_zone) {
+                    case 1:
+                        biome_type = BiomeType.BIOME_SUBTROPICAL_DESERT;
+                    break;
+                    case 2:
+                        biome_type = BiomeType.BIOME_GRASSLAND;
+                    break;
+                    case 3:
+                        biome_type = BiomeType.BIOME_SEASONAL_FOREST;
+                    break;
+                    case 4:
+                        biome_type = BiomeType.BIOME_SEASONAL_FOREST;
+                    break;
+                    case 5:
+                        biome_type = BiomeType.BIOME_TROPICAL_RAINFOREST;
+                    break;
+                }
+            break;
+            case 2:
+                switch(moisture_zone) {
+                    case 1:
+                        biome_type = BiomeType.BIOME_TEMP_DESERT;
+                    break;
+                    case 2:
+                        biome_type = BiomeType.BIOME_GRASSLAND;
+                    break;
+                    case 3:
+                        biome_type = BiomeType.BIOME_GRASSLAND;
+                    break;
+                    case 4:
+                        biome_type = BiomeType.BIOME_DECIDUOS_FOREST;
+                    break;
+                    case 5:
+                        biome_type = BiomeType.BIOME_TEMP_RAINFOREST;
+                    break;
+                }
+            break;
+            case 3:
+                switch(moisture_zone) {
+                    case 1:
+                        biome_type = BiomeType.BIOME_TEMP_DESERT;
+                    break;
+                    case 2:
+                        biome_type = BiomeType.BIOME_TEMP_DESERT;
+                    break;
+                    case 3:
+                        biome_type = BiomeType.BIOME_SHRUBLAND;
+                    break;
+                    case 4:
+                        biome_type = BiomeType.BIOME_SHRUBLAND;
+                    break;
+                    case 5:
+                        biome_type = BiomeType.BIOME_TAIGA;
+                    break;
+                }
+            break;
+            case 4:
+                switch(moisture_zone) {
+                    case 1:
+                        biome_type = BiomeType.BIOME_SCORCHED;
+                    break;
+                    case 2:
+                        biome_type = BiomeType.BIOME_BARE;
+                    break;
+                    case 3:
+                        biome_type = BiomeType.BIOME_TUNDRA;
+                    break;
+                    case 4:
+                        biome_type = BiomeType.BIOME_SNOW;
+                    break;
+                    case 5:
+                        biome_type = BiomeType.BIOME_SNOW;
+                    break;
+                }
+            break; 
+        }
+
+        return;
+    }
+
     //allocate sum data for entity storing
     public List<Entity> ent_list = new ArrayList<Entity>(10);
 
