@@ -5,6 +5,8 @@
 
 package world;
 
+import java.util.HashMap;
+import org.lwjgl.util.Point;
 import world.util.Noise;
 
 /**
@@ -25,6 +27,12 @@ public class Terrain {
 
     //function generates virtual terrain height, based on PerlinNoise Map
     public static int get_height(int x, int y){
+
+        Integer val = heightmap_cached.get(new Point(x,y));
+        if( val != null){
+            return val;
+        }
+
         //todo: call setup();
         noise.noiseDetail(3,0.5f);
 
@@ -33,7 +41,41 @@ public class Terrain {
 
         //System.out.println(noiseVal);
 
-        return (int)(noiseVal*TERRAIN_HEIGHT);
+
+        val = (int)(noiseVal*TERRAIN_HEIGHT);
+        heightmap_cached.put(new Point(x,y), val);
+        return val;
+    }
+
+    /*
+     * This method calculates the biome type
+     *
+     */
+
+    public static HashMap<Point,Integer> heightmap_cached = new HashMap<Point,Integer>(64);
+
+    public static final float MOST_AMT = 10.0f;
+    public static float get_moisture(int x, int y){
+        float moistVal = 0.0f;
+
+        for (int i = x - 32; i < x + 32; i++){
+            for (int j = x - 32; j < x + 32; j++){
+                /*if ( is_lake(get_height(i,j))
+                ){
+                    int dx = x-i;
+                    int dy = y-j;
+                    float disst = dx*dx+dy*dy;
+
+                    float amt = MOST_AMT / disst;
+                    if (amt >moistVal){
+                        moistVal = amt;
+                    }
+                }*/
+            }
+        }
+
+
+        return moistVal;
     }
 
     public static int FORREST_HEIGHT = 120;
@@ -64,10 +106,11 @@ public class Terrain {
     }
 
     public static boolean is_lake(WorldTile tile){
-        if (tile.get_height() < 60){
-            return true;
-        }
-        return false;
+        return is_lake(tile.get_height());
+    }
+
+    public static boolean is_lake(int height){
+        return height < 60;
     }
 
 

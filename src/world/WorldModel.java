@@ -42,6 +42,9 @@ public class WorldModel implements IEventListener {
 
     private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
 
+    //--------------------------------------------------------------------------
+    private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
+
     public static void invalidate_light(){
         light_outdated = true;
     }
@@ -68,9 +71,6 @@ public class WorldModel implements IEventListener {
     public static boolean tile_blocked(Point tile_origin){
         return false;
     }
-
-    //--------------------------------------------------------------------------
-    private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
 
     private static synchronized WorldChunk get_chunk(Point location){
         return get_chunk(location.getX(),location.getY());
@@ -264,6 +264,8 @@ public class WorldModel implements IEventListener {
                 tile_data.put(new Point(i,j), tile);
 
                 tile.set_height(height);
+
+                tile.moisture = Terrain.get_moisture(i, j);
 
                 if (Terrain.is_tree(
                         chunk_random.nextFloat(),

@@ -23,10 +23,33 @@ public class WorldTile {
         TERRAIN_WATER
     }
 
+    public float moisture = 0.0f;
+
+    public enum BiomeType {
+
+        BIOME_SNOW,
+        BIOME_TUNDRA,
+        BIOME_BARE,
+        BIOME_SCORCHED,
+
+        BIOME_TAIGA,
+        BIOME_SHRUBLAND,
+        BIOME_TEMP_DESERT,
+
+        BIOME_TEMP_RAINFOREST,
+        BIOME_DECIDUOS_FOREST,
+        BIOME_GRASSLAND,
+
+        BIOME_TROPICAL_RAINFOREST,
+        BIOME_SEASONAL_FOREST,
+        BIOME_SUBTROPICAL_DESERT
+    }
+
     private int tile_id = 0;
     private int height = 0;
 
     public TerrainType terrain_type = TerrainType.TERRAIN_PLAIN;
+    public BiomeType biome_type = BiomeType.BIOME_GRASSLAND;
 
     //allocate sum data for entity storing
     public List<Entity> ent_list = new ArrayList<Entity>(10);
