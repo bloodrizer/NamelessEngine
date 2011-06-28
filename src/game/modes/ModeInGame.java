@@ -149,6 +149,11 @@ public class ModeInGame implements IGameMode, IEventListener {
         //System.out.println(tile_origin);
         if (event.type == MouseInputType.LCLICK) {
             WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
+            
+            if(tile == null){
+                return;
+            }
+
             Entity ent = tile.get_actor();
             if (ent != null && ent instanceof EntMonster){
                 Player.attack(ent);

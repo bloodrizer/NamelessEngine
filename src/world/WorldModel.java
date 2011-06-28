@@ -232,22 +232,12 @@ public class WorldModel implements IEventListener {
 
                 //tile.moisture = Terrain.get_moisture(x, y);
 
-        if (Terrain.is_tree(
-               chunk_random.nextFloat(),
-               tile)
-         ){
-             EntityTree tree_ent = new EntityTree();
-             EntityManager.add(tree_ent);
-             tree_ent.spawn(1, new Point(i,j));
-
-             tree_ent.set_blocking(true);    //obstacle
-         }
 
          if (Terrain.is_lake(tile)){
              tile.set_tile_id(1);
              tile.terrain_type = TerrainType.TERRAIN_WATER;
          }
-
+        
          if (chunk_random.nextFloat()*100<0.25f){
 
              EntityStone stone_ent = new EntityStone();
@@ -315,6 +305,23 @@ public class WorldModel implements IEventListener {
                 WorldTile tile = get_tile(i, j);
                 tile.moisture = Terrain.get_moisture(i, j);
                 tile.update_biome_type();
+
+                if (tile.terrain_type != TerrainType.TERRAIN_WATER){
+                    int biome_id = tile.biome_type.tile_id();
+                    tile.set_tile_id(biome_id);
+                }
+
+
+                if (Terrain.is_tree(
+                       chunk_random.nextFloat(),
+                       tile)
+                 ){
+                     EntityTree tree_ent = new EntityTree();
+                     EntityManager.add(tree_ent);
+                     tree_ent.spawn(1, new Point(i,j));
+
+                     tree_ent.set_blocking(true);    //obstacle
+                 }
             }
         }
         NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());

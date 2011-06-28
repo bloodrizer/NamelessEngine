@@ -111,12 +111,7 @@ public class Entity implements Comparable {
 
         //hashcode generation allows up to 32 entities stored in the tile
 
-        int hc_ent = ((Entity)ent).origin.getY()*10000 + ((Entity)ent).origin.getX()*32;
-
-        //non-decal ents use upper half of z-stack
-        if (!(ent instanceof EntityDecal)){
-            hc_ent += 16;
-        }
+        int hc_ent = ((Entity)ent).origin.getY()*(10000) + ((Entity)ent).origin.getX();
 
         //TODO: implement z-ordering algorythm for multiple decals if any presents
         //like floor tiles renders prior to item ents

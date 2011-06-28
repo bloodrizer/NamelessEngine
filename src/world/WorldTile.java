@@ -28,21 +28,33 @@ public class WorldTile {
     public enum BiomeType {
 
         BIOME_SNOW,
-        BIOME_TUNDRA,
+        BIOME_TUNDRA(9),
         BIOME_BARE,
         BIOME_SCORCHED,
 
-        BIOME_TAIGA,
+        BIOME_TAIGA(8),
         BIOME_SHRUBLAND,
-        BIOME_TEMP_DESERT,
+        BIOME_TEMP_DESERT(2),
 
-        BIOME_TEMP_RAINFOREST,
-        BIOME_DECIDUOS_FOREST,
-        BIOME_GRASSLAND,
+        BIOME_TEMP_RAINFOREST(25),
+        BIOME_DECIDUOS_FOREST(25),
+        BIOME_GRASSLAND(0),
 
-        BIOME_TROPICAL_RAINFOREST,
-        BIOME_SEASONAL_FOREST,
-        BIOME_SUBTROPICAL_DESERT
+        BIOME_TROPICAL_RAINFOREST(25),
+        BIOME_SEASONAL_FOREST(25),
+        BIOME_SUBTROPICAL_DESERT(2);
+
+        private final int tile_id;
+        BiomeType(int tile_id){
+            this.tile_id = tile_id;
+        }
+        BiomeType(){
+            this.tile_id = 0;
+        }
+
+        public int tile_id(){
+            return tile_id;
+        }
     }
 
     private int tile_id = 0;
@@ -51,13 +63,21 @@ public class WorldTile {
     public TerrainType terrain_type = TerrainType.TERRAIN_PLAIN;
     public BiomeType biome_type = BiomeType.BIOME_GRASSLAND;
 
-    public void update_biome_type(){
-        int elevation_zone = height / (255/4);  //1-4 elevation zone
 
-        int moisture_zone = 1;
-        if ( moisture < 1.0f ){
-            moisture_zone =  (int)( moisture / ( 1.0f / 4.0f ) ) + 1;
-        }
+    public int get_moisture_zone(){
+        int moisture_zone = (int) (moisture / (1.0f / 4)) + 1;
+
+        return moisture_zone;
+    }
+
+    public int get_elevation_zone(){
+        return height / (255/3) + 1;
+    }
+
+    public void update_biome_type(){
+        int elevation_zone = get_elevation_zone();
+
+        int moisture_zone = get_moisture_zone();
 
         switch(elevation_zone){
             case 1:

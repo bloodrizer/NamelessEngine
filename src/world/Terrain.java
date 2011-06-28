@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import org.lwjgl.util.Point;
+import world.WorldTile.TerrainType;
 import world.util.NLTimer;
 import world.util.Noise;
 
@@ -67,12 +68,15 @@ public class Terrain {
 
     public static final float MOST_AMT = 10.0f;
 
-    /*
-     * This function is considered as slow and deprecated.
-     * Use chunk_build_mousture_map instead
-     */
+/*
+ * This function calculates moisture map in the 32x32 chunk based on 96x96 tile sample
+ *
+ * To speed up calculation process, this function only uses aquatic type tiles as samples, which fastes
+ * iteration process up to 30-40 times
+ *
+ */
     public static float get_moisture(int x, int y){
-        float moistVal = 0.0f;
+        float moistVal = 99999.0f;
 
         Point[] __aquatic_tiles = aquatic_tiles.toArray(new Point[0]);
         for (int i = 0; i < __aquatic_tiles.length; i++){
@@ -81,48 +85,42 @@ public class Terrain {
             int dy = y - tile.getY();
 
             //float disst = (float)Math.sqrt(dx*dx+dy*dy);
-            float disst = (float)Math.sqrt(dx*dx+dy*dy);
+            float disst = dx*dx+dy*dy;
 
-            float amt = MOST_AMT / disst;
-            if ( amt > moistVal ){
-                moistVal = amt;
-            }
-            /*float amt = disst;
+            float amt =  disst;
             if ( amt < moistVal ){
                 moistVal = amt;
-            }*/
-        }
-
-        /*for (int i = x - 32; i < x + 32; i++){
-            for (int j = x - 32; j < x + 32; j++){
-                if ( is_lake(get_height(i,j))
-                ){
-                    int dx = x-i;
-                    int dy = y-j;
-                    float disst = dx*dx+dy*dy;
-
-                    float amt = MOST_AMT / disst;
-                    if (amt >moistVal){
-                        moistVal = amt;
-                    }
-                }
             }
-        }*/
+        }
+        moistVal = (float)Math.sqrt(moistVal);
+        moistVal = (float)Math.pow(0.95f, moistVal);
+
+
         return moistVal;
     }
 
-    //calculates moist map in single pass
-    public static void chunk_build_mousture_map(){
-        
-    }
 
     public static int FORREST_HEIGHT = 120;
     public static int LAKE_HEIGHT = 120;
     public static int TREE_RATE = 10;
 
     public static boolean is_forrest(WorldTile tile){
-        if (tile.get_height() > FORREST_HEIGHT){
-            return true;
+        if ( tile.terrain_type == TerrainType.TERRAIN_WATER){
+            return false;
+        }
+
+        switch(tile.biome_type){
+            case BIOME_TROPICAL_RAINFOREST:
+                return true;
+
+            case BIOME_SEASONAL_FOREST:
+                return true;
+
+            case BIOME_DECIDUOS_FOREST:
+                return true;
+
+            case BIOME_TEMP_RAINFOREST:
+                return true;
         }
         return false;
     }

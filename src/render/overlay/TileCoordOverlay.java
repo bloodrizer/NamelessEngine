@@ -57,7 +57,8 @@ public class TileCoordOverlay {
                     /*"entities:" + Integer.toString(ent_list.length) +
                     "blocked:" + Boolean.toString(tile.is_blocked()) +*/
                     "light level:" + tile.light_level +
-                    " moist:" + tile.moisture +
+                    " height:" + tile.get_height() + "("+tile.get_elevation_zone()+")" +
+                    " moist:" + tile.moisture + "("+tile.get_moisture_zone()+")" +
                     " biome:" + tile.biome_type
             );
         }
