@@ -76,7 +76,9 @@ public class NE_GUI_Element {
     public boolean solid = true;
 
     public void render(){
-        render_children();
+        if (visible){
+            render_children();
+        }
     }
 
     public void render_children(){

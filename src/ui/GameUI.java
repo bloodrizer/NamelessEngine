@@ -133,6 +133,9 @@ public class GameUI implements IUserInterface,  IEventListener {
                 case Keyboard.KEY_F1:
                     //toggle_console();
                 break;
+                case Keyboard.KEY_TAB:
+                    ui.root.toggle();
+                break;
                 case Keyboard.KEY_I:
                     inventory.toggle();
                 break;

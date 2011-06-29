@@ -59,11 +59,13 @@ public class Tileset{
     public void render_tile(int i, int j, int tile_id){    
         Render.bind_texture(texture_name);
 
-        if (i % WorldChunk.CHUNK_SIZE == 0){
-            tile_id = 8;
-        }
-        if (j % WorldChunk.CHUNK_SIZE == 0){
-            tile_id = 8;
+        if (WorldView.DRAW_GRID){
+            if (i % WorldChunk.CHUNK_SIZE == 0){
+                tile_id = 8;
+            }
+            if (j % WorldChunk.CHUNK_SIZE == 0){
+                tile_id = 8;
+            }
         }
 
         if ( WorldView.highlited_tile != null &&
