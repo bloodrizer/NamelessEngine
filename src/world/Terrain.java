@@ -26,7 +26,10 @@ public class Terrain {
     public static final int TERRAIN_HEIGHT = 255;    //255
 
     public static void setup(){
-        noise.noiseDetail(3,0.5f);
+        //noise.noiseDetail(2,0.5f); //<<LOOKS BEST
+        noise.noiseDetail(2,0.9f); //<<nice height
+        //noise.noiseDetail(3,0.5f);
+
     }
 
     static Point utl_point = new Point(0,0);
@@ -45,10 +48,14 @@ public class Terrain {
         }
 
         //todo: call setup();
-        noise.noiseDetail(3,0.5f);
+        setup();
+        //noise.noiseDetail(3,0.5f);
+
+        int x_offset = 2000;
+        int y_offset = 2000;
 
         float noiseScale = 0.03f;
-        float noiseVal = noise.noise((float)x*noiseScale,(float)y*noiseScale);
+        float noiseVal = noise.noise((float)(x+x_offset)*noiseScale,(float)(y+y_offset)*noiseScale);
 
         //System.out.println(noiseVal);
 
@@ -93,7 +100,7 @@ public class Terrain {
             }
         }
         moistVal = (float)Math.sqrt(moistVal);
-        moistVal = (float)Math.pow(0.95f, moistVal);
+        moistVal = (float)Math.pow(0.982f, moistVal);
 
 
         return moistVal;

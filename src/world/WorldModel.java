@@ -25,6 +25,8 @@ import ne.Main;
 import org.lwjgl.util.Point;
 import player.Player;
 import world.WorldTile.TerrainType;
+import world.generators.GrassGenerator;
+import world.generators.TreeGenerator;
 import world.util.NLTimer;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
@@ -310,18 +312,8 @@ public class WorldModel implements IEventListener {
                     int biome_id = tile.biome_type.tile_id();
                     tile.set_tile_id(biome_id);
                 }
-
-
-                if (Terrain.is_tree(
-                       chunk_random.nextFloat(),
-                       tile)
-                 ){
-                     EntityTree tree_ent = new EntityTree();
-                     EntityManager.add(tree_ent);
-                     tree_ent.spawn(1, new Point(i,j));
-
-                     tree_ent.set_blocking(true);    //obstacle
-                 }
+                TreeGenerator.generate_object(i, j, tile, chunk_random);
+                GrassGenerator.generate_object(i, j, tile, chunk_random);
             }
         }
         NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());

@@ -28,11 +28,11 @@ public class WorldTile {
     public enum BiomeType {
 
         BIOME_SNOW,
-        BIOME_TUNDRA(9),
+        BIOME_TUNDRA(0),
         BIOME_BARE,
         BIOME_SCORCHED,
 
-        BIOME_TAIGA(8),
+        BIOME_TAIGA(9),
         BIOME_SHRUBLAND,
         BIOME_TEMP_DESERT(2),
 
@@ -71,7 +71,7 @@ public class WorldTile {
     }
 
     public int get_elevation_zone(){
-        return height / (255/3) + 1;
+        return height / (255/4) + 1;
     }
 
     public void update_biome_type(){

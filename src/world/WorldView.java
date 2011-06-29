@@ -117,7 +117,8 @@ public class WorldView implements IEventListener {
     }
     static Vector3f utl_tile_color = new Vector3f();
     public Vector3f get_tile_color(WorldTile tile){
-        float g_color = ((float)tile.get_height() / 255);
+        //float g_color = ((float)tile.get_height() / 255);
+        float g_color = 0.5f;
         utl_tile_color.set(
                 0.5f + tile.light_level     + WorldTimer.get_light_amt(),
                 g_color+ tile.light_level   + WorldTimer.get_light_amt(),
