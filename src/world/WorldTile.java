@@ -161,6 +161,27 @@ public class WorldTile {
         return;
     }
 
+    public float get_speed_modifier(){
+        float speed = 1.0f;
+        switch (biome_type){
+            case BIOME_TEMP_DESERT:
+                speed = 0.4f;    //-60%
+            break;
+            case BIOME_SUBTROPICAL_DESERT:
+                speed = 0.4f;    //-60%
+            break;
+            case BIOME_DECIDUOS_FOREST:
+                speed = 0.6f;   //-40%
+            break;
+        }
+
+        if (terrain_type == TerrainType.TERRAIN_WATER){
+            speed = 0.3f;   //-70%
+        }
+
+        return speed;
+    }
+
     //allocate sum data for entity storing
     public List<Entity> ent_list = new ArrayList<Entity>(10);
 

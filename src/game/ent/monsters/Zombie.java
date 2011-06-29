@@ -60,5 +60,8 @@ public class Zombie extends EntMonster {
     @Override
     public void die(Entity killer){
         drop_loot(killer,"bone",1,20);
+        
+        int coin_count = (int)(Math.random()*5);
+        drop_loot(killer,"copper_coin",1,10);
     }
 }
