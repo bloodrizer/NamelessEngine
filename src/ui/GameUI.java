@@ -22,6 +22,7 @@ import ne.ui.NE_GUI_CharEquip;
 import ne.ui.NE_GUI_CharScreen;
 import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
+import ne.ui.NE_GUI_Healthbar;
 import ne.ui.NE_GUI_Inventory;
 import ne.ui.NE_GUI_Popup;
 import ne.ui.NE_GUI_QuickslotBar;
@@ -45,6 +46,8 @@ public class GameUI implements IUserInterface,  IEventListener {
     public static NE_GUI_Craft craft;
     public static NE_GUI_Chat chat_box;
     public static NE_GUI_CharEquip char_equip;
+
+    public static NE_GUI_Healthbar healthbar;
 
 
     public GameUI(){
@@ -122,6 +125,11 @@ public class GameUI implements IUserInterface,  IEventListener {
         char_screen.y = 300;
 
         ui.root.add(char_screen);
+
+        healthbar = new NE_GUI_Healthbar();
+        ui.root.add(healthbar);
+        healthbar.x = WindowRender.get_window_w()/2 - healthbar.w/2;
+        healthbar.y = 5;
 
     }
 

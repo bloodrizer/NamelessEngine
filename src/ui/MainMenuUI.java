@@ -22,6 +22,7 @@ import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
 import ne.ui.NE_GUI_Frame;
 import ne.ui.NE_GUI_FrameModern;
+import ne.ui.NE_GUI_Healthbar;
 import ne.ui.NE_GUI_Input;
 import ne.ui.NE_GUI_Label;
 import ne.ui.NE_GUI_SpriteArea;

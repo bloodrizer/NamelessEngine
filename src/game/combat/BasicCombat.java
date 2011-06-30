@@ -43,7 +43,7 @@ public class BasicCombat extends Combat{
 
     @Override
     public int get_max_hp(){
-        return 10;
+        return 50;
     }
 
     @Override

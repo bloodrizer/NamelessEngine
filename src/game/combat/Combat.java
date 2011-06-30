@@ -27,8 +27,14 @@ public abstract class Combat {
     public int get_hp(){
         return hp;
     }
+
     public void set_hp(int hp){
         this.hp = hp;
+        
+        if (this.hp > get_max_hp()){
+            this.hp = get_max_hp();
+        }
+
     }
 
     public int get_max_hp(){
