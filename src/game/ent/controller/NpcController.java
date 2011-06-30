@@ -16,6 +16,7 @@ import org.lwjgl.util.Point;
 import render.NPCRenderer;
 import world.Timer;
 import world.WorldModel;
+import world.WorldTile;
 import world.util.astar.AStarPathFinder;
 import world.util.astar.Mover;
 import world.util.astar.Path;
@@ -37,7 +38,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
     int path_synch_counter = 0;
 
     public int NEXT_FRAME_DELAY = 100;
-    public float MOVE_SPEED = 0.15f;
+    public float MOVE_SPEED = 0.10f;
 
     public NpcController(){
         EventManager.subscribe(this);
@@ -181,8 +182,13 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
     public void move_ent(int x, int y){
 
+        WorldTile tile = WorldModel.get_tile(x, y);
+        if (tile == null){
+            return;
+        }
+
         //wachky-hacky safe switch
-        if(WorldModel.get_tile(x, y).is_blocked()){
+        if(tile.is_blocked()){
             step = null;
             path = null;
             destination = null;
@@ -194,8 +200,8 @@ public class NpcController extends BaseController implements Mover, IEventListen
         //owner.move_to(new Point(owner.origin.getX()-1, owner.origin.getY()));
 
         //displacement = 1.0f / (owner.get_renderer().ANIMATION_LENGTH-2)   //1 start frame + 1 end frame + iterated animation
-        float dx = (float)(x-owner.origin.getX())*MOVE_SPEED;
-        float dy = (float)(y-owner.origin.getY())*MOVE_SPEED;
+        float dx = (float)(x-owner.origin.getX())*MOVE_SPEED * tile.get_speed_modifier();
+        float dy = (float)(y-owner.origin.getY())*MOVE_SPEED * tile.get_speed_modifier();
 
         owner.dx += dx;
         owner.dy += dy;
@@ -269,7 +275,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
         
 
 
-        if(owner.origin.equals(destination)){
+        if(owner.get_render() instanceof NPCRenderer && owner.origin.equals(destination)){
             this.destination = null;    //clean up destination
             step = null;                //this is required too
             path = null;

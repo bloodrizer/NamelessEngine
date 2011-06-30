@@ -5,7 +5,9 @@
 
 package world.generators;
 
+import game.ai.BasicMobAI;
 import game.ent.EntityManager;
+import game.ent.controller.MobController;
 import game.ent.enviroment.EntityCacti;
 import game.ent.enviroment.EntityTree;
 import java.util.Random;
@@ -86,6 +88,9 @@ public class TreeGenerator extends ObjectGenerator {
         tree_ent.spawn(1, new Point(i,j));
 
         tree_ent.set_blocking(true);    //obstacle
+
+        //tree_ent.set_controller(new MobController());
+        //tree_ent.set_ai(new BasicMobAI());
     }
 
 }
