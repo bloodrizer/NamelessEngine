@@ -62,6 +62,14 @@ public class CraftManager {
         new CraftRecipe[] {
             new CraftRecipe("wood_block",5)
         }, "wood_floor");
+
+        CraftGroup potions_group = new CraftGroup();
+        groups.put("Potions", potions_group);
+
+        potions_group.add_recipe(
+        new CraftRecipe[] {
+            new CraftRecipe("flower",5)
+        }, "flower_powder");
     }
 
     public static String[] get_groups(){

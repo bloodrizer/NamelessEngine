@@ -17,6 +17,19 @@ import java.util.List;
 public class WorldTile {
     public float light_level = 0.0f;
 
+    public Entity get_active_object() {
+
+        Object[] list = ent_list.toArray();
+        for(int i=ent_list.size()-1; i>=0; i--){
+            Entity ent = (Entity)list[i];
+
+            if (ent.get_action_list().size() > 0){
+                return ent;
+            }
+        }
+        return null;
+    }
+
     public enum TerrainType {
         TERRAIN_FORREST,
         TERRAIN_PLAIN,

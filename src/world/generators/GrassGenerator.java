@@ -6,6 +6,7 @@
 package world.generators;
 
 import game.ent.EntityManager;
+import game.ent.decals.EntDecalFlower;
 import game.ent.decals.EntDecalGrass;
 import java.util.Random;
 import org.lwjgl.util.Point;
@@ -43,7 +44,11 @@ public class GrassGenerator extends ObjectGenerator {
 
         int chance = (int)(chunk_random.nextFloat()*100);
         if (chance<rate){
-            add_grass(x,y);
+            if ( Math.random()*100 < 5 ){ //5% chance of spawning flower
+                add_flower(x,y);
+            }else{
+                add_grass(x,y);
+            }
         }
     }
 
@@ -53,6 +58,13 @@ public class GrassGenerator extends ObjectGenerator {
         grass_ent.spawn(1, new Point(i,j));
 
         grass_ent.set_blocking(false);    //obstacle
+    }
+    public static void add_flower(int i, int j){
+
+        EntDecalFlower flower_ent = new EntDecalFlower();
+        EntityManager.add(flower_ent);
+        flower_ent.spawn(1, new Point(i,j));
+        flower_ent.set_blocking(false);    //obstacle
     }
 
 }

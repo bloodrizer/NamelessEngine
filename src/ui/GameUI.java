@@ -190,9 +190,9 @@ public class GameUI implements IUserInterface,  IEventListener {
         Point tile_origin = WorldView.getTileCoord(event.origin);
         WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
 
-        Entity ent = tile.get_obstacle();
+        Entity ent = tile.get_active_object();
         if (ent == null){
-            System.out.println("unable to get obstacle for tile");
+            System.out.println("no active object in tile");
             return;
         }
 
