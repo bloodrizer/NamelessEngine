@@ -18,6 +18,7 @@ public class NE_GUI_CraftRecipes extends NE_GUI_FrameModern {
 
     public NE_GUI_CraftRecipes(){
         super(true);
+        
         this.set_tw(5);
         this.set_th(8);
     }

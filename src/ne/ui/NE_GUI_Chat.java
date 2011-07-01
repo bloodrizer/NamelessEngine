@@ -22,6 +22,10 @@ public class NE_GUI_Chat extends NE_GUI_FrameModern {
     NE_GUI_Text chat_history;
 
     public NE_GUI_Chat(){
+        super(true);
+        set_title("Chatlog");
+
+
         final NE_GUI_Chat __chat_control = this;
 
         chat_history = new NE_GUI_Text();

@@ -5,16 +5,26 @@
 
 package ne.ui;
 
+import org.newdawn.slick.TrueTypeFont;
 import render.AreaRenderer;
+import render.overlay.OverlaySystem;
 
 /**
  * Modern version of GUI Frame, that supports any kind of dimensions
  */
 public class NE_GUI_FrameModern extends NE_GUI_Frame {
     AreaRenderer area_renderer;
+    public String title = "undefined";
+
+    static final int TITLE_SIZE = 12;
+    public static TrueTypeFont title_ttf = OverlaySystem.precache_font(TITLE_SIZE);
+
+    public void set_title(String title){
+        this.title = title;
+    }
 
     public NE_GUI_FrameModern(boolean close_button){
-        super(false);
+        super(close_button);
         area_renderer = new AreaRenderer();
         area_renderer.w = 34;
         area_renderer.h = 34;
@@ -69,6 +79,8 @@ public class NE_GUI_FrameModern extends NE_GUI_Frame {
             break;
         }
         area_renderer.render(tile_x,tile_y);
+
+        title_ttf.drawString(get_x()+w/2 - title.length()*TITLE_SIZE/4 , get_y(), title);
     }
 
 }

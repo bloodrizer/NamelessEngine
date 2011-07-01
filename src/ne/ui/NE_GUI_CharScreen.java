@@ -21,7 +21,8 @@ public class NE_GUI_CharScreen extends NE_GUI_FrameModern{
     static HashMap<String,NE_GUI_Label> stat_labels = new HashMap<String,NE_GUI_Label>(6);
 
     public NE_GUI_CharScreen(){
-        super(false);
+        super(true);
+        set_title("Stats");
 
         create_labels();
     }

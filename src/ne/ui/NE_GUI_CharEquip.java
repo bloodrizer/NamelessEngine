@@ -106,6 +106,9 @@ public class NE_GUI_CharEquip extends NE_GUI_FrameModern{
     
     public NE_GUI_CharEquip(){
 
+        super(true);
+        set_title("Equipment");
+
         this.w = SLOT_COUNT*32 + (SLOT_COUNT-1)*10;
         this.h = 32;
 

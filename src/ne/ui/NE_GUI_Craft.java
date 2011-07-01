@@ -27,6 +27,7 @@ public class NE_GUI_Craft extends NE_GUI_FrameModern {
 
     public NE_GUI_Craft(){
         super(true);
+        set_title("Craft Recipes");
 
         CraftManager.init();
         String[] craft_groups = CraftManager.get_groups();
@@ -81,6 +82,8 @@ public class NE_GUI_Craft extends NE_GUI_FrameModern {
 
     public void show_recipes(NE_GUI_Button button, CraftFormula[] recipes){
         recipes_layer = new NE_GUI_CraftRecipes();
+        recipes_layer.set_title(button.text);
+
         Game.get_game_mode().get_ui().get_nge_ui().root.add(recipes_layer);
 
         recipes_layer.x = button.get_x() + button.w/2;

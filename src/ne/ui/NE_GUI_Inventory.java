@@ -37,6 +37,7 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
 
     public NE_GUI_Inventory(){
         super(true);
+        set_title("inventory");
 
         this.set_tw(7);
         this.set_th(5);
