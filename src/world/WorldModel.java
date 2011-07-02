@@ -25,6 +25,7 @@ import ne.Main;
 import org.lwjgl.util.Point;
 import player.Player;
 import world.WorldTile.TerrainType;
+import world.generators.ChestGenerator;
 import world.generators.GrassGenerator;
 import world.generators.TreeGenerator;
 import world.util.NLTimer;
@@ -314,6 +315,7 @@ public class WorldModel implements IEventListener {
                 }
                 TreeGenerator.generate_object(i, j, tile, chunk_random);
                 GrassGenerator.generate_object(i, j, tile, chunk_random);
+                ChestGenerator.generate_object(i, j, tile, chunk_random);
             }
         }
         NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());

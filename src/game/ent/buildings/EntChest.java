@@ -26,8 +26,8 @@ public class EntChest extends EntBuilding{
         SpriteRenderer __render = new SpriteRenderer();
         __render.set_texture("/render/gfx/ents/chest.png");
 
-        __render.get_tileset().sprite_w = 40;
-        __render.get_tileset().sprite_h = 40;
+        __render.get_tileset().sprite_w = 60;
+        __render.get_tileset().sprite_h = 60;
 
         __render.get_tileset().TILESET_W = 1;
         __render.get_tileset().TILESET_H = 1;
