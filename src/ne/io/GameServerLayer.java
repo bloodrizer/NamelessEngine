@@ -6,7 +6,7 @@
 package ne.io;
 
 import events.network.*;
-import game.build.BuildManager;
+import game.ent.buildings.BuildManager;
 import game.combat.BasicCombat;
 import game.ent.Entity;
 import game.ent.EntityManager;

@@ -23,10 +23,14 @@ import ui.IUserInterface;
  * @author Administrator
  */
 public class NE_GUI_Element {
-    Collection<NE_GUI_Element> children = new ArrayList<NE_GUI_Element>();
+    ArrayList<NE_GUI_Element> children = new ArrayList<NE_GUI_Element>();
 
     public synchronized void add(NE_GUI_Element child){
         children.add(child);
+        child.set_parent(this);
+    }
+    public synchronized void add_at(int index, NE_GUI_Element child){
+        children.add(index, child);
         child.set_parent(this);
     }
 
@@ -274,4 +278,5 @@ public class NE_GUI_Element {
         this.x = WindowRender.get_window_w()/2 - w/2;
         this.y = WindowRender.get_window_h()/2 - h/2;
     }
+
 }

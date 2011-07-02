@@ -16,6 +16,7 @@ import java.awt.Canvas;
 import java.util.Collections;
 import java.util.EnumMap;
 import ne.io.Io;
+import ne.ui.NE_GUI_Element;
 
 import org.lwjgl.opengl.GL11;
 import player.Player;
@@ -124,5 +125,13 @@ public class Game {
 
     public static void stop() {
         running = false;
+    }
+
+    /*
+     * Helper function, returning root gui element of current game mode
+     * Abviously, as you can see below, it is very usefull;
+     */
+    public static NE_GUI_Element get_ui_root(){
+        return  Main.game.get_game_mode().get_ui().get_nge_ui().root;
     }
 }

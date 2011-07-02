@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package game.build;
+package game.ent.buildings;
 
 import game.ent.buildings.*;
 import java.util.Collections;
@@ -33,6 +33,7 @@ public class BuildManager {
         links.put("fence", EntFence.class);
         links.put("wood_wall", EntWoodWall.class);
         links.put("wood_floor", EntWoodFloor.class);
+        links.put("chest", EntChest.class);
     }
 
     public static Class get_building(String _type) {

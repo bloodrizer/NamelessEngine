@@ -144,6 +144,15 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
     public void e_on_grab(EGUIDrop event){
         System.out.println("dispatching event");
         event.dispatch();
+
+        if (event.element instanceof NE_GUI_InventoryItem){
+            NE_GUI_InventoryItem item_ctrl = (NE_GUI_InventoryItem)(event.element);
+
+            BaseItem item = item_ctrl.item.getItem();
+            container.add_item(item);
+            item_ctrl.get_inventory_ctrl().container.remove_item(item);
+        }
+        //container
         /*if (event.element instanceof NE_GUI_InventoryItem){
             
         }*/

@@ -34,6 +34,7 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
 
         //AreaRenderer area_renderer;
 
+
         BaseItem item;
         NE_GUI_InventoryItem(BaseItem item){
             this.item = item;
@@ -140,5 +141,10 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
             }
 
             __popup.add_item(new ActionDrop(item));
+        }
+
+        public NE_GUI_Inventory get_inventory_ctrl(){
+            return (NE_GUI_Inventory)(parent.parent); //once again, hack.
+            //just implement inventory control accessor, for god's sake
         }
     }

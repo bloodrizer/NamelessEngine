@@ -12,7 +12,7 @@ import events.IEventListener;
 import events.network.EChatMessage;
 import events.network.EPlayerLogon;
 import events.network.ESelectCharacter;
-import game.build.BuildManager;
+import game.ent.buildings.BuildManager;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.EntityNPC;

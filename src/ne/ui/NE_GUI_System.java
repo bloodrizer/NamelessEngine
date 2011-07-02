@@ -8,7 +8,7 @@ package ne.ui;
 import events.EGUIDrop;
 import events.Event;
 import events.network.EBuildStructure;
-import game.build.BuildManager;
+import game.ent.buildings.BuildManager;
 import game.ent.buildings.EntBuilding;
 import items.BaseItem;
 import java.util.logging.Level;
