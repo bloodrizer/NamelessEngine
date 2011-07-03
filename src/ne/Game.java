@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import ne.io.Io;
 import ne.ui.NE_GUI_Element;
+import ne.ui.NE_GUI_System;
 
 import org.lwjgl.opengl.GL11;
 import player.Player;
@@ -132,6 +133,10 @@ public class Game {
      * Abviously, as you can see below, it is very usefull;
      */
     public static NE_GUI_Element get_ui_root(){
-        return  Main.game.get_game_mode().get_ui().get_nge_ui().root;
+        return get_ui().root;
+    }
+
+    public static NE_GUI_System get_ui() {
+        return Main.game.get_game_mode().get_ui().get_nge_ui();
     }
 }

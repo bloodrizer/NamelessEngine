@@ -15,6 +15,16 @@ import render.overlay.OverlaySystem;
 public class NE_GUI_Label extends NE_GUI_Element {
     public String text = "Login";
 
+    public NE_GUI_Label(){
+        h = 10;
+        w = 30;
+    }
+
+    public void set_text(String text){
+        this.text = text;
+        w = text.length()*9;
+    }
+
     @Override
     public void render(){
 

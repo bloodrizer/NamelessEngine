@@ -109,4 +109,22 @@ public class NE_GUI_System {
     public void e_on_event_rollback(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public void show_message(String title, String text) {
+        NE_GUI_FrameModern messagebox = new NE_GUI_FrameModern(true);
+        root.add(messagebox);
+        
+        messagebox.set_title(title);
+
+        messagebox.set_tw( text.length()*9/messagebox.TITLE_SIZE + 2 );
+        messagebox.set_th( 2 );
+        messagebox.center();
+
+
+        NE_GUI_Label message = new NE_GUI_Label();
+        message.set_text(text);
+        messagebox.add(message);
+        message.center();
+        //message.y = 20;
+    }
 }

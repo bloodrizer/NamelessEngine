@@ -275,8 +275,13 @@ public class NE_GUI_Element {
 
     //ultra-useful helper function to set window on center
     public void center(){
-        this.x = WindowRender.get_window_w()/2 - w/2;
-        this.y = WindowRender.get_window_h()/2 - h/2;
+        if (parent == null){
+            this.x = WindowRender.get_window_w()/2 - w/2;
+            this.y = WindowRender.get_window_h()/2 - h/2;
+        }else{
+            this.x = parent.w/2 - w/2;
+            this.y = parent.h/2 - h/2;
+        }
     }
 
 }

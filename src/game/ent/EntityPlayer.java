@@ -55,7 +55,7 @@ public class EntityPlayer extends EntityNPC {
                 BaseItem.produce("fire", 2)
         );
         this.container.add_item(
-                BaseItem.produce("fence", 64)
+                BaseItem.produce("signpost", 64)
         );
         this.container.add_item(
                 BaseItem.produce("copper_coin", 10)

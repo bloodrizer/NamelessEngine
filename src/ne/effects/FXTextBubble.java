@@ -36,6 +36,10 @@ public class FXTextBubble extends Effect_Element {
     };
 
     FXTextBubble(EChatMessage eChatMessage) {
+        if(eChatMessage == null){
+            return; //solves compatability issues with child class
+        }
+
         Entity player_ent = EntityManager.get_entity(eChatMessage.uid);
         if (player_ent!=null){
             ent = player_ent;
