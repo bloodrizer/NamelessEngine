@@ -70,6 +70,7 @@ public class ItemContainer {
 
      public void remove_item(BaseItem item){
          int remove_count = item.count; //shows how much items left to remove
+         System.out.println("removing "+remove_count+" items from container");
          
          BaseItem[] elem =  items.toArray(new BaseItem[0]);
          for(int i = 0; i<elem.length; i++){

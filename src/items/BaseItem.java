@@ -95,6 +95,7 @@ public class BaseItem{
         set_count(this.count - count);
 
         if(this.count <= 0){
+            System.out.println("clearing expired stack");
             drop();
         }
     }
@@ -127,10 +128,12 @@ public class BaseItem{
         System.out.println("to remove:" + Integer.toString(to_remove));
         System.out.println("removing from src:" + Integer.toString(src.count));
 
-        src.set_count( src.get_count() - to_remove );
+        //src.del_count(to_remove); <hell no
 
         System.out.println("and now it is:" + Integer.toString(src.count));
         this.add_count(to_remove);
+
+        src.drop();
     }
 
     public boolean is_empty() {
@@ -146,6 +149,7 @@ public class BaseItem{
             System.err.println("Failed to drop item, no container");
             return;
         }
+        System.err.println("removing item from container"+container);
         container.remove_item(this);
     }
 

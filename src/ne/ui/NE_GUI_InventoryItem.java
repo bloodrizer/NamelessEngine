@@ -65,6 +65,15 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
             if (e.type == MouseInputType.RCLICK){
                 context_popup(e);
             }
+
+             //here comes hack, that allows inventory item control to stay on top
+            //basicaly, we overwrite root gui pointer to drag parent inventory on top of z-stack
+
+            if (e.type == MouseInputType.LCLICK){
+                
+                Game.get_ui_root().remove(get_inventory_ctrl());
+                Game.get_ui_root().add(get_inventory_ctrl());
+            }
         }
 
         @Override
@@ -77,7 +86,7 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
 
             Point tile_coord = WorldView.getTileCoord(x, y);
 
-            System.out.println("setting highlight tile @"+tile_coord);
+            //System.out.println("setting highlight tile @"+tile_coord);
             WorldView.highlight_tile(tile_coord);
         }
 
@@ -90,13 +99,7 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
 
 
             //update container, lol
-            NE_GUI_Element __parent = parent.parent;    //lol, hacky shit
-            //there we getting wrapper layer for inventory item
-            //and getting parent of this wrapper
-
-
-
-            NE_GUI_Inventory inventory = (NE_GUI_Inventory) __parent;
+            NE_GUI_Inventory inventory = get_inventory_ctrl();
             inventory.update(inventory.container);
         }
 
@@ -144,6 +147,9 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
         }
 
         public NE_GUI_Inventory get_inventory_ctrl(){
+            //there we getting wrapper layer for inventory item
+            //and getting parent of this wrapper
+
             return (NE_GUI_Inventory)(parent.parent); //once again, hack.
             //just implement inventory control accessor, for god's sake
         }
