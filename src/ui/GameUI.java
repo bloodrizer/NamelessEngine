@@ -22,8 +22,10 @@ import ne.ui.NE_GUI_CharEquip;
 import ne.ui.NE_GUI_CharScreen;
 import ne.ui.NE_GUI_Chat;
 import ne.ui.NE_GUI_Craft;
+import ne.ui.NE_GUI_FrameModern;
 import ne.ui.NE_GUI_Healthbar;
 import ne.ui.NE_GUI_Inventory;
+import ne.ui.NE_GUI_Minimap;
 import ne.ui.NE_GUI_Popup;
 import ne.ui.NE_GUI_QuickslotBar;
 import ne.ui.NE_GUI_System;
@@ -48,6 +50,9 @@ public class GameUI implements IUserInterface,  IEventListener {
     public static NE_GUI_CharEquip char_equip;
 
     public static NE_GUI_Healthbar healthbar;
+
+
+    public static NE_GUI_Minimap minimap;
 
 
     public GameUI(){
@@ -131,6 +136,11 @@ public class GameUI implements IUserInterface,  IEventListener {
         healthbar.x = WindowRender.get_window_w()/2 - healthbar.w/2;
         healthbar.y = 5;
 
+
+        //----------------------------------------------------------------------
+        minimap = new NE_GUI_Minimap();
+        ui.root.add(minimap);
+
     }
 
     public void e_on_event(Event event) {
@@ -152,6 +162,9 @@ public class GameUI implements IUserInterface,  IEventListener {
                 break;
                 case Keyboard.KEY_E:
                     char_equip.toggle();
+                break;
+                case Keyboard.KEY_M:
+                    minimap.toggle();
                 break;
                 case Keyboard.KEY_G:    //toggle grid
                     WorldView.DRAW_GRID = !WorldView.DRAW_GRID;
