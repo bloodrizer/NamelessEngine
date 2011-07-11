@@ -21,9 +21,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import ne.Game;
 import ne.Main;
 import org.lwjgl.util.Point;
 import player.Player;
+import ui.GameUI;
 import world.WorldTile.TerrainType;
 import world.generators.ChestGenerator;
 import world.generators.GrassGenerator;
@@ -469,6 +471,10 @@ public class WorldModel implements IEventListener {
         Terrain.heightmap_cached.clear();
         //System.out.println("clearing aquatic tiles data");
         //Terrain.aquatic_tiles.clear();
+
+        GameUI ui = (GameUI)(Game.get_game_mode().get_ui());
+        ui.minimap.update_map();
+        //minimap.update_map();
     }
 
     /*
