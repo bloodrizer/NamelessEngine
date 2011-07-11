@@ -49,6 +49,10 @@ public class WorldModel implements IEventListener {
     //--------------------------------------------------------------------------
     private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
 
+
+    private static java.util.HashMap<Integer, Map<Point,WorldChunk>> chunk_layers 
+            = new java.util.HashMap<Integer, Map<Point,WorldChunk>>(10);
+
     public static void invalidate_light(){
         light_outdated = true;
     }

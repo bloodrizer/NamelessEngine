@@ -52,7 +52,7 @@ public class WorldCluster {
     }
 
     //uberfast shit for pathfinding purposes
-    public boolean tile_in_cluster(int x, int y){
+    public static boolean tile_in_cluster(int x, int y){
         int cx = (int)Math.floor((float)x / WorldChunk.CHUNK_SIZE);
         int cy = (int)Math.floor((float)y / WorldChunk.CHUNK_SIZE);
 

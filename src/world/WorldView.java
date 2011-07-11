@@ -5,6 +5,7 @@
 
 package world;
 
+import java.util.HashMap;
 import game.ent.buildings.EntBuilding;
 import player.Player;
 import game.ent.monsters.EntMonster;
@@ -59,7 +60,15 @@ public class WorldView implements IEventListener {
 
     public static boolean DRAW_GRID = false;
 
+    public class TextureTransition {
+        public boolean[] nb = new boolean[8];  //n, w, e, s, nw, ns, ew, es
+    }
+
+    //public static HashMap<Point,TextureTransition>  bg_transition_map = new HashMap<Point,TextureTransition>(1024);
+
     public void render_background(){
+
+        //bg_transition_map.clear();
 
         //System.out.println(WorldCluster.origin);
 
@@ -103,7 +112,8 @@ public class WorldView implements IEventListener {
                             GL11.glColor3f(1.0f,1.0f,1.0f);
                         }
                         
-                        bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
+                        //bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
+                        render_bg_tile(i,j,tile);
                     }
                 }
                 
@@ -398,6 +408,42 @@ public class WorldView implements IEventListener {
     //--------------------------------------------------------------------------
     public void e_on_event_rollback(Event event){
       
+    }
+
+
+    /*
+     *  public class TextureTransition {
+            boolean[] nb = new boolean[8];  //n, w, e, s, nw, ns, ew, es
+        }
+
+        public static HashMap<Point,TextureTransition>  bg_transition_map = new HashMap<Point,TextureTransition>(1024);
+     *
+     */
+    private void render_bg_tile(int i, int j, WorldTile tile) {
+        //throw new UnsupportedOperationException("Not yet implemented");
+        bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
+
+        /*
+         * So far, tileset id acts like texture z-index.
+         * Higher texture is allowed to wrap over lower texture, using alpha blending mask
+         */
+        /*Point _point = new Point(0,0);
+
+        for (int _i = i-1; _i< i+1; _i++){
+            for(int _j = j-1; _j < j+1; j++){
+                if (WorldCluster.tile_in_cluster(_i,_j)){
+
+                    _point.setLocation(_i, _j);
+                    TextureTransition trans = bg_transition_map.get(_point);
+                    if (trans == null){
+                        trans = new TextureTransition();
+                        bg_transition_map.put(_point, trans);
+                    }
+                    
+
+                }
+            }
+        }*/
     }
 
 }
