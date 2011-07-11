@@ -246,7 +246,8 @@ public class WorldModel implements IEventListener {
              tile.set_tile_id(1);
              tile.terrain_type = TerrainType.TERRAIN_WATER;
          }
-        
+
+        //TODO: remove me!
          if (chunk_random.nextFloat()*100<0.25f){
 
              EntityStone stone_ent = new EntityStone();
@@ -280,33 +281,35 @@ public class WorldModel implements IEventListener {
         final int OFFSET = WorldChunk.CHUNK_SIZE;
           //final int OFFSET = 0;
 
+       //---------------------------------------------------------------------
+
+        //Step 1. Generate heightmap
+         
         /*
          * Iterate throught the chunk using offset (for smooth moisture map transition)
-         *
+         * Store all aquatic-type tiles in temp array so we could quickly iterate them later
          */
 
         for (int i = x - OFFSET; i<x+size+OFFSET; i++ ){
             for (int j = y - OFFSET; j<y+size+OFFSET; j++){
-                //probably unnecacary
-                //boolean is_acquatic = false;
                 if ( i>= x && i<x+size && j >=y && j < y+size){
                     WorldTile tile = build_chunk_tile(i,j, chunk_random);
-                    /*if (tile.terrain_type == TerrainType.TERRAIN_WATER){
-                        is_acquatic = true;
-                    }*/
                 }
 
-                /*if ( is_acquatic || Terrain.is_lake(Terrain.get_height(i, j))){
-                    //System.out.println("adding aquatic tile @"+i+","+j);
-                    Terrain.aquatic_tiles.add(new Point(i,j));
-                }*/
                 if (Terrain.is_lake(Terrain.get_height(i, j))){
                     Terrain.aquatic_tiles.add(new Point(i,j));
                 }
             }
         }
-
-        //System.out.println("calculating moisture map with "+Terrain.aquatic_tiles.size()+" aquatic tiles");
+        //---------------------------------------------------------------------
+        //Step 2. Generate moisture map and biomes
+        /*
+         * Calculate tile moisture map based on distance from aqatic tiles
+         * Assign biome type based on moisture amt and elevation
+         * 
+         * Assign various ents (Trees, grass, etc) based on biome type
+         */
+        //---------------------------------------------------------------------
 
         for (int i = x; i<x+size; i++){
             for (int j = y; j<y+size; j++)
@@ -324,8 +327,44 @@ public class WorldModel implements IEventListener {
                 ChestGenerator.generate_object(i, j, tile, chunk_random);
             }
         }
+
+        //---------------------------------------------------------------------
+
+
+
         NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());
         //System.out.println("HM Size:" + Terrain.heightmap_cached.size());
+
+        //Step 3. Generate transition map for smooth biomes borders
+        //---------------------------------------------------------------------
+
+        //82k iterations
+        for (int i = x+1; i<x+size-1; i++){
+            for (int j = y+1; j<y+size-1; j++)
+            {
+                WorldTile ref_tile = get_tile(i, j);
+
+                for (int k = i-1; k<i+1; k++){
+                    for (int l = j-1; l<j+1; k++){
+                        if(k==i||l==j){ return; }
+
+                        WorldTile nb_tile = get_tile(k, l);
+                        if (ref_tile.biome_type.get_zindex() > nb_tile.biome_type.get_zindex()){
+                            ///save this shit
+                        }
+                    }
+                }
+                /*
+                 * pseudocode:
+                 *
+                 * get n,s,w,e,ns,ne,ws,we
+                 * calculate transition type index based on tile z-order and biome z-order
+                 * todo: implement BiomeType.get_zindex();
+                 *
+                 * assign index, so we could apply mask later
+                 */
+            }
+        }
     }
 
     //clean all unused chunks and data

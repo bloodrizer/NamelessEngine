@@ -80,4 +80,10 @@ public class AreaRenderer {
         Render.bind_texture(texture_name);
         draw_quad(quad_x,quad_y,quad_w,quad_h);
     }
+    
+    public void render(int quad_x, int quad_y, int quad_w, int quad_h, float alpha){
+        glColor4f(1.0f, 1.0f, 1.0f, alpha);
+        Render.bind_texture(texture_name);
+        draw_quad(quad_x,quad_y,quad_w,quad_h);
+    }
 }

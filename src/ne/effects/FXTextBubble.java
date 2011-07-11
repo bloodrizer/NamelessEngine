@@ -51,6 +51,13 @@ public class FXTextBubble extends Effect_Element {
 
     @Override
     public void render(){
+
+
+        int fx_alpha = 255;
+        if (get_life_left() < 1000){
+            fx_alpha = (int)(((float)get_life_left()/1000.f)*255);
+        }
+
         if (ent == null){
             return;
         }
@@ -78,26 +85,26 @@ public class FXTextBubble extends Effect_Element {
         int y = ent_screen_y - 14;
 
         glEnable(GL_TEXTURE_2D);
-        glColor4f(1.0f,1.0f,1.0f,1.0f);
+        float a = (float)fx_alpha/255.0f;
 
         //Render.bind_texture("/render/gfx/effects/bubble.png");
 
         bubble_sprite.set_rect(0, 0, 8, 32);
-        bubble_sprite.render(x, y, 8, 24);
+        bubble_sprite.render(x, y, 8, 24, a);
 
         bubble_sprite.set_rect(8, 0, 16, 32);
-        bubble_sprite.render(x+8, y, message.length()*8, 24);
+        bubble_sprite.render(x+8, y, message.length()*8, 24, a);
 
         bubble_sprite.set_rect(24, 0, 8, 32);
-        bubble_sprite.render(x+8 + message.length()*8, y, 8, 24);
+        bubble_sprite.render(x+8 + message.length()*8, y, 8, 24, a);
 
         bubble_sprite.set_rect(0, 32, 7, 4);
-        bubble_sprite.render(x + message.length()*4, y+23, 7, 4);
+        bubble_sprite.render(x + message.length()*4, y+23, 7, 4, a);
 
         Color text_color;
 
         if (get_life_left() < 1000){
-            text_color = new Color(0,0,0, (int)(((float)get_life_left()/1000.f)*255) );
+            text_color = new Color(0,0,0, fx_alpha );
         }else{
             text_color = Color.black;
         }

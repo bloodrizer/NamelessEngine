@@ -25,76 +25,78 @@ import static org.lwjgl.opengl.GL14.*;
  */
 public class NE_GUI_Minimap extends NE_GUI_FrameModern {
 
-    static boolean fbo_enabled;
+    static final boolean fbo_enabled = GLContext.getCapabilities().GL_EXT_framebuffer_object;
     int fbo_id;
 
-    static {
-        fbo_enabled = GLContext.getCapabilities().GL_EXT_framebuffer_object;
-    }
 
     int texture_id;
     
     public NE_GUI_Minimap(){
         super(true);
-        fbo_id = EXTFramebufferObject.glGenFramebuffersEXT();
-        EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fbo_id );
 
-        texture_id = GL11.glGenTextures();
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
-            
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        if (fbo_enabled){
+            fbo_id = EXTFramebufferObject.glGenFramebuffersEXT();
+            EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fbo_id );
 
+            texture_id = GL11.glGenTextures();
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
 
-        glTexImage2D(GL_TEXTURE_2D, 0,
-                GL_RGBA8, 512, 512, 0, GL_RGBA,
-                GL_UNSIGNED_BYTE, (ByteBuffer)null);
-        
-        EXTFramebufferObject.glFramebufferTexture2DEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT,
-            GL11.GL_TEXTURE_2D, texture_id, 0);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 
 
-            //EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fbo_id );
-            
-        //------------------------------------------------------------------
-        int status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-        if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-            System.err.println(status);
+            glTexImage2D(GL_TEXTURE_2D, 0,
+                    GL_RGBA8, 512, 512, 0, GL_RGBA,
+                    GL_UNSIGNED_BYTE, (ByteBuffer)null);
+
+            EXTFramebufferObject.glFramebufferTexture2DEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT,
+                GL11.GL_TEXTURE_2D, texture_id, 0);
+
+
+                //EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fbo_id );
+
+            //------------------------------------------------------------------
+            int status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+            if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+                System.err.println(status);
+            }
+
+
+
+
+            /*glBlendFuncSeparate(
+                GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,
+                GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);*/
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+
+            render_begin();
+
+            //------render start
+            //GL11.glColor3f(0.9f, 0.1f, 0.1f);
+            Render.precache_texture("/render/tileset1.png");
+
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glTexCoord2f(0.0f, 0.0f);
+            GL11.glVertex3f(10.0f, 10.0f, 0);
+            GL11.glTexCoord2f(1.0f, 0.0f);
+            GL11.glVertex3f(90.0f, 10.0f, 0);
+            GL11.glTexCoord2f(1.0f, 1.0f);
+            GL11.glVertex3f(90.0f, 90.0f, 0);
+            GL11.glTexCoord2f(0.0f, 1.0f);
+            GL11.glVertex3f(10.0f, 90.0f, 0);
+            GL11.glEnd();
+
+            //------render end
+
+            render_end();
+        }else{
+            System.err.println("FBO is not supported, minimap is disabled");
         }
-
-        
-
-        
-        /*glBlendFuncSeparate(
-            GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,
-            GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);*/
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-
-        render_begin();
-
-        //------render start
-        //GL11.glColor3f(0.9f, 0.1f, 0.1f);
-        Render.precache_texture("/render/tileset1.png");
-
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(0.0f, 0.0f);
-        GL11.glVertex3f(10.0f, 10.0f, 0);
-        GL11.glTexCoord2f(0.0f, 1.0f);
-        GL11.glVertex3f(90.0f, 10.0f, 0);
-        GL11.glTexCoord2f(1.0f, 1.0f);
-        GL11.glVertex3f(90.0f, 90.0f, 0);
-        GL11.glTexCoord2f(1.0f, 0.0f);
-        GL11.glVertex3f(10.0f, 90.0f, 0);
-        GL11.glEnd();
-
-        //------render end
-
-        render_end();
     
         
         set_tw(15);
@@ -136,6 +138,10 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
     public void render(){
 
         super.render();
+
+        if (!fbo_enabled){
+            return;
+        }
 
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
 

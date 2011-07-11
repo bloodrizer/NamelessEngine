@@ -68,6 +68,10 @@ public class WorldTile {
         public int tile_id(){
             return tile_id;
         }
+
+        public int get_zindex(){
+            return tile_id; //temp shit, change later
+        }
     }
 
     private int tile_id = 0;
