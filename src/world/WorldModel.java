@@ -311,6 +311,7 @@ public class WorldModel implements IEventListener {
          */
         //---------------------------------------------------------------------
 
+        //9k iterations
         for (int i = x; i<x+size; i++){
             for (int j = y; j<y+size; j++)
             {
@@ -366,6 +367,8 @@ public class WorldModel implements IEventListener {
             }
         }
     }
+    
+
 
     //clean all unused chunks and data
     public synchronized void chunk_gc(){
