@@ -46,7 +46,6 @@ public class EntityStone extends Entity {
                 }else{
                     Player.move(owner.origin);
                 }
-                //TODO: else - move close to entity
             }
 
         }

@@ -18,7 +18,7 @@ public class Tileset{
     //world grid size - critical for offset calculation
     public static int TILE_SIZE = 32;
 
-    //TODO: set to non-static
+
     public int TILESET_SIZE = 8;
     public int TILESET_W = 8;
     public int TILESET_H = 8;

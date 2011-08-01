@@ -204,7 +204,7 @@ public class NE_GUI_Element {
         }
     }
 
-    private boolean is_client_rect(int mx, int my){
+    boolean is_client_rect(int mx, int my){
         return  mx > get_x()     &&
                 mx < get_x()+w   &&
                 my > get_y()     &&
@@ -282,6 +282,25 @@ public class NE_GUI_Element {
             this.x = parent.w/2 - w/2;
             this.y = parent.h/2 - h/2;
         }
+    }
+    
+     /*
+     * This function should return topmost gui element, related to the current gui object hierarchy tree
+     */
+    
+    public NE_GUI_Element get_gui_element(int mx, int my){
+        if (is_client_rect(mx, my)){
+            Object[] elem =  children.toArray();
+            for(int i = 0; i<elem.length; i++){
+                NE_GUI_Element __elem = (NE_GUI_Element)elem[i];
+                if (__elem.is_client_rect(mx, my)){
+                    return __elem;
+                }
+            }
+            
+            return this;
+        }
+        return null;
     }
 
 }

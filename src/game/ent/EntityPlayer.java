@@ -17,7 +17,6 @@ import world.WorldModel;
  *
  * Note that due to the buggy player ent checking, this class
  * must be used *ONLY!!!!* for main player instancing
- *  TODO: make EntityPlayer extanding NPC_Entity
  *
  */
 public class EntityPlayer extends EntityNPC {

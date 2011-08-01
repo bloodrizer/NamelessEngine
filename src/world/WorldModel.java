@@ -150,7 +150,6 @@ public class WorldModel implements IEventListener {
         }
 
         //here comes tricky part - recalculate light emission
-        //TODO: use tile array iteration
         if (light_outdated){
             recalculate_light();
             light_outdated = false;

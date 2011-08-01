@@ -127,4 +127,13 @@ public class NE_GUI_System {
         message.center();
         //message.y = 20;
     }
+    
+    /*
+     * This function should return topmost gui element, if on presents in gui layer
+     * Otherwise, it should get access to the game world view layer and return some gui proxy
+     */
+    
+    public NE_GUI_Element get_gui_element(int mx, int my){
+        return root.get_gui_element(int mx, int my);
+    }
 }
