@@ -17,6 +17,7 @@ import org.lwjgl.util.Point;
 import player.Player;
 import render.WindowRender;
 import world.WorldModel;
+import world.WorldTile;
 import world.WorldView;
 
 /**
@@ -24,6 +25,12 @@ import world.WorldView;
  * @author Administrator
  */
 public class NE_GUI_System {
+    
+    public final TooltipSystem tooltip = new TooltipSystem();
+    {
+        tooltip.set_gui(this);
+    }
+    
     public final NE_GUI_Element root = new NE_GUI_Element(){
 
         {
@@ -81,7 +88,9 @@ public class NE_GUI_System {
         //glDisable(GL_BLEND);
 
         root.render();
-
+        tooltip.update();
+        
+        
         //glEnable(GL_BLEND);
     }
 
@@ -98,7 +107,6 @@ public class NE_GUI_System {
 
         //EventManager.subscribe(this);
 
-        
     }
 
     public void e_on_event(Event event) {
@@ -134,6 +142,19 @@ public class NE_GUI_System {
      */
     
     public NE_GUI_Element get_gui_element(int mx, int my){
-        return root.get_gui_element(int mx, int my);
+        //return root.get_gui_element(int mx, int my);
+        NE_GUI_Element elem = root.get_gui_element(mx, my);
+        
+        if (elem !=null){
+            return elem;
+        }
+        Point tile_coord = WorldView.getTileCoord(new Point(mx, my));
+        WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
+        
+        //if(tile.)
+        
+        //WorldTile tile = WorldModel.get_tile(mx, my);
+        
+        return null;
     }
 }

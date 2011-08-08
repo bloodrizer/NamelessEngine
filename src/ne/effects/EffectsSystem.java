@@ -29,6 +29,10 @@ public class EffectsSystem implements IEventListener{
     public void update(){
         root.update();
     }
+    
+    public FXTooltip show_tooltip(){
+        return null;
+    }
 
     public void e_on_event(Event event) {
         if (event instanceof EChatMessage){

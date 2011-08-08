@@ -49,14 +49,11 @@ public class FXTextBubble extends Effect_Element {
         }
     }
 
+    /**
+     * Calculates entity position in screen coords and draws a text bubble
+     */
     @Override
     public void render(){
-
-
-        int fx_alpha = 255;
-        if (get_life_left() < 1000){
-            fx_alpha = (int)(((float)get_life_left()/1000.f)*255);
-        }
 
         if (ent == null){
             return;
@@ -77,6 +74,17 @@ public class FXTextBubble extends Effect_Element {
            - (int)WorldViewCamera.camera_y
         ;
 
+        render_bubble(ent_screen_x, ent_screen_y);
+
+    }
+    
+    //draw bubble sprite and text
+    protected void render_bubble( int ent_screen_x, int ent_screen_y){
+        int fx_alpha = 255;
+        if (get_life_left() < 1000){
+            fx_alpha = (int)(((float)get_life_left()/1000.f)*255);
+        }
+        
         int w = message.length()*8 + 8;
         int h = 24;
 
@@ -114,11 +122,6 @@ public class FXTextBubble extends Effect_Element {
                 ent_screen_x + 4,
                 ent_screen_y - 11,
         message, text_color);
-
-        /*OverlaySystem.ttf.drawString(200, 200,
-                "Transparency:"+ (255-((float)get_life_left()/(float)life_time)*255),
-                Color.black);*/
-
     }
 
 }
