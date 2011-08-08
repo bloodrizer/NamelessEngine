@@ -6,10 +6,12 @@
 package ne.effects;
 
 import events.ETakeDamage;
+import events.ETooltipShow;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.EChatMessage;
+import ne.ui.TooltipSystem;
 
 /*
  * Effects are quite similar to gui components
@@ -45,6 +47,14 @@ public class EffectsSystem implements IEventListener{
             root.add(new FXDamage(
                 (ETakeDamage)event
             ));
+        }
+        
+        if (event instanceof ETooltipShow){
+            FXTooltip tooltip = new FXTooltip(
+                ((ETooltipShow)event).element
+            );
+            root.add(tooltip);
+            TooltipSystem.set_tooltip(tooltip);
         }
     }
 
