@@ -30,6 +30,7 @@ import world.WorldTile.TerrainType;
 import world.generators.ChestGenerator;
 import world.generators.GrassGenerator;
 import world.generators.TreeGenerator;
+import world.layers.WorldLayer;
 import world.util.NLTimer;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
@@ -38,8 +39,15 @@ import world.util.astar.TileBasedMap;
  *
  * @author Administrator
  */
+
+/*
+ * This class handles world terrain data, including landscape, moisture, lightning model, object distribution, minerals, etc.
+ */
+//TODO: introduce terrain layers
 public class WorldModel implements IEventListener {
-    //
+
+    public static final int LAYER_COUNT = 10;    //max depth of geometry layers
+    public static final int GROUND_LAYER = 0;
 
     private static java.util.Map<Point,WorldTile> tile_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldTile>(1000));
     //--------------------------------------------------------------------------
@@ -49,11 +57,20 @@ public class WorldModel implements IEventListener {
     private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
 
     //--------------------------------------------------------------------------
-    private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
+    //private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
 
 
-    private static java.util.HashMap<Integer, Map<Point,WorldChunk>> chunk_layers 
-            = new java.util.HashMap<Integer, Map<Point,WorldChunk>>(10);
+    private static java.util.HashMap<Integer, WorldLayer> world_layers 
+            = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
+    
+    protected static java.util.Map<Point,WorldChunk> get_chunk_data(int layer_id){
+        WorldLayer layer = world_layers.get(layer_id);
+        if (layer!=null){
+            return layer.get_chunk_data();
+        }
+        
+        throw new RuntimeException("Failed to access chunk data at layer #"+layer_id);
+    }
 
     public static void invalidate_light(){
         light_outdated = true;
@@ -89,7 +106,7 @@ public class WorldModel implements IEventListener {
         push_point(util_point);
         util_point.setLocation(x, y);
 
-        WorldChunk chunk = chunk_data.get(util_point);
+        WorldChunk chunk = get_chunk_data(GROUND_LAYER).get(util_point);
         //WorldChunk chunk = chunk_data.get(new Point(x,y));
         pop_point(util_point);
 
@@ -120,6 +137,13 @@ public class WorldModel implements IEventListener {
 
     public WorldModel(){
         EventManager.subscribe((IEventListener) this);
+        
+        //initialize layers
+        for (int i = 0; i< LAYER_COUNT; i++ ){
+            WorldLayer layer = new WorldLayer();
+            layer.set_zindex(i);
+            world_layers.put(i, layer);
+        }
     }
 
     public void update(){
@@ -218,7 +242,7 @@ public class WorldModel implements IEventListener {
         WorldChunk chunk = new WorldChunk(x, y);
         //build_chunk(chunk.origin);
 
-        chunk_data.put(new Point(x,y), chunk);
+        get_chunk_data(GROUND_LAYER).put(new Point(x,y), chunk);
         build_chunk(chunk.origin);
 
         return chunk;
@@ -372,7 +396,7 @@ public class WorldModel implements IEventListener {
     //clean all unused chunks and data
     public synchronized void chunk_gc(){
 
-        for (Iterator<Map.Entry<Point, WorldChunk>> iter = chunk_data.entrySet().iterator();
+        for (Iterator<Map.Entry<Point, WorldChunk>> iter = get_chunk_data(GROUND_LAYER).entrySet().iterator();
             iter.hasNext();) {
             Map.Entry<Point, WorldChunk> entry = iter.next();
             

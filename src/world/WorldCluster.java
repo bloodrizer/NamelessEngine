@@ -11,7 +11,9 @@ import org.lwjgl.util.Point;
  *
  * @author Administrator
  */
-//this shit works as a mediator between WorldView and a WorldModel
+/* This shit works as a mediator between WorldView and a WorldModel
+ * Basicaly, this is a player's loaded world area, limited by visibility radius
+ */
 public class WorldCluster {
     public static Point origin = new Point(0,0);
     public static int CLUSTER_SIZE = 3;
