@@ -14,14 +14,22 @@ import ne.Input;
 import ne.ui.NE_GUI_CharScreen;
 import org.lwjgl.util.Point;
 import ui.GameUI;
+import world.WorldModel;
 
 /**
  *
  * @author Administrator
  */
+
+/*
+ * Class, representing client-side player
+ */
+
 public class Player {
 
     static final int range = 2; //2 tiles
+    
+    static int z_index = WorldModel.GROUND_LAYER; 
 
     static Entity player_ent = null;
     public static int character_id;
@@ -38,6 +46,14 @@ public class Player {
      * Set player destination to specified point
      * This method does not move player ent, it only sets position for entity controller
      */
+    
+    public static int get_zindex(){
+        return z_index;
+    }
+    
+    public static void set_zindex(int z_index){
+        Player.z_index = z_index;
+    }
 
     public static void move(Point dest){
         if (player_ent != null){

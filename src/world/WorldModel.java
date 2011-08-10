@@ -28,6 +28,8 @@ import player.Player;
 import ui.GameUI;
 import world.WorldTile.TerrainType;
 import world.generators.ChestGenerator;
+import world.generators.ChunkGenerator;
+import world.generators.ChunkGroundGenerator;
 import world.generators.GrassGenerator;
 import world.generators.TreeGenerator;
 import world.layers.WorldLayer;
@@ -49,7 +51,7 @@ public class WorldModel implements IEventListener {
     public static final int LAYER_COUNT = 10;    //max depth of geometry layers
     public static final int GROUND_LAYER = 0;
 
-    private static java.util.Map<Point,WorldTile> tile_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldTile>(1000));
+    
     //--------------------------------------------------------------------------
     private static Point util_point     = new Point(0,0);
     private static Point __stack_point  = new Point(0,0);
@@ -71,6 +73,19 @@ public class WorldModel implements IEventListener {
         
         throw new RuntimeException("Failed to access chunk data at layer #"+layer_id);
     }
+    
+    protected static java.util.Map<Point,WorldTile> get_tile_data(int layer_id){
+        WorldLayer layer = world_layers.get(layer_id);
+        if (layer!=null){
+            return layer.get_tile_data();
+        }
+        
+        throw new RuntimeException("Failed to access tile data at layer #"+layer_id);
+    }
+    
+    public static void set_tile(Point origin, WorldTile tile, int z_index){
+        get_tile_data(z_index).put(origin, tile);
+    }
 
     public static void invalidate_light(){
         light_outdated = true;
@@ -84,14 +99,18 @@ public class WorldModel implements IEventListener {
         point.setLocation(__stack_point);
     }
 
-    public static synchronized WorldTile get_tile(int x, int y){
+    public static synchronized WorldTile get_tile(int x, int y, int z_index){
         push_point(util_point);
         util_point.setLocation(x, y);
         
-        WorldTile tile = tile_data.get(util_point);
+        WorldTile tile = get_tile_data(z_index).get(util_point);
         pop_point(util_point);
 
         return tile;
+    }
+    
+    public static synchronized WorldTile get_tile(int x, int y){
+        return get_tile(x,y, GROUND_LAYER);
     }
 
     //DEPRECATED DEPRECATED DEPRECATED
@@ -102,15 +121,20 @@ public class WorldModel implements IEventListener {
     private static synchronized WorldChunk get_chunk(Point location){
         return get_chunk(location.getX(),location.getY());
     }
-    private static synchronized WorldChunk get_chunk(int x, int y){
+    
+    private static synchronized WorldChunk get_chunk(int x, int y, int z_index){
         push_point(util_point);
         util_point.setLocation(x, y);
 
-        WorldChunk chunk = get_chunk_data(GROUND_LAYER).get(util_point);
+        WorldChunk chunk = get_chunk_data(z_index).get(util_point);
         //WorldChunk chunk = chunk_data.get(new Point(x,y));
         pop_point(util_point);
 
         return chunk;
+    }
+    
+    private static synchronized WorldChunk get_chunk(int x, int y){
+       return get_chunk(x, y, GROUND_LAYER);
     }
     //TODO: move to the WorldChunk
     public static Point get_chunk_coord(Point position) {
@@ -123,15 +147,20 @@ public class WorldModel implements IEventListener {
         return new Point(cx,cy);
     }
 
-    public static synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
+    public static synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y, int z_index){
         WorldChunk chunk = get_chunk(chunk_x, chunk_y);
         if (chunk == null){
             chunk = precache_chunk(chunk_x, chunk_y);
         }
         return chunk;
     }
+    
+    public static synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
+        return get_cached_chunk(chunk_x, chunk_y);
+    }
+    
     public static synchronized WorldChunk get_cached_chunk(Point location){
-        return get_cached_chunk(location.getX(),location.getY());
+        return get_cached_chunk(location.getX(),location.getY(), GROUND_LAYER);
     }
 
 
@@ -232,163 +261,34 @@ public class WorldModel implements IEventListener {
 
         //return 0.1f;
     }
+    
+    /*
+     * Put new chunk with set (x,y) point index and fills it with terrain data
+     * Use ground layer as default for compatibility reason
+     * Note that we probably need to build every layer in this chunk(?)
+     */
 
     public static WorldChunk precache_chunk(int x, int y){
-        //NOTE: safe switch, debug only
-        /*if (!WorldCluster.chunk_in_cluster(new Point(x,y))){
-            return null;
-        }*/
-
+        return precache_chunk(x, y, GROUND_LAYER);
+    }
+    
+    private static WorldChunk precache_chunk(int x, int y, int z_index){
         WorldChunk chunk = new WorldChunk(x, y);
-        //build_chunk(chunk.origin);
 
-        get_chunk_data(GROUND_LAYER).put(new Point(x,y), chunk);
-        build_chunk(chunk.origin);
+        get_chunk_data(z_index).put(new Point(x,y), chunk);
+        build_chunk(chunk.origin, z_index);
 
         return chunk;
     }
 
-    private static WorldTile build_chunk_tile(int i, int j, Random chunk_random){
-        int tile_id = 0;
-        int height = Terrain.get_height(i,j);
-
-        if (height > 120){
-            tile_id = 25;
-        }
-
-        WorldTile tile = new WorldTile(tile_id);
-                //important!
-                //tile should be registered before any action is performed on it
-        tile_data.put(new Point(i,j), tile);
-        tile.set_height(height);
-
-                //tile.moisture = Terrain.get_moisture(x, y);
 
 
-         if (Terrain.is_lake(tile)){
-             tile.set_tile_id(1);
-             tile.terrain_type = TerrainType.TERRAIN_WATER;
-         }
-
-        //TODO: remove me!
-         if (chunk_random.nextFloat()*100<0.25f){
-
-             EntityStone stone_ent = new EntityStone();
-             EntityManager.add(stone_ent);
-             stone_ent.spawn(1, new Point(i,j));
-
-             stone_ent.set_blocking(true);
-         }
-
-        return tile;
-    }
-
-    public static void build_chunk(Point origin){
-
-        Terrain.aquatic_tiles.clear();
-
-        System.out.println("loading chunk @"+origin.getX()+","+origin.getY());
-
-        NLTimer.push();
-
-        Random chunk_random = new Random();
-        chunk_random.setSeed(origin.getX()*10000+origin.getY());    //set chunk-specific seed
-
-        //Thread.currentThread().dumpStack();
-        //System.out.println("building data chunk @"+origin.toString());
-
-        int x = origin.getX()*WorldChunk.CHUNK_SIZE;
-        int y = origin.getY()*WorldChunk.CHUNK_SIZE;
-        int size = WorldChunk.CHUNK_SIZE;
+    public static void build_chunk(Point origin, int z_index){  
+        //todo: check z_index there
+        ChunkGenerator ground_gen = new ChunkGroundGenerator();
+        ground_gen.set_zindex(z_index);
         
-        final int OFFSET = WorldChunk.CHUNK_SIZE;
-          //final int OFFSET = 0;
-
-       //---------------------------------------------------------------------
-
-        //Step 1. Generate heightmap
-         
-        /*
-         * Iterate throught the chunk using offset (for smooth moisture map transition)
-         * Store all aquatic-type tiles in temp array so we could quickly iterate them later
-         */
-
-        for (int i = x - OFFSET; i<x+size+OFFSET; i++ ){
-            for (int j = y - OFFSET; j<y+size+OFFSET; j++){
-                if ( i>= x && i<x+size && j >=y && j < y+size){
-                    WorldTile tile = build_chunk_tile(i,j, chunk_random);
-                }
-
-                if (Terrain.is_lake(Terrain.get_height(i, j))){
-                    Terrain.aquatic_tiles.add(new Point(i,j));
-                }
-            }
-        }
-        //---------------------------------------------------------------------
-        //Step 2. Generate moisture map and biomes
-        /*
-         * Calculate tile moisture map based on distance from aqatic tiles
-         * Assign biome type based on moisture amt and elevation
-         * 
-         * Assign various ents (Trees, grass, etc) based on biome type
-         */
-        //---------------------------------------------------------------------
-
-        //9k iterations
-        for (int i = x; i<x+size; i++){
-            for (int j = y; j<y+size; j++)
-            {
-                WorldTile tile = get_tile(i, j);
-                tile.moisture = Terrain.get_moisture(i, j);
-                tile.update_biome_type();
-
-                if (tile.terrain_type != TerrainType.TERRAIN_WATER){
-                    int biome_id = tile.biome_type.tile_id();
-                    tile.set_tile_id(biome_id);
-                }
-                TreeGenerator.generate_object(i, j, tile, chunk_random);
-                GrassGenerator.generate_object(i, j, tile, chunk_random);
-                ChestGenerator.generate_object(i, j, tile, chunk_random);
-            }
-        }
-
-        //---------------------------------------------------------------------
-
-
-
-        NLTimer.pop("chunk @"+origin.getX()+","+origin.getY());
-        //System.out.println("HM Size:" + Terrain.heightmap_cached.size());
-
-        //Step 3. Generate transition map for smooth biomes borders
-        //---------------------------------------------------------------------
-
-        //82k iterations
-        for (int i = x+1; i<x+size-1; i++){
-            for (int j = y+1; j<y+size-1; j++)
-            {
-                WorldTile ref_tile = get_tile(i, j);
-
-                for (int k = i-1; k<i+1; k++){
-                    for (int l = j-1; l<j+1; k++){
-                        if(k==i||l==j){ return; }
-
-                        WorldTile nb_tile = get_tile(k, l);
-                        if (ref_tile.biome_type.get_zindex() > nb_tile.biome_type.get_zindex()){
-                            ///save this shit
-                        }
-                    }
-                }
-                /*
-                 * pseudocode:
-                 *
-                 * get n,s,w,e,ns,ne,ws,we
-                 * calculate transition type index based on tile z-order and biome z-order
-                 * todo: implement BiomeType.get_zindex();
-                 *
-                 * assign index, so we could apply mask later
-                 */
-            }
-        }
+        ground_gen.generate(origin);
     }
     
 

@@ -49,6 +49,11 @@ public class WorldView implements IEventListener {
     public WorldView(){
         EventManager.subscribe(this);
     }
+    
+    //returns z-index of current terrain layer
+    public int get_z_index(){
+        return Player.get_zindex();
+    }
 
 
     public void synchronize(WorldModel model){
