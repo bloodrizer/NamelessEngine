@@ -8,6 +8,8 @@ package game.ent;
 import items.BaseItem;
 import java.util.ArrayList;
 import player.Player;
+import render.EntityRenderer;
+import render.SpriteRenderer;
 
 /*
  * This is an entity wrapper for a item
@@ -25,6 +27,20 @@ public class ItemEntity extends Entity{
             return "undefined";
         }
     }
+    
+    @Override
+    public EntityRenderer build_render(){
+        SpriteRenderer __render = new SpriteRenderer();
+        __render.set_texture("/render/gfx/items/"+get_item_type()+".png");
+
+        __render.get_tileset().sprite_w = 32;
+        __render.get_tileset().sprite_h = 32;
+
+        __render.get_tileset().TILESET_W = 1;
+        __render.get_tileset().TILESET_H = 1;
+
+        return __render;
+    }
 
     public void set_item(BaseItem items){
         this.item = item;
@@ -36,7 +52,7 @@ public class ItemEntity extends Entity{
         class ActionPickUp extends BaseEntityAction{
             @Override
             public void execute() {
-                System.out.println("You got an awesome branch");
+                System.out.println("You got an awesome shit");
 
                 BaseItem item = BaseItem.produce(get_item_type(), 1);
                 Player.get_ent().container.add_item(item);

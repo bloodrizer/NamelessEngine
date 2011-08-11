@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.lwjgl.util.Point;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -25,6 +26,8 @@ public class WorldChunk {
     private List<Entity> ent_list = new ArrayList<Entity>(100);
 
     public boolean dirty = true;
+    
+    private WorldLayer layer = null;
 
     public WorldChunk(int chunk_x, int chunk_y){
         origin.setLocation(chunk_x, chunk_y);
@@ -61,5 +64,9 @@ public class WorldChunk {
 
     public void remove_entity(Entity ent){
             ent_list.remove(ent);
+    }
+
+    public void set_layer(WorldLayer layer) {
+        this.layer = layer;
     }
 }

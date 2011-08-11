@@ -13,27 +13,14 @@ import events.IEventListener;
 import events.network.EEntityMove;
 import game.ent.Entity;
 import game.ent.EntityManager;
-import game.ent.EntityPlayer;
-import game.ent.enviroment.EntityStone;
-import game.ent.enviroment.EntityTree;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import ne.Game;
-import ne.Main;
 import org.lwjgl.util.Point;
-import player.Player;
 import ui.GameUI;
-import world.WorldTile.TerrainType;
-import world.generators.ChestGenerator;
 import world.generators.ChunkGenerator;
 import world.generators.ChunkGroundGenerator;
-import world.generators.GrassGenerator;
-import world.generators.TreeGenerator;
 import world.layers.WorldLayer;
-import world.util.NLTimer;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
 
@@ -65,15 +52,11 @@ public class WorldModel implements IEventListener {
     private static java.util.HashMap<Integer, WorldLayer> world_layers 
             = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
     
-    protected static java.util.Map<Point,WorldChunk> get_chunk_data(int layer_id){
+    public static WorldLayer get_layer(int layer_id){
         WorldLayer layer = world_layers.get(layer_id);
-        if (layer!=null){
-            return layer.get_chunk_data();
-        }
-        
-        throw new RuntimeException("Failed to access chunk data at layer #"+layer_id);
+        return layer;
     }
-    
+
     protected static java.util.Map<Point,WorldTile> get_tile_data(int layer_id){
         WorldLayer layer = world_layers.get(layer_id);
         if (layer!=null){
@@ -126,7 +109,7 @@ public class WorldModel implements IEventListener {
         push_point(util_point);
         util_point.setLocation(x, y);
 
-        WorldChunk chunk = get_chunk_data(z_index).get(util_point);
+        WorldChunk chunk = get_layer(z_index).get_chunk(util_point);
         //WorldChunk chunk = chunk_data.get(new Point(x,y));
         pop_point(util_point);
 
@@ -239,10 +222,6 @@ public class WorldModel implements IEventListener {
                          }
                          //System.out.println(tile.light_level);
                      }
-                     //Main.game.running = false;
-                     //System.exit(0);
-
-
                  }
              }
         }
@@ -274,8 +253,11 @@ public class WorldModel implements IEventListener {
     
     private static WorldChunk precache_chunk(int x, int y, int z_index){
         WorldChunk chunk = new WorldChunk(x, y);
+        WorldLayer layer = get_layer(z_index);
 
-        get_chunk_data(z_index).put(new Point(x,y), chunk);
+        
+
+        layer.set_chunk(new Point(x,y), chunk);
         build_chunk(chunk.origin, z_index);
 
         return chunk;
@@ -296,17 +278,8 @@ public class WorldModel implements IEventListener {
     //clean all unused chunks and data
     public synchronized void chunk_gc(){
 
-        for (Iterator<Map.Entry<Point, WorldChunk>> iter = get_chunk_data(GROUND_LAYER).entrySet().iterator();
-            iter.hasNext();) {
-            Map.Entry<Point, WorldChunk> entry = iter.next();
-            
-            WorldChunk __chunk = (WorldChunk)entry.getValue();
-
-            if (!WorldCluster.chunk_in_cluster(__chunk.origin)){
-                __chunk.unload();
-                iter.remove();  
-            }
-        }
+        WorldLayer layer = get_layer(GROUND_LAYER);
+        layer.gc();
 
         //TODO: perform gc on expired tiles?
     }

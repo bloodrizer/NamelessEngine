@@ -14,6 +14,7 @@ import events.network.EEntityMove;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -24,6 +25,8 @@ public class EntityManager implements IEventListener{
 
     static final ArrayList<Entity> ent_list = new ArrayList<Entity>();
     public static Collection ent_list_sync = Collections.synchronizedCollection(ent_list);
+    
+    public static HashMap<Integer, ArrayList> layer_ent_list = new HashMap<Integer, ArrayList>(100);
 
     public static void add(Entity ent){
         if (!ent_list.contains(ent)){
