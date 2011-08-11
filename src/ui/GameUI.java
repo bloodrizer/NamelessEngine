@@ -179,6 +179,18 @@ public class GameUI implements IUserInterface,  IEventListener {
                 case Keyboard.KEY_UP:
                     WorldView.ISOMETRY_TILE_SCALE += 0.1f;
                 break;
+           
+                /*
+                 * Although this may be counter-intuitive,
+                 * higher layer index actualy means lower geometry layer
+                 */
+                    
+                case Keyboard.KEY_LBRACKET:
+                    WorldView.set_zindex(WorldView.get_zindex()+1);
+                break;
+                case Keyboard.KEY_RBRACKET:
+                    WorldView.set_zindex(WorldView.get_zindex()-1);
+                break;
             }
         }else if(event instanceof EMouseClick){
            //e_on_mouse_click(((EMouseClick)event));

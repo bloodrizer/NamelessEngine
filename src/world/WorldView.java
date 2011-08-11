@@ -51,8 +51,17 @@ public class WorldView implements IEventListener {
     }
     
     //returns z-index of current terrain layer
-    public int get_z_index(){
-        return Player.get_zindex();
+    private static int view_z_index = WorldModel.GROUND_LAYER;
+    public static void set_zindex(int z_index){
+        if (z_index<0){ z_index = 0; }
+        if (z_index>WorldModel.LAYER_COUNT) { z_index = WorldModel.LAYER_COUNT; }
+        
+        view_z_index = z_index;
+    }
+    
+    public static int get_zindex(){
+        //return Player.get_zindex();
+        return view_z_index;
     }
 
 
@@ -101,7 +110,7 @@ public class WorldView implements IEventListener {
                 if (WorldModel.get_cached_chunk(
                         chunk_x,
                         chunk_y) != null){
-                    WorldTile tile = WorldModel.get_tile(i,j);
+                    WorldTile tile = WorldModel.get_tile(i,j, get_zindex());
 
                     if (tile != null){
 
@@ -160,7 +169,8 @@ public class WorldView implements IEventListener {
 
         WorldTile tile = WorldModel.get_tile(
             entity.origin.getX(),
-            entity.origin.getY()
+            entity.origin.getY(),
+            get_zindex()
         );
 
 
@@ -220,7 +230,7 @@ public class WorldView implements IEventListener {
         int y = Mouse.getY();
 
         Point tile_coord = WorldView.getTileCoord(x,y);
-        WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
+        WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY(), get_zindex());
         if(tile==null){
             return;
         }

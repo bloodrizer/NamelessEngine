@@ -52,6 +52,20 @@ public class WorldModel implements IEventListener {
     private static java.util.HashMap<Integer, WorldLayer> world_layers 
             = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
     
+    static {
+        //initialize layers
+        for (int i = 0; i< LAYER_COUNT; i++ ){
+            WorldLayer layer = new WorldLayer();
+            layer.set_zindex(i);
+            world_layers.put(i, layer);
+        }
+    }
+    
+    public WorldModel(){
+        EventManager.subscribe((IEventListener) this);
+        
+    }
+    
     public static WorldLayer get_layer(int layer_id){
         WorldLayer layer = world_layers.get(layer_id);
         return layer;
@@ -144,18 +158,6 @@ public class WorldModel implements IEventListener {
     
     public static synchronized WorldChunk get_cached_chunk(Point location){
         return get_cached_chunk(location.getX(),location.getY(), GROUND_LAYER);
-    }
-
-
-    public WorldModel(){
-        EventManager.subscribe((IEventListener) this);
-        
-        //initialize layers
-        for (int i = 0; i< LAYER_COUNT; i++ ){
-            WorldLayer layer = new WorldLayer();
-            layer.set_zindex(i);
-            world_layers.put(i, layer);
-        }
     }
 
     public void update(){

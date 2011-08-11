@@ -151,7 +151,7 @@ public class Entity implements Comparable {
 
     //this is a debug version of spawn method, that use temporary timestamp-based uid
     public void spawn(Point origin){
-        int __uid = (int)Timer.get_time();
+        int __uid = (int)System.currentTimeMillis();
         spawn(__uid, origin);
     }
 
