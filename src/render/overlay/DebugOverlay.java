@@ -58,7 +58,7 @@ public class DebugOverlay {
                 ,
         Color.white);
         
-        OverlaySystem.ttf.drawString(WindowRender.get_window_w()-50 , 10, "z-index: " + Player.get_zindex(), Color.white);
+        OverlaySystem.ttf.drawString(WindowRender.get_window_w()-100 , 10, "z-index: " + Player.get_zindex(), Color.white);
     }
 
 }

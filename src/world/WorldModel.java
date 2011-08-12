@@ -153,7 +153,7 @@ public class WorldModel implements IEventListener {
     }
     
     public static synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
-        return get_cached_chunk(chunk_x, chunk_y);
+        return get_cached_chunk(chunk_x, chunk_y, GROUND_LAYER);
     }
     
     public static synchronized WorldChunk get_cached_chunk(Point location){
@@ -413,8 +413,10 @@ public class WorldModel implements IEventListener {
         //Terrain.aquatic_tiles.clear();
 
         GameUI ui = (GameUI)(Game.get_game_mode().get_ui());
-        ui.minimap.update_map();
-        //minimap.update_map();
+        
+        /*if(ui.minimap != null){
+            ui.minimap.update_map();
+        }*/
     }
 
     /*

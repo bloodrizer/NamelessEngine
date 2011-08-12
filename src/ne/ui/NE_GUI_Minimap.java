@@ -34,7 +34,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
     int fbo_id;
 
 
-    int texture_id;
+    int minmap_texture_id;
     
     boolean expired = true;
     
@@ -45,8 +45,8 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
             fbo_id = EXTFramebufferObject.glGenFramebuffersEXT();
             EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fbo_id );
 
-            texture_id = GL11.glGenTextures();
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
+            minmap_texture_id = GL11.glGenTextures();
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, minmap_texture_id);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -60,7 +60,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
                     GL_UNSIGNED_BYTE, (ByteBuffer)null);
 
             EXTFramebufferObject.glFramebufferTexture2DEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT,
-                GL11.GL_TEXTURE_2D, texture_id, 0);
+                GL11.GL_TEXTURE_2D, minmap_texture_id, 0);
 
 
                 //EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fbo_id );
@@ -70,7 +70,6 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
             if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
                 System.err.println(status);
             }
-
 
             update_map();
 
@@ -87,10 +86,10 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
     /*
      * Prepares FBO for rendering path
      */
-    private void render_begin(){
+    private void fbo_render_begin(){
 
         EXTFramebufferObject.glFramebufferTexture2DEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT,
-            GL11.GL_TEXTURE_2D, texture_id, 0);
+            GL11.GL_TEXTURE_2D, minmap_texture_id, 0);
 
         glPushAttrib(GL_VIEWPORT_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_SCISSOR_BIT);
         glDisable(GL_SCISSOR_TEST);
@@ -105,7 +104,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
         glDisable(GL_SCISSOR_TEST);
     }
 
-    private void render_end(){
+    private void fbo_render_end(){
         EXTFramebufferObject.glBindFramebufferEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0);
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
@@ -123,7 +122,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
             return;
         }
 
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, minmap_texture_id);
 
         //Render.precache_texture("/render/tileset1.png");
 
@@ -144,8 +143,12 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
 
     //update vitual map texture
 
-    public void update_map() {
+    public final void update_map() {
         if (!expired){
+            return;
+        }
+        
+        if (!fbo_enabled){
             return;
         }
 
@@ -153,13 +156,9 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
         
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
         
-      
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-
-        render_begin();
+        fbo_render_begin();
 
         //------render start
         Render.precache_texture("/render/tileset1.png");
@@ -175,11 +174,11 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
         GL11.glVertex3f(10.0f, 90.0f, 0);
         GL11.glEnd();
 
-        generate_minimap();
+        //generate_minimap();
 
         //------render end
 
-        render_end();
+        fbo_render_end();
     }
 
     private void generate_minimap() {
@@ -218,7 +217,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
                                 
                                 
                                 WorldTile tile = WorldModel.get_tile(chunk_x, chunk_y, WorldModel.GROUND_LAYER);
-                                if (tile.is_blocked()){
+                                if (tile != null && tile.is_blocked()){
                                     glColor3d(0,0,0);
                                     glVertex2d(chunk_x,chunk_y);
                                 }

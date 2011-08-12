@@ -138,9 +138,11 @@ public class GameUI implements IUserInterface,  IEventListener {
 
 
         //----------------------------------------------------------------------
-        minimap = new NE_GUI_Minimap();
+        //potential crash there
+        
+        /*minimap = new NE_GUI_Minimap();
         minimap.visible = false;
-        ui.root.add(minimap);
+        ui.root.add(minimap);*/
 
     }
 
