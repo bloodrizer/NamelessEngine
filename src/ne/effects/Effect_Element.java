@@ -73,7 +73,7 @@ public class Effect_Element {
         Object[] elem =  children.toArray();
         for(int i = 0; i<elem.length; i++){
             Effect_Element __elem = (Effect_Element)elem[i];
-            __elem.gc();    //make shure this element subchildren are cleared successfully
+            __elem.gc();    //make sure this element subchildren are cleared successfully
 
             if (__elem.is_expired()){
                 //__elem.clear();

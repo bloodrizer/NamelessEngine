@@ -5,7 +5,9 @@
 package ne.ui;
 
 import events.ETooltipShow;
+import events.Event;
 import ne.Input;
+import ne.effects.EffectsSystem;
 import ne.effects.FXTooltip;
 import world.Timer;
 
@@ -13,14 +15,14 @@ import world.Timer;
  *
  * @author dpopov
  */
-public class TooltipSystem {
+public class TooltipSystem extends EffectsSystem{
     
-    static final long TOOLTIP_HOVER_TIME = 4000;    //number of ms to hold mouse over control before showing tooltip
+    static final long TOOLTIP_HOVER_TIME = 2000;    //number of ms to hold mouse over control before showing tooltip
     
     NE_GUI_System gui = null;
     NE_GUI_Element focused_element = null;
     long hover_time = 0;
-    long last_tick = 0;
+    long last_tick = Timer.get_time();
     
     static FXTooltip fx_tooltip = null;
 
@@ -31,18 +33,27 @@ public class TooltipSystem {
     public static void set_tooltip(FXTooltip fx_tooltip){
         TooltipSystem.fx_tooltip = fx_tooltip;
     }
+
     
-    void update() {
-        
+    @Override
+    public void update() {
+
+        super.update(); //enforce gc on expired tooltips
         
         NE_GUI_Element elem = gui.get_gui_element(Input.get_mx(), Input.get_my());
+
+        if(focused_element == null){
+            focused_element = elem;
+        }
+
         if (elem != null && elem != focused_element){
+            focused_element = elem;
             tooltip_cancel();
         }else{
-            hover_time += ( Timer.get_time() - last_tick );
-            
             if (hover_time > TOOLTIP_HOVER_TIME) {
                 tooltip_show(elem);
+            }else{
+                hover_time += ( Timer.get_time() - last_tick );
             }
         }
 
@@ -50,21 +61,46 @@ public class TooltipSystem {
     }
 
     private void tooltip_cancel() {
+
+        //System.out.println("elem out of focus, canceling");
+
         hover_time = 0;
         //hide tooltip if presents
         if (fx_tooltip != null){
-            //fx_tooltip.gc();
+
+            //mark tooltip as dispoable and erase pointer for a new tooltip instance
+
             fx_tooltip.disable();
+            fx_tooltip = null;
         }
     }
 
     private void tooltip_show(NE_GUI_Element elem) {
+
+        
+
         //throw new UnsupportedOperationException("Not yet implemented");
         if (fx_tooltip == null){
+
+            System.out.println("showing tooltip on elem"+elem);
+
             //show it there
-            ETooltipShow tooltip_show_msg = new ETooltipShow(elem);
-            tooltip_show_msg.post();
+            /*ETooltipShow tooltip_show_msg = new ETooltipShow(elem);
+            tooltip_show_msg.post();*/
+            FXTooltip tooltip = new FXTooltip(elem);
+            root.add(tooltip);
+            TooltipSystem.set_tooltip(tooltip);
         }
     }
+
+    /*public void e_on_event(Event event){
+        if (event instanceof ETooltipShow){
+            FXTooltip tooltip = new FXTooltip(
+                ((ETooltipShow)event).element
+            );
+            root.add(tooltip);
+            TooltipSystem.set_tooltip(tooltip);
+        }
+    }*/
     
 }

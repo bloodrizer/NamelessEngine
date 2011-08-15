@@ -153,4 +153,8 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
             return (NE_GUI_Inventory)(parent.parent); //once again, hack.
             //just implement inventory control accessor, for god's sake
         }
+
+        public BaseItem get_item(){
+            return item.getItem();
+        }
     }

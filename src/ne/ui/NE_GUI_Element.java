@@ -290,9 +290,16 @@ public class NE_GUI_Element {
     
     public NE_GUI_Element get_gui_element(int mx, int my){
         if (is_client_rect(mx, my)){
+            
             Object[] elem =  children.toArray();
             for(int i = 0; i<elem.length; i++){
                 NE_GUI_Element __elem = (NE_GUI_Element)elem[i];
+
+                NE_GUI_Element child_subelem = __elem.get_gui_element(mx, my);
+                if (child_subelem != null){
+                    return child_subelem;
+                }
+
                 if (__elem.is_client_rect(mx, my)){
                     return __elem;
                 }

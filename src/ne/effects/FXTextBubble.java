@@ -28,6 +28,10 @@ public class FXTextBubble extends Effect_Element {
     Entity ent;
     String message;
 
+    public String get_message(){
+        return message;
+    }
+
     static AreaRenderer bubble_sprite = new AreaRenderer(){
         {
             texture_name = "/render/gfx/effects/bubble.png";
@@ -61,7 +65,7 @@ public class FXTextBubble extends Effect_Element {
         int ent_screen_x = WorldView.world2local_x(
                 (ent.origin.getX() + ent.dx )*Tileset.TILE_SIZE,
                 (ent.origin.getY() + ent.dy )*Tileset.TILE_SIZE
-            ) - message.length()/2*8
+            ) - get_message().length()/2*8
 
             - (int)WorldViewCamera.camera_x
             ;
@@ -80,12 +84,13 @@ public class FXTextBubble extends Effect_Element {
     
     //draw bubble sprite and text
     protected void render_bubble( int ent_screen_x, int ent_screen_y){
+
         int fx_alpha = 255;
         if (get_life_left() < 1000){
             fx_alpha = (int)(((float)get_life_left()/1000.f)*255);
         }
         
-        int w = message.length()*8 + 8;
+        int w = get_message().length()*8 + 8;
         int h = 24;
 
 
@@ -101,13 +106,13 @@ public class FXTextBubble extends Effect_Element {
         bubble_sprite.render(x, y, 8, 24, a);
 
         bubble_sprite.set_rect(8, 0, 16, 32);
-        bubble_sprite.render(x+8, y, message.length()*8, 24, a);
+        bubble_sprite.render(x+8, y, get_message().length()*8, 24, a);
 
         bubble_sprite.set_rect(24, 0, 8, 32);
-        bubble_sprite.render(x+8 + message.length()*8, y, 8, 24, a);
+        bubble_sprite.render(x+8 + get_message().length()*8, y, 8, 24, a);
 
         bubble_sprite.set_rect(0, 32, 7, 4);
-        bubble_sprite.render(x + message.length()*4, y+23, 7, 4, a);
+        bubble_sprite.render(x + get_message().length()*4, y+23, 7, 4, a);
 
         Color text_color;
 
@@ -121,7 +126,7 @@ public class FXTextBubble extends Effect_Element {
         OverlaySystem.ttf.drawString(
                 ent_screen_x + 4,
                 ent_screen_y - 11,
-        message, text_color);
+        get_message(), text_color);
     }
 
 }

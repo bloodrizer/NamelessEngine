@@ -110,8 +110,9 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         fx.update();
 
-        fx.render();
+        
         view.render();
+        fx.render();
 
         get_ui().get_nge_ui().render();
 

@@ -53,10 +53,13 @@ public class WorldView implements IEventListener {
     //returns z-index of current terrain layer
     private static int view_z_index = WorldModel.GROUND_LAYER;
     public static void set_zindex(int z_index){
-        if (z_index<0){ z_index = 0; }
-        if (z_index>WorldModel.LAYER_COUNT) { z_index = WorldModel.LAYER_COUNT; }
+        if (z_index<0){ view_z_index = 0; }
+        else if(z_index > WorldModel.LAYER_COUNT) {
+            view_z_index = WorldModel.LAYER_COUNT;
+        } else {
         
-        view_z_index = z_index;
+            view_z_index = z_index;
+        }
     }
     
     public static int get_zindex(){
@@ -248,14 +251,11 @@ public class WorldView implements IEventListener {
 
 
     public static Point getTileCoord(Point window_coord){
-
-
         int x = window_coord.getX();
         int y = window_coord.getY();
         return getTileCoord(x,y);
-
-
     }
+
     
     public static boolean ISOMETRY_MODE = true;
     public static float ISOMETRY_ANGLE = 45.0f;

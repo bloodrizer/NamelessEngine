@@ -10,6 +10,7 @@ import player.Player;
 import render.WindowRender;
 import world.Timer;
 import world.WorldTimer;
+import world.WorldView;
 import world.WorldViewCamera;
 
 public class DebugOverlay {
@@ -58,7 +59,7 @@ public class DebugOverlay {
                 ,
         Color.white);
         
-        OverlaySystem.ttf.drawString(WindowRender.get_window_w()-100 , 10, "z-index: " + Player.get_zindex(), Color.white);
+        OverlaySystem.ttf.drawString(WindowRender.get_window_w()-100 , 10, "z-index: " + WorldView.get_zindex(), Color.white);
     }
 
 }

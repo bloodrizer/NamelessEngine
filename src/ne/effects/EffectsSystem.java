@@ -37,6 +37,7 @@ public class EffectsSystem implements IEventListener{
     }
 
     public void e_on_event(Event event) {
+
         if (event instanceof EChatMessage){
             root.add(new FXTextBubble(
                 (EChatMessage)event
@@ -47,14 +48,6 @@ public class EffectsSystem implements IEventListener{
             root.add(new FXDamage(
                 (ETakeDamage)event
             ));
-        }
-        
-        if (event instanceof ETooltipShow){
-            FXTooltip tooltip = new FXTooltip(
-                ((ETooltipShow)event).element
-            );
-            root.add(tooltip);
-            TooltipSystem.set_tooltip(tooltip);
         }
     }
 

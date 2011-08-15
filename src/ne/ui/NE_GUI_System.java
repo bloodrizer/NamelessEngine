@@ -83,14 +83,14 @@ public class NE_GUI_System {
     }; //big invisible container
 
     public void render(){
-        //glEnable(GL_TEXTURE_2D);
-        //glDisable(GL_BLEND);
+
+        //Tooltip system is extended version of fx system, that renders atop of usual UI
 
         root.render();
+
         tooltip.update();
-        
-        
-        //glEnable(GL_BLEND);
+        tooltip.render();
+
     }
 
     public void clear(){
@@ -147,7 +147,7 @@ public class NE_GUI_System {
         if (elem !=null){
             return elem;
         }
-        Point tile_coord = WorldView.getTileCoord(new Point(mx, my));
+        Point tile_coord = WorldView.getTileCoord(mx, my);
         WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
         
         //if(tile.)
