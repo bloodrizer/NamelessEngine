@@ -27,6 +27,7 @@ import ne.ui.NE_GUI_Input;
 import ne.ui.NE_GUI_Label;
 import ne.ui.NE_GUI_SpriteArea;
 import ne.ui.NE_GUI_System;
+import render.WindowRender;
 
 
 
@@ -51,6 +52,7 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
 
     NE_GUI_Input login_input;
     NE_GUI_Input pass_input;
+    MainMenuLogo logo;
 
 
     public void show_message(String message){
@@ -76,6 +78,12 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
 
         EventManager.subscribe(this);
 
+        
+        //logo
+        
+        logo = new MainMenuLogo();
+        logo.x = WindowRender.get_window_w()/2 - logo.get_w()/2;
+        logo.y = 100;
        
 
         NE_GUI_FrameModern frame = new NE_GUI_FrameModern();
@@ -203,6 +211,17 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
             char_sprite.y = 37 + i * 64;
 
         }
+    }
+
+    public void update() {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        logo.update();
+    }
+
+    public void render() {
+        //throw new UnsupportedOperationException("Not supported yet.");
+        logo.render();
+        get_nge_ui().render();
     }
 
 

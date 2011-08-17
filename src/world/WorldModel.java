@@ -164,7 +164,6 @@ public class WorldModel implements IEventListener {
         //1. update timer data
         //2. check if think call is allowed
         //3. call think
-        Timer.tick();
         WorldTimer.tick();
 
 

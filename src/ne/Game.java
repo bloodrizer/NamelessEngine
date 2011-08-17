@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 import player.Player;
 import render.WindowRender;
 import ui.IUserInterface;
+import world.Timer;
 
 /**
  *
@@ -96,7 +97,7 @@ public class Game {
 
                 
 
-
+               Timer.tick(); 
                mode.update();
              
                Display.sync(60);

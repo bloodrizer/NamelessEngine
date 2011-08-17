@@ -16,4 +16,7 @@ public interface IUserInterface {
     public void build_ui();
 
     public NE_GUI_System get_nge_ui();
+    
+    public void update();
+    public void render();
 }

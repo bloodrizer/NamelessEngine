@@ -255,4 +255,12 @@ public class GameUI implements IUserInterface,  IEventListener {
     public NE_GUI_System get_nge_ui() {
         return ui;
     }
+
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void render() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
