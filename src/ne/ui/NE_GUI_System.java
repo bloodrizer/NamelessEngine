@@ -65,10 +65,6 @@ public class NE_GUI_System {
                         EBuildStructure build_event = new EBuildStructure(tile_coord,item.get_type());
                         build_event.post();
 
-
-                        Player.get_ent().container.remove_item(
-                            BaseItem.produce(item.get_type(), 1)
-                        );
                     }else{
                         //this item is not a building-related item, so just spawn an item container
                         ItemEntity item_ent = new ItemEntity();
@@ -76,6 +72,13 @@ public class NE_GUI_System {
                         
                         item_ent.spawn(tile_coord);
                     }
+                    
+                    Player.get_ent().container.remove_item(
+                            BaseItem.produce(item.get_type(), 1)
+                    );
+                    
+                    //remove from quickslot
+
             }
         }
 

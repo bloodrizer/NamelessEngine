@@ -29,7 +29,7 @@ public class MainMenuLogo {
     }
 
     public void render(){
-        //logo_font.drawString(x, y, text, color);
+        logo_font.drawString(x, y, text, color);
     }
     
     public int get_w(){
@@ -46,15 +46,17 @@ public class MainMenuLogo {
     
     public void update(){
 
-        if ((Timer.get_time()-last_tick) < 2000 ){
+        if ((Timer.get_time()-last_tick) < 50 ){
             return;
         }
         last_tick = Timer.get_time();
 
         i++;
-        double a = (double)i;
-        color.r = (float)((128.0f+Math.sin(a)*128.0f)/255.0f);
-        color.g = (float)((128.0f+Math.cos(a+2*Math.PI/3)*128.0f)/255.0f);
-        color.b = (float)((128.0f+Math.sin(a+4*Math.PI/3)*128.0f)/255.0f); 
+        double a = (double)i*0.01f;
+        color.r = (float)((128.0d+Math.sin(a)*128.0d)/255.0d);
+        color.g = (float)((128.0d+Math.cos(a+2*Math.PI/3)*128.0f)/255.0d);
+        color.b = (float)((128.0d+Math.sin(a+4*Math.PI/3)*128.0f)/255.0d); 
+        
+        //System.out.println("rgb("+color.r+","+color.g+","+color.b+")");
     }
 }
