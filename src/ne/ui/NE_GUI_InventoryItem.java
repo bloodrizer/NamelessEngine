@@ -157,4 +157,12 @@ public class NE_GUI_InventoryItem extends NE_GUI_Sprite {
         public BaseItem get_item(){
             return item.getItem();
         }
+
+        @Override
+        public String get_tooltip_message() {
+            if ( item != null){
+                return item.get_type();
+            }
+            return "undefined";
+        }
     }

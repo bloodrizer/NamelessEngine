@@ -13,14 +13,14 @@ import org.lwjgl.opengl.GL11;
  */
 public class SpriteRenderer extends EntityRenderer {
 
-    private Tileset tileset = null;
+    private TilesetRenderer tileset = null;
     protected int tile_id = 0;
 
     public SpriteRenderer(){
-        tileset = new Tileset();
+        tileset = new TilesetRenderer();
     }
 
-    public Tileset get_tileset(){
+    public TilesetRenderer get_tileset(){
         return tileset;
     }
 

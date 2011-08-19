@@ -6,7 +6,7 @@
 package ne.ui;
 
 import render.Render;
-import render.Tileset;
+import render.TilesetRenderer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
@@ -16,7 +16,7 @@ import static org.lwjgl.util.glu.GLU.*;
  */
 public class NE_GUI_Frame extends NE_GUI_Element{
 
-    Tileset gui_tile;
+    TilesetRenderer gui_tile;
 
     NE_GUI_Frame_Close close_button;
 
@@ -24,7 +24,7 @@ public class NE_GUI_Frame extends NE_GUI_Element{
 
     public NE_GUI_Frame(boolean closable){
 
-        gui_tile = new Tileset();
+        gui_tile = new TilesetRenderer();
         //gui_tile.texture_name = "../ui/window_ui_small.png";
         gui_tile.TILESET_W = 4;
         gui_tile.TILESET_H = 4;

@@ -310,4 +310,8 @@ public class NE_GUI_Element {
         return null;
     }
 
+    public String get_tooltip_message() {
+        return this.toString();
+    }
+
 }

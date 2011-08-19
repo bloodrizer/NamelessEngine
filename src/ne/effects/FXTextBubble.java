@@ -12,7 +12,7 @@ import events.network.EChatMessage;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import org.newdawn.slick.Color;
-import render.Tileset;
+import render.TilesetRenderer;
 import render.overlay.OverlaySystem;
 import world.WorldView;
 import world.WorldViewCamera;
@@ -63,16 +63,16 @@ public class FXTextBubble extends Effect_Element {
             return;
         }
         int ent_screen_x = WorldView.world2local_x(
-                (ent.origin.getX() + ent.dx )*Tileset.TILE_SIZE,
-                (ent.origin.getY() + ent.dy )*Tileset.TILE_SIZE
+                (ent.origin.getX() + ent.dx )*TilesetRenderer.TILE_SIZE,
+                (ent.origin.getY() + ent.dy )*TilesetRenderer.TILE_SIZE
             ) - get_message().length()/2*8
 
             - (int)WorldViewCamera.camera_x
             ;
 
         int ent_screen_y = WorldView.world2local_y(
-                    (ent.origin.getX()+ ent.dx)*Tileset.TILE_SIZE ,
-                    (ent.origin.getY()+ ent.dy)*Tileset.TILE_SIZE
+                    (ent.origin.getX()+ ent.dx)*TilesetRenderer.TILE_SIZE ,
+                    (ent.origin.getY()+ ent.dy)*TilesetRenderer.TILE_SIZE
         ) - 54
 
            - (int)WorldViewCamera.camera_y

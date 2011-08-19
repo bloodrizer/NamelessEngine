@@ -257,10 +257,11 @@ public class GameUI implements IUserInterface,  IEventListener {
     }
 
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void render() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+        get_nge_ui().render();
     }
 }

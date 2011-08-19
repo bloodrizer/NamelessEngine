@@ -82,7 +82,7 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         //logo
         
         logo = new MainMenuLogo();
-        logo.x = WindowRender.get_window_w()/2 - logo.get_w()/2 + 130;
+        logo.x = WindowRender.get_window_w()/2 - logo.get_w()/2 + 80;
         logo.y = 100;
        
 

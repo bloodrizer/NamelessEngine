@@ -7,12 +7,15 @@ package world;
 
 import events.EEntityChangeChunk;
 import events.EEntitySpawn;
+import events.ETakeDamage;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.EEntityMove;
+import game.combat.Damage.DamageType;
 import game.ent.Entity;
 import game.ent.EntityManager;
+import game.ent.decals.EntDecalBlood;
 import java.util.Iterator;
 import java.util.Map;
 import ne.Game;
@@ -384,6 +387,22 @@ public class WorldModel implements IEventListener {
            //TODO: only call on WorldCluster relocation!!!1111111
            //perform garbage collect on expired chunks
            
+       }else if(event instanceof ETakeDamage){
+           //drop blood if someone is taking damage
+           ETakeDamage dmg_event = (ETakeDamage)event;
+           if (dmg_event.dmg.type != DamageType.DMG_FIRE &&
+               dmg_event.dmg.type != DamageType.DMG_MAGIC ){
+               Point dmg_origin = new Point();
+               dmg_origin.setLocation(dmg_event.ent.origin);
+
+               WorldTile tile = get_tile(dmg_origin.getX(), dmg_origin.getY());
+               if (!tile.has_ent(EntDecalBlood.class)){
+                   EntDecalBlood blood = new EntDecalBlood();
+                   blood.spawn(dmg_origin);
+
+                   //TODO: set random dx, dy for more natural blood drops?
+               }
+           }
        }
 
 

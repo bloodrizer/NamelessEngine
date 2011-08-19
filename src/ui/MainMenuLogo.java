@@ -16,16 +16,16 @@ import world.Timer;
  * @author bloodrizer
  */
 public class MainMenuLogo {
-    private static final int LOGO_SIZE = 48;
+    private static final int LOGO_SIZE = 64;
     private TrueTypeFont logo_font;
     
     public int x;
     public int y;
     
-    public String text = "Nameless Game";
+    public String text = "NAMELESS  GAME";
     
     public MainMenuLogo(){
-        logo_font = OverlaySystem.precache_font(LOGO_SIZE);
+        logo_font = OverlaySystem.precache_font("minim_o.ttf",LOGO_SIZE);
     }
 
     public void render(){

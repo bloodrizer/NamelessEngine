@@ -28,7 +28,7 @@ import render.WindowRender;
 import game.ent.Entity;
 import java.util.Iterator;
 import game.ent.EntityManager;
-import render.Tileset;
+import render.TilesetRenderer;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class WorldView implements IEventListener {
 
-    public static Tileset bg_tileset = new Tileset();
+    public static TilesetRenderer bg_tileset = new TilesetRenderer();
 
     public static Point highlited_tile = null;
 

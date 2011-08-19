@@ -22,7 +22,7 @@ import world.WorldView;
 
 public class NPCRenderer extends EntityRenderer{
 
-    private Tileset tileset = null;
+    private TilesetRenderer tileset = null;
 
     public int ANIMATION_LENGTH = 0;
     private int frame_id = 0;
@@ -43,10 +43,10 @@ public class NPCRenderer extends EntityRenderer{
     }
 
     public NPCRenderer(){
-        tileset = new Tileset();
+        tileset = new TilesetRenderer();
     }
 
-    public Tileset get_tileset(){
+    public TilesetRenderer get_tileset(){
         return tileset;
     }
 

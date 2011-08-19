@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.util.Point;
 import player.Player;
-import render.Tileset;
+import render.TilesetRenderer;
 import ui.GameUI;
 import world.WorldModel;
 
@@ -48,7 +48,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
     //private Tileset tileset = null;
 
-    private Tileset bg_tileset;
+    private TilesetRenderer bg_tileset;
     private WorldView  view;
     private WorldModel model;
     private NE_GUI_System gui;
@@ -63,7 +63,7 @@ public class ModeInGame implements IGameMode, IEventListener {
     }
 
     public void run(){
-        bg_tileset = new Tileset();
+        bg_tileset = new TilesetRenderer();
         view  = new WorldView();
         model = new WorldModel();
 

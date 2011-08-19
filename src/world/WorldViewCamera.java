@@ -8,7 +8,7 @@ package world;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 import player.Player;
-import render.Tileset;
+import render.TilesetRenderer;
 import render.WindowRender;
 
 /**
@@ -56,18 +56,18 @@ public class WorldViewCamera {
                 //TODO: FIXME! HERE IS AN UGLY HACK!
                
 
-                float target_x = (target.getX())*Tileset.TILE_SIZE +  Player.get_ent().dx*Tileset.TILE_SIZE;
-                float target_y = (target.getY())*Tileset.TILE_SIZE +  Player.get_ent().dy*Tileset.TILE_SIZE;
+                float target_x = (target.getX())*TilesetRenderer.TILE_SIZE +  Player.get_ent().dx*TilesetRenderer.TILE_SIZE;
+                float target_y = (target.getY())*TilesetRenderer.TILE_SIZE +  Player.get_ent().dy*TilesetRenderer.TILE_SIZE;
 
                 Point delta = WorldView.world2local(new Point((int)target_x,(int)target_y));
                 target_x = delta.getX();
                 target_y = delta.getY();
 
-                int dxt = WindowRender.get_window_w()/Tileset.TILE_SIZE /2;
-                int dyt = WindowRender.get_window_h()/Tileset.TILE_SIZE /2;
+                int dxt = WindowRender.get_window_w()/TilesetRenderer.TILE_SIZE /2;
+                int dyt = WindowRender.get_window_h()/TilesetRenderer.TILE_SIZE /2;
 
-                float dx = target_x - dxt*Tileset.TILE_SIZE - camera_x;
-		float dy = target_y - dyt*Tileset.TILE_SIZE - camera_y;
+                float dx = target_x - dxt*TilesetRenderer.TILE_SIZE - camera_x;
+		float dy = target_y - dyt*TilesetRenderer.TILE_SIZE - camera_y;
 
                 
                 

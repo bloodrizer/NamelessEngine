@@ -52,12 +52,16 @@ public class FXTooltip extends FXTextBubble {
     @Override
     public String get_message(){
         
-        if (gui_elem instanceof NE_GUI_InventoryItem){
+        /*if (gui_elem instanceof NE_GUI_InventoryItem){
             NE_GUI_InventoryItem item_elem = (NE_GUI_InventoryItem)gui_elem;
             BaseItem item = item_elem.get_item();
             if ( item != null){
                 return item.get_type();
             }
+        }*/
+
+        if (gui_elem != null){
+            return gui_elem.get_tooltip_message();
         }
 
         return "undefined";

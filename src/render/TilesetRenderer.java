@@ -14,7 +14,7 @@ import world.WorldView;
  *
  * @author Administrator
  */
-public class Tileset{
+public class TilesetRenderer{
     //world grid size - critical for offset calculation
     public static int TILE_SIZE = 32;
 
@@ -28,7 +28,7 @@ public class Tileset{
 
     public String texture_name = "tileset1.png";
 
-    public Tileset(){
+    public TilesetRenderer(){
     }
 
     public float get_texture_w(){

@@ -6,7 +6,7 @@
 package world;
 
 import org.lwjgl.util.Point;
-import render.Tileset;
+import render.TilesetRenderer;
 import render.WindowRender;
 
 /**
@@ -16,8 +16,8 @@ import render.WindowRender;
 public class WorldViewport {
 
     public static Point origin = new Point(0,0);
-    public static int w = WindowRender.get_window_w() / Tileset.TILE_SIZE;
-    public static int h = WindowRender.get_window_h() / Tileset.TILE_SIZE;
+    public static int w = WindowRender.get_window_w() / TilesetRenderer.TILE_SIZE;
+    public static int h = WindowRender.get_window_h() / TilesetRenderer.TILE_SIZE;
 
 
     public static void locate(Point target){

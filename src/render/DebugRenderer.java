@@ -16,11 +16,11 @@ import world.WorldView;
  */
 public class DebugRenderer extends EntityRenderer  {
 
-    private Tileset tileset = null;
+    private TilesetRenderer tileset = null;
 
     public DebugRenderer(){
 
-        tileset = new Tileset();
+        tileset = new TilesetRenderer();
         tileset.texture_name = "tileset1.png";
     }
 
