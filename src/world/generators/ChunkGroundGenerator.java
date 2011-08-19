@@ -82,7 +82,9 @@ public class ChunkGroundGenerator extends ChunkGenerator {
                     int biome_id = tile.biome_type.tile_id();
                     tile.set_tile_id(biome_id);
                 }
+                //TODO: this part probably need some future refactoring
                 TreeGenerator.generate_object(i, j, tile, chunk_random);
+                StoneGenerator.generate_object(i, j, tile, chunk_random);
                 GrassGenerator.generate_object(i, j, tile, chunk_random);
                 ChestGenerator.generate_object(i, j, tile, chunk_random);
             }
@@ -142,22 +144,9 @@ public class ChunkGroundGenerator extends ChunkGenerator {
         WorldModel.set_tile(new Point(i,j), tile, z_index);
         tile.set_height(height);
 
-                //tile.moisture = Terrain.get_moisture(x, y);
-
-
          if (Terrain.is_lake(tile)){
              tile.set_tile_id(1);
              tile.terrain_type = TerrainType.TERRAIN_WATER;
-         }
-
-        //TODO: remove me!
-         if (chunk_random.nextFloat()*100<0.25f){
-
-             EntityStone stone_ent = new EntityStone();
-             EntityManager.add(stone_ent);
-             stone_ent.spawn(1, new Point(i,j));
-
-             stone_ent.set_blocking(true);
          }
 
         return tile;

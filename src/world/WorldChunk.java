@@ -69,4 +69,12 @@ public class WorldChunk {
     public void set_layer(WorldLayer layer) {
         this.layer = layer;
     }
+    
+    public static Point get_chunk_coord(Point position) {
+        //TODO: use util point?
+        int cx = (int)Math.floor((float)position.getX() / CHUNK_SIZE);
+        int cy = (int)Math.floor((float)position.getY() / CHUNK_SIZE);
+
+        return new Point(cx,cy);
+    }
 }

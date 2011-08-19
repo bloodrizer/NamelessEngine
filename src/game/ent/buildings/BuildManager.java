@@ -35,6 +35,7 @@ public class BuildManager {
         links.put("wood_floor", EntWoodFloor.class);
         links.put("chest", EntChest.class);
         links.put("signpost", EntSignpost.class);
+        links.put("totem", EntTotem.class);
     }
 
     public static Class get_building(String _type) {

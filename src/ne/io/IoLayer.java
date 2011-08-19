@@ -186,7 +186,6 @@ public class IoLayer implements IEventListener{
     }
 
     public void e_on_event(Event event) {
-        //TODO: check if server can accept network event >3
         if(!event.is_local()&&!event.is_dispatched()){
             NetworkEvent net_event = (NetworkEvent)event;
 
