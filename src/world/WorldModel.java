@@ -32,7 +32,6 @@ import world.util.astar.TileBasedMap;
 /*
  * This class handles world terrain data, including landscape, moisture, lightning model, object distribution, minerals, etc.
  */
-//TODO: introduce terrain layers
 public class WorldModel implements IEventListener {
 
     public static final int LAYER_COUNT = 10;    //max depth of geometry layers
@@ -132,16 +131,6 @@ public class WorldModel implements IEventListener {
     
     private static synchronized WorldChunk get_chunk(int x, int y){
        return get_chunk(x, y, GROUND_LAYER);
-    }
-    //TODO: move to the WorldChunk
-    public static Point get_chunk_coord(Point position) {
-        //todo: use util point?
-        //int CL_OFFSET = (WorldCluster.CLUSTER_SIZE-1)/2;
-
-        int cx = (int)Math.floor((float)position.getX() / WorldChunk.CHUNK_SIZE);
-        int cy = (int)Math.floor((float)position.getY() / WorldChunk.CHUNK_SIZE);
-
-        return new Point(cx,cy);
     }
 
     public static synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y, int z_index){
@@ -278,11 +267,8 @@ public class WorldModel implements IEventListener {
 
     //clean all unused chunks and data
     public synchronized void chunk_gc(){
-
         WorldLayer layer = get_layer(GROUND_LAYER);
         layer.gc();
-
-        //TODO: perform gc on expired tiles?
     }
 
 
@@ -298,7 +284,7 @@ public class WorldModel implements IEventListener {
 
         //now with a chunk shit
         //----------------------------------------------------------------------
-        WorldChunk new_chunk = get_cached_chunk(get_chunk_coord(coord_dest));
+        WorldChunk new_chunk = get_cached_chunk(WorldChunk.get_chunk_coord(coord_dest));
         if (new_chunk != null && !entity.in_chunk(new_chunk)){
 
             WorldChunk ent_chunk = entity.get_chunk();
@@ -341,16 +327,23 @@ public class WorldModel implements IEventListener {
        else if(event instanceof EEntitySpawn){
            EEntitySpawn spawn_event = (EEntitySpawn)event;
            //-------------------------------------------------------------------
-           WorldChunk new_chunk = get_cached_chunk(get_chunk_coord(spawn_event.ent.origin));
+           WorldChunk new_chunk = get_cached_chunk(WorldChunk.get_chunk_coord(spawn_event.ent.origin));
            
            EEntityChangeChunk e_change_chunk = new EEntityChangeChunk(spawn_event.ent,null,new_chunk);
            e_change_chunk.post();
 
            Point ent_origin = spawn_event.ent.origin;
-           WorldTile tile_to = get_tile(ent_origin.getX(), ent_origin.getY());
+           WorldTile spawn_tile = get_tile(ent_origin.getX(), ent_origin.getY());
            
-           if (tile_to != null){
-                tile_to.add_entity(spawn_event.ent);
+           /* Some ents are prohabited from spawning. Normaly, that should be checked at the server side
+            *
+            * For now we will check it at client side (totems for example) 
+            */
+           Point region_coord = WorldRegion.get_region_coord(ent_origin);
+           //TODO: get region instance and check if totem can be build there
+           
+           if (spawn_tile != null){
+                spawn_tile.add_entity(spawn_event.ent);
            }else{
                System.err.println("Failed to assign spawned entity to tile: tile is null!");
            }
@@ -381,9 +374,6 @@ public class WorldModel implements IEventListener {
                 chunk_gc();
            }
 
-           //TODO: only call on WorldCluster relocation!!!1111111
-           //perform garbage collect on expired chunks
-           
        }
 
 

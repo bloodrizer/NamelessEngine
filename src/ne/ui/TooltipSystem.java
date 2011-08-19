@@ -9,6 +9,7 @@ import events.Event;
 import ne.Input;
 import ne.effects.EffectsSystem;
 import ne.effects.FXTooltip;
+import world.ClockSignal;
 import world.Timer;
 
 /**
@@ -22,9 +23,9 @@ public class TooltipSystem extends EffectsSystem{
     NE_GUI_System gui = null;
     NE_GUI_Element focused_element = null;
     long hover_time = 0;
-    long last_tick = Timer.get_time();
-    
     static FXTooltip fx_tooltip = null;
+    
+    ClockSignal signal = new ClockSignal();
 
     void set_gui(NE_GUI_System gui) {
         this.gui = gui;
@@ -50,21 +51,17 @@ public class TooltipSystem extends EffectsSystem{
             focused_element = elem;
             tooltip_cancel();
         }else{
-            if (hover_time > TOOLTIP_HOVER_TIME) {
+            if (signal.get_signal(TOOLTIP_HOVER_TIME)) {
                 tooltip_show(elem);
-            }else{
-                hover_time += ( Timer.get_time() - last_tick );
             }
         }
-
-        last_tick = Timer.get_time();
     }
 
     private void tooltip_cancel() {
 
         //System.out.println("elem out of focus, canceling");
 
-        hover_time = 0;
+        signal.reset();
         //hide tooltip if presents
         if (fx_tooltip != null){
 

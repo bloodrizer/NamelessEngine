@@ -21,6 +21,7 @@ import ne.Game;
 import ne.Input.MouseInputType;
 import org.newdawn.slick.Color;
 import render.AreaRenderer;
+import render.Render;
 import render.overlay.OverlaySystem;
 
 /**
@@ -120,8 +121,15 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
 
             NE_GUI_InventoryItem item_control = new NE_GUI_InventoryItem(item);
             inv_layer.add(item_control);
+            
+            
 
-            item_control.sprite_name = "/render/gfx/items/"+ item.get_type() +".png";
+            String sprite_name = "/render/gfx/items/"+ item.get_type() +".png";
+            
+            if (Render.class.getResourceAsStream(sprite_name) == null ){
+                sprite_name = "/render/gfx/items/undefined.png";
+            }
+            item_control.sprite_name = sprite_name;
 
             item_control.x = get_item_x(i) * (32+8) - 16;
             item_control.y = get_item_y(i) * (32+8) - 8;

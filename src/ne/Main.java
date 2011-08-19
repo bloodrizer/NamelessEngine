@@ -26,7 +26,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // TODO code application logic here
         game = new Game();
 
         game.set_state(Game.GameModes.MainMenu);

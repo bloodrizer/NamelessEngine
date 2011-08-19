@@ -11,6 +11,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.Point;
 import org.newdawn.slick.Color;
 import render.WindowRender;
+import world.WorldChunk;
 import world.WorldModel;
 import world.WorldTile;
 import world.WorldView;
@@ -31,7 +32,7 @@ public class TileCoordOverlay {
 
 
         Point tile_coord = WorldView.getTileCoord(x,y);
-        Point chunk_coord = WorldModel.get_chunk_coord(tile_coord);
+        Point chunk_coord = WorldChunk.get_chunk_coord(tile_coord);
 
         y = WindowRender.get_window_h() - y;
 

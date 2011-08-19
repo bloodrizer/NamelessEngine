@@ -57,6 +57,9 @@ public class EntityPlayer extends EntityNPC {
                 BaseItem.produce("signpost", 64)
         );
         this.container.add_item(
+                BaseItem.produce("totem", 1)
+        );
+        this.container.add_item(
                 BaseItem.produce("copper_coin", 10)
         );
         //System.out.println(branch.get_container());
