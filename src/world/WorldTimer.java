@@ -70,14 +70,21 @@ public class WorldTimer {
 
             int chance = (int)(Math.random()*100);
             if(chance < 90 ){
-                Zombie zombie = new Zombie();
-                zombie.spawn(new Point(
+                
+                Point spawn_point = new Point(
                         Player.get_ent().origin.getX() + (int)(Math.random()*20-10),
-                        Player.get_ent().origin.getY() +(int)(Math.random()*20-10)
-                    )
-                );
+                        Player.get_ent().origin.getY() +(int)(Math.random()*20-10));
+                
+                WorldTile tile = WorldModel.get_tile(spawn_point.getX(), spawn_point.getY());
+                if (tile ==null ||  tile.light_level > 0.5f){
+                    return;
+                    //todo: change so we would not waste our spawn chance
+                }
+                
+                Zombie zombie = new Zombie();
+                zombie.spawn(spawn_point);
                 zombie.set_ai(new BasicMobAI());
-                //zombie.set_controller(new NpcController());
+
             }
         }
     }
