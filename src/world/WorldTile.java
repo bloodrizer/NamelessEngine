@@ -55,7 +55,9 @@ public class WorldTile {
 
         BIOME_TROPICAL_RAINFOREST(25),
         BIOME_SEASONAL_FOREST(25),
-        BIOME_SUBTROPICAL_DESERT(2);
+        BIOME_SUBTROPICAL_DESERT(2),
+        
+        BIOME_SHORE(2);     //shore is small sand one-tile area near the water source
 
         private final int tile_id;
         BiomeType(int tile_id){

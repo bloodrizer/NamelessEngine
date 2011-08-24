@@ -24,6 +24,7 @@ import ui.GameUI;
 import world.generators.ChunkGenerator;
 import world.generators.ChunkGroundGenerator;
 import world.layers.WorldLayer;
+import world.util.LazyLoadWorldElement;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
 
@@ -48,7 +49,24 @@ public class WorldModel implements IEventListener {
     private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
 
     //--------------------------------------------------------------------------
-    //private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
+    private static LazyLoadWorldElement<WorldRegion> world_regions = 
+    new LazyLoadWorldElement<WorldRegion>(){
+
+        @Override
+        public WorldRegion precache(Point origin) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+            //Point region_coord = WorldRegion.get_region_coord(origin);
+            
+            WorldRegion region = new WorldRegion();
+            region.origin.setLocation(origin);
+            
+            //TODO: load region from some external storage
+            //(i.e. use server API)
+            region.load_data();
+            
+            return region;
+        }
+    };
 
 
     private static java.util.HashMap<Integer, WorldLayer> world_layers 

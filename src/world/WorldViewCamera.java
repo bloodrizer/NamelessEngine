@@ -44,7 +44,21 @@ public class WorldViewCamera {
     public static Point get_position(){
         return new Point((int)camera_x, (int)camera_y);
     }
+    
+    /*
+     * Returns true, if tile is in current camera view area
+     */
+    public static boolean tile_in_fov(Point tile_coord){
+        int x = tile_coord.getX();
+        int y = tile_coord.getY();
+        
+        return ( x>=camera_x && x <=camera_x+WindowRender.get_window_w() ) &&
+               ( y>=camera_y && y <= camera_y + WindowRender.get_window_h() );
+    }
 
+    /*
+     * Moves camera clother to the destination, if camera is set to the "chasing mode"
+     */
     public static void update(){
         if (follow_target){
                 //todo: move to math
