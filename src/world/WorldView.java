@@ -5,6 +5,8 @@
 
 package world;
 
+import render.layers.GroundLayerRenderer;
+import render.layers.LayerRenderer;
 import java.util.HashMap;
 import game.ent.buildings.EntBuilding;
 import player.Player;
@@ -34,11 +36,9 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  *
- * @author Administrator
+ * @author bloodrizer
  */
 public class WorldView implements IEventListener {
-
-    public static TilesetRenderer bg_tileset = new TilesetRenderer();
 
     public static Point highlited_tile = null;
 
@@ -80,14 +80,22 @@ public class WorldView implements IEventListener {
     public class TextureTransition {
         public boolean[] nb = new boolean[8];  //n, w, e, s, nw, ns, ew, es
     }
-
+    
     //public static HashMap<Point,TextureTransition>  bg_transition_map = new HashMap<Point,TextureTransition>(1024);
 
-    public void render_background(){
-
+    public void render_layer(){
+        
+        LayerRenderer layer_renderer = null;
+        
+        //get layer renderer based on layer_id
+        //TODO: cache it, so we would not create new object every frame
+                    
+        if (get_zindex() == WorldModel.GROUND_LAYER){
+            layer_renderer = new GroundLayerRenderer();
+        }
+        
+        
         //bg_transition_map.clear();
-
-        //System.out.println(WorldCluster.origin);
 
         int x = WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE;
         int y = WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE;
@@ -101,58 +109,25 @@ public class WorldView implements IEventListener {
                 //world cluster should cache it instead
 
                 //serious debug problems othervise
-
-
                 int chunk_x = (int)Math.floor((float)i / WorldChunk.CHUNK_SIZE);
                     //if (chunk_x<0){ chunk_x = chunk_x-1; }
                 int chunk_y = (int)Math.floor((float)j / WorldChunk.CHUNK_SIZE);
                     //if (chunk_y<0){ chunk_y = chunk_y-1; }
-
-
 
                 if (WorldModel.get_cached_chunk(
                         chunk_x,
                         chunk_y) != null){
                     WorldTile tile = WorldModel.get_tile(i,j, get_zindex());
 
-                    if (tile != null){
-
-                        //lil hack for terrain rendering visualization
-                        if (tile.terrain_type != TerrainType.TERRAIN_WATER){
-                            
-
-                            //get terrain color according to the time
-                            //Vector3f g_color_time = WorldTimer.get_sun_color();
-                            Vector3f tile_color = get_tile_color(tile);
-                            GL11.glColor3f(tile_color.x,tile_color.y,tile_color.z);
-                        }else{
-                            GL11.glColor3f(1.0f,1.0f,1.0f);
-                        }
-                        
-                        //bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
-                        render_bg_tile(i,j,tile);
+                    
+                    //render tile
+                    if (layer_renderer != null){
+                        layer_renderer.render_tile(tile, i, j);
                     }
+
                 }
                 
             }
-
-        /*for (int i = 0; i<TILEMAP_W; i++){
-            for (int j = 0; j<TILEMAP_H; j++){
-               bg_tileset.render_tile(i,j, 0);
-            }
-        }*/
-    }
-    static Vector3f utl_tile_color = new Vector3f();
-    public Vector3f get_tile_color(WorldTile tile){
-        //float g_color = ((float)tile.get_height() / 255);
-        float g_color = 0.5f;
-        utl_tile_color.set(
-                0.5f + tile.light_level     + WorldTimer.get_light_amt(),
-                g_color+ tile.light_level   + WorldTimer.get_light_amt(),
-                0.5f+ tile.light_level      + WorldTimer.get_light_amt()
-        );
-
-        return utl_tile_color;
     }
 
     public void render_entities(){
@@ -197,10 +172,6 @@ public class WorldView implements IEventListener {
 
         EntityRenderer renderer = entity.get_render();
         renderer.render();  //render, lol
-       
-        
-
-        //bg_tileset.render_sprite( entity.origin.getX(), entity.origin.getY(), 4);
     }
 
     //--------------------------------------------------------------------------
@@ -213,7 +184,7 @@ public class WorldView implements IEventListener {
     
         WorldViewCamera.setMatrix();
   
-        render_background();
+        render_layer();
         render_entities();
         
         glLoadIdentity();
@@ -222,6 +193,9 @@ public class WorldView implements IEventListener {
     }
 
     public void update_cursor(){
+        
+        //Introduce cursor class
+        //We may change cursor, if user action is now active
 
         if (Player.is_combat_mode()){
             Render.set_cursor("/render/ico_sword.png");
@@ -352,8 +326,8 @@ public class WorldView implements IEventListener {
 
 
 
-            x = (int) world_x / bg_tileset.TILE_SIZE;
-            y = (int) world_y / bg_tileset.TILE_SIZE;
+            x = (int) world_x / TilesetRenderer.TILE_SIZE;
+            y = (int) world_y / TilesetRenderer.TILE_SIZE;
 
             return new Point(x-1,y-1);
 
@@ -372,9 +346,9 @@ public class WorldView implements IEventListener {
             //--------------------------------------------
             //there is actually a hack there, but it works
             //--------------------------------------------
-            int tile_x = local_x/ bg_tileset.TILE_SIZE;
+            int tile_x = local_x/ TilesetRenderer.TILE_SIZE;
             if (local_x<0){ tile_x = tile_x-1; }
-            int tile_y = local_y/ bg_tileset.TILE_SIZE;
+            int tile_y = local_y/ TilesetRenderer.TILE_SIZE;
             if (local_y<0){ tile_y = tile_y-1; }
             //-----------------end of hack----------------
 
@@ -423,42 +397,6 @@ public class WorldView implements IEventListener {
     //--------------------------------------------------------------------------
     public void e_on_event_rollback(Event event){
       
-    }
-
-
-    /*
-     *  public class TextureTransition {
-            boolean[] nb = new boolean[8];  //n, w, e, s, nw, ns, ew, es
-        }
-
-        public static HashMap<Point,TextureTransition>  bg_transition_map = new HashMap<Point,TextureTransition>(1024);
-     *
-     */
-    private void render_bg_tile(int i, int j, WorldTile tile) {
-        //throw new UnsupportedOperationException("Not yet implemented");
-        bg_tileset.render_bg_tile(i, j, tile.get_tile_id());
-
-        /*
-         * So far, tileset id acts like texture z-index.
-         * Higher texture is allowed to wrap over lower texture, using alpha blending mask
-         */
-        /*Point _point = new Point(0,0);
-
-        for (int _i = i-1; _i< i+1; _i++){
-            for(int _j = j-1; _j < j+1; j++){
-                if (WorldCluster.tile_in_cluster(_i,_j)){
-
-                    _point.setLocation(_i, _j);
-                    TextureTransition trans = bg_transition_map.get(_point);
-                    if (trans == null){
-                        trans = new TextureTransition();
-                        bg_transition_map.put(_point, trans);
-                    }
-                    
-
-                }
-            }
-        }*/
     }
 
 }
