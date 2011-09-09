@@ -33,7 +33,8 @@ public class WorldTile {
     public enum TerrainType {
         TERRAIN_FORREST,
         TERRAIN_PLAIN,
-        TERRAIN_WATER
+        TERRAIN_WATER,
+        TERRAIN_ROCK    //Valid for undeground areas only
     }
 
     public float moisture = 0.0f;
@@ -231,6 +232,12 @@ public class WorldTile {
     public boolean is_blocked(){
 
         if (terrain_type == TerrainType.TERRAIN_WATER){
+            return true;
+        }
+        //TODO: allow to move in a shale water? (low depth)
+        //TODO: show message in the deep water
+        
+        if (terrain_type == TerrainType.TERRAIN_ROCK){
             return true;
         }
 

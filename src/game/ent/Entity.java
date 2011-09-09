@@ -56,6 +56,8 @@ public class Entity implements Comparable {
     private WorldChunk chunk = null;
 
     private boolean blocking = false;
+    
+    protected String name = "undefined";
 
     /*
      * This flag indicates that this entity is no longer required by WorldModel
@@ -121,6 +123,10 @@ public class Entity implements Comparable {
 
     public void set_uid(int uid) {
         this.uid = uid;
+    }
+
+    String getName() {
+        return name;
     }
 
     public enum Orientation {
