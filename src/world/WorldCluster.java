@@ -5,7 +5,10 @@
 
 package world;
 
+import ne.Game;
+import ne.ui.NE_GUI_Minimap;
 import org.lwjgl.util.Point;
+import ui.GameUI;
 
 /**
  *
@@ -31,6 +34,13 @@ public class WorldCluster {
                     ((CLUSTER_SIZE-1)/2)
         );
         System.out.println(origin);
+
+        GameUI ui = (GameUI)(Game.get_game_mode().get_ui());
+
+        if(ui.minimap != null){
+            ui.minimap.expired = true;
+            ui.minimap.update_map();
+        }
     }
 
     public static void moveto(Point origin){

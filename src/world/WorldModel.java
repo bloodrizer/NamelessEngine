@@ -46,6 +46,7 @@ public class WorldModel implements IEventListener {
     private static Point __stack_point  = new Point(0,0);
 
     private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
+    private static boolean terrain_outdated = false;  //shows if model should rebuild terrain lightning
 
     //--------------------------------------------------------------------------
     //private static java.util.Map<Point,WorldChunk> chunk_data = Collections.synchronizedMap(new java.util.HashMap<Point,WorldChunk>(100));
@@ -183,6 +184,11 @@ public class WorldModel implements IEventListener {
             recalculate_light();
             light_outdated = false;
         }
+
+        if (terrain_outdated){
+            update_terrain();
+            terrain_outdated = false;
+        }
         
     }
 
@@ -264,6 +270,8 @@ public class WorldModel implements IEventListener {
         ground_gen.set_zindex(z_index);
         
         ground_gen.generate(origin);
+
+        terrain_outdated = true;
     }
     
 
@@ -422,9 +430,10 @@ public class WorldModel implements IEventListener {
 
         GameUI ui = (GameUI)(Game.get_game_mode().get_ui());
         
-        /*if(ui.minimap != null){
+        if(ui.minimap != null){
+            ui.minimap.expired = true;
             ui.minimap.update_map();
-        }*/
+        }
     }
 
     /*

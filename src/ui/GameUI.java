@@ -89,6 +89,8 @@ public class GameUI implements IUserInterface,  IEventListener {
         char_equip.x = WindowRender.get_window_w()-280;
         char_equip.y = 15;
 
+        char_equip.visible = false;
+
 
         /*
          * Inventory goes after quickslots, as items of inventory should have higher
@@ -140,9 +142,9 @@ public class GameUI implements IUserInterface,  IEventListener {
         //----------------------------------------------------------------------
         //potential crash there
         
-        /*minimap = new NE_GUI_Minimap();
+        minimap = new NE_GUI_Minimap();
         minimap.visible = false;
-        ui.root.add(minimap);*/
+        ui.root.add(minimap);
 
     }
 

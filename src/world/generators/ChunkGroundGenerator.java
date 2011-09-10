@@ -20,6 +20,7 @@ import world.util.NLTimer;
  * @author bloodrizer
  */
 public class ChunkGroundGenerator extends ChunkGenerator {
+    @Override
     public void generate(Point origin){
         Terrain.aquatic_tiles.clear();
 

@@ -25,6 +25,7 @@ import ne.ui.NE_GUI_FrameModern;
 import ne.ui.NE_GUI_Healthbar;
 import ne.ui.NE_GUI_Input;
 import ne.ui.NE_GUI_Label;
+import ne.ui.NE_GUI_Sprite;
 import ne.ui.NE_GUI_SpriteArea;
 import ne.ui.NE_GUI_System;
 import render.WindowRender;
@@ -77,6 +78,15 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
     public void build_ui() {
 
         EventManager.subscribe(this);
+
+        NE_GUI_Sprite background = new NE_GUI_Sprite(){{
+            sprite_name = "/ui/background.jpeg";
+            x = 0;
+            y = 0;
+            w = WindowRender.get_window_w();
+            h = WindowRender.get_window_h();
+        }};
+        ui.root.add(background);
 
         
         //logo
@@ -220,8 +230,9 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
 
     public void render() {
         //throw new UnsupportedOperationException("Not supported yet.");
-        logo.render();
+        
         get_nge_ui().render();
+        logo.render();
     }
 
 
