@@ -99,7 +99,9 @@ public class Io implements IEventListener {
         charserv_io = new IoLayer(server_params[0], Integer.parseInt(server_params[1])){
             {
                  String[] whitelist = {
-                    "0x0026"
+                    "0x0026",
+                    "0x0013"
+
                  };
                  set_whitelist(whitelist);
             }

@@ -38,7 +38,7 @@ public class GameServerLayer extends IoLayer {
 
 
          if (data[0].equals("0x0100") && data.length == 3){      //spawn player
-            System.out.println("spawning player");
+            System.out.println("spawning player @"+data[1]+","+data[2]);
 
             EPlayerLogon event = new EPlayerLogon(new Point(
                  Integer.parseInt( data[1] ),

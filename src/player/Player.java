@@ -14,7 +14,7 @@ import ne.Input;
 import ne.ui.NE_GUI_CharScreen;
 import org.lwjgl.util.Point;
 import ui.GameUI;
-import world.WorldModel;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -29,7 +29,7 @@ public class Player {
 
     static final int range = 2; //2 tiles
     
-    static int z_index = WorldModel.GROUND_LAYER; 
+    static int z_index = WorldLayer.GROUND_LAYER;
 
     static Entity player_ent = null;
     public static int character_id;

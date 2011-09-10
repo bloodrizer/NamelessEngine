@@ -35,7 +35,7 @@ public class Render {
     private static java.util.Map<String,Texture> texture_cache = Collections.synchronizedMap(new java.util.HashMap<String,Texture>(32));
 
 
-    public static Texture precache_texture(String name){
+    public static Texture precache_texture(String name, String format){
         try {
             /*Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(
                 Render.class.getResource(name).getPath()
@@ -44,7 +44,7 @@ public class Render {
 
             InputStream texture_stream = Render.class.getResourceAsStream(name);
             if (texture_stream != null){
-                texture = TextureLoader.getTexture("PNG", texture_stream);
+                texture = TextureLoader.getTexture(format, texture_stream);
             }else{
                 System.err.println("precache_texture('"+name+"') - InputStream is null!");
                 Game.stop();
@@ -62,6 +62,10 @@ public class Render {
             Game.running = false;
         }
         return null;
+    }
+
+    public static Texture precache_texture(String name){
+        return precache_texture(name,"PNG");
     }
 
     public static Texture get_texture(String name){

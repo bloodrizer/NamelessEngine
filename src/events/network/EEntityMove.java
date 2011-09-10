@@ -9,7 +9,7 @@ import events.Event;
 import game.ent.Entity;
 import org.lwjgl.util.Point;
 import player.Player;
-import world.WorldModel;
+import world.layers.WorldLayer;
 import world.WorldTile;
 
 /**
@@ -45,7 +45,7 @@ public class EEntityMove extends Event {
 
     @Override
     public void post(){
-        WorldTile tile = WorldModel.get_tile(this.to.getX(), this.to.getY());
+        WorldTile tile = entity.getLayer().get_tile(this.to.getX(), this.to.getY());
         if (!tile.is_blocked()){
             super.post();
         }

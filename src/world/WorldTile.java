@@ -9,6 +9,7 @@ import game.ent.Entity;
 import game.ent.EntityActor;
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.util.Point;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public class WorldTile {
     public float light_level = 0.0f;
+    public Point origin = null;
 
     public Entity get_active_object() {
 

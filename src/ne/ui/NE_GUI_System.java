@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import org.lwjgl.util.Point;
 import player.Player;
 import render.WindowRender;
-import world.WorldModel;
+import world.layers.WorldLayer;
 import world.WorldTile;
 import world.WorldView;
 
@@ -40,6 +40,12 @@ public class NE_GUI_System {
 
             dragable = false;
             solid = false;
+
+        }
+
+        @Override
+        public String toString(){
+            return "Root GUIElement";
         }
 
         @Override
@@ -58,7 +64,7 @@ public class NE_GUI_System {
                         
                         System.out.println("spawning building");
 
-                        if (WorldModel.tile_blocked(tile_coord)){
+                        if (WorldLayer.tile_blocked(tile_coord)){
                             return; //do not allow to build on blocked tile
                         }
 
@@ -147,16 +153,26 @@ public class NE_GUI_System {
         //return root.get_gui_element(int mx, int my);
         NE_GUI_Element elem = root.get_gui_element(mx, my);
         
-        if (elem !=null){
+        if (elem !=null && elem != root ){
             return elem;
         }
-        Point tile_coord = WorldView.getTileCoord(mx, my);
-        WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
+        //Point tile_coord = WorldView.getTileCoord(mx, my);
+        //WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY());
+
+        //TODO: check if debug enabled, couse proxies are heavy objects
+        NE_GUI_Proxy proxy = null;
+        /*if (tile!= null){
+            proxy = new NE_GUI_Proxy();
+            proxy.solid = false;
+            proxy.set_tile(tile);
+            
+            root.add(proxy);
+            
+
+            System.out.println("proxy origin is set to"+proxy.x+","+proxy.y);
+        }*/
+
         
-        //if(tile.)
-        
-        //WorldTile tile = WorldModel.get_tile(mx, my);
-        
-        return null;
+        return proxy;
     }
 }

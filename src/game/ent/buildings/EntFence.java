@@ -6,8 +6,10 @@
 package game.ent.buildings;
 
 import game.ent.Entity;
+import player.Player;
 import render.EntityRenderer;
 import render.SpriteRenderer;
+import world.layers.WorldLayer;
 import world.WorldModel;
 import world.WorldTile;
 
@@ -35,10 +37,10 @@ public class EntFence extends EntBuilding {
 
                 int id = 0;
 
-                boolean t = WorldModel.get_tile(ent.x(), ent.y()-1).has_ent(EntFence.class);
-                boolean b = WorldModel.get_tile(ent.x(), ent.y()+1).has_ent(EntFence.class);
-                boolean l = WorldModel.get_tile(ent.x()-1, ent.y()).has_ent(EntFence.class);
-                boolean r = WorldModel.get_tile(ent.x()+1, ent.y()).has_ent(EntFence.class);
+                boolean t = getLayer().get_tile(ent.x(), ent.y()-1).has_ent(EntFence.class);
+                boolean b = getLayer().get_tile(ent.x(), ent.y()+1).has_ent(EntFence.class);
+                boolean l = getLayer().get_tile(ent.x()-1, ent.y()).has_ent(EntFence.class);
+                boolean r = getLayer().get_tile(ent.x()+1, ent.y()).has_ent(EntFence.class);
 
                 if (t){
                     id = 1;
@@ -88,6 +90,10 @@ public class EntFence extends EntBuilding {
 
 
                 return id;
+            }
+
+            private WorldLayer getLayer() {
+                return WorldModel.getWorldLayer(Player.get_zindex());
             }
         };
         __render.set_texture("/render/gfx/ents/fence.png");

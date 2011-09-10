@@ -7,6 +7,7 @@ package game.ent.controller;
 
 import game.ent.Entity;
 import player.Player;
+import world.layers.WorldLayer;
 import world.WorldModel;
 
 /**
@@ -22,7 +23,7 @@ public class PlayerController extends NpcController{
             return;
         }
 
-        Entity obstacle = WorldModel.get_tile(x, y).get_obstacle();
+        Entity obstacle = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(x, y).get_obstacle();
         if(obstacle!=null && owner.get_combat() !=null){
             owner.get_combat().inflict_damage(obstacle);
         }

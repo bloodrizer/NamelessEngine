@@ -84,7 +84,7 @@ public class WorldTimer {
                     return;
                 }
                 
-                WorldTile tile = WorldModel.get_tile(spawn_point.getX(), spawn_point.getY());
+                WorldTile tile = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(spawn_point.getX(), spawn_point.getY());
                 if (tile ==null ||  tile.light_level > 0.5f){
                     return;
                     //todo: change so we would not waste our spawn chance

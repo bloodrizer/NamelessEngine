@@ -20,6 +20,8 @@ import render.DebugRenderer;
 import render.EntityRenderer;
 import world.Timer;
 import world.WorldChunk;
+import world.layers.WorldLayer;
+import world.WorldModel;
 import world.WorldTile;
 
 /**
@@ -64,6 +66,15 @@ public class Entity implements Comparable {
      * This entity will be cleared with next gc cycle.
      */
     protected boolean garbage = false;
+
+    //TODO: FIX ME FIX ME FIX ME
+    private WorldLayer layer = WorldModel.getWorldLayer(WorldLayer.GROUND_LAYER);
+
+    public void setLayer(WorldLayer layer){
+        this.layer = layer;
+    }
+
+
     public boolean is_garbage(){
         return garbage;
     }
@@ -127,6 +138,10 @@ public class Entity implements Comparable {
 
     String getName() {
         return name;
+    }
+
+    public WorldLayer getLayer() {
+        return layer;
     }
 
     public enum Orientation {

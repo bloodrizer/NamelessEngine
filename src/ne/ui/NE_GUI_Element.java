@@ -296,7 +296,7 @@ public class NE_GUI_Element {
                 NE_GUI_Element __elem = (NE_GUI_Element)elem[i];
 
                 NE_GUI_Element child_subelem = __elem.get_gui_element(mx, my);
-                if (child_subelem != null){
+                if (child_subelem != null && child_subelem.visible){
                     return child_subelem;
                 }
 

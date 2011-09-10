@@ -5,6 +5,7 @@
 
 package world;
 
+import world.layers.WorldLayer;
 import render.layers.GroundLayerRenderer;
 import render.layers.LayerRenderer;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class WorldView implements IEventListener {
     }
     
     //returns z-index of current terrain layer
-    private static int view_z_index = WorldModel.GROUND_LAYER;
+    private static int view_z_index = WorldLayer.GROUND_LAYER;
     public static void set_zindex(int z_index){
         if (z_index<0){ view_z_index = 0; }
         else if(z_index > WorldModel.LAYER_COUNT) {
@@ -68,7 +69,7 @@ public class WorldView implements IEventListener {
     }
 
 
-    public void synchronize(WorldModel model){
+    public void synchronize(WorldLayer model){
         
     }
 
@@ -76,6 +77,10 @@ public class WorldView implements IEventListener {
     public static int TILEMAP_H = 100;
 
     public static boolean DRAW_GRID = false;
+
+    private WorldLayer getLayer() {
+        return WorldModel.getWorldLayer(view_z_index);
+    }
 
     public class TextureTransition {
         public boolean[] nb = new boolean[8];  //n, w, e, s, nw, ns, ew, es
@@ -90,7 +95,7 @@ public class WorldView implements IEventListener {
         //get layer renderer based on layer_id
         //TODO: cache it, so we would not create new object every frame
                     
-        if (get_zindex() == WorldModel.GROUND_LAYER){
+        if (get_zindex() == WorldLayer.GROUND_LAYER){
             layer_renderer = new GroundLayerRenderer();
         }
         
@@ -114,10 +119,10 @@ public class WorldView implements IEventListener {
                 int chunk_y = (int)Math.floor((float)j / WorldChunk.CHUNK_SIZE);
                     //if (chunk_y<0){ chunk_y = chunk_y-1; }
 
-                if (WorldModel.get_cached_chunk(
+                if (getLayer().get_cached_chunk(
                         chunk_x,
                         chunk_y) != null){
-                    WorldTile tile = WorldModel.get_tile(i,j, get_zindex());
+                    WorldTile tile = getLayer().get_tile(i,j);
 
                     
                     //render tile
@@ -145,10 +150,9 @@ public class WorldView implements IEventListener {
         //render.render(entity);
         GL11.glColor3f(1.0f,1.0f,1.0f);
 
-        WorldTile tile = WorldModel.get_tile(
+        WorldTile tile = getLayer().get_tile(
             entity.origin.getX(),
-            entity.origin.getY(),
-            get_zindex()
+            entity.origin.getY()
         );
 
 
@@ -207,7 +211,7 @@ public class WorldView implements IEventListener {
         int y = Mouse.getY();
 
         Point tile_coord = WorldView.getTileCoord(x,y);
-        WorldTile tile = WorldModel.get_tile(tile_coord.getX(), tile_coord.getY(), get_zindex());
+        WorldTile tile = getLayer().get_tile(tile_coord.getX(), tile_coord.getY());
         if(tile==null){
             return;
         }
@@ -397,6 +401,25 @@ public class WorldView implements IEventListener {
     //--------------------------------------------------------------------------
     public void e_on_event_rollback(Event event){
       
+    }
+
+
+    /**
+     * Recieves screen coord of the entity based on the tile coord and a screen tile size
+     */
+
+    public static int get_tile_x_screen(Point origin){
+        return world2local_x(
+                (origin.getX())*TilesetRenderer.TILE_SIZE,
+                (origin.getY())*TilesetRenderer.TILE_SIZE
+        ) - (int)WorldViewCamera.camera_x;
+    }
+
+    public static int get_tile_y_screen(Point origin){
+        return world2local_y(
+                (origin.getX())*TilesetRenderer.TILE_SIZE,
+                (origin.getY())*TilesetRenderer.TILE_SIZE
+        ) - (int)WorldViewCamera.camera_y;
     }
 
 }

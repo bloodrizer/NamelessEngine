@@ -13,8 +13,10 @@ import events.network.EEntitySetPath;
 import game.ent.Entity.Orientation;
 import java.util.EventListener;
 import org.lwjgl.util.Point;
+import player.Player;
 import render.NPCRenderer;
 import world.Timer;
+import world.layers.WorldLayer;
 import world.WorldModel;
 import world.WorldTile;
 import world.util.astar.AStarPathFinder;
@@ -75,7 +77,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
     static final boolean ALLOW_DIAGONAL_MOVEMENT = true;
     private static AStarPathFinder finder = new AStarPathFinder(
-            WorldModel.tile_map,
+            WorldModel.getWorldLayer(Player.get_zindex()).tile_map,
             50,
             ALLOW_DIAGONAL_MOVEMENT
    );
@@ -83,10 +85,10 @@ public class NpcController extends BaseController implements Mover, IEventListen
     public void calculate_path(int x, int y){
 
         Point target = new Point(x,y);
-        target = WorldModel.tile_map.world2local(target);
+        target = WorldModel.getWorldLayer(Player.get_zindex()).tile_map.world2local(target);
 
         Point source = new Point(owner.origin);
-        source = WorldModel.tile_map.world2local(source);
+        source = WorldModel.getWorldLayer(Player.get_zindex()).tile_map.world2local(source);
 
         //WorldModel.clearVisited();
         try{
@@ -165,7 +167,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
         //System.out.println("converting point dest "+__dest+"to world coord");
 
-        __dest = WorldModel.tile_map.local2world(__dest);
+        __dest = WorldModel.getWorldLayer(Player.get_zindex()).tile_map.local2world(__dest);
 
         /*System.out.println("sending step [" +
             __step +
@@ -182,7 +184,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
     public void move_ent(int x, int y){
 
-        WorldTile tile = WorldModel.get_tile(x, y);
+        WorldTile tile = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(x, y);
         if (tile == null){
             return;
         }
@@ -240,7 +242,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
             }
 
             Point location = new Point(step.getX(),step.getY());
-            location = WorldModel.tile_map.local2world(location);
+            location = WorldModel.getWorldLayer(Player.get_zindex()).tile_map.local2world(location);
 
             
 

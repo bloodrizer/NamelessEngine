@@ -18,7 +18,7 @@ import org.lwjgl.util.Point;
 import player.Player;
 import render.TilesetRenderer;
 import ui.GameUI;
-import world.WorldModel;
+import world.layers.WorldLayer;
 
 import events.IEventListener;
 import game.combat.BasicCombat;
@@ -36,6 +36,7 @@ import org.lwjgl.opengl.GL11;
 import render.overlay.OverlaySystem;
 import ui.IUserInterface;
 import world.Timer;
+import world.WorldModel;
 import world.WorldTile;
 import world.WorldView;
 import world.WorldViewCamera;
@@ -153,7 +154,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         //System.out.println(tile_origin);
         if (event.type == MouseInputType.LCLICK) {
-            WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
+            WorldTile tile = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
             
             if(tile == null){
                 return;

@@ -11,7 +11,7 @@ import game.combat.Combat;
 import items.BaseItem;
 import render.EntityRenderer;
 import render.NPCRenderer;
-import world.WorldModel;
+import world.layers.WorldLayer;
 
 /**
  *  Entity, representing player on a game map
@@ -49,9 +49,6 @@ public class EntityPlayer extends EntityNPC {
                 BaseItem.produce("wood_wall", 64)
         );
         this.container.add_item(
-                BaseItem.produce("chest", 16)
-        );
-        this.container.add_item(
                 BaseItem.produce("fire", 2)
         );
         this.container.add_item(
@@ -62,6 +59,9 @@ public class EntityPlayer extends EntityNPC {
         );
         this.container.add_item(
                 BaseItem.produce("copper_coin", 10)
+        );
+        this.container.add_item(
+                BaseItem.produce("ladder", 1)
         );
         //System.out.println(branch.get_container());
 
@@ -101,11 +101,11 @@ public class EntityPlayer extends EntityNPC {
     public void e_on_change_item(){
         if (get_active_item() != null && get_active_item().get_type().equals("torch")){
              light_amt = 4.0f;
-             WorldModel.invalidate_light();
+             WorldLayer.invalidate_light();
         }else{
              if (light_amt != 0.0f){
                 light_amt = 0.0f;
-                WorldModel.invalidate_light();
+                WorldLayer.invalidate_light();
             }
         }
 

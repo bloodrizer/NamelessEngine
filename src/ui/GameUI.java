@@ -33,6 +33,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Point;
 import player.Player;
 import render.WindowRender;
+import world.layers.WorldLayer;
 import world.WorldModel;
 import world.WorldTile;
 import world.WorldView;
@@ -218,7 +219,11 @@ public class GameUI implements IUserInterface,  IEventListener {
         }
 
         Point tile_origin = WorldView.getTileCoord(event.origin);
-        WorldTile tile = WorldModel.get_tile(tile_origin.getX(), tile_origin.getY());
+        WorldTile tile = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
+        if (tile == null){
+            System.out.println("no loaded tile at this position");
+            return;
+        }
 
         Entity ent = tile.get_active_object();
         if (ent == null){

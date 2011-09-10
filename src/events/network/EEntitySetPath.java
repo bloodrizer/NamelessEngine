@@ -7,7 +7,7 @@ package events.network;
 
 import game.ent.Entity;
 import org.lwjgl.util.Point;
-import world.WorldModel;
+import world.layers.WorldLayer;
 import world.WorldTile;
 
 /**
@@ -42,7 +42,7 @@ public class EEntitySetPath extends NetworkEvent {
 
     @Override
     public void post(){
-        WorldTile tile = WorldModel.get_tile(this.to.getX(), this.to.getY());
+        WorldTile tile = entity.getLayer().get_tile(this.to.getX(), this.to.getY());
         if (tile!=null && !tile.is_blocked()){
             super.post();
         }

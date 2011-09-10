@@ -10,6 +10,7 @@ import java.util.Random;
 import org.lwjgl.util.Point;
 import world.Terrain;
 import world.WorldChunk;
+import world.layers.WorldLayer;
 import world.WorldModel;
 import world.WorldTile;
 import world.WorldTile.TerrainType;
@@ -23,8 +24,6 @@ public class ChunkGroundGenerator extends ChunkGenerator {
     @Override
     public void generate(Point origin){
         Terrain.aquatic_tiles.clear();
-
-        System.out.println("loading chunk @"+origin.getX()+","+origin.getY());
 
         NLTimer.push();
 
@@ -53,7 +52,7 @@ public class ChunkGroundGenerator extends ChunkGenerator {
         for (int i = x - OFFSET; i<x+size+OFFSET; i++ ){
             for (int j = y - OFFSET; j<y+size+OFFSET; j++){
                 if ( i>= x && i<x+size && j >=y && j < y+size){
-                    WorldTile tile = build_chunk_tile(i,j, chunk_random);
+                    build_chunk_tile(i,j, chunk_random);
                 }
 
                 if (Terrain.is_lake(Terrain.get_height(i, j))){
@@ -61,6 +60,7 @@ public class ChunkGroundGenerator extends ChunkGenerator {
                 }
             }
         }
+
         //---------------------------------------------------------------------
         //Step 2. Generate moisture map and biomes
         /*
@@ -75,7 +75,7 @@ public class ChunkGroundGenerator extends ChunkGenerator {
         for (int i = x; i<x+size; i++){
             for (int j = y; j<y+size; j++)
             {
-                WorldTile tile = WorldModel.get_tile(i, j, z_index);
+                WorldTile tile = getLayer().get_tile(i, j);
                 tile.moisture = Terrain.get_moisture(i, j);
                 tile.update_biome_type();
 
@@ -84,6 +84,7 @@ public class ChunkGroundGenerator extends ChunkGenerator {
                     tile.set_tile_id(biome_id);
                 }
                 //TODO: this part probably need some future refactoring
+
                 TreeGenerator.generate_object(i, j, tile, chunk_random);
                 StoneGenerator.generate_object(i, j, tile, chunk_random);
                 GrassGenerator.generate_object(i, j, tile, chunk_random);
@@ -105,19 +106,22 @@ public class ChunkGroundGenerator extends ChunkGenerator {
         for (int i = x+1; i<x+size-1; i++){
             for (int j = y+1; j<y+size-1; j++)
             {
-                WorldTile ref_tile = WorldModel.get_tile(i, j, z_index);
+                WorldTile ref_tile = getLayer().get_tile(i, j);
 
                 for (int k = i-1; k<i+1; k++){
                     for (int l = j-1; l<j+1; k++){
                         if(k==i||l==j){ return; }
 
-                        WorldTile nb_tile = WorldModel.get_tile(k, l, z_index);
+                        WorldTile nb_tile = getLayer().get_tile(k, l);
                         if (ref_tile.biome_type.get_zindex() > nb_tile.biome_type.get_zindex()){
                             ///save this shit
                         }
                     }
                 }
-                /*
+                //generate shit there
+            }
+        }
+    /*
                  * pseudocode:
                  *
                  * get n,s,w,e,ns,ne,ws,we
@@ -126,12 +130,15 @@ public class ChunkGroundGenerator extends ChunkGenerator {
                  *
                  * assign index, so we could apply mask later
                  */
-            }
-        }
+    }
+
+    private WorldLayer getLayer() {
+        return WorldModel.getWorldLayer(z_index);
     }
     
     //--------------------------------------------------------------------------
     private WorldTile build_chunk_tile(int i, int j, Random chunk_random){
+
         int tile_id = 0;
         int height = Terrain.get_height(i,j);
 
@@ -140,9 +147,11 @@ public class ChunkGroundGenerator extends ChunkGenerator {
         }
 
         WorldTile tile = new WorldTile(tile_id);
+        Point origin = new Point(i,j);
+        tile.origin = origin;
                 //important!
                 //tile should be registered before any action is performed on it
-        WorldModel.set_tile(new Point(i,j), tile, z_index);
+        getLayer().set_tile(origin, tile);
         tile.set_height(height);
 
          if (Terrain.is_lake(tile)){
