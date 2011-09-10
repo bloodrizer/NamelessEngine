@@ -20,6 +20,8 @@ import org.lwjgl.util.Point;
 public class WorldRegion {
     public static int REGION_SIZE = 5;
     
+    public Point origin = new Point(0,0);
+    
     /*
      * Returns region coord based on the region tile coord.
      * (0,0) tile equivalent to (0,0) chunk and simillary to the (0,0) region
@@ -36,5 +38,11 @@ public class WorldRegion {
          * get_chunk_coord creates safe object anyway
          */
         return chunk_coord;
+    }
+    
+    //load Region data from server side
+    //for now just generate it procedural way
+    public void load_data(){
+        
     }
 }

@@ -5,6 +5,7 @@
 
 package ne.effects;
 
+import events.ENotificationMessage;
 import events.ETakeDamage;
 import events.ETooltipShow;
 import events.Event;
@@ -47,6 +48,12 @@ public class EffectsSystem implements IEventListener{
         if (event instanceof ETakeDamage){
             root.add(new FXDamage(
                 (ETakeDamage)event
+            ));
+        }
+        
+        if (event instanceof ENotificationMessage){
+            root.add(new FXMessage(
+                (ENotificationMessage)event
             ));
         }
     }

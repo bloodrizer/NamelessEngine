@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import events.ENotificationMessage;
 import game.combat.BasicCombat;
 import game.combat.Combat;
 import items.BaseItem;
@@ -109,6 +110,12 @@ public class EntityPlayer extends EntityNPC {
         }
 
         
+    }
+    
+    @Override
+    public void die(Entity killer){
+        super.die(killer);
+        ENotificationMessage msg = new ENotificationMessage("You were killed by a "+killer.getName());
     }
 
 }
