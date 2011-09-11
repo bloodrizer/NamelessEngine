@@ -11,5 +11,13 @@ package game.social;
  * Basic class, handling Village data
  */
 public class Village {
-    public String name;
+    private String name;
+
+    public Village(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

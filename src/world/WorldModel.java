@@ -15,6 +15,7 @@ import game.ent.EntityManager;
 import game.ent.decals.EntDecalBlood;
 import org.lwjgl.util.Point;
 import world.layers.WorldLayer;
+import world.util.LazyLoadWorldElement;
 
 /**
  *
@@ -41,6 +42,27 @@ public class WorldModel implements IEventListener {
             worldLayers.put(i, layer);
         }
     }
+
+    /**
+    * Load region data from server including village assigment, ownership and so on
+    *
+    * origin - location of region block, e.g. [-1,1]
+    */
+    public static LazyLoadWorldElement<WorldRegion> worldRegions =
+    new LazyLoadWorldElement<WorldRegion>(){
+        @Override
+        protected WorldRegion precache(Point origin) {
+
+                WorldRegion region = new WorldRegion();
+                region.origin.setLocation(origin);
+
+                //TODO: load region from some external storage
+                //(i.e. use server API)
+                region.load_data();
+                return region;
+        }
+    };
+
 
 
 
@@ -70,7 +92,7 @@ public class WorldModel implements IEventListener {
            //-------------------------------------------------------------------
            WorldChunk new_chunk = getLayer().get_cached_chunk(WorldChunk.get_chunk_coord(spawn_event.ent.origin));
 
-           System.out.println("setting new chunk for a spawned entity");
+           //System.out.println("setting new chunk for a spawned entity");
 
            EEntityChangeChunk e_change_chunk = new EEntityChangeChunk(spawn_event.ent,null,new_chunk);
            e_change_chunk.post();
@@ -104,7 +126,7 @@ public class WorldModel implements IEventListener {
 
            EEntityChangeChunk e_change_chunk = (EEntityChangeChunk)event;
 
-           System.err.println("setting new chunk @ for ent "+Entity.toString(e_change_chunk.ent));
+           //System.err.println("setting new chunk @ for ent "+Entity.toString(e_change_chunk.ent));
 
            Entity ent = e_change_chunk.ent;
            //ent.set_chunk(e_change_chunk.to);
@@ -131,6 +153,9 @@ public class WorldModel implements IEventListener {
                    blood.spawn(dmg_origin);
 
                    //TODO: set random dx, dy for more natural blood drops?
+               }else{
+                   EntDecalBlood blood = (EntDecalBlood)tile.getEntity(EntDecalBlood.class);
+                   blood.nextTile();
                }
            }
        }

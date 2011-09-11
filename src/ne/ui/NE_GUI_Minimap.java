@@ -5,6 +5,11 @@
 
 package ne.ui;
 
+import org.newdawn.slick.Color;
+import render.overlay.OverlaySystem;
+import org.newdawn.slick.TrueTypeFont;
+import render.Render;
+import org.lwjgl.util.Point;
 import world.WorldModel;
 import render.FBO;
 import player.Player;
@@ -27,6 +32,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
 
     //static final boolean fbo_enabled = GLContext.getCapabilities().GL_EXT_framebuffer_object;
     FBO fbo;
+    TrueTypeFont village_labels = OverlaySystem.precache_font(12);
     
     public static boolean expired = true;
     
@@ -38,7 +44,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
         center();
     }
 
-    
+    public final static int MINIMAP_SIZE = 420;
 
     @Override
     public void render(){
@@ -61,14 +67,51 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
         GL11.glTexCoord2f(0.0f, 0.0f);
         GL11.glVertex3f(get_x()+30, get_y()+30, 0);
         GL11.glTexCoord2f(0.0f, 1.0f);
-        GL11.glVertex3f(get_x()+450, get_y()+30, 0);
+        GL11.glVertex3f(get_x()+MINIMAP_SIZE+30, get_y()+30, 0);
         GL11.glTexCoord2f(1.0f, 1.0f);
-        GL11.glVertex3f(get_x()+450, get_y()+450, 0);
+        GL11.glVertex3f(get_x()+MINIMAP_SIZE+30, get_y()+450, 0);
         GL11.glTexCoord2f(1.0f, 0.0f);
         GL11.glVertex3f(get_x()+30, get_y()+450, 0);
         GL11.glEnd();
 
         glBindTexture(GL_TEXTURE_2D, 0);
+
+        Point regionOrigin = new Point(0,0);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                regionOrigin.setLocation(i, j);
+                WorldRegion region = WorldModel.worldRegions.get_cached(regionOrigin);
+                if (region.village != null) {
+
+                    Render.bind_texture("/render/gfx/map/village.png");
+                    GL11.glColor3f(1.0f, 1.0f, 1.0f);
+
+                    int tile_size_scaled = (int)((float)MINIMAP_SIZE / 512.0f * 34);
+
+                    int icon_x = get_x() + 30 + (int) (((float) i + 0.5f) * WorldRegion.REGION_SIZE * tile_size_scaled) - 8;
+                    int icon_y = get_y() + 30 + (int) (((float) j + 0.5f) * WorldRegion.REGION_SIZE * tile_size_scaled) - 8;
+                    int icon_h = 16;
+                    int icon_w = 16;
+
+                    GL11.glBegin(GL11.GL_QUADS);        //<-- white quad there
+
+
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f(icon_x, icon_y, 0);
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f(icon_x + icon_w, icon_y, 0);
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f(icon_x + icon_w, icon_y + icon_h, 0);
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f(icon_x, icon_y + icon_h, 0);
+                    GL11.glEnd();
+
+
+                    village_labels.drawString(icon_x + 18, icon_y, region.village.getName(), Color.black);
+                }
+            }
+        }
 
     }
 
@@ -126,7 +169,23 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
         
         for( int i=0; i<3; i++)
             for (int j=0; j<3; j++){
+                
+                int region_x = i * WorldRegion.REGION_SIZE * 34;
+                int region_y = j * WorldRegion.REGION_SIZE * 34;
+                int region_w = 34*WorldRegion.REGION_SIZE;
+                int region_h = 34*WorldRegion.REGION_SIZE;
 
+                glPolygonMode ( GL_FRONT_AND_BACK, GL_LINE ) ;
+                glBegin(GL11.GL_QUADS);        //<-- draw region quad
+                
+                glColor4f(0.0f,0.0f,0.0f,1.0f);
+
+                glVertex3f(region_x, region_y, 0);
+                glVertex3f(region_x + region_w, region_y, 0);
+                glVertex3f(region_x + region_w, region_y + region_h, 0);
+                glVertex3f(region_x, region_y + region_h, 0);
+                glEnd();
+                glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL ) ;
                 
 
                 //draw region

@@ -7,6 +7,7 @@ package world;
 
 import game.ent.Entity;
 import game.ent.EntityActor;
+import game.ent.decals.EntDecalBlood;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.Point;
@@ -31,6 +32,8 @@ public class WorldTile {
         }
         return null;
     }
+
+
 
     public enum TerrainType {
         TERRAIN_FORREST,
@@ -229,6 +232,18 @@ public class WorldTile {
             }
         }
         return false;
+    }
+
+    Entity getEntity(Class<EntDecalBlood> ent_class) {
+        Object[] list = ent_list.toArray();
+        for(int i=ent_list.size()-1; i>=0; i--){
+            Entity ent = (Entity)list[i];
+
+            if (ent_class.isInstance(ent)){
+                return ent;
+            }
+        }
+        return null;
     }
 
     public boolean is_blocked(){

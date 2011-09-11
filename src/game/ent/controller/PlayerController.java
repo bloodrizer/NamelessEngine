@@ -16,6 +16,12 @@ import world.WorldModel;
  */
 public class PlayerController extends NpcController{
 
+    public PlayerController(){
+        super();
+
+        MOVE_SPEED = 0.5f;
+    }
+
     @Override
     public void e_on_obstacle(int x, int y) {
 

@@ -26,6 +26,7 @@ import world.Terrain;
 import world.Timer;
 import world.WorldChunk;
 import world.WorldCluster;
+import world.WorldModel;
 import world.WorldRegion;
 import world.WorldTile;
 import world.WorldTimer;
@@ -69,29 +70,6 @@ public class WorldLayer{
     public Map<Point,WorldTile> tile_data = new java.util.HashMap<Point,WorldTile>(1000);
 
 
-    private static LazyLoadWorldElement<WorldRegion> world_regions = 
-    new LazyLoadWorldElement<WorldRegion>(){
-
-    /**
-     * Load region data from server including village assigment, ownership and so on
-     *
-     * origin - location of region block, e.g. [-1,1]
-     */
-    @Override
-    public WorldRegion precache(Point origin) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-            //Point region_coord = WorldRegion.get_region_coord(origin);
-            
-            WorldRegion region = new WorldRegion();
-            region.origin.setLocation(origin);
-            
-            //TODO: load region from some external storage
-            //(i.e. use server API)
-            region.load_data();
-            
-            return region;
-        }
-    };
 
     
     /*public static WorldLayer get_layer(int layer_id){
@@ -252,6 +230,20 @@ public class WorldLayer{
         ground_gen.generate(origin);
 
         terrain_outdated = true;
+
+
+        /*
+         * TODO: We can not simply load one region player is into,
+         * since the map will look dull and empty
+         *
+         * We should load large portion of regions, at least 3x3 blocks
+         */
+
+        int rx = origin.getX()/WorldRegion.REGION_SIZE;
+        int ry = origin.getY()/WorldRegion.REGION_SIZE;
+        Point regionOrigin = new Point(rx,ry);
+        WorldModel.worldRegions.get_cached(regionOrigin);
+        
     }
     
 
@@ -277,7 +269,7 @@ public class WorldLayer{
     public void move_entity(Entity entity, Point coord_dest){
         Point coord_from = new Point(entity.origin);  //defence copy
         
-        System.out.println("world model::on entity move to:"+coord_dest.toString());
+        //System.out.println("world model::on entity move to:"+coord_dest.toString());
         entity.origin.setLocation(coord_dest);
 
         if (entity.light_amt > 0.0f){

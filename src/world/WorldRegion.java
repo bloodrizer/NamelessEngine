@@ -4,6 +4,7 @@
  */
 package world;
 
+import game.social.Village;
 import org.lwjgl.util.Point;
 
 /**
@@ -21,7 +22,9 @@ public class WorldRegion {
     public static int REGION_SIZE = 5;
     
     public Point origin = new Point(0,0);
-    
+
+    public Village village = null;
+
     /*
      * Returns region coord based on the region tile coord.
      * (0,0) tile equivalent to (0,0) chunk and simillary to the (0,0) region
@@ -43,6 +46,11 @@ public class WorldRegion {
     //load Region data from server side
     //for now just generate it procedural way
     public void load_data(){
-        
+        if (Math.random()*100.0f < 35.0f){
+            //20% chance to locate zerg region
+            village = new Village("zergs");
+
+            System.out.println("Spawning ZERG willage");
+        }
     }
 }
