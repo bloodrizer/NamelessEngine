@@ -14,6 +14,7 @@ import ne.io.Io;
 import ne.ui.NE_GUI_System;
 import render.Render;
 import render.overlay.OverlaySystem;
+import render.overlay.VersionOverlay;
 import ui.IUserInterface;
 import ui.MainMenuUI;
 
@@ -27,7 +28,13 @@ public class ModeMainMenu implements IGameMode {
 
     public void run(){
         //gui = new NE_GUI_System();
-        overlay = new OverlaySystem();
+        overlay = new OverlaySystem(){
+            @Override
+            public void render() {
+                VersionOverlay.render();
+            }
+
+        };
 
         Render.set_cursor("/render/ico_default.png");
     }
