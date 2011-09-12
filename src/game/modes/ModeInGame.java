@@ -33,6 +33,8 @@ import ne.effects.EffectsSystem;
 import ne.io.Io;
 import ne.ui.NE_GUI_System;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import render.overlay.DebugOverlay;
 import render.overlay.OverlaySystem;
 import ui.IUserInterface;
 import world.Timer;
@@ -126,6 +128,12 @@ public class ModeInGame implements IGameMode, IEventListener {
         
         get_ui().update();
         get_ui().render();
+
+
+        //----------show pathfinding route for every entity (debug)------------
+
+        //OverlaySystem.drawLine(10, 10, 250, 250, Color.red);
+        DebugOverlay.debugPathfinding();
 
         overlay.render();
 

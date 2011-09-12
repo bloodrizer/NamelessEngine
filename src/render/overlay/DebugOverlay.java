@@ -10,6 +10,7 @@ import game.ent.EntityManager;
 import game.ent.controller.IEntityController;
 import game.ent.controller.NpcController;
 import java.util.ArrayList;
+import ne.Input;
 import org.lwjgl.util.Point;
 import org.newdawn.slick.Color;
 import player.Player;
@@ -40,47 +41,7 @@ public class DebugOverlay {
                     + WorldTimer.datetime.getTime()
             , Color.white);
 
-        //----------show pathfinding route for every entity (debug)------------
         
-        Point tileFrom = new Point(0,0);
-        Point tileTo = new Point(0,0);
-        
-        Entity[] entList = EntityManager.getEntities(WorldView.get_zindex());
-        for (Entity ent: entList){
-            IEntityController controller = ent.controller;
-            //SO FAR WE ONLY DEBUG PLAYER
-            if (ent == Player.get_ent() && controller != null && controller instanceof NpcController){
-                NpcController npc_controller = (NpcController)controller;
-                
-                if (npc_controller.path == null){
-                    continue;
-                }
-                
-                if (npc_controller.path.steps.size() > 1){
-                    System.out.println("drawing "+npc_controller.path.steps.size()+"debug steps");
-                }
-          
-                Step prevStep = new Step(ent.origin.getX(), ent.origin.getY());
-                //TODO: step[0] is fucking incorrect, replace it with origin
-                
-                for (Step step: (ArrayList<Step>)(npc_controller.path).steps){
-                    
-                    if (step == npc_controller.path.steps.get(0)){
-                        continue;
-                    }
-                    
-                    tileFrom.setLocation(prevStep);
-                    tileFrom = WorldModel.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileFrom);
-                    
-                    tileTo.setLocation(step);
-                    tileTo = WorldModel.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileTo);
-                    
-                    OverlaySystem.drawLine(tileFrom, tileTo, Color.red);
-                    
-                    prevStep = step;
-                }
-            }
-        }
         
         //-----------------------------------
 
@@ -95,6 +56,52 @@ public class DebugOverlay {
         Color.white);
         
         OverlaySystem.ttf.drawString(WindowRender.get_window_w()-100 , 10, "z-index: " + WorldView.get_zindex(), Color.white);
+    }
+
+    public static void debugPathfinding() {
+        if (!Input.key_state_alt){
+            return;
+        }
+
+
+        Point tileFrom = new Point(0,0);
+        Point tileTo = new Point(0,0);
+
+        Entity[] entList = EntityManager.getEntities(WorldView.get_zindex());
+        for (Entity ent: entList){
+            IEntityController controller = ent.controller;
+            //SO FAR WE ONLY DEBUG PLAYER
+            if (controller != null && controller instanceof NpcController){
+                NpcController npc_controller = (NpcController)controller;
+
+                if (npc_controller.path == null){
+                    continue;
+                }
+                Step prevStep = new Step(ent.origin.getX(), ent.origin.getY());
+
+                for (int i=0; i<npc_controller.path.steps.size();i++){
+
+                    Step step = (Step)npc_controller.path.steps.get(i);
+
+                    tileFrom.setLocation(prevStep);
+                    if (i>0){
+                        //root step is entity origin, which is allready in world coord system. So we do not recalculdate it.
+                        tileFrom = WorldModel.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileFrom);
+                    }
+
+                    tileTo.setLocation(step);
+                    tileTo = WorldModel.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileTo);
+
+                    if (ent == Player.get_ent()){
+                        OverlaySystem.drawLine(tileFrom, tileTo, Color.red);
+                    }else{
+                        OverlaySystem.drawLine(tileFrom, tileTo, Color.green);
+                    }
+
+                    prevStep = step;
+                }
+            }
+        }
     }
 
 }

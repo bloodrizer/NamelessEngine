@@ -79,6 +79,9 @@ public class GameServerLayer extends IoLayer {
                     Entity mplayer_ent = new EntityNPC();
                     mplayer_ent.set_controller(new NpcController());
 
+                    //FIXMEFIXMEFIXME
+                    mplayer_ent.setLayerId(Player.get_zindex());
+
 
                     //EntityManager.add(mplayer_ent);       ?
                     mplayer_ent.spawn(Integer.parseInt( data[2] )    //uid

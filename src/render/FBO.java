@@ -48,6 +48,10 @@ public class FBO {
             Properties p = new Properties();
             p.load(new FileInputStream("client.ini"));
             use_fbo = p.getProperty("fbo_enabled");
+
+            if (use_fbo == null){
+                use_fbo = "1";
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

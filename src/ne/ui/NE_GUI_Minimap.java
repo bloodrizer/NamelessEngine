@@ -244,8 +244,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
 
                 }//region chunks loop
         }
-        
-        
+
     }
 
     @Override

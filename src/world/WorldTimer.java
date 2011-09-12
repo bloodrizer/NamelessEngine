@@ -70,7 +70,7 @@ public class WorldTimer {
             //if !(WorldCamera.tile_in_fov()){ //etc
 
             int chance = (int)(Math.random()*100);
-            if(chance < 90 ){
+            if(chance < 90 && Player.get_ent() != null){
                 
                 Point spawn_point = new Point(
                         Player.get_ent().origin.getX() + (int)(Math.random()*60-30),

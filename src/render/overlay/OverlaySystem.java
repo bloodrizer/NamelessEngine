@@ -55,22 +55,33 @@ public class OverlaySystem {
         int y2 = WorldView.get_tile_y_screen(tileCoord2);
         
         System.out.println("drawing line from "+tileCoord1+" to "+tileCoord2);
-        System.out.println("drawing line from ["+x1+","+y1+"] to ["+x2+","+y2+"]");
+        
         
         drawLine(x1,y1,x2,y2, color);
     }
     
     public static void drawLine(int x1, int y1, int x2, int y2, Color color){
+
+        System.out.println("drawing line from ["+x1+","+y1+"] to ["+x2+","+y2+"]");
+
+        glEnable(GL_POINT_SMOOTH);
+        glDisable(GL_TEXTURE_2D);
         
-        glLineWidth(4.0f);
-        
+        glLineWidth(4);
+
+        glBegin(GL_LINES);
         glColor3f(color.r, color.g, color.b);
-        glBegin(GL_LINE);
-        glVertex2d(x1, y1);
-        glVertex2d(x2, y2);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
         glEnd();
-        
-        glLineWidth(1.0f);
+
+        glPointSize(8);
+        glBegin(GL_POINTS);
+        glColor3f(1, 0, 0);
+        glVertex2f(x2, y2);
+        glEnd();
+
+        glEnable(GL_TEXTURE_2D);
     }
 
     public static TrueTypeFont precache_font(String filename, int size){

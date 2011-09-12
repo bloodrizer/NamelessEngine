@@ -149,6 +149,7 @@ public class WorldModel implements IEventListener {
                WorldTile tile = getLayer().get_tile(dmg_origin.getX(), dmg_origin.getY());
                if (!tile.has_ent(EntDecalBlood.class)){
                    EntDecalBlood blood = new EntDecalBlood();
+                   blood.setLayerId(dmg_event.ent.getLayerId());
                    blood.spawn(dmg_origin);
 
                    //TODO: set random dx, dy for more natural blood drops?
