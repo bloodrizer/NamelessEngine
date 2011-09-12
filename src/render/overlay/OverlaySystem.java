@@ -54,7 +54,10 @@ public class OverlaySystem {
         int x2 = WorldView.get_tile_x_screen(tileCoord2);
         int y2 = WorldView.get_tile_y_screen(tileCoord2);
         
-        drawLine(x1,x2,y1,y2, color);
+        System.out.println("drawing line from "+tileCoord1+" to "+tileCoord2);
+        System.out.println("drawing line from ["+x1+","+y1+"] to ["+x2+","+y2+"]");
+        
+        drawLine(x1,y1,x2,y2, color);
     }
     
     public static void drawLine(int x1, int y1, int x2, int y2, Color color){

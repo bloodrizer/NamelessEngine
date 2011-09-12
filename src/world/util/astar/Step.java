@@ -5,12 +5,13 @@
 package world.util.astar;
 
 import org.lwjgl.util.Point;
+import org.lwjgl.util.WritablePoint;
 
 /** A single step within the path
  *
  * @author Kevin Glass
  */
-public class Step {
+public class Step implements org.lwjgl.util.ReadablePoint{
 
     /** The x coordinate at the given step */
     int x;
@@ -80,5 +81,9 @@ public class Step {
         }
 
         return false;
+    }
+
+    public void getLocation(WritablePoint wp) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
