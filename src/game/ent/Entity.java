@@ -31,34 +31,28 @@ import world.WorldTile;
 public class Entity implements Comparable {
 
     public Point origin;
-
     public WorldTile tile;  //the tile entity is currently assigned to
     /*
      * Combat handles all in-game combat mechanic, as stats, damage infliction and damage taking
      */
     protected Combat combat;
-
     protected AI ai;
 
     /*
      * This is an entity offset in tile coord system
      * It's used to allow smooth entity movement from tile to tile - for a player using NPC controller or for a npc using lerp
      */
-
-    public float light_amt = 0.0f;
-    
     public float dx = 0.0f;
     public float dy = 0.0f;
-
+    
+    public float light_amt = 0.0f;
     private int uid = 0;
     private long next_think;
 
     public IEntityController controller;
-
     private WorldChunk chunk = null;
-
-    private boolean blocking = false;
     
+    private boolean blocking = false;
     protected String name = "undefined";
 
     /*
@@ -69,6 +63,14 @@ public class Entity implements Comparable {
 
     //TODO: FIX ME FIX ME FIX ME
     private int layer_id = -1;
+    
+    public enum Orientation {
+        ORIENT_N,
+        ORIENT_W,
+        ORIENT_S,
+        ORIENT_E
+    }
+    public Orientation orientation = Orientation.ORIENT_N;
 
 
     public boolean is_garbage(){
@@ -127,13 +129,21 @@ public class Entity implements Comparable {
 
         return hc_this - hc_ent;
     }
+    
+    public int get_uid(){
+        return this.uid;
+    }
 
     public void set_uid(int uid) {
         this.uid = uid;
     }
 
-    String getName() {
+    public String getName() {
         return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -147,18 +157,6 @@ public class Entity implements Comparable {
 
     public WorldLayer getLayer() {
         return WorldModel.getWorldLayer(layer_id);
-    }
-
-    public enum Orientation {
-        ORIENT_N,
-        ORIENT_W,
-        ORIENT_S,
-        ORIENT_E
-    }
-    public Orientation orientation = Orientation.ORIENT_N;
-
-    public int get_uid(){
-        return this.uid;
     }
 
     //--------------------------------------------------------------------------

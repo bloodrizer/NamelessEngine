@@ -20,6 +20,7 @@ import ne.ui.NE_GUI_Label;
 import ne.ui.NE_GUI_Sprite;
 import ne.ui.NE_GUI_SpriteArea;
 import ne.ui.NE_GUI_System;
+import player.CharacterInfo;
 import render.WindowRender;
 
 
@@ -187,7 +188,13 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
             char_button = new NE_GUI_Button() {
                 @Override
                 public void e_on_mouse_click(EMouseClick e){
-                    ESelectCharacter event = new ESelectCharacter();
+                    
+                    //TODO: actually populate character infos list from server
+                    
+                    CharacterInfo chrInfo = new CharacterInfo();
+                    chrInfo.name = login_input.text;
+                    
+                    ESelectCharacter event = new ESelectCharacter(chrInfo);
                     event.post();
                 }
             };

@@ -43,7 +43,10 @@ public class GameServerLayer extends IoLayer {
             EPlayerLogon event = new EPlayerLogon(new Point(
                  Integer.parseInt( data[1] ),
                  Integer.parseInt( data[2] )
-            ));
+            )
+                    //TODO: store character list from server to get their name/sex/stats into CharacterInfo list
+                    //inject this params into EPlayerLogon event
+            );
             event.post();
          }
 

@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import ne.Input;
 import ne.io.Io;
 import ne.ui.NE_GUI_System;
+import player.CharacterInfo;
 import render.Render;
 import render.overlay.OverlaySystem;
 import render.overlay.VersionOverlay;
@@ -94,7 +95,10 @@ public class ModeMainMenu implements IGameMode, IEventListener {
         if (event instanceof EPlayerAuthorise && FORCE_AUTOLOGIN){
             event.dispatch();   //TODO: check if it would conflict with gui subsystem
             
-            ESelectCharacter selectChrEvent = new ESelectCharacter();
+            CharacterInfo chrInfo = new CharacterInfo();
+            chrInfo.name = "PlayerName(debug)";
+            
+            ESelectCharacter selectChrEvent = new ESelectCharacter(chrInfo);
             selectChrEvent.post();
         }
     }

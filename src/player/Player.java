@@ -33,6 +33,10 @@ public class Player {
 
     static Entity player_ent = null;
     public static int character_id;
+    
+    public static CharacterInfo characterInfo = null;
+    
+    
     public static void set_ent(Entity ent){
         player_ent = ent;
         ent.set_uid(character_id);  //special hack to synchronize client-side entity_id and server_side entity_id

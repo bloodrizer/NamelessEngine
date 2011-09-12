@@ -5,7 +5,7 @@
 
 package events.network;
 
-import events.network.NetworkEvent;
+
 import org.lwjgl.util.Point;
 
 /**

@@ -82,9 +82,17 @@ public class ModeInGame implements IGameMode, IEventListener {
         
     }
 
-    void spawn_player(Point location){
+    void spawn_player(EPlayerLogon event){
+        
+        Point location = event.origin;
+        
         Entity player_ent = new EntityPlayer();
-        EntityManager.add(player_ent, Player.get_zindex()); //hope it will work
+        player_ent.setName(Player.characterInfo.name);
+        //player_ent.setName(event.charInfo.name);
+        
+        //TODO: extract player information from the event
+        
+        EntityManager.add(player_ent, Player.get_zindex());
         player_ent.spawn(12345, location);
 
         WorldViewCamera.target.setLocation(location);
@@ -138,7 +146,7 @@ public class ModeInGame implements IGameMode, IEventListener {
     public void e_on_event(Event event){
 
        if (event instanceof EPlayerLogon){
-           spawn_player(((EPlayerLogon)event).origin);
+           spawn_player(((EPlayerLogon)event));
        }
        else if(event instanceof EMouseClick){
            e_on_mouse_click(((EMouseClick)event));

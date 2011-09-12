@@ -5,7 +5,8 @@
 
 package events.network;
 
-import events.network.NetworkEvent;
+import player.CharacterInfo;
+import player.Player;
 
 /**
  *
@@ -19,7 +20,8 @@ public class ESelectCharacter extends NetworkEvent{
     }
 
     int char_id = 123;
-    public ESelectCharacter(){
+    public ESelectCharacter(CharacterInfo characterInfo){
+        Player.characterInfo = characterInfo;
     }
 
 
