@@ -5,6 +5,11 @@
 
 package render.overlay;
 
+import game.ent.Entity;
+import game.ent.EntityManager;
+import game.ent.controller.IEntityController;
+import game.ent.controller.NpcController;
+import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import player.Player;
 import render.WindowRender;
@@ -12,6 +17,7 @@ import world.Timer;
 import world.WorldTimer;
 import world.WorldView;
 import world.WorldViewCamera;
+import world.util.astar.Step;
 
 public class DebugOverlay {
 
@@ -32,21 +38,28 @@ public class DebugOverlay {
                     + WorldTimer.datetime.getTime()
             , Color.white);
 
-        //----------player debug------------
-
-        /*if (Player.get_ent() != null){
-            NpcController npc_controller = (NpcController)Player.get_ent().controller;
-
-            OverlaySystem.ttf.drawString(10, 25, "Player dest:" + npc_controller.destination + " path:" +
-                   npc_controller.path + ";" +
-                   " Step:" + npc_controller.step
-            , Color.white);
-            
-            OverlaySystem.ttf.drawString(10, 45, "ft: "
-                    + ""+ Player.get_ent().frame_time_ms +
-                    " ;nft:"+(Player.get_ent().next_frame-Timer.get_time())
-            , Color.white);
-        }*/
+        //----------show pathfinding route for every entity (debug)------------
+        
+        Entity[] entList = EntityManager.getEntities(WorldView.get_zindex());
+        for (Entity ent: entList){
+            IEntityController controller = ent.controller;
+            if (controller != null && controller instanceof NpcController){
+                NpcController npc_controller = (NpcController)controller;
+                
+                if (npc_controller.path == null){
+                    continue;
+                }
+                
+                Step prevStep = new Step(ent.x(), ent.y());
+                
+                for (Step step: (ArrayList<Step>)(npc_controller.path).steps){
+                    OverlaySystem.drawLine(prevStep.getPoint(), step.getPoint(), Color.red);
+                    
+                    prevStep = step;
+                }
+            }
+        }
+        
         //-----------------------------------
 
         OverlaySystem.ttf.drawString(10, 70, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);

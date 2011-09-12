@@ -22,7 +22,7 @@ import world.WorldTile;
 import world.util.astar.AStarPathFinder;
 import world.util.astar.Mover;
 import world.util.astar.Path;
-import world.util.astar.Path.Step;
+import world.util.astar.Step;
 
 /**
  *
@@ -163,7 +163,8 @@ public class NpcController extends BaseController implements Mover, IEventListen
     }
 
     private void notify_path(Step __step){
-        Point __dest = new Point(__step.getX(),__step.getY());
+        //Point __dest = new Point(__step.getX(),__step.getY());
+        Point __dest = __step.getPoint();
 
         //System.out.println("converting point dest "+__dest+"to world coord");
 
