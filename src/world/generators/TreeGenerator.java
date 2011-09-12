@@ -15,6 +15,7 @@ import org.lwjgl.util.Point;
 import world.WorldTile;
 import world.WorldTile.BiomeType;
 import world.WorldTile.TerrainType;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -76,7 +77,7 @@ public class TreeGenerator extends ObjectGenerator {
 
     public static void add_tree(int i, int j){
         EntityTree tree_ent = new EntityTree();
-        EntityManager.add(tree_ent);
+        EntityManager.add(tree_ent, WorldLayer.GROUND_LAYER);
         tree_ent.spawn(1, new Point(i,j));
 
         tree_ent.set_blocking(true);    //obstacle
@@ -84,7 +85,7 @@ public class TreeGenerator extends ObjectGenerator {
     public static void add_cacti(int i, int j){
 
         EntityCacti tree_ent = new EntityCacti();
-        EntityManager.add(tree_ent);
+        EntityManager.add(tree_ent, WorldLayer.GROUND_LAYER);
         tree_ent.spawn(1, new Point(i,j));
 
         tree_ent.set_blocking(true);    //obstacle

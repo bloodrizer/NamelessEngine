@@ -9,6 +9,7 @@ import game.ent.enviroment.EntityStone;
 import java.util.Random;
 import org.lwjgl.util.Point;
 import world.WorldTile;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -19,7 +20,7 @@ public class StoneGenerator extends ObjectGenerator {
          if (chunk_random.nextFloat()*100<0.25f){
 
              EntityStone stone_ent = new EntityStone();
-             EntityManager.add(stone_ent);
+             EntityManager.add(stone_ent, WorldLayer.GROUND_LAYER);
              stone_ent.spawn(new Point(x,y));
 
              stone_ent.set_blocking(true);

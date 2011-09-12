@@ -33,10 +33,10 @@ public class Fov {
      * Note that it is a heavy operation and you should not overuse it.
      */
 
-    public static Entity[] get_entity_in_radius(Point origin, int range){
+    public static Entity[] get_entity_in_radius(Point origin, int range, int layer_id){
         ArrayList<Entity> list = new ArrayList<Entity>(5);
 
-        Entity[] ents = EntityManager.get_entities();
+        Entity[] ents = EntityManager.getEntities(layer_id);
         for(int i=0; i< ents.length; i++){
             if(in_range(origin, ents[i].origin,range)){
                 list.add(ents[i]);

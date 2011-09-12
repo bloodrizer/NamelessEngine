@@ -68,11 +68,7 @@ public class Entity implements Comparable {
     protected boolean garbage = false;
 
     //TODO: FIX ME FIX ME FIX ME
-    private WorldLayer layer = WorldModel.getWorldLayer(WorldLayer.GROUND_LAYER);
-
-    public void setLayer(WorldLayer layer){
-        this.layer = layer;
-    }
+    private int layer_id = -1;
 
 
     public boolean is_garbage(){
@@ -140,8 +136,17 @@ public class Entity implements Comparable {
         return name;
     }
 
+
+    public void setLayerId(int layer_id) {
+        this.layer_id = layer_id;
+    }
+    
+    public int getLayerId(){
+        return layer_id;
+    }
+
     public WorldLayer getLayer() {
-        return layer;
+        return WorldModel.getWorldLayer(layer_id);
     }
 
     public enum Orientation {
@@ -158,7 +163,11 @@ public class Entity implements Comparable {
 
     //--------------------------------------------------------------------------
     public void spawn(int uid, Point origin){
-        EntityManager.add(this);
+        if (layer_id <0){
+            throw new RuntimeException("Spawning entity without correct layerID");
+        }
+        
+        EntityManager.add(this, layer_id);
 
         this.uid = uid;
         this.origin = origin;

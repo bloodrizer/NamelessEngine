@@ -11,6 +11,7 @@ import items.BaseItem;
 import java.util.Random;
 import org.lwjgl.util.Point;
 import world.WorldTile;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -31,6 +32,7 @@ public class ChestGenerator extends ObjectGenerator {
 
     public static void add_chest(int i, int j){
         EntChest chest = new EntChest();
+        chest.setLayerId(WorldLayer.GROUND_LAYER);
         chest.spawn(new Point(i,j));
 
         chest.set_blocking(true);    //obstacle

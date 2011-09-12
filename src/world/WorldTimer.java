@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.vector.Vector3f;
 import player.Player;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -91,6 +92,7 @@ public class WorldTimer {
                 }
                 
                 Zombie zombie = new Zombie();
+                zombie.setLayerId(WorldLayer.GROUND_LAYER);
                 zombie.spawn(spawn_point);
                 zombie.set_ai(new BasicMobAI());
 

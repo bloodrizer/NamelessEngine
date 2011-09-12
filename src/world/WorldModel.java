@@ -25,7 +25,6 @@ public class WorldModel implements IEventListener {
 
     public static final int LAYER_COUNT = 10;    //max depth of geometry layers
 
-
     private static java.util.HashMap<Integer, WorldLayer> worldLayers
             = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
 
@@ -192,24 +191,7 @@ public class WorldModel implements IEventListener {
         //ALL LAYER-SPECIFIC ENTITIES SHOULD BE LINKED TO THE LAYER.
 
 
-        Object[] ent_list = EntityManager.ent_list_sync.toArray();
-        for(int i=EntityManager.ent_list_sync.size()-1; i>=0; i--){
-            Entity entity = (Entity)ent_list[i];
 
-            entity.update();
-
-            if (entity.is_awake(Timer.get_time())){
-                  entity.think();
-            }
-            if (entity.is_next_frame(Timer.get_time())){
-                  entity.next_frame();
-            }
-
-            if (entity.is_garbage()){
-                EntityManager.remove_entity(entity);
-                entity.tile.remove_entity(entity);
-            }
-        }
 
 
         for(WorldLayer layer: worldLayers.values()){

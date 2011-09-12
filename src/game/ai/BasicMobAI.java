@@ -32,7 +32,7 @@ public class BasicMobAI extends AI{
 
         //here is perceptron polling
 
-        Entity[] ents = Fov.get_entity_in_radius(owner.origin, 3);
+        Entity[] ents = Fov.get_entity_in_radius(owner.origin, 3, owner.getLayerId());
 
         for (int i=0; i<ents.length; i++){
 

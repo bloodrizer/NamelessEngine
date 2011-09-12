@@ -5,9 +5,14 @@
 
 package render;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
@@ -28,7 +33,30 @@ import static org.lwjgl.opengl.GL14.*;
  * @author Administrator
  */
 public class FBO {
-    public static final boolean fbo_enabled = GLContext.getCapabilities().GL_EXT_framebuffer_object;
+    
+    /*
+     * Sometimes fbo minimap rendering can result in buggy blinking screen.
+     * In such case we must disable fbo minimap directly from the config file
+     */
+    
+    public static boolean fbo_enabled = false;
+    private static String use_fbo = null;
+    
+    static
+    {
+        try {
+            Properties p = new Properties();
+            p.load(new FileInputStream("client.ini"));
+            use_fbo = p.getProperty("fbo_enabled");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        fbo_enabled = GLContext.getCapabilities().GL_EXT_framebuffer_object && (!use_fbo.equals("0"));
+    }
+    
+    
+    
 
     int fbo_id;
     public int fbo_texture_id;
@@ -63,7 +91,7 @@ public class FBO {
             //check FBO status and shit
             int status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
             if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-                System.err.println(status);
+                throw new RuntimeException("Unsupproted fbo status:"+status);
             }
 
             // switch back to window-system-provided framebuffer

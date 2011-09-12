@@ -84,7 +84,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
     void spawn_player(Point location){
         Entity player_ent = new EntityPlayer();
-        EntityManager.add(player_ent);
+        EntityManager.add(player_ent, Player.get_zindex()); //hope it will work
         player_ent.spawn(12345, location);
 
         WorldViewCamera.target.setLocation(location);

@@ -16,6 +16,7 @@ import game.combat.Damage.DamageType;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.decals.EntDecalBlood;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import ne.Game;
@@ -141,6 +142,27 @@ public class WorldLayer{
     }
 
     public void update(){
+        
+        ArrayList<Entity> entList = EntityManager.getList(z_index);
+        Object[] entArray = entList.toArray();
+        
+        for(int i=entList.size()-1; i>=0; i--){
+            Entity entity = (Entity)entArray[i];
+
+            entity.update();
+
+            if (entity.is_awake(Timer.get_time())){
+                  entity.think();
+            }
+            if (entity.is_next_frame(Timer.get_time())){
+                  entity.next_frame();
+            }
+
+            if (entity.is_garbage()){
+                EntityManager.remove_entity(entity);
+                entity.tile.remove_entity(entity);
+            }
+        }
 
 
         //here comes tricky part - recalculate light emission
@@ -159,7 +181,7 @@ public class WorldLayer{
     public void recalculate_light(){
 
 
-        Object[] ent_list = EntityManager.ent_list_sync.toArray();
+        Object[] ent_list = EntityManager.getList(z_index).toArray();
 
         int x = WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE;
         int y = WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE;

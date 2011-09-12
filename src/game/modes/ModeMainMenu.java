@@ -5,8 +5,13 @@
 
 package game.modes;
 
+import events.EPlayerAuthorise;
+import events.Event;
 import events.EventManager;
+import events.IEventListener;
+import events.network.ESelectCharacter;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ne.Input;
@@ -22,9 +27,16 @@ import ui.MainMenuUI;
  *
  * @author Administrator
  */
-public class ModeMainMenu implements IGameMode {
+public class ModeMainMenu implements IGameMode, IEventListener {
+
+    private static final boolean FORCE_AUTOLOGIN = true;    //USE THIS ONLY FOR DEBUG
+
     //private NE_GUI_System gui;
     private OverlaySystem overlay;
+    
+    public ModeMainMenu(){
+        EventManager.subscribe(this);
+    }
 
     public void run(){
         //gui = new NE_GUI_System();
@@ -37,6 +49,18 @@ public class ModeMainMenu implements IGameMode {
         };
 
         Render.set_cursor("/render/ico_default.png");
+        
+        if (FORCE_AUTOLOGIN){
+            try {
+                Io.reset();
+                Io.connect();
+                Io.login("Red", "Password");
+            } catch (SocketTimeoutException ex) {
+                Logger.getLogger(ModeMainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ModeMainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void update(){
@@ -64,5 +88,18 @@ public class ModeMainMenu implements IGameMode {
         wgt = new MainMenuUI();
 
         return wgt;
+    }
+
+    public void e_on_event(Event event) {
+        if (event instanceof EPlayerAuthorise && FORCE_AUTOLOGIN){
+            event.dispatch();   //TODO: check if it would conflict with gui subsystem
+            
+            ESelectCharacter selectChrEvent = new ESelectCharacter();
+            selectChrEvent.post();
+        }
+    }
+
+    public void e_on_event_rollback(Event event) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
