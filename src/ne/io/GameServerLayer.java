@@ -109,6 +109,8 @@ public class GameServerLayer extends IoLayer {
                                             ent_building.set_combat(new BasicCombat());
                                             //ent_building.set_blocking(true);
 
+                                            ent_building.setLayerId(Player.get_zindex()); //TODO: get layer_id from server
+
                                             ent_building.spawn( 54321           //<<<<<< UID THERE!!!!!!!!!!
                                                     , new Point(
                                                   Integer.parseInt( data[3] ),

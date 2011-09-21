@@ -6,22 +6,13 @@
 package world.layers;
 
 import events.EEntityChangeChunk;
-import events.EEntitySpawn;
-import events.ETakeDamage;
-import events.Event;
-import events.EventManager;
-import events.IEventListener;
-import events.network.EEntityMove;
-import game.combat.Damage.DamageType;
 import game.ent.Entity;
 import game.ent.EntityManager;
-import game.ent.decals.EntDecalBlood;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import ne.Game;
 import org.lwjgl.util.Point;
-import player.Player;
 import ui.GameUI;
 import world.Terrain;
 import world.Timer;
@@ -30,11 +21,9 @@ import world.WorldCluster;
 import world.WorldModel;
 import world.WorldRegion;
 import world.WorldTile;
-import world.WorldTimer;
-import world.WorldViewCamera;
 import world.generators.ChunkGenerator;
 import world.generators.ChunkGroundGenerator;
-import world.util.LazyLoadWorldElement;
+import world.generators.NPCVillageGenerator;
 import world.util.astar.Mover;
 import world.util.astar.TileBasedMap;
 
@@ -63,7 +52,7 @@ public class WorldLayer{
     private Point __stack_point  = new Point(0,0);
 
     private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
-    private static boolean terrain_outdated = false;  //shows if model should rebuild terrain lightning
+    protected static boolean terrain_outdated = false;  //shows if model should rebuild terrain lightning
 
     //--------------------------------------------------------------------------
 
@@ -237,22 +226,15 @@ public class WorldLayer{
         WorldChunk chunk = new WorldChunk(x, y);
 
         chunk_data.put(new Point(x,y), chunk);
-        build_chunk(chunk.origin, z_index);
+        process_chunk(chunk.origin, z_index);
 
         return chunk;
     }
 
 
 
-    public static void build_chunk(Point origin, int z_index){  
-        //todo: check z_index there
-        ChunkGenerator ground_gen = new ChunkGroundGenerator();
-        ground_gen.set_zindex(z_index);
-        
-        ground_gen.generate(origin);
-
-        terrain_outdated = true;
-
+    public static void process_chunk(Point origin, int z_index){
+        build_chunk(origin, z_index);
 
         /*
          * TODO: We can not simply load one region player is into,
@@ -266,6 +248,22 @@ public class WorldLayer{
         Point regionOrigin = new Point(rx,ry);
         WorldModel.worldRegions.get_cached(regionOrigin);
         
+    }
+
+    protected static void build_chunk(Point origin, int z_index){
+        ChunkGenerator ground_gen = new ChunkGroundGenerator();
+        ground_gen.set_zindex(z_index);
+        ground_gen.generate(origin);
+
+        /*
+         * Generate village if region belongs to NPC
+         */
+
+        NPCVillageGenerator village_gen = new NPCVillageGenerator();
+        village_gen.set_zindex(z_index);
+        village_gen.generate(origin);
+
+        terrain_outdated = true;
     }
     
 

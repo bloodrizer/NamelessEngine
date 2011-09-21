@@ -23,7 +23,6 @@ public class Main {
     public static void main(String[] args) {
         
         //run ne server on localhost for debug purpose
-        
         NEServer neServer = new NEServer();
         neServer.run();
         

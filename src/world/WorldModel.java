@@ -11,9 +11,9 @@ import events.IEventListener;
 import events.network.*;
 import game.combat.Damage.DamageType;
 import game.ent.Entity;
-import game.ent.EntityManager;
 import game.ent.decals.EntDecalBlood;
 import org.lwjgl.util.Point;
+import world.layers.UndergroundLayer;
 import world.layers.WorldLayer;
 import world.util.LazyLoadWorldElement;
 
@@ -25,7 +25,7 @@ public class WorldModel implements IEventListener {
 
     public static final int LAYER_COUNT = 10;    //max depth of geometry layers
 
-    private static java.util.HashMap<Integer, WorldLayer> worldLayers
+    private static final java.util.HashMap<Integer, WorldLayer> worldLayers
             = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
 
     static {
@@ -36,7 +36,12 @@ public class WorldModel implements IEventListener {
          */
 
         for (int i = 0; i< LAYER_COUNT; i++ ){
-            WorldLayer layer = new WorldLayer();
+            WorldLayer layer = null;
+            if (i == WorldLayer.GROUND_LAYER){
+                layer = new WorldLayer();
+            }else{
+                layer = new UndergroundLayer();
+            }
             layer.set_zindex(i);
             worldLayers.put(i, layer);
         }
@@ -80,7 +85,10 @@ public class WorldModel implements IEventListener {
     public void e_on_event(Event event){
        if (event instanceof EEntityMove){
            EEntityMove move_event = (EEntityMove)event;
-           getLayer().move_entity(move_event.entity, move_event.getTo());
+
+           //TODO: fix me
+           getWorldLayer(move_event.entity.getLayerId()).
+                   move_entity(move_event.entity, move_event.getTo());
 
            if (move_event.entity.isPlayerEnt()){
                WorldViewCamera.target.setLocation(move_event.entity.origin);
@@ -183,16 +191,7 @@ public class WorldModel implements IEventListener {
         //2. check if think call is allowed
         //3. call think
 
-
-
-
         WorldTimer.tick();
-
-        //TODO: for now we use global entity container. THIS IS FUCKING BULLSHIT
-        //ALL LAYER-SPECIFIC ENTITIES SHOULD BE LINKED TO THE LAYER.
-
-
-
 
 
         for(WorldLayer layer: worldLayers.values()){

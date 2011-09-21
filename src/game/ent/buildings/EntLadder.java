@@ -7,8 +7,12 @@ package game.ent.buildings;
 
 import game.ent.BaseEntityAction;
 import game.ent.EntActionList;
+import game.ent.EntityManager;
 import java.util.ArrayList;
 import player.Player;
+import world.WorldModel;
+import world.WorldView;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -22,7 +26,16 @@ public class EntLadder extends EntBuilding {
             @Override
             public void execute() {
                 if (assert_range()){
-                    Player.set_zindex(Player.get_zindex()+1);
+
+                    int layerFromID = Player.get_zindex();
+                    Player.set_zindex(layerFromID+1);
+
+                    EntityManager.remove_entity(Player.get_ent(), layerFromID);
+                    EntityManager.add(Player.get_ent(), Player.get_zindex());
+
+                    WorldView.set_zindex(Player.get_zindex());
+
+                    //WorldLayer layer = WorldModel.getWorldLayer(Player.get_zindex());
                 }
             }
 

@@ -5,6 +5,7 @@
 
 package ui;
 
+import client.NettyClient;
 import events.EMouseClick;
 import events.EPlayerAuthorise;
 import events.Event;
@@ -131,14 +132,18 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
             @Override
             public void e_on_mouse_click(EMouseClick e){
                 try{
+                    NettyClient.connect();
+                    //uncomment me, I'm old io code
+                    /*
                     Io.reset();
                     Io.connect();
                     Io.login(login_input.text, pass_input.text);
+                    */
                 }
 
-                catch (java.net.SocketTimeoutException ex){
+                /*catch (java.net.SocketTimeoutException ex){
                     show_message("Connection timed out");
-                }
+                }*/
                 catch(Exception ex){
 
                     ex.printStackTrace();

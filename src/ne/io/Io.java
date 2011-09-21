@@ -44,6 +44,9 @@ public class Io implements IEventListener {
     public static int PROTO_VER = 1050;
     public static String CLIENT_VER = "1.0.5";
 
+
+    public static int CHAR_SERVER_PORT = 8899;
+
     public static void init(){
         INSTANCE = new Io();
     }
@@ -96,12 +99,14 @@ public class Io implements IEventListener {
             server_params = new String[] {"admin.edi.inteliec.eu","8022"};
         }
 
-        charserv_io = new IoLayer(server_params[0], Integer.parseInt(server_params[1])){
+        String  chrserv_host = server_params[0];
+        int     chrserv_port = Integer.parseInt(server_params[1]);
+
+        charserv_io = new IoLayer(chrserv_host, chrserv_port){
             {
                  String[] whitelist = {
                     "0x0026",
                     "0x0013"
-
                  };
                  set_whitelist(whitelist);
             }

@@ -5,6 +5,7 @@
 
 package game.modes;
 
+import client.NettyClient;
 import events.EPlayerAuthorise;
 import events.Event;
 import events.EventManager;
@@ -52,7 +53,7 @@ public class ModeMainMenu implements IGameMode, IEventListener {
         Render.set_cursor("/render/ico_default.png");
         
         if (FORCE_AUTOLOGIN){
-            try {
+            /*try {
                 Io.reset();
                 Io.connect();
                 Io.login("Red", "Password");
@@ -60,7 +61,9 @@ public class ModeMainMenu implements IGameMode, IEventListener {
                 Logger.getLogger(ModeMainMenu.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(ModeMainMenu.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
+
+            NettyClient.connect();
         }
     }
 
