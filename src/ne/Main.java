@@ -5,11 +5,7 @@
 
 package ne;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.RandomAccessFile;
-import java.util.ArrayList;
-import java.util.List;
+import server.NEServer;
 
 /**
  *
@@ -25,6 +21,14 @@ public class Main {
     public static Game game;
 
     public static void main(String[] args) {
+        
+        //run ne server on localhost for debug purpose
+        
+        NEServer neServer = new NEServer();
+        neServer.run();
+        
+        System.out.println("-------------------------------------");
+        System.out.println("Starting local client");
 
         game = new Game();
 
