@@ -4,6 +4,8 @@
  */
 package server;
 
+import events.Event;
+import events.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicLong;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -26,19 +28,15 @@ public class CharServerHandler extends SimpleChannelHandler {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
-        // Send back the received message to the remote peer.
-        //transferredBytes.addAndGet(((ChannelBuffer) e.getMessage()).readableBytes());
-        //e.getChannel().write(e.getMessage());
-
-        /*ChannelBuffer buf = (ChannelBuffer) e.getMessage();
-        System.out.println("Netty character server: recieved reqest ["+buf.toString()+"]");*/
 
         String request = (String) e.getMessage();
         System.out.println("Netty character server: recieved reqest ["+request+"]");
-
-        //System.out.println("Netty character server: recieved reqest [unknown]");
         
-        //TODO: handle request there
+        String[] packet = null;
+        if (request != null){
+            packet = request.split(" ");
+            handlePacket(packet);
+        }
     }
 
     @Override
@@ -47,6 +45,32 @@ public class CharServerHandler extends SimpleChannelHandler {
         e.getChannel().close();
 
         throw new RuntimeException("Unexpected exception from downstream", e.getCause());
+    }
+
+    private void handlePacket(String[] packet) {
+        //throw new UnsupportedOperationException("Not yet implemented");
+        if (packet.length == 0){
+            return;
+        }
+        String eventType = packet[0];
+        
+        if (eventType.equals("EPlayerLogin")){
+            
+        }
+    }
+    
+    private void sendNetworkEvent(NetworkEvent event){
+        //if (!whitelisted(event.get_id())){
+            //return;
+        //}
+        
+        String[] tokens = event.serialize();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i<tokens.length; i++){
+            sb.append(tokens[i].concat(" "));
+        }
+
+        //sock_send(sb.toString());
     }
     
 }
