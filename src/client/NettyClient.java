@@ -4,6 +4,8 @@
  */
 package client;
 
+import events.Event;
+import events.EventManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ne.io.Io;
@@ -21,7 +23,12 @@ public class NettyClient {
         String host = "localhost";
         int port = Io.CHAR_SERVER_PORT;
         
-        NettyClientLayer charServClient = new NettyClientLayer(host,port) {};
+        NettyClientLayer charServClient = new NettyClientLayer(host,port) {{
+            packetFilter.add("ESelectCharacter");
+        }};
+        EventManager.subscribe(charServClient);
+
+
         charServClient.setPipelineFactory(new CharClientPipelineFactory(charServClient.bootstrap));
 
         try {

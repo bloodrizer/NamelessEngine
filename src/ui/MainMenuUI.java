@@ -175,6 +175,7 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
     public void e_on_event(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
         if (event instanceof EPlayerAuthorise){
+            
             if (!FORCE_AUTOLOGIN){
                 show_char_select();
                 return;

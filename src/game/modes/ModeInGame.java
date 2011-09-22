@@ -5,6 +5,7 @@
 
 package game.modes;
 
+import client.ClientWorld;
 import events.EMouseClick;
 import events.network.EPlayerLogon;
 import events.Event;
@@ -170,7 +171,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         //System.out.println(tile_origin);
         if (event.type == MouseInputType.LCLICK) {
-            WorldTile tile = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
+            WorldTile tile = ClientWorld.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
             
             if(tile == null){
                 return;

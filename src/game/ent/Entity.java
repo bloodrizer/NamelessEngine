@@ -6,6 +6,7 @@
 package game.ent;
 
 import actions.IAction;
+import client.ClientWorld;
 import events.EEntitySpawn;
 import events.network.EEntityMove;
 import game.ai.AI;
@@ -156,7 +157,7 @@ public class Entity implements Comparable {
     }
 
     public WorldLayer getLayer() {
-        return WorldModel.getWorldLayer(layer_id);
+        return ClientWorld.getWorldLayer(layer_id);
     }
 
     //--------------------------------------------------------------------------
