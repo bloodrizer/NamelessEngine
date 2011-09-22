@@ -4,10 +4,12 @@
  */
 package server;
 
+import events.EPlayerAuthorise;
 import events.Event;
 import events.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicLong;
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
@@ -30,12 +32,12 @@ public class CharServerHandler extends SimpleChannelHandler {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
 
         String request = (String) e.getMessage();
-        System.out.println("Netty character server: recieved reqest ["+request+"]");
+        System.err.println("Netty Character server: recived ["+request+"]");
         
         String[] packet = null;
         if (request != null){
             packet = request.split(" ");
-            handlePacket(packet);
+            handlePacket(packet, ctx.getChannel());
         }
     }
 
@@ -47,7 +49,7 @@ public class CharServerHandler extends SimpleChannelHandler {
         throw new RuntimeException("Unexpected exception from downstream", e.getCause());
     }
 
-    private void handlePacket(String[] packet) {
+    private void handlePacket(String[] packet, Channel ioChannel) {
         //throw new UnsupportedOperationException("Not yet implemented");
         if (packet.length == 0){
             return;
@@ -55,8 +57,12 @@ public class CharServerHandler extends SimpleChannelHandler {
         String eventType = packet[0];
         
         if (eventType.equals("EPlayerLogin")){
-            
+            sendMsg("EPlayerAuthorize", ioChannel);
         }
+    }
+    
+    private void sendMsg(String msg, Channel ioChannel){
+        ioChannel.write(msg+"\r\n");
     }
     
     private void sendNetworkEvent(NetworkEvent event){
@@ -66,7 +72,10 @@ public class CharServerHandler extends SimpleChannelHandler {
         
         String[] tokens = event.serialize();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i<tokens.length; i++){
+        
+        sb.append(event.classname().concat(" "));
+        
+        for (int i = 1; i<tokens.length; i++){
             sb.append(tokens[i].concat(" "));
         }
 

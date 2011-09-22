@@ -12,6 +12,7 @@ import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.ESelectCharacter;
+import game.modes.ModeMainMenu;
 import ne.io.Io;
 import ne.ui.NE_GUI_Button;
 import ne.ui.NE_GUI_Frame;
@@ -32,21 +33,18 @@ import render.WindowRender;
 
 
 public class MainMenuUI implements IUserInterface,  IEventListener {
-
-    public NE_GUI_System ui;
-    public MainMenuUI(){
-         ui = new NE_GUI_System();
-    }
-
-    public void login(){
-
-       
-    }
-
+    
+    public static final boolean FORCE_AUTOLOGIN = true;    //USE THIS ONLY FOR DEBUG
+    
     NE_GUI_Input login_input;
     NE_GUI_Input pass_input;
     MainMenuLogo logo;
 
+    public NE_GUI_System ui;
+    
+    public MainMenuUI(){
+         ui = new NE_GUI_System();
+    }
 
     public void show_message(String message){
         NE_GUI_Frame frame = new NE_GUI_Frame(true);
@@ -160,6 +158,13 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
         button.x = 140;
         button.y = 120;
         button.set_tw(3);
+        
+        
+        //-------------------------
+        //AUTOCONNECT SHIT THERE
+        if (FORCE_AUTOLOGIN){
+            NettyClient.connect();
+        }
     }
 
 
@@ -170,9 +175,21 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
     public void e_on_event(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
         if (event instanceof EPlayerAuthorise){
-            show_char_select();
+            if (!FORCE_AUTOLOGIN){
+                show_char_select();
+                return;
+            }
+            
+            event.dispatch();   //TODO: check if it would conflict with gui subsystem
+            
+            CharacterInfo chrInfo = new CharacterInfo();
+            chrInfo.name = "PlayerName(debug)";
+            
+            ESelectCharacter selectChrEvent = new ESelectCharacter(chrInfo);
+            selectChrEvent.post();
         }
     }
+
 
     public void e_on_event_rollback(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");

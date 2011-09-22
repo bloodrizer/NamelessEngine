@@ -31,7 +31,7 @@ import ui.MainMenuUI;
  */
 public class ModeMainMenu implements IGameMode, IEventListener {
 
-    private static final boolean FORCE_AUTOLOGIN = true;    //USE THIS ONLY FOR DEBUG
+    //public static final boolean FORCE_AUTOLOGIN = true;    //USE THIS ONLY FOR DEBUG
 
     //private NE_GUI_System gui;
     private OverlaySystem overlay;
@@ -52,8 +52,8 @@ public class ModeMainMenu implements IGameMode, IEventListener {
 
         Render.set_cursor("/render/ico_default.png");
         
-        if (FORCE_AUTOLOGIN){
-            /*try {
+        /*if (FORCE_AUTOLOGIN){
+            try {
                 Io.reset();
                 Io.connect();
                 Io.login("Red", "Password");
@@ -61,10 +61,10 @@ public class ModeMainMenu implements IGameMode, IEventListener {
                 Logger.getLogger(ModeMainMenu.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(ModeMainMenu.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
 
-            NettyClient.connect();
-        }
+            //NettyClient.connect();
+        }*/
     }
 
     public void update(){
@@ -95,7 +95,7 @@ public class ModeMainMenu implements IGameMode, IEventListener {
     }
 
     public void e_on_event(Event event) {
-        if (event instanceof EPlayerAuthorise && FORCE_AUTOLOGIN){
+        /* (event instanceof EPlayerAuthorise && FORCE_AUTOLOGIN){
             event.dispatch();   //TODO: check if it would conflict with gui subsystem
             
             CharacterInfo chrInfo = new CharacterInfo();
@@ -103,7 +103,7 @@ public class ModeMainMenu implements IGameMode, IEventListener {
             
             ESelectCharacter selectChrEvent = new ESelectCharacter(chrInfo);
             selectChrEvent.post();
-        }
+        }*/
     }
 
     public void e_on_event_rollback(Event event) {
