@@ -7,6 +7,8 @@ package client;
 
 import events.*;
 import java.net.InetSocketAddress;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -70,11 +72,32 @@ class CharClientHandler extends SimpleChannelHandler {
         if (eventType.equals("EPlayerAuthorize")){
             //Initialization problem there
 
-
             System.out.println("Initiating EPlayerAuthorize");
             EPlayerAuthorise event = new EPlayerAuthorise();
             event.post();
         }
+        
+        if (eventType.equals("EPlayerLogon")){
+            try {
+                /*
+                 * Character server accepted our connection, so we could
+                 * connect to game server
+                 */
+                
+                //TODO: move to the NEClient
+                
+                String host = packet[1];
+                int    port = Integer.parseInt(packet[2]);
+                
+                NettyClient.charServConnect(host, port);
+                
+                
+                //------------------------------------------------------------------
+            } catch (Exception ex) {
+                Logger.getLogger(CharClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
      }
      
 

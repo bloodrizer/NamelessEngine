@@ -34,7 +34,7 @@ public abstract class NettyClientLayer implements IEventListener {
     int port;
 
     //the thransport channel we use to write into/read from
-    Channel ioChannel;
+    ChannelFuture future;
     Thread  ioThread;
 
     protected ArrayList<String> packetFilter = new ArrayList<String>();
@@ -54,10 +54,10 @@ public abstract class NettyClientLayer implements IEventListener {
     }
     
     public void connect() throws Exception{
-        ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
+        future = bootstrap.connect(new InetSocketAddress(host, port));
 
         // Wait until the connection attempt succeeds or fails.
-        ioChannel = future.awaitUninterruptibly().getChannel();
+        Channel ioChannel = future.awaitUninterruptibly().getChannel();
         if (!future.isSuccess()) {
             //future.getCause().printStackTrace();
             bootstrap.releaseExternalResources();
@@ -80,12 +80,15 @@ public abstract class NettyClientLayer implements IEventListener {
     }
 
     public void sendMsg(String message){
+        Channel ioChannel = future.awaitUninterruptibly().getChannel();
+        
         if (ioChannel==null){
             //System.err.println(host+":"+port+"> Unable to send message, channel is not ready");
             //return;
 
             throw new RuntimeException(host+":"+port+"> Unable to send message, channel is not ready");
         }
+        System.out.println(host+":"+port+"> writing raw message - [" + message + "]");
         ioChannel.write(message + "\r\n");
     }
 
@@ -98,15 +101,20 @@ public abstract class NettyClientLayer implements IEventListener {
         public void run() {
             while (Game.running) {
             }
+            Channel ioChannel = future.awaitUninterruptibly().getChannel();
             ioChannel.close().awaitUninterruptibly();
             bootstrap.releaseExternalResources();
         }
     }
 
     private void sendNetworkEvent(NetworkEvent event){
+        System.out.println("DEBUG: sending network event ["+event.classname()+"]");
         if (!whitelisted(event.classname())){
-            //return;
+            System.out.println("DEBUG: event is not whitelisted, skipping");
+            return;
         }
+        
+        
 
         String[] tokens = event.serialize();
         StringBuilder sb = new StringBuilder();

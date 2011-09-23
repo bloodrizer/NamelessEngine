@@ -8,6 +8,7 @@ import events.EPlayerAuthorise;
 import events.Event;
 import events.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicLong;
+import ne.io.Io;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -62,7 +63,27 @@ public class CharServerHandler extends SimpleChannelHandler {
         String eventType = packet[0];
         
         if (eventType.equals("EPlayerLogin")){
+            /*
+             * Player reqested to connect character server
+             * 
+             * 1. Check if he provided correct login/password
+             * 
+             * 2. If user login is valid, authorize him and 
+             *    provide a list of player characters
+             */
             sendMsg("EPlayerAuthorize", ioChannel);
+        }
+        if (eventType.equals("events.network.ESelectCharacter")){
+            
+            /*
+             * Player selected his player character.
+             * 1. We should store this data in the charserver somehow
+             * 2. We should provide player with host and port of the game server
+             */
+            String gameServerHost = "localhost";
+            int gameServerPort = Io.GAME_SERVER_PORT;
+            
+            sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort, ioChannel);
         }
     }
     

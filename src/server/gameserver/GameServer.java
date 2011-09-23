@@ -21,7 +21,7 @@ public class GameServer {
     NioServerSocketChannelFactory nio_factory;
 
     public void run(){
-        System.out.println("Starting local character server on "+Io.CHAR_SERVER_PORT);
+        System.out.println("Starting local game server on "+Io.GAME_SERVER_PORT);
 
         nio_factory = new NioServerSocketChannelFactory(
             Executors.newCachedThreadPool(),
