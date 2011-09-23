@@ -5,6 +5,7 @@
 
 package render.overlay;
 
+import client.ClientWorld;
 import game.ent.Entity;
 import ne.Input;
 import org.lwjgl.input.Mouse;
@@ -52,7 +53,7 @@ public class TileCoordOverlay {
         , Color.white);
 
 
-        WorldTile tile = WorldModel.getWorldLayer(Player.get_zindex()).get_tile(tile_coord.getX(), tile_coord.getY());
+        WorldTile tile = ClientWorld.getWorldLayer(Player.get_zindex()).get_tile(tile_coord.getX(), tile_coord.getY());
 
         if (tile != null){
             Object[] ent_list = tile.ent_list.toArray();

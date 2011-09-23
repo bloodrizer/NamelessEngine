@@ -5,6 +5,7 @@
 
 package render.overlay;
 
+import client.ClientWorld;
 import game.ent.Entity;
 import game.ent.EntityManager;
 import game.ent.controller.IEntityController;
@@ -86,11 +87,11 @@ public class DebugOverlay {
                     tileFrom.setLocation(prevStep);
                     if (i>0){
                         //root step is entity origin, which is allready in world coord system. So we do not recalculdate it.
-                        tileFrom = WorldModel.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileFrom);
+                        tileFrom = ClientWorld.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileFrom);
                     }
 
                     tileTo.setLocation(step);
-                    tileTo = WorldModel.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileTo);
+                    tileTo = ClientWorld.getWorldLayer(WorldView.get_zindex()).tile_map.local2world(tileTo);
 
                     if (ent == Player.get_ent()){
                         OverlaySystem.drawLine(tileFrom, tileTo, Color.red);

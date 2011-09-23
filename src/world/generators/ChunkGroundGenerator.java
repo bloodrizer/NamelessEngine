@@ -4,6 +4,7 @@
  */
 package world.generators;
 
+import client.ClientWorld;
 import game.ent.EntityManager;
 import game.ent.enviroment.EntityStone;
 import java.util.Random;
@@ -133,7 +134,7 @@ public class ChunkGroundGenerator extends ChunkGenerator {
     }
 
     private WorldLayer getLayer() {
-        return WorldModel.getWorldLayer(z_index);
+        return ClientWorld.getWorldLayer(z_index);
     }
     
     //--------------------------------------------------------------------------

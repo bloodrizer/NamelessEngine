@@ -4,7 +4,11 @@
  */
 package client;
 
+import events.Event;
+import events.IEventListener;
+import events.network.NetworkEvent;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import ne.Game;
 import org.jboss.netty.bootstrap.ClientBootstrap;
@@ -23,7 +27,7 @@ import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
  * Basic class for every client to server connection, e.g. : charserv, mapserv, chatserv, etc.
  *
  */
-public abstract class NettyClientLayer {
+public abstract class NettyClientLayer implements IEventListener {
     
     ClientBootstrap bootstrap;
     String host;
@@ -32,6 +36,8 @@ public abstract class NettyClientLayer {
     //the thransport channel we use to write into/read from
     Channel ioChannel;
     Thread  ioThread;
+
+    protected ArrayList<String> packetFilter = new ArrayList<String>();
     
     public NettyClientLayer(String host, int port) {
         
@@ -83,6 +89,10 @@ public abstract class NettyClientLayer {
         ioChannel.write(message + "\r\n");
     }
 
+    private boolean whitelisted(String classname) {
+        return packetFilter.contains(classname);
+    }
+
     private class IOThread implements Runnable{
 
         public void run() {
@@ -91,5 +101,35 @@ public abstract class NettyClientLayer {
             ioChannel.close().awaitUninterruptibly();
             bootstrap.releaseExternalResources();
         }
+    }
+
+    private void sendNetworkEvent(NetworkEvent event){
+        if (!whitelisted(event.classname())){
+            //return;
+        }
+
+        String[] tokens = event.serialize();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(event.classname().concat(" "));
+
+        for (int i = 1; i<tokens.length; i++){
+            sb.append(tokens[i].concat(" "));
+        }
+
+        sendMsg(sb.toString());
+    }
+
+
+    public void e_on_event(Event event) {
+        if (event instanceof NetworkEvent){
+            sendNetworkEvent((NetworkEvent)event);
+        }
+    }
+
+
+
+    public void e_on_event_rollback(Event event) {
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 }

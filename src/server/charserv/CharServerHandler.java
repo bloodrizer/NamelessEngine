@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+package server.charserv;
 
 import events.EPlayerAuthorise;
 import events.Event;
@@ -23,6 +23,11 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 public class CharServerHandler extends SimpleChannelHandler {
     
     private final AtomicLong transferredBytes = new AtomicLong();
+    CharServer server;
+
+    public CharServerHandler(CharServer server){
+        this.server = server;
+    }
 
     public long getTransferredBytes() {
         return transferredBytes.get();

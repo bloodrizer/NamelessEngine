@@ -25,10 +25,10 @@ public class WorldModel implements IEventListener {
 
     public static final int LAYER_COUNT = 10;    //max depth of geometry layers
 
-    private static final java.util.HashMap<Integer, WorldLayer> worldLayers
+    private final java.util.HashMap<Integer, WorldLayer> worldLayers
             = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
 
-    static {
+    {
         /*
          * Create placeholder for every possile layers, starting 0 as a ground layer,
          * and ending LAYER_COUNT as a deapest underground layer
@@ -74,7 +74,7 @@ public class WorldModel implements IEventListener {
         EventManager.subscribe((IEventListener) this);
     }
 
-    public static WorldLayer getWorldLayer(int layer_id){
+    public WorldLayer getWorldLayer(int layer_id){
         return worldLayers.get(layer_id);
     }
 

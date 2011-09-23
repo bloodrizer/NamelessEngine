@@ -45,7 +45,8 @@ public class Io implements IEventListener {
     public static String CLIENT_VER = "1.0.5";
 
 
-    public static int CHAR_SERVER_PORT = 8899;
+    public static int CHAR_SERVER_PORT = 8898;
+    public static int GAME_SERVER_PORT = 8899;
 
     public static void init(){
         INSTANCE = new Io();

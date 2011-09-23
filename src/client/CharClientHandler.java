@@ -69,7 +69,9 @@ class CharClientHandler extends SimpleChannelHandler {
         
         if (eventType.equals("EPlayerAuthorize")){
             //Initialization problem there
-            
+
+
+            System.out.println("Initiating EPlayerAuthorize");
             EPlayerAuthorise event = new EPlayerAuthorise();
             event.post();
         }
