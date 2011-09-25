@@ -22,17 +22,18 @@ import org.jboss.netty.handler.codec.frame.DelimiterBasedFrameDecoder;
 import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
+import server.AServerIoLayer;
 
 /**
  *
  * @author Administrator
  */
-public class GameServer {
-    Thread recv_thread;
+public class GameServer extends AServerIoLayer{
     NioServerSocketChannelFactory nio_factory;
-    ServerBootstrap bootstrap;
 
-    static final ChannelGroup allChannels = new DefaultChannelGroup("game-server");
+    public GameServer(){
+        super("game-server");
+    }
 
     public void run(){
         System.out.println("Starting local game server on "+Io.GAME_SERVER_PORT);
@@ -68,13 +69,5 @@ public class GameServer {
         // Bind and start to accept incoming connections.
         Channel srvChannel = bootstrap.bind(new InetSocketAddress(Io.GAME_SERVER_PORT));
         allChannels.add(srvChannel);
-
-    }
-
-    public void destroy(){
-        ChannelGroupFuture future = allChannels.close();
-        future.awaitUninterruptibly();
-
-        bootstrap.releaseExternalResources();
     }
 }

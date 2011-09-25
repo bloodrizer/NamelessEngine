@@ -22,6 +22,7 @@ import org.jboss.netty.handler.codec.frame.DelimiterBasedFrameDecoder;
 import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
+import server.AServerIoLayer;
 
 /**
  *
@@ -33,17 +34,14 @@ import org.jboss.netty.handler.codec.string.StringEncoder;
 
  *
  */
-public class CharServer {
-    Thread recv_thread;
+public class CharServer extends AServerIoLayer{
     NioServerSocketChannelFactory nio_factory;
-    ServerBootstrap bootstrap;
     ArrayList<PlayerData> playerData = new ArrayList<PlayerData>();
-
-    static final ChannelGroup allChannels = new DefaultChannelGroup("char-server");
     ChannelPipelineFactory factory;
 
-
     public CharServer(){
+        super("char-server");
+
         //load shit there
         playerData.add( new PlayerData("Red","True") );
     }
@@ -84,14 +82,4 @@ public class CharServer {
 
     }
 
-    public void destroy(){
-        System.out.println("stoping character server...");
-
-        ChannelGroupFuture future = allChannels.close();
-        future.awaitUninterruptibly();
-        //factory.
-
-        //System.out.println("releasing resources...");
-        bootstrap.releaseExternalResources();
-    }
 }

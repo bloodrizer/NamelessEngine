@@ -13,6 +13,7 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import server.AServerIoLayer;
 
 /**
  *
@@ -21,14 +22,14 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 public class CharServerHandler extends SimpleChannelHandler {
     
     private final AtomicLong transferredBytes = new AtomicLong();
-    CharServer server;
+    AServerIoLayer server;
 
     @Override
     public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e) {
         server.allChannels.add(e.getChannel());
     }
 
-    public CharServerHandler(CharServer server){
+    public CharServerHandler(AServerIoLayer server){
         this.server = server;
     }
 
