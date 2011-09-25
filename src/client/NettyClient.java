@@ -19,15 +19,21 @@ import org.jboss.netty.channel.ChannelFutureListener;
  * @author bloodrizer
  */
 public class NettyClient {
+    
+    static final String host = "localhost";
+    static final int port = Io.CHAR_SERVER_PORT;
+        
+    final static NettyClientLayer charServClient = new NettyClientLayer(host,port) {{
+        packetFilter.add("events.network.ESelectCharacter");
+    }};
+
+
     public static void connect(){
+        //return;
+        
         System.out.println("Connecting to the character server...");
         
-        String host = "localhost";
-        int port = Io.CHAR_SERVER_PORT;
-        
-        final NettyClientLayer charServClient = new NettyClientLayer(host,port) {{
-            packetFilter.add("events.network.ESelectCharacter");
-        }};
+
         EventManager.subscribe(charServClient);
 
 
@@ -35,11 +41,6 @@ public class NettyClient {
 
         try {
             charServClient.connect(
-                    /*new ChannelFutureListener() {
-                        public void operationComplete(ChannelFuture future) {
-                           
-                        }
-                    }*/
             );
          System.out.println("connected successfuly");
                             
@@ -50,28 +51,36 @@ public class NettyClient {
         } catch (Exception ex) {
             Logger.getLogger(NettyClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         
     }
 
-    public static void charServConnect(String host, int port){
-        Thread chrSrvThread = new Thread(new СharServConnectionThread(host, port));
+    public static void gameServConnect(String host, int port){
+        
+        System.out.println("Starting gameServListening thread @"+host+":"+port+" (kinda)");
+
+
+        Thread chrSrvThread = new Thread(new GameServConnectionThread(host, port));
         chrSrvThread.setDaemon(true);
         chrSrvThread.start();
+        
+
     }
+
+    static NettyClientLayer gameServClient;
     
-    private static class СharServConnectionThread implements Runnable{
+    private static class GameServConnectionThread implements Runnable{
         
         String host;
         int port;
         
-        public СharServConnectionThread(String host, int port){
+        public GameServConnectionThread(String host, int port){
             this.host = host;
             this.port = port;
         }
 
         public void run() {
-            NettyClientLayer gameServClient = new NettyClientLayer(host,port) {{
+            gameServClient = new NettyClientLayer(host,port) {{
                     //packetFilter.add("events.network.ESelectCharacter");
             }};
             EventManager.subscribe(gameServClient);
@@ -84,5 +93,10 @@ public class NettyClient {
                 Logger.getLogger(NettyClient.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public static void destroy(){
+        charServClient.destroy();
+        gameServClient.destroy();
     }
 }

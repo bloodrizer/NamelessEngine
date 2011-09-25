@@ -10,9 +10,13 @@ import java.util.concurrent.Executors;
 import ne.Game;
 import ne.io.Io;
 import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
+import org.jboss.netty.channel.group.ChannelGroup;
+import org.jboss.netty.channel.group.ChannelGroupFuture;
+import org.jboss.netty.channel.group.DefaultChannelGroup;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.codec.frame.DelimiterBasedFrameDecoder;
 import org.jboss.netty.handler.codec.frame.Delimiters;
@@ -32,8 +36,11 @@ import org.jboss.netty.handler.codec.string.StringEncoder;
 public class CharServer {
     Thread recv_thread;
     NioServerSocketChannelFactory nio_factory;
-
+    ServerBootstrap bootstrap;
     ArrayList<PlayerData> playerData = new ArrayList<PlayerData>();
+
+    static final ChannelGroup allChannels = new DefaultChannelGroup("char-server");
+    ChannelPipelineFactory factory;
 
 
     public CharServer(){
@@ -48,13 +55,12 @@ public class CharServer {
             Executors.newCachedThreadPool(),
             Executors.newCachedThreadPool());
 
-        ServerBootstrap bootstrap = new ServerBootstrap(
+        bootstrap = new ServerBootstrap(
             nio_factory
         );
 
-        // Set up the pipeline factory.
-        bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
-            
+        factory = new ChannelPipelineFactory() {
+
             CharServer server = CharServer.this;
 
             public ChannelPipeline getPipeline() throws Exception {
@@ -68,22 +74,24 @@ public class CharServer {
 
                 return pipeline;
             }
-        });
+        };
+        // Set up the pipeline factory.
+        bootstrap.setPipelineFactory(factory);
 
         // Bind and start to accept incoming connections.
-        bootstrap.bind(new InetSocketAddress(Io.CHAR_SERVER_PORT));
+        Channel srvChannel = bootstrap.bind(new InetSocketAddress(Io.CHAR_SERVER_PORT));
+        allChannels.add(srvChannel);
 
-        recv_thread = new Thread(new Receiver());
-        recv_thread.setDaemon(true);
-        recv_thread.start();
     }
 
-    private class Receiver implements Runnable{
+    public void destroy(){
+        System.out.println("stoping character server...");
 
-        public void run() {
-            while (Game.running) {
-            }
-            nio_factory.releaseExternalResources();
-        }
+        ChannelGroupFuture future = allChannels.close();
+        future.awaitUninterruptibly();
+        //factory.
+
+        //System.out.println("releasing resources...");
+        bootstrap.releaseExternalResources();
     }
 }

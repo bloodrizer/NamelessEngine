@@ -24,4 +24,11 @@ public class NEServer {
         charServer.run();
         gameServer.run();
     }
+
+    public void destroy(){
+        charServer.destroy();
+
+        System.out.println("stoping game server...");
+        gameServer.destroy();
+    }
 }

@@ -89,7 +89,7 @@ class CharClientHandler extends SimpleChannelHandler {
                 String host = packet[1];
                 int    port = Integer.parseInt(packet[2]);
                 
-                NettyClient.charServConnect(host, port);
+                NettyClient.gameServConnect(host, port);
                 
                 
                 //------------------------------------------------------------------

@@ -5,6 +5,7 @@
 
 package ne;
 
+import client.NettyClient;
 import events.network.EPlayerLogout;
 import game.modes.IGameMode;
 import game.modes.ModeInGame;
@@ -118,6 +119,13 @@ public class Game {
             
             //gui.destroy();
             WindowRender.destroy();
+
+            //close all active server threads
+            Main.neServer.destroy();
+
+            //same for the client
+            NettyClient.destroy();
+
         }
         catch(Exception e){
             e.printStackTrace();

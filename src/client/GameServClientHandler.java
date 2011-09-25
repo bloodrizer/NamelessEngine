@@ -5,6 +5,8 @@
 package client;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
 /**
@@ -17,6 +19,14 @@ public class GameServClientHandler extends SimpleChannelHandler {
 
     public GameServClientHandler(ClientBootstrap bootstrap) {
         this.bootstrap = bootstrap;
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
+        // Close the connection when an exception is raised.
+        e.getChannel().close();
+
+        throw new RuntimeException("Game server connection: unexpected exception", e.getCause());
     }
 
 }

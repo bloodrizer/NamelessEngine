@@ -69,9 +69,9 @@ public abstract class NettyClientLayer implements IEventListener {
 
         //perform i/o routine
 
-        ioThread = new Thread(new IOThread());
+        /*ioThread = new Thread(new IOThread());
         ioThread.setDaemon(true);
-        ioThread.start();
+        ioThread.start();*/
 
     }
     
@@ -96,16 +96,6 @@ public abstract class NettyClientLayer implements IEventListener {
         return packetFilter.contains(classname);
     }
 
-    private class IOThread implements Runnable{
-
-        public void run() {
-            while (Game.running) {
-            }
-            Channel ioChannel = future.awaitUninterruptibly().getChannel();
-            ioChannel.close().awaitUninterruptibly();
-            bootstrap.releaseExternalResources();
-        }
-    }
 
     private void sendNetworkEvent(NetworkEvent event){
         System.out.println("DEBUG: sending network event ["+event.classname()+"]");
@@ -139,5 +129,11 @@ public abstract class NettyClientLayer implements IEventListener {
 
     public void e_on_event_rollback(Event event) {
         //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void destroy(){
+        Channel ioChannel = future.awaitUninterruptibly().getChannel();
+        ioChannel.close().awaitUninterruptibly();
+        bootstrap.releaseExternalResources();
     }
 }
