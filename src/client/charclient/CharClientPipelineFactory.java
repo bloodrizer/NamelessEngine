@@ -2,8 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
-
+package client.charclient;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.ChannelPipeline;
@@ -18,11 +17,11 @@ import org.jboss.netty.handler.codec.string.StringEncoder;
  *
  * @author bloodrizer
  */
-public class GameClientPipelineFactory implements ChannelPipelineFactory {
-       
+public class CharClientPipelineFactory implements ChannelPipelineFactory {
+    
     final ClientBootstrap bootstrap;
 
-    public GameClientPipelineFactory(ClientBootstrap bootstrap) {
+    public CharClientPipelineFactory(ClientBootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
 
@@ -32,7 +31,7 @@ public class GameClientPipelineFactory implements ChannelPipelineFactory {
         pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
         pipeline.addLast("decoder", new StringDecoder());
         pipeline.addLast("encoder", new StringEncoder());
-        pipeline.addLast("handler", new GameServClientHandler(bootstrap));
+        pipeline.addLast("handler", new CharClientHandler(bootstrap));
         return pipeline;
     }
     

@@ -4,6 +4,8 @@
  */
 package client;
 
+import client.gameclient.GameClientPipelineFactory;
+import client.charclient.CharClientPipelineFactory;
 import events.Event;
 import events.EventManager;
 import java.util.logging.Level;

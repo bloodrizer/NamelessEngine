@@ -9,25 +9,13 @@ import events.EPlayerAuthorise;
 import events.Event;
 import events.EventManager;
 import events.IEventListener;
-import events.network.EChatMessage;
-import events.network.EPlayerLogon;
-import events.network.ESelectCharacter;
-import game.ent.buildings.BuildManager;
-import game.ent.Entity;
-import game.ent.EntityManager;
-import game.ent.EntityNPC;
-import game.ent.buildings.EntBuilding;
-import game.ent.controller.NpcController;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import ne.Game;
 import ne.Main;
-import org.lwjgl.util.Point;
 import player.Player;
 
 /**

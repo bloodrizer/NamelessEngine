@@ -26,9 +26,8 @@ public class NEServer {
     }
 
     public void destroy(){
+        System.out.println("stopping NE Server wrapper");
         charServer.destroy();
-
-        System.out.println("stoping game server...");
         gameServer.destroy();
     }
 }

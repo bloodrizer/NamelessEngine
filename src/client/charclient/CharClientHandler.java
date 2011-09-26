@@ -2,13 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package client.charclient;
 
 
+import client.NettyClient;
 import events.*;
 import java.net.InetSocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ne.Game;
+import ne.Main;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -16,6 +19,7 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import player.Player;
 
 /**
  *
@@ -88,8 +92,17 @@ class CharClientHandler extends SimpleChannelHandler {
                 
                 String host = packet[1];
                 int    port = Integer.parseInt(packet[2]);
+                int  userId = Integer.parseInt(packet[3]);
                 
                 NettyClient.gameServConnect(host, port);
+                
+                //------------------------------------------------
+                //Meanwhile...
+                
+                //Enter InGame mode
+                Main.game.set_state(Game.GameModes.InGame);
+                //set correct player id
+                Player.character_id = userId;
                 
                 
                 //------------------------------------------------------------------

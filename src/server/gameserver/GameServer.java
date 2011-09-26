@@ -23,6 +23,8 @@ import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 import server.AServerIoLayer;
+import server.User;
+import world.WorldModel;
 
 /**
  *
@@ -30,9 +32,14 @@ import server.AServerIoLayer;
  */
 public class GameServer extends AServerIoLayer{
     NioServerSocketChannelFactory nio_factory;
+    
+    WorldModel worldModel;
 
     public GameServer(){
         super("game-server");
+        
+        System.out.println("Loading server world...");
+        worldModel = new WorldModel();
     }
 
     public void run(){
@@ -69,5 +76,14 @@ public class GameServer extends AServerIoLayer{
         // Bind and start to accept incoming connections.
         Channel srvChannel = bootstrap.bind(new InetSocketAddress(Io.GAME_SERVER_PORT));
         allChannels.add(srvChannel);
+    }
+
+    
+    /*
+     * Add new user into the WorldModel 
+     * and allow him to interact with the game world
+     */
+    void registerUser(User user) {
+        
     }
 }

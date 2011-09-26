@@ -14,6 +14,8 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 import server.AServerIoLayer;
+import server.ServerUserPool;
+import server.User;
 
 /**
  *
@@ -74,6 +76,10 @@ public class CharServerHandler extends SimpleChannelHandler {
              * 2. If user login is valid, authorize him and 
              *    provide a list of player characters
              */
+                        
+            //register this player in the connection pool
+            ServerUserPool.registerUser(ioChannel, "Red");
+            
             sendMsg("EPlayerAuthorize", ioChannel);
         }
         if (eventType.equals("events.network.ESelectCharacter")){
@@ -86,7 +92,10 @@ public class CharServerHandler extends SimpleChannelHandler {
             String gameServerHost = "localhost";
             int gameServerPort = Io.GAME_SERVER_PORT;
             
-            sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort, ioChannel);
+            User user = ServerUserPool.getUser(ioChannel);
+            int user_id = user.getId();
+            
+            sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort+" "+user_id, ioChannel);
         }
     }
     

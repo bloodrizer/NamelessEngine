@@ -13,6 +13,9 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import server.AServerIoLayer;
+import server.ServerUserPool;
+import server.User;
 
 
 /**
@@ -22,9 +25,9 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 public class GameServerHandler extends SimpleChannelHandler {
 
     private final AtomicLong transferredBytes = new AtomicLong();
-    GameServer server;
+    AServerIoLayer server;
 
-    public GameServerHandler(GameServer server){
+    public GameServerHandler(AServerIoLayer server){
         this.server = server;
     }
 
@@ -34,7 +37,17 @@ public class GameServerHandler extends SimpleChannelHandler {
 
     @Override
     public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e) {
-        server.allChannels.add(e.getChannel());
+        
+        Channel channel = e.getChannel();
+        User user = ServerUserPool.getUser(channel);
+        
+        //Remote user connected to the game server
+        if(user == null){
+            throw new RuntimeException("Game Server: remote connection from unregistered user");
+        }
+        
+        ((GameServer)server).registerUser(user);
+        server.allChannels.add(channel);
     }
 
     @Override
