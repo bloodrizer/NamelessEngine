@@ -71,7 +71,7 @@ public class WorldModel implements IEventListener {
 
 
     public WorldModel(){
-        EventManager.subscribe((IEventListener) this);
+        //EventManager.subscribe((IEventListener) this);
     }
 
     public WorldLayer getWorldLayer(int layer_id){
@@ -117,7 +117,7 @@ public class WorldModel implements IEventListener {
            if (spawn_tile != null){
                 spawn_tile.add_entity(spawn_event.ent);
            }else{
-               throw new RuntimeException("Failed to assign spawned entity to tile@"+ent_origin+" - tile is null!");
+               throw new RuntimeException("Failed to assign spawned entity to tile@"+ent_origin+"["+getLayer().get_zindex()+"] - tile is null!");
            }
 
            if (spawn_event.ent.light_amt > 0.0f){

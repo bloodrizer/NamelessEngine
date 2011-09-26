@@ -6,6 +6,7 @@
 package ui;
 
 import actions.IAction;
+import client.ClientEventManager;
 import client.ClientWorld;
 
 import events.EKeyPress;
@@ -67,7 +68,7 @@ public class GameUI implements IUserInterface,  IEventListener {
  *
  */
     public void build_ui(){
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
         ui = new NE_GUI_System();
 
 

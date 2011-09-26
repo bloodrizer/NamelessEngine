@@ -48,6 +48,9 @@ public class GameServerHandler extends SimpleChannelHandler {
         
         ((GameServer)server).registerUser(user);
         server.allChannels.add(channel);
+
+        //load player coords and shit
+        sendMsg("EPlayerSpawn 10 10", channel);
     }
 
     @Override
@@ -77,6 +80,17 @@ public class GameServerHandler extends SimpleChannelHandler {
             return;
         }
         String eventType = packet[0];
+
+        if (eventType.equals("events.network.EBuildStructure")){
+
+            final int SPAWN_OBJECT = 0;
+
+            String entType = packet[1];
+            int x = Integer.parseInt(packet[2]);
+            int y = Integer.parseInt(packet[3]);
+
+            sendMsg("EEntitySpawn "+SPAWN_OBJECT+" "+entType+" "+x+" "+y, ioChannel);
+        }
 
     }
 

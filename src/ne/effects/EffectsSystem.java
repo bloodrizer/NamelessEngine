@@ -5,6 +5,7 @@
 
 package ne.effects;
 
+import client.ClientEventManager;
 import events.ENotificationMessage;
 import events.ETakeDamage;
 import events.ETooltipShow;
@@ -22,7 +23,7 @@ public class EffectsSystem implements IEventListener{
     public final Effect_Element root = new Effect_Element();
 
     public EffectsSystem(){
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
     }
 
     public void render(){

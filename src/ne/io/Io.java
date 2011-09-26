@@ -53,7 +53,7 @@ public class Io implements IEventListener {
     }
 
     public Io(){
-        EventManager.subscribe(this);
+        //EventManager.subscribe(this);
     }
 
     public static void reset(){

@@ -5,8 +5,10 @@
 package client.charclient;
 
 
+import client.ClientEventManager;
 import client.NettyClient;
 import events.*;
+import events.network.EPlayerLogon;
 import java.net.InetSocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,7 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import org.lwjgl.util.Point;
 import player.Player;
 
 /**
@@ -78,6 +81,7 @@ class CharClientHandler extends SimpleChannelHandler {
 
             System.out.println("Initiating EPlayerAuthorize");
             EPlayerAuthorise event = new EPlayerAuthorise();
+            //event.setManager(ClientEventManager.eventManager);
             event.post();
         }
         
@@ -103,6 +107,7 @@ class CharClientHandler extends SimpleChannelHandler {
                 Main.game.set_state(Game.GameModes.InGame);
                 //set correct player id
                 Player.character_id = userId;
+
                 
                 
                 //------------------------------------------------------------------

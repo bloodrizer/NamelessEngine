@@ -68,7 +68,7 @@ e.printStackTrace(); <<connection timed out there
 return;
 }*/
         //System.out.println("Subscribing");
-        EventManager.subscribe(this);
+        //EventManager.subscribe(this);
 
         
 

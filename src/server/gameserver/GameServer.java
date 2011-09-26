@@ -5,6 +5,7 @@
 
 package server.gameserver;
 
+import events.EventManager;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import ne.Game;
@@ -34,12 +35,17 @@ public class GameServer extends AServerIoLayer{
     NioServerSocketChannelFactory nio_factory;
     
     WorldModel worldModel;
+    EventManager eventManager;
 
     public GameServer(){
         super("game-server");
         
         System.out.println("Loading server world...");
+
+        eventManager = new EventManager();
         worldModel = new WorldModel();
+
+        eventManager.subscribe(worldModel);
     }
 
     public void run(){

@@ -5,6 +5,7 @@
 
 package ui;
 
+import client.ClientEventManager;
 import client.NettyClient;
 import events.EMouseClick;
 import events.EPlayerAuthorise;
@@ -67,7 +68,7 @@ public class MainMenuUI implements IUserInterface,  IEventListener {
 
     public void build_ui() {
 
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
 
         NE_GUI_Sprite background = new NE_GUI_Sprite(){{
             sprite_name = "/ui/background.jpeg";

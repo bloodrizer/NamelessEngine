@@ -5,6 +5,7 @@
 
 package game.ent.controller;
 
+import client.ClientEventManager;
 import client.ClientWorld;
 import events.EEntityChangeChunk;
 import events.Event;
@@ -44,7 +45,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
     public float MOVE_SPEED = 0.10f;
 
     public NpcController(){
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
     }
 
     @Override

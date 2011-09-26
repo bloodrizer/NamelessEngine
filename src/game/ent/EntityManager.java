@@ -5,6 +5,7 @@
 
 package game.ent;
 
+import client.ClientEventManager;
 import events.EEntitySpawn;
 import events.Event;
 import events.EventManager;
@@ -53,7 +54,7 @@ public class EntityManager implements IEventListener{
 
     private static final EntityManager instance = new EntityManager();
     static {
-        EventManager.subscribe(instance);
+        ClientEventManager.eventManager.subscribe(instance);
     }
 
     /*

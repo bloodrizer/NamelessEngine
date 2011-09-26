@@ -6,6 +6,7 @@
 package ne.ui;
 
 import actions.IAction;
+import client.ClientEventManager;
 import events.EContainerUpdate;
 import events.EGUIDrop;
 import events.EMouseClick;
@@ -43,7 +44,7 @@ public class NE_GUI_Inventory extends NE_GUI_FrameModern implements IEventListen
         this.set_tw(7);
         this.set_th(5);
 
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
 
         /* this is invisible container to store item icons
          * since NE_GUI_Inventory is container itself, we net

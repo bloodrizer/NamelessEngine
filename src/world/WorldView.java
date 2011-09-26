@@ -5,6 +5,7 @@
 
 package world;
 
+import client.ClientEventManager;
 import client.ClientWorld;
 import world.layers.WorldLayer;
 import render.layers.GroundLayerRenderer;
@@ -49,7 +50,7 @@ public class WorldView implements IEventListener {
     }
 
     public WorldView(){
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
     }
     
     //returns z-index of current terrain layer

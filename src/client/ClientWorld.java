@@ -4,6 +4,7 @@
  */
 package client;
 
+import events.EventManager;
 import world.WorldModel;
 import world.layers.WorldLayer;
 
@@ -16,7 +17,9 @@ public class ClientWorld {
     
     public static WorldModel getWorld(){
         if (clientWorld == null){
+            
             clientWorld = new WorldModel();
+            ClientEventManager.eventManager.subscribe(clientWorld);
         }
         return clientWorld;
     }

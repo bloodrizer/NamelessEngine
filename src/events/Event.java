@@ -5,6 +5,8 @@
 
 package events;
 
+import client.ClientEventManager;
+
 /**
  *
  * @author Administrator
@@ -13,6 +15,8 @@ public class Event {
 
     private int eventid = 0;
     private long timestamp = 0;
+
+    EventManager manager = null;
 
     private boolean dispatched = false;
     public boolean is_dispatched(){
@@ -44,8 +48,16 @@ public class Event {
         return eventid;
     }
 
+    public void setManager(EventManager manager){
+
+    }
+
     public void post(){
-        EventManager.notify_event(this);
+        if (manager==null){
+            //hack for easy migration
+            manager = ClientEventManager.eventManager;
+        }
+        manager.notify_event(this);
     }
 
     public void rollback(){

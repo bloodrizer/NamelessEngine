@@ -5,6 +5,7 @@
 
 package game.modes;
 
+import client.ClientEventManager;
 import client.NettyClient;
 import events.EPlayerAuthorise;
 import events.Event;
@@ -37,7 +38,7 @@ public class ModeMainMenu implements IGameMode, IEventListener {
     private OverlaySystem overlay;
     
     public ModeMainMenu(){
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
     }
 
     public void run(){

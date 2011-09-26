@@ -251,6 +251,9 @@ public class WorldLayer{
     }
 
     protected static void build_chunk(Point origin, int z_index){
+
+        System.out.println("building chunk @"+origin);
+
         ChunkGenerator ground_gen = new ChunkGroundGenerator();
         ground_gen.set_zindex(z_index);
         ground_gen.generate(origin);
@@ -347,6 +350,10 @@ public class WorldLayer{
 
     public void set_zindex(int z_index) {
         this.z_index = z_index;
+    }
+
+    public int get_zindex() {
+        return z_index;
     }
 
     /*

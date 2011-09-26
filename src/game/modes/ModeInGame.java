@@ -5,6 +5,7 @@
 
 package game.modes;
 
+import client.ClientEventManager;
 import client.ClientWorld;
 import events.EMouseClick;
 import events.network.EPlayerLogon;
@@ -63,13 +64,14 @@ public class ModeInGame implements IGameMode, IEventListener {
     private OverlaySystem overlay;
     
     public ModeInGame(){
-        EventManager.subscribe(this);
+        ClientEventManager.eventManager.subscribe(this);
     }
 
     public void run(){
         bg_tileset = new TilesetRenderer();
         view  = new WorldView();
-        model = new WorldModel();
+        //model = new WorldModel();
+        model = ClientWorld.getWorld();
 
         overlay = new OverlaySystem();
 
@@ -117,6 +119,9 @@ public class ModeInGame implements IGameMode, IEventListener {
         }
 
         Input.update();
+
+        ClientEventManager.update();
+
         EventManager.update();
         model.update();
 
