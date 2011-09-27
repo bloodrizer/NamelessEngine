@@ -5,7 +5,7 @@
 
 package game.ent.buildings;
 
-import client.ClientWorld;
+import client.ClientGameEnvironment;
 import game.ent.Entity;
 import player.Player;
 import render.EntityRenderer;
@@ -94,7 +94,7 @@ public class EntFence extends EntBuilding {
             }
 
             private WorldLayer getLayer() {
-                return ClientWorld.getWorldLayer(Player.get_zindex());
+                return ClientGameEnvironment.getWorldLayer(Player.get_zindex());
             }
         };
         __render.set_texture("/render/gfx/ents/fence.png");

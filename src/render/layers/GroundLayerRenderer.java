@@ -6,6 +6,7 @@ package render.layers;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 import render.TilesetRenderer;
 import world.WorldTile;
 import world.WorldTile.TerrainType;
@@ -40,12 +41,18 @@ public class GroundLayerRenderer extends LayerRenderer{
     
     static Vector3f utl_tile_color = new Vector3f();
     public Vector3f get_tile_color(WorldTile tile){
-        //float g_color = ((float)tile.get_height() / 255);
-        float g_color = 0.5f;
+
+        //Vector4f grassColor = tile.colorForTemperatureAndHumidity();
+
+        /*utl_tile_color.set(
+                grassColor.x*0.3f  + tile.light_level     + WorldTimer.get_light_amt(),
+                grassColor.y*0.3f  + tile.light_level   + WorldTimer.get_light_amt(),
+                grassColor.z*0.3f  + tile.light_level      + WorldTimer.get_light_amt()
+        );*/
         utl_tile_color.set(
-                0.5f + tile.light_level     + WorldTimer.get_light_amt(),
-                g_color+ tile.light_level   + WorldTimer.get_light_amt(),
-                0.5f+ tile.light_level      + WorldTimer.get_light_amt()
+                0.5f  + tile.light_level     + WorldTimer.get_light_amt(),
+                0.5f  + tile.light_level   + WorldTimer.get_light_amt(),
+                0.5f  + tile.light_level      + WorldTimer.get_light_amt()
         );
 
         return utl_tile_color;

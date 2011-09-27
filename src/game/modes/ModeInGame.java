@@ -6,7 +6,7 @@
 package game.modes;
 
 import client.ClientEventManager;
-import client.ClientWorld;
+import client.ClientGameEnvironment;
 import events.EMouseClick;
 import events.network.EPlayerLogon;
 import events.Event;
@@ -23,6 +23,7 @@ import ui.GameUI;
 import world.layers.WorldLayer;
 
 import events.IEventListener;
+import game.GameEnvironment;
 import game.combat.BasicCombat;
 import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
@@ -60,6 +61,8 @@ public class ModeInGame implements IGameMode, IEventListener {
     private EffectsSystem fx;
 
 
+    private GameEnvironment clientGameEnvironment;
+
 
     private OverlaySystem overlay;
     
@@ -71,7 +74,17 @@ public class ModeInGame implements IGameMode, IEventListener {
         bg_tileset = new TilesetRenderer();
         view  = new WorldView();
         //model = new WorldModel();
-        model = ClientWorld.getWorld();
+
+        clientGameEnvironment = new GameEnvironment(){
+            @Override
+            public EventManager getEventManager(){
+                return ClientEventManager.eventManager;
+            }
+        };
+        ClientGameEnvironment.setEnvironment(clientGameEnvironment);
+
+        model = clientGameEnvironment.getWorld();
+                //ClientWorld.getWorld();
 
         overlay = new OverlaySystem();
 
@@ -176,7 +189,7 @@ public class ModeInGame implements IGameMode, IEventListener {
 
         //System.out.println(tile_origin);
         if (event.type == MouseInputType.LCLICK) {
-            WorldTile tile = ClientWorld.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
+            WorldTile tile = ClientGameEnvironment.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
             
             if(tile == null){
                 return;

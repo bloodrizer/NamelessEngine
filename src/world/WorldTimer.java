@@ -5,7 +5,7 @@
 
 package world;
 
-import client.ClientWorld;
+import client.ClientGameEnvironment;
 import game.ai.BasicMobAI;
 import game.ent.controller.NpcController;
 import game.ent.monsters.Zombie;
@@ -86,7 +86,7 @@ public class WorldTimer {
                     return;
                 }
                 
-                WorldTile tile = ClientWorld.getWorldLayer(Player.get_zindex()).get_tile(spawn_point.getX(), spawn_point.getY());
+                WorldTile tile = ClientGameEnvironment.getWorldLayer(Player.get_zindex()).get_tile(spawn_point.getX(), spawn_point.getY());
                 if (tile ==null ||  tile.light_level > 0.5f){
                     return;
                     //todo: change so we would not waste our spawn chance

@@ -5,7 +5,7 @@
 
 package ne.ui;
 
-import client.ClientWorld;
+import client.ClientGameEnvironment;
 import org.newdawn.slick.Color;
 import render.overlay.OverlaySystem;
 import org.newdawn.slick.TrueTypeFont;
@@ -222,7 +222,7 @@ public class NE_GUI_Minimap extends NE_GUI_FrameModern {
 
                                     
 
-                                WorldTile tile = ClientWorld.getWorldLayer( Player.get_zindex()
+                                WorldTile tile = ClientGameEnvironment.getWorldLayer( Player.get_zindex()
                                         ).get_tile(tile_x, tile_y);
                                 if (tile != null && tile.is_blocked()){
 

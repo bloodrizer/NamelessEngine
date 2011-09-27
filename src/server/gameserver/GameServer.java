@@ -43,9 +43,9 @@ public class GameServer extends AServerIoLayer{
         System.out.println("Loading server world...");
 
         eventManager = new EventManager();
-        worldModel = new WorldModel();
+        /*worldModel = new WorldModel();
 
-        eventManager.subscribe(worldModel);
+        eventManager.subscribe(worldModel);*/
     }
 
     public void run(){

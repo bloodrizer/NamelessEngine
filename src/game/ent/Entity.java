@@ -6,8 +6,9 @@
 package game.ent;
 
 import actions.IAction;
-import client.ClientWorld;
+import client.ClientGameEnvironment;
 import events.EEntitySpawn;
+import events.EventManager;
 import events.network.EEntityMove;
 import game.ai.AI;
 import game.combat.Combat;
@@ -64,6 +65,8 @@ public class Entity implements Comparable {
 
     //TODO: FIX ME FIX ME FIX ME
     private int layer_id = -1;
+
+    protected EventManager eventManager = null;
     
     public enum Orientation {
         ORIENT_N,
@@ -157,7 +160,11 @@ public class Entity implements Comparable {
     }
 
     public WorldLayer getLayer() {
-        return ClientWorld.getWorldLayer(layer_id);
+        return ClientGameEnvironment.getWorldLayer(layer_id);
+    }
+
+    public void setEventManager(EventManager manager){
+        this.eventManager = manager;
     }
 
     //--------------------------------------------------------------------------
@@ -172,8 +179,9 @@ public class Entity implements Comparable {
         this.origin = origin;
 
 
-        EEntitySpawn spawn_event = new EEntitySpawn(this,origin);
-        spawn_event.post();
+        EEntitySpawn spawnEvent = new EEntitySpawn(this,origin);
+        spawnEvent.setManager(eventManager);
+        spawnEvent.post();
 
         set_next_think(Timer.get_time());
     }
@@ -250,6 +258,7 @@ public class Entity implements Comparable {
 
     public void move_to(Point dest){
         EEntityMove event = new EEntityMove(this, dest);
+        event.setManager(eventManager);
         event.post();
     }
 

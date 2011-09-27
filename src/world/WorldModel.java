@@ -9,6 +9,7 @@ import events.*;
 import events.EventManager;
 import events.IEventListener;
 import events.network.*;
+import game.GameEnvironment;
 import game.combat.Damage.DamageType;
 import game.ent.Entity;
 import game.ent.decals.EntDecalBlood;
@@ -102,6 +103,7 @@ public class WorldModel implements IEventListener {
            //System.out.println("setting new chunk for a spawned entity");
 
            EEntityChangeChunk e_change_chunk = new EEntityChangeChunk(spawn_event.ent,null,new_chunk);
+           e_change_chunk.setManager(environment.getEventManager());
            e_change_chunk.post();
 
            Point ent_origin = spawn_event.ent.origin;
@@ -117,7 +119,20 @@ public class WorldModel implements IEventListener {
            if (spawn_tile != null){
                 spawn_tile.add_entity(spawn_event.ent);
            }else{
+
+               //show some debug info to hint me next time when this fucking world model crashs again
+
+               if (!environment.getEventManager().listeners_sync.contains(this)){
+                   System.err.println("World model is not subscribed to the event manager");
+               }
+
+               WorldLayer layer = worldLayers.get(spawn_event.ent.getLayerId());
+               System.err.println("Tile data size:"+layer.tile_data.size());
+               System.err.println("Chunk data size:"+layer.chunk_data.size());
+               //layer.g
+
                throw new RuntimeException("Failed to assign spawned entity to tile@"+ent_origin+"["+getLayer().get_zindex()+"] - tile is null!");
+
            }
 
            if (spawn_event.ent.light_amt > 0.0f){
@@ -200,6 +215,13 @@ public class WorldModel implements IEventListener {
 
 
 
+    }
+
+    private GameEnvironment environment = null;
+
+    public void setEnvironment(GameEnvironment environment) {
+        this.environment = environment;
+        environment.getEventManager().subscribe(this);
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package world.generators;
 
+import game.GameEnvironment;
 import org.lwjgl.util.Point;
 
 
@@ -15,9 +16,14 @@ import org.lwjgl.util.Point;
 public abstract class ChunkGenerator {
 
     protected int z_index;
+    protected GameEnvironment environment;
 
     public void set_zindex(int z_index){
         this.z_index = z_index;
+    }
+
+    public void setEnvironment(GameEnvironment environment){
+        this.environment = environment;
     }
     
     public void generate(Point origin){

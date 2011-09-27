@@ -57,6 +57,7 @@ public class Event {
             //hack for easy migration
             manager = ClientEventManager.eventManager;
         }
+        
         manager.notify_event(this);
     }
 

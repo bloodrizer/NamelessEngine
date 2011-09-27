@@ -8,9 +8,17 @@ package world;
 import game.ent.Entity;
 import game.ent.EntityActor;
 import game.ent.decals.EntDecalBlood;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.lwjgl.util.Point;
+import org.lwjgl.util.vector.Vector4f;
+import org.newdawn.slick.util.ResourceLoader;
 
 /**
  *
@@ -19,6 +27,18 @@ import org.lwjgl.util.Point;
 public class WorldTile {
     public float light_level = 0.0f;
     public Point origin = null;
+
+
+    static BufferedImage colorLut;
+
+    static {
+        try {
+            colorLut = ImageIO.read(ResourceLoader.getResource("render/textures/grasscolor.png").openStream());
+        } catch (IOException ex) {
+            throw new RuntimeException("failed to load grass color mask");
+        }
+    }
+
 
     public Entity get_active_object() {
 
@@ -31,6 +51,24 @@ public class WorldTile {
             }
         }
         return null;
+    }
+    
+    
+    public WorldTile(int tile_id){
+        this.tile_id = tile_id;
+    }
+
+
+    public Vector4f colorForTemperatureAndHumidity() {
+
+        double hum = (double)height / 255.0f;
+        double temp = moisture;
+
+        //hum *= temp;
+        int rgbValue = colorLut.getRGB((int) ((1.0 - temp) * 255.0), (int) ((1.0 - hum) * 255.0));
+
+        Color c = new Color(rgbValue);
+        return new Vector4f((float) c.getRed() / 255f, (float) c.getGreen() / 255f, (float) c.getBlue() / 255f, 1.0f);
     }
 
 
@@ -310,8 +348,5 @@ public class WorldTile {
         return height;
     }
 
-    public WorldTile(int tile_id){
-        this.tile_id = tile_id;
-    }
 
 }

@@ -11,6 +11,7 @@ import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.EEntityMove;
+import game.GameEnvironment;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,10 +53,18 @@ public class EntityManager implements IEventListener{
         return entList;
     }
 
-    private static final EntityManager instance = new EntityManager();
+    private GameEnvironment environment = null;
+
+    public void setEnviroment(GameEnvironment environment){
+        this.environment = environment;
+
+        environment.getEventManager().subscribe(this);
+    }
+
+    /* static final EntityManager instance = new EntityManager();
     static {
         ClientEventManager.eventManager.subscribe(instance);
-    }
+    }*/
 
     /*
      * This method is called whether entity moves or spawns

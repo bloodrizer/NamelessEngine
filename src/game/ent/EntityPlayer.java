@@ -116,6 +116,8 @@ public class EntityPlayer extends EntityNPC {
     public void die(Entity killer){
         super.die(killer);
         ENotificationMessage msg = new ENotificationMessage("You were killed by a "+killer.getName());
+        msg.setManager(eventManager);
+        msg.post();
     }
 
 }

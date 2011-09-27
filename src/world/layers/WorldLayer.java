@@ -56,7 +56,7 @@ public class WorldLayer{
 
     //--------------------------------------------------------------------------
 
-    private Map<Point,WorldChunk> chunk_data = new java.util.HashMap<Point,WorldChunk>(100);
+    public Map<Point,WorldChunk> chunk_data = new java.util.HashMap<Point,WorldChunk>(100);
     public Map<Point,WorldTile> tile_data = new java.util.HashMap<Point,WorldTile>(1000);
 
 

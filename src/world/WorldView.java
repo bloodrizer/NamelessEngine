@@ -5,8 +5,8 @@
 
 package world;
 
+import client.ClientGameEnvironment;
 import client.ClientEventManager;
-import client.ClientWorld;
 import world.layers.WorldLayer;
 import render.layers.GroundLayerRenderer;
 import render.layers.LayerRenderer;
@@ -81,7 +81,7 @@ public class WorldView implements IEventListener {
     public static boolean DRAW_GRID = false;
 
     private WorldLayer getLayer() {
-        return ClientWorld.getWorldLayer(view_z_index);
+        return ClientGameEnvironment.getWorldLayer(view_z_index);
     }
 
     public class TextureTransition {

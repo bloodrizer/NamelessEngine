@@ -7,7 +7,7 @@ package ui;
 
 import actions.IAction;
 import client.ClientEventManager;
-import client.ClientWorld;
+import client.ClientGameEnvironment;
 
 import events.EKeyPress;
 import events.EMouseClick;
@@ -221,7 +221,7 @@ public class GameUI implements IUserInterface,  IEventListener {
         }
 
         Point tile_origin = WorldView.getTileCoord(event.origin);
-        WorldTile tile = ClientWorld.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
+        WorldTile tile = ClientGameEnvironment.getWorldLayer(Player.get_zindex()).get_tile(tile_origin.getX(), tile_origin.getY());
         if (tile == null){
             System.out.println("no loaded tile at this position");
             return;
