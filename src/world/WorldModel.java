@@ -26,27 +26,8 @@ public class WorldModel implements IEventListener {
 
     public static final int LAYER_COUNT = 10;    //max depth of geometry layers
 
-    private final java.util.HashMap<Integer, WorldLayer> worldLayers
+    protected final java.util.HashMap<Integer, WorldLayer> worldLayers
             = new java.util.HashMap<Integer, WorldLayer>(LAYER_COUNT);
-
-    {
-        /*
-         * Create placeholder for every possile layers, starting 0 as a ground layer,
-         * and ending LAYER_COUNT as a deapest underground layer
-         *
-         */
-
-        for (int i = 0; i< LAYER_COUNT; i++ ){
-            WorldLayer layer = null;
-            if (i == WorldLayer.GROUND_LAYER){
-                layer = new WorldLayer();
-            }else{
-                layer = new UndergroundLayer();
-            }
-            layer.set_zindex(i);
-            worldLayers.put(i, layer);
-        }
-    }
 
     /**
     * Load region data from server including village assigment, ownership and so on
@@ -72,7 +53,21 @@ public class WorldModel implements IEventListener {
 
 
     public WorldModel(){
-        //EventManager.subscribe((IEventListener) this);
+        /*
+         * Create placeholder for every possile layers, starting 0 as a ground layer,
+         * and ending LAYER_COUNT as a deapest underground layer
+         *
+         */
+        for (int i = 0; i< LAYER_COUNT; i++ ){
+            WorldLayer layer = null;
+            if (i == WorldLayer.GROUND_LAYER){
+                layer = new WorldLayer();
+            }else{
+                layer = new UndergroundLayer();
+            }
+            layer.set_zindex(i);
+            worldLayers.put(i, layer);
+        }
     }
 
     public WorldLayer getWorldLayer(int layer_id){

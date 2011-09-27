@@ -16,7 +16,7 @@ import world.generators.ChunkUndergroundGenerator;
  */
 public class UndergroundLayer extends WorldLayer{
 
-    protected static void build_chunk(Point origin, int z_index){
+    protected void build_chunk(Point origin, int z_index){
         ChunkGenerator underground_gen = new ChunkUndergroundGenerator();
         underground_gen.set_zindex(z_index);
 

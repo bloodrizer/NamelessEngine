@@ -233,7 +233,7 @@ public class WorldLayer{
 
 
 
-    public static void process_chunk(Point origin, int z_index){
+    public void process_chunk(Point origin, int z_index){
         build_chunk(origin, z_index);
 
         /*
@@ -250,7 +250,7 @@ public class WorldLayer{
         
     }
 
-    protected static void build_chunk(Point origin, int z_index){
+    protected void build_chunk(Point origin, int z_index){
 
         System.out.println("building chunk @"+origin);
 
