@@ -49,8 +49,7 @@ public class WorldModel implements IEventListener {
         }
     };
 
-
-
+    private String name;
 
     public WorldModel(){
         /*
@@ -217,6 +216,10 @@ public class WorldModel implements IEventListener {
     public void setEnvironment(GameEnvironment environment) {
         this.environment = environment;
         environment.getEventManager().subscribe(this);
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

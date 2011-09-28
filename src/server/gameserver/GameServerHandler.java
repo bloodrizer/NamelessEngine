@@ -16,6 +16,7 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 import server.AServerIoLayer;
 import server.ServerUserPool;
 import server.User;
+import world.WorldModel;
 
 
 /**
@@ -26,6 +27,10 @@ public class GameServerHandler extends SimpleChannelHandler {
 
     private final AtomicLong transferredBytes = new AtomicLong();
     AServerIoLayer server;
+
+    public GameServer getServer(){
+        return (GameServer)server;
+    }
 
     public GameServerHandler(AServerIoLayer server){
         this.server = server;
@@ -51,6 +56,8 @@ public class GameServerHandler extends SimpleChannelHandler {
 
         //load player coords and shit
         sendMsg("EPlayerSpawn 10 10", channel);
+
+        //WorldModel model = getServer().getEnv().getWorld();
     }
 
     @Override

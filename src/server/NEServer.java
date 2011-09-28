@@ -4,6 +4,7 @@
  */
 package server;
 
+import net.sf.ehcache.CacheManager;
 import server.charserv.CharServer;
 import server.gameserver.GameServer;
 
@@ -29,5 +30,9 @@ public class NEServer {
         System.out.println("stopping NE Server wrapper");
         charServer.destroy();
         gameServer.destroy();
+    }
+
+    public CacheManager getCacheManager(){
+        return gameServer.getCacheManager();
     }
 }

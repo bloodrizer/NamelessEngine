@@ -12,6 +12,8 @@ import game.ent.controller.IEntityController;
 import game.ent.controller.NpcController;
 import java.util.ArrayList;
 import ne.Input;
+import ne.Main;
+import net.sf.ehcache.Cache;
 import org.lwjgl.util.Point;
 import org.newdawn.slick.Color;
 import player.Player;
@@ -49,14 +51,29 @@ public class DebugOverlay {
         OverlaySystem.ttf.drawString(10, 70, "FPS: " + Integer.toString( Timer.get_fps() ), Color.white);
 
         OverlaySystem.ttf.drawString(10, 90, "Camera @: " +
-                Integer.toString( (int)WorldViewCamera.camera_x )+
+                (int)WorldViewCamera.camera_x +
                 "," + 
-                Integer.toString( (int)WorldViewCamera.camera_y ) +
+                (int)WorldViewCamera.camera_y +
                 " - " + WorldViewCamera.target.toString()
-                ,
-        Color.white);
+                ,Color.white);
         
         OverlaySystem.ttf.drawString(WindowRender.get_window_w()-100 , 10, "z-index: " + WorldView.get_zindex(), Color.white);
+
+
+        //a little bit of cache debug
+
+
+        Cache srvCache = Main.neServer.getCacheManager().getCache("chunkCache");
+        if(srvCache==null){
+            return;
+        }
+        OverlaySystem.ttf.drawString(10, 110, "Server cache: size - " +
+                srvCache.getSize() +
+                ", mem - " +
+                srvCache.getMemoryStoreSize() +
+                ", disk - " +
+                srvCache.getDiskStoreSize()
+                ,Color.white);
     }
 
     public static void debugPathfinding() {

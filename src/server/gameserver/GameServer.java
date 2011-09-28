@@ -6,10 +6,12 @@
 package server.gameserver;
 
 import events.EventManager;
+import game.GameEnvironment;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import ne.Game;
 import ne.io.Io;
+import net.sf.ehcache.CacheManager;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelPipeline;
@@ -25,6 +27,7 @@ import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 import server.AServerIoLayer;
 import server.User;
+import server.world.ServerWorldModel;
 import world.WorldModel;
 
 /**
@@ -34,18 +37,45 @@ import world.WorldModel;
 public class GameServer extends AServerIoLayer{
     NioServerSocketChannelFactory nio_factory;
     
-    WorldModel worldModel;
+    GameEnvironment gameEnv;
     EventManager eventManager;
+
+    CacheManager cacheManager;
 
     public GameServer(){
         super("game-server");
+
+        System.out.println("Starting ehCache manager");
+        cacheManager = new CacheManager();
         
-        System.out.println("Loading server world...");
+        System.out.println("Loading server environment...");
 
         eventManager = new EventManager();
-        /*worldModel = new WorldModel();
 
-        eventManager.subscribe(worldModel);*/
+        gameEnv = new GameEnvironment() {
+            {
+                clientWorld = new ServerWorldModel(cacheManager);
+                clientWorld.setEnvironment(this);
+            }
+
+            @Override
+            public EventManager getEventManager() {
+                return eventManager;
+            }
+
+            @Override
+            public WorldModel getWorld() {
+                return clientWorld;
+            }
+        };
+
+        WorldModel model = gameEnv.getWorld();
+        model.setName("server-world");
+
+    }
+
+    public CacheManager getCacheManager(){
+        return cacheManager;
     }
 
     public void run(){
@@ -91,5 +121,9 @@ public class GameServer extends AServerIoLayer{
      */
     void registerUser(User user) {
         
+    }
+
+    GameEnvironment getEnv() {
+        return gameEnv;
     }
 }

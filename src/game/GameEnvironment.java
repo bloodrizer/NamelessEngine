@@ -24,9 +24,9 @@ import world.layers.WorldLayer;
 
 public class GameEnvironment {
 
-    EntityManager entManager = null;
-    EventManager manager = null;
-    WorldModel clientWorld = null;
+    protected EntityManager entManager = null;
+    protected EventManager manager = null;
+    protected WorldModel clientWorld = null;
 
 
     public EventManager getEventManager(){

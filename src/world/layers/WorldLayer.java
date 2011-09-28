@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import ne.Game;
+import net.sf.ehcache.CacheManager;
 import org.lwjgl.util.Point;
 import ui.GameUI;
 import world.Terrain;
@@ -48,7 +49,7 @@ public class WorldLayer{
 
     
     //--------------------------------------------------------------------------
-    private Point util_point     = new Point(0,0);
+    protected Point util_point     = new Point(0,0);
     private Point __stack_point  = new Point(0,0);
 
     private static boolean light_outdated = false;  //shows if model should rebuild terrain lightning
@@ -77,10 +78,10 @@ public class WorldLayer{
     }
 
     //todo: use actual stack there
-    private void push_point(Point point){
+    protected void push_point(Point point){
         __stack_point.setLocation(point);
     }
-    private void pop_point(Point point){
+    protected void pop_point(Point point){
         point.setLocation(__stack_point);
     }
 
