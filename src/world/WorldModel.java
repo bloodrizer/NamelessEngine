@@ -211,7 +211,7 @@ public class WorldModel implements IEventListener {
 
     }
 
-    private GameEnvironment environment = null;
+    protected GameEnvironment environment = null;
 
     public void setEnvironment(GameEnvironment environment) {
         this.environment = environment;

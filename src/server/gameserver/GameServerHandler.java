@@ -6,6 +6,10 @@
 package server.gameserver;
 
 import events.network.NetworkEvent;
+import game.GameEnvironment;
+import game.ent.Entity;
+import game.ent.EntityNPC;
+import game.ent.controller.NpcController;
 import java.util.concurrent.atomic.AtomicLong;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -13,6 +17,8 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import org.lwjgl.util.Point;
+import player.Player;
 import server.AServerIoLayer;
 import server.ServerUserPool;
 import server.User;
@@ -56,6 +62,8 @@ public class GameServerHandler extends SimpleChannelHandler {
 
         //load player coords and shit
         sendMsg("EPlayerSpawn 10 10", channel);
+
+        spawnPlayerCharacter();
 
         //WorldModel model = getServer().getEnv().getWorld();
     }
@@ -120,6 +128,24 @@ public class GameServerHandler extends SimpleChannelHandler {
         }
 
         //sock_send(sb.toString());
+    }
+
+    private void spawnPlayerCharacter() {
+
+        //This shit loads resources for whatever reason.
+        //TODO: solve this
+
+        /*GameEnvironment env = getServer().getEnv();
+
+        Entity mplayer_ent = new EntityNPC();
+        mplayer_ent.set_controller(new NpcController(env));
+
+        //TODO: load layer
+        mplayer_ent.setLayerId(0);
+        mplayer_ent.setEventManager(env.getEventManager());
+
+        //EntityManager.add(mplayer_ent);       ?
+        mplayer_ent.spawn(123456789, new Point(10,10));*/
     }
 
 }

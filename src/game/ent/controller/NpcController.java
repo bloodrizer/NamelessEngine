@@ -12,6 +12,7 @@ import events.Event;
 import events.EventManager;
 import events.IEventListener;
 import events.network.EEntitySetPath;
+import game.GameEnvironment;
 import game.ent.Entity.Orientation;
 import java.util.EventListener;
 import org.lwjgl.util.Point;
@@ -40,12 +41,28 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
 
     int path_synch_counter = 0;
-
     public int NEXT_FRAME_DELAY = 100;
     public float MOVE_SPEED = 0.10f;
 
+    static final boolean ALLOW_DIAGONAL_MOVEMENT = true;
+    private AStarPathFinder finder;
+
     public NpcController(){
         ClientEventManager.eventManager.subscribe(this);
+
+        finder = new AStarPathFinder(
+            ClientGameEnvironment.getWorldLayer(Player.get_zindex()).tile_map,
+            50,
+            ALLOW_DIAGONAL_MOVEMENT);
+    }
+
+    public NpcController(GameEnvironment env){
+        env.getEventManager().subscribe(this);
+        
+        finder = new AStarPathFinder(
+            env.getWorldLayer(Player.get_zindex()).tile_map,
+            50,
+            ALLOW_DIAGONAL_MOVEMENT);
     }
 
     @Override
@@ -76,13 +93,6 @@ public class NpcController extends BaseController implements Mover, IEventListen
         );
 
     }
-
-    static final boolean ALLOW_DIAGONAL_MOVEMENT = true;
-    private static AStarPathFinder finder = new AStarPathFinder(
-            ClientGameEnvironment.getWorldLayer(Player.get_zindex()).tile_map,
-            50,
-            ALLOW_DIAGONAL_MOVEMENT
-   );
 
     public void calculate_path(int x, int y){
 

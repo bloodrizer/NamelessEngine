@@ -36,7 +36,8 @@ import world.WorldModel;
  */
 public class GameServer extends AServerIoLayer{
     NioServerSocketChannelFactory nio_factory;
-    
+
+
     GameEnvironment gameEnv;
     EventManager eventManager;
 
@@ -125,5 +126,13 @@ public class GameServer extends AServerIoLayer{
 
     GameEnvironment getEnv() {
         return gameEnv;
+    }
+
+    @Override
+    public void destroy(){
+        super.destroy();
+
+        System.out.println("Shutting down ehCache manager");
+        cacheManager.shutdown();
     }
 }

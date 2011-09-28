@@ -49,6 +49,7 @@ public class ServerWorldModel extends WorldModel{
         for (int i = 0; i< LAYER_COUNT; i++ ){
             WorldLayer layer = new ServerWorldLayer();
             ((ServerWorldLayer)layer).setCacheManager(cacheManager);
+            ((ServerWorldLayer)layer).setModel(ServerWorldModel.this);
 
             layer.set_zindex(i);
             worldLayers.put(i, layer);

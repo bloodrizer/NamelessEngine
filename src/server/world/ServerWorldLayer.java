@@ -5,11 +5,13 @@
 
 package server.world;
 
+import game.GameEnvironment;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.lwjgl.util.Point;
 import world.WorldChunk;
+import world.WorldModel;
 import world.layers.WorldLayer;
 
 /**
@@ -19,6 +21,7 @@ import world.layers.WorldLayer;
 public class ServerWorldLayer extends WorldLayer {
 
     CacheManager cacheManager = null;
+    private WorldModel model;
 
 
     @Override
@@ -30,6 +33,12 @@ public class ServerWorldLayer extends WorldLayer {
         Cache cache = cacheManager.getCache("chunkCache");
         Element element = cache.get(util_point);
         Object objChunk = element.getObjectValue();
+
+
+        if (chunk_data.containsKey(util_point)){
+            
+        }
+
 
         pop_point(util_point);
 
@@ -60,5 +69,9 @@ public class ServerWorldLayer extends WorldLayer {
 
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    public void setModel(WorldModel model){
+        this.model = model;
     }
 }
