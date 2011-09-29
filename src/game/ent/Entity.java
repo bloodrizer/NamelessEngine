@@ -161,7 +161,8 @@ public class Entity implements Comparable {
     }
 
     public WorldLayer getLayer() {
-        return ClientGameEnvironment.getWorldLayer(layer_id);
+        return env.getWorldLayer(layer_id);
+        //return ClientGameEnvironment.getWorldLayer(layer_id);
     }
 
     public void setEnvironment(GameEnvironment env){
@@ -178,6 +179,10 @@ public class Entity implements Comparable {
             throw new RuntimeException("Spawning entity without correct layerID");
         }
         
+        if (env == null){
+            throw new RuntimeException("Spawning entity without enviroment");
+        }
+
         env.getEntityManager().add(this, layer_id);
 
         this.uid = uid;

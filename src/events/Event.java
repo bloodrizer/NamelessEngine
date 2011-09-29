@@ -49,13 +49,14 @@ public class Event {
     }
 
     public void setManager(EventManager manager){
-
+        this.manager = manager;
     }
 
     public void post(){
         if (manager==null){
             //hack for easy migration
             manager = ClientEventManager.eventManager;
+            //throw new RuntimeException("No event manager to dispatch posted event");
         }
         
         manager.notify_event(this);

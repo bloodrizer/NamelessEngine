@@ -25,7 +25,7 @@ public class WorldTimer {
     public static final Calendar datetime = Calendar.getInstance();
     static {
         //java.util.Timer timer = new java.util.Timer();
-        datetime.set(Calendar.HOUR_OF_DAY, 1);
+        datetime.set(Calendar.HOUR_OF_DAY, 14);
         datetime.set(Calendar.SECOND, 0);
     }
 

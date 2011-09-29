@@ -271,6 +271,7 @@ public class WorldLayer{
         System.out.println("building chunk @"+origin);
 
         ChunkGenerator ground_gen = new ChunkGroundGenerator();
+        ground_gen.setEnvironment(model.getEnvironment());
         ground_gen.set_zindex(z_index);
         ground_gen.generate(origin);
 
@@ -279,6 +280,7 @@ public class WorldLayer{
          */
 
         NPCVillageGenerator village_gen = new NPCVillageGenerator();
+        village_gen.setEnvironment(model.getEnvironment());
         village_gen.set_zindex(z_index);
         village_gen.generate(origin);
 
@@ -307,6 +309,10 @@ public class WorldLayer{
 
 
     public void move_entity(Entity entity, Point coord_dest){
+
+        System.err.println(model.getName()+" is changing coordinates for entity "+entity.getName()+"("+entity.get_uid()+")");
+
+
         Point coord_from = new Point(entity.origin);  //defence copy
         
         //System.out.println("world model::on entity move to:"+coord_dest.toString());
@@ -321,6 +327,8 @@ public class WorldLayer{
         WorldChunk new_chunk = get_cached_chunk(WorldChunk.get_chunk_coord(coord_dest));
         if (new_chunk != null && !entity.in_chunk(new_chunk)){
 
+            System.err.println(model.getName()+" is changing chunk for entity "+entity.getName());
+
             WorldChunk ent_chunk = entity.get_chunk();
             //todo: move to event dispatcher?
             if(ent_chunk != null ){
@@ -332,6 +340,7 @@ public class WorldLayer{
 
             //------------------------------------------------------------------
             EEntityChangeChunk e_change_chunk = new EEntityChangeChunk(entity,ent_chunk,new_chunk);
+            e_change_chunk.setManager(model.getEnvironment().getEventManager());
             e_change_chunk.post();
             //----------------------------------------------------------------------
         }

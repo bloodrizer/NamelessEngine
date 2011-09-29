@@ -81,7 +81,7 @@ class CharClientHandler extends SimpleChannelHandler {
 
             System.out.println("Initiating EPlayerAuthorize");
             EPlayerAuthorise event = new EPlayerAuthorise();
-            //event.setManager(ClientEventManager.eventManager);
+            event.setManager(ClientEventManager.eventManager);
             event.post();
         }
         

@@ -35,4 +35,8 @@ public class NEServer {
     public CacheManager getCacheManager(){
         return gameServer.getCacheManager();
     }
+
+    public void update() {
+        gameServer.update();
+    }
 }

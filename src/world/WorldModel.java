@@ -227,4 +227,7 @@ public class WorldModel implements IEventListener {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
 }

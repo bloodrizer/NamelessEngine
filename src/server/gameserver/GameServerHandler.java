@@ -63,7 +63,7 @@ public class GameServerHandler extends SimpleChannelHandler {
         //load player coords and shit
         sendMsg("EPlayerSpawn 10 10", channel);
 
-        spawnPlayerCharacter();
+        spawnPlayerCharacter(user);
 
         //WorldModel model = getServer().getEnv().getWorld();
     }
@@ -107,6 +107,14 @@ public class GameServerHandler extends SimpleChannelHandler {
             sendMsg("EEntitySpawn "+SPAWN_OBJECT+" "+entType+" "+x+" "+y, ioChannel);
         }
 
+        if (eventType.equals("events.network.EEntitySetPath")){
+            int x = Integer.parseInt(packet[1]);
+            int y = Integer.parseInt(packet[2]);
+
+            User user = ServerUserPool.getUser(ioChannel);
+            moveUser(user, x, y);
+        }
+
     }
 
     private void sendMsg(String msg, Channel ioChannel){
@@ -130,7 +138,7 @@ public class GameServerHandler extends SimpleChannelHandler {
         //sock_send(sb.toString());
     }
 
-    private void spawnPlayerCharacter() {
+    private void spawnPlayerCharacter(User user) {
 
         //This shit loads resources for whatever reason.
         //TODO: solve this
@@ -146,7 +154,19 @@ public class GameServerHandler extends SimpleChannelHandler {
         mplayer_ent.setEnvironment(env);
 
         //EntityManager.add(mplayer_ent);       ?
-        mplayer_ent.spawn(123456789, new Point(10,10));
+        mplayer_ent.spawn(user.getId(), new Point(10,10));
+
+        user.setEntity(mplayer_ent);
+    }
+
+    private void moveUser(User user, int x, int y) {
+        Entity ent = user.getEntity();
+
+        if(ent == null){
+            throw new RuntimeException("trying to move NULL user entity");
+        }
+
+        ent.move_to(new Point(x, y));
     }
 
 }

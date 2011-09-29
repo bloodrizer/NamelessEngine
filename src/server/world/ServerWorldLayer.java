@@ -35,6 +35,11 @@ public class ServerWorldLayer extends WorldLayer {
         
         Cache cache = cacheManager.getCache("chunkCache");
         Element element = cache.get(util_point);
+        
+        if (element == null){
+            return precache_chunk(chunk_x, chunk_y);
+        }
+
         Serializable objChunk = element.getValue();
         WorldChunk chunk = ((WorldChunk)objChunk);
 
@@ -55,15 +60,6 @@ public class ServerWorldLayer extends WorldLayer {
     }
 
     @Override
-    protected void build_chunk(Point origin, int z_index) {
-        //TODO: implement server-side chunk generation
-        //TODO: implement server-side chunk generation
-        //2. If not, perform generation cycle on it and create necesery entities
-        //2. If not, perform generation cycle on it and create necesery entities
-        //3. Then load entities list from database
-    }
-
-    @Override
     public synchronized void chunk_gc() {
         //check if this chunk was not used for a long amt of time,
         //far from any player,  or we running low on memory
@@ -78,6 +74,18 @@ public class ServerWorldLayer extends WorldLayer {
 
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    private WorldChunk precache_chunk(int x, int y){
+        WorldChunk chunk = new WorldChunk(x, y);
+
+        Cache cache = cacheManager.getCache("chunkCache");
+        Element element = new Element(new Point(x,y), chunk);
+        cache.put(element);
+
+        process_chunk(chunk.origin, z_index);
+
+        return chunk;
     }
 
 }

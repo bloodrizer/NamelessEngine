@@ -135,4 +135,8 @@ public class GameServer extends AServerIoLayer{
         System.out.println("Shutting down ehCache manager");
         cacheManager.shutdown();
     }
+
+    public void update() {
+        gameEnv.getWorld().update();
+    }
 }

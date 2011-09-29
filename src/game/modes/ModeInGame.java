@@ -32,6 +32,7 @@ import game.ent.monsters.EntMonster;
 import items.BaseItem;
 import ne.Input;
 import ne.Input.MouseInputType;
+import ne.Main;
 import ne.effects.EffectsSystem;
 import ne.io.Io;
 import ne.ui.NE_GUI_System;
@@ -159,7 +160,9 @@ public class ModeInGame implements IGameMode, IEventListener {
         overlay.render();
 
         
-        
+        //----------------------------------------------------------------------
+        //HACKHACKHACK - update server
+        Main.neServer.update();
     }
 
     IUserInterface ui = null;

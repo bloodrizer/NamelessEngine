@@ -77,7 +77,11 @@ public class ChunkGroundGenerator extends ChunkGenerator {
             for (int j = y; j<y+size; j++)
             {
                 WorldTile tile = getLayer().get_tile(i, j);
-                tile.moisture = Terrain.get_moisture(i, j);
+                //tile.moisture = Terrain.get_moisture(i, j);
+
+                //Do not calculate actual humidity. Get random perlin2d value instead
+
+
                 tile.update_biome_type();
 
                 if (tile.terrain_type != TerrainType.TERRAIN_WATER){
@@ -135,7 +139,7 @@ public class ChunkGroundGenerator extends ChunkGenerator {
 
     //TODO: use environment.getWorldLayer there
     private WorldLayer getLayer() {
-        return ClientGameEnvironment.getWorldLayer(z_index);
+        return environment.getWorldLayer(z_index);
     }
     
     //--------------------------------------------------------------------------
