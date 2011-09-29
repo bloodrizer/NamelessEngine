@@ -28,18 +28,6 @@ public class EventManager {
             return;
         }
 
-        NE_GUI_System ui =  Game.get_game_mode().get_ui().get_nge_ui();
-        if(ui!=null){
-            ui.e_on_event(event);
-        }
-
-        /*
-         *  Note, that event manager does not notify
-         *  GUI System as regular listener.
-         *  It makes explicit call to ensure that
-         *  message is registered by GUI overlay first
-         *  and dispatched if nececary
-         */
 
         if (event.is_dispatched()){
             return; //do not allow to handle events, catched by gui overlay

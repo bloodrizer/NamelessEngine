@@ -135,17 +135,18 @@ public class GameServerHandler extends SimpleChannelHandler {
         //This shit loads resources for whatever reason.
         //TODO: solve this
 
-        /*GameEnvironment env = getServer().getEnv();
+        GameEnvironment env = getServer().getEnv();
 
         Entity mplayer_ent = new EntityNPC();
+        mplayer_ent.setEnvironment(env);
         mplayer_ent.set_controller(new NpcController(env));
 
         //TODO: load layer
         mplayer_ent.setLayerId(0);
-        mplayer_ent.setEventManager(env.getEventManager());
+        mplayer_ent.setEnvironment(env);
 
         //EntityManager.add(mplayer_ent);       ?
-        mplayer_ent.spawn(123456789, new Point(10,10));*/
+        mplayer_ent.spawn(123456789, new Point(10,10));
     }
 
 }
