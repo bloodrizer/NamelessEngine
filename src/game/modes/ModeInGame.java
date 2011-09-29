@@ -106,11 +106,13 @@ public class ModeInGame implements IGameMode, IEventListener {
         
         Entity player_ent = new EntityPlayer();
         player_ent.setName(Player.characterInfo.name);
+        
+        player_ent.setEnvironment(clientGameEnvironment);
         //player_ent.setName(event.charInfo.name);
         
         //TODO: extract player information from the event
         
-        EntityManager.add(player_ent, Player.get_zindex());
+        clientGameEnvironment.getEntityManager().add(player_ent, Player.get_zindex());
         player_ent.spawn(12345, location);
 
         WorldViewCamera.target.setLocation(location);

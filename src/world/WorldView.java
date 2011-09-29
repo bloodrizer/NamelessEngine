@@ -139,7 +139,7 @@ public class WorldView implements IEventListener {
 
     public void render_entities(){
         
-        for (Iterator iter = EntityManager.getList(view_z_index).iterator(); iter.hasNext();) {
+        for (Iterator iter = ClientGameEnvironment.getEntityManager().getList(view_z_index).iterator(); iter.hasNext();) {
            Entity entity = (Entity) iter.next();
            render_entity(entity);
         }

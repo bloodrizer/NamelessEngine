@@ -30,8 +30,8 @@ public class EntLadder extends EntBuilding {
                     int layerFromID = Player.get_zindex();
                     Player.set_zindex(layerFromID+1);
 
-                    EntityManager.remove_entity(Player.get_ent(), layerFromID);
-                    EntityManager.add(Player.get_ent(), Player.get_zindex());
+                    env.getEntityManager().remove_entity(Player.get_ent(), layerFromID);
+                    env.getEntityManager().add(Player.get_ent(), Player.get_zindex());
 
                     WorldView.set_zindex(Player.get_zindex());
 

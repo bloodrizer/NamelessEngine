@@ -39,9 +39,11 @@ import world.util.astar.TileBasedMap;
 public class WorldLayer{
 
 
+    protected WorldModel model;
+        
     public static final int GROUND_LAYER = 0;
 
-    private int z_index;
+    protected int z_index;
 
     static final int MAP_SIZE = WorldCluster.CLUSTER_SIZE*WorldChunk.CHUNK_SIZE;
     public WorldModelTileMap tile_map = new WorldModelTileMap(this);
@@ -61,13 +63,13 @@ public class WorldLayer{
     public Map<Point,WorldTile> tile_data = new java.util.HashMap<Point,WorldTile>(1000);
 
 
-
+    public void setModel(WorldModel model){
+        this.model = model;
+    }
     
-    /*public static WorldLayer get_layer(int layer_id){
-        WorldLayer layer = world_layers.get(layer_id);
-        return layer;
-    }*/
-
+    protected EntityManager getEntManager(){
+        return model.getEnvironment().getEntityManager();
+    }
     
     public void set_tile(Point origin, WorldTile tile){
         tile_data.put(origin, tile);
@@ -133,7 +135,7 @@ public class WorldLayer{
 
     public void update(){
         
-        ArrayList<Entity> entList = EntityManager.getList(z_index);
+        ArrayList<Entity> entList = getEntManager().getList(z_index);
         Object[] entArray = entList.toArray();
         
         for(int i=entList.size()-1; i>=0; i--){
@@ -149,7 +151,7 @@ public class WorldLayer{
             }
 
             if (entity.is_garbage()){
-                EntityManager.remove_entity(entity);
+                getEntManager().remove_entity(entity);
                 entity.tile.remove_entity(entity);
             }
         }
@@ -171,7 +173,7 @@ public class WorldLayer{
     public void recalculate_light(){
 
 
-        Object[] ent_list = EntityManager.getList(z_index).toArray();
+        Object[] ent_list = getEntManager().getList(z_index).toArray();
 
         int x = WorldCluster.origin.getX()*WorldChunk.CHUNK_SIZE;
         int y = WorldCluster.origin.getY()*WorldChunk.CHUNK_SIZE;
@@ -224,7 +226,20 @@ public class WorldLayer{
      */
 
     private WorldChunk precache_chunk(int x, int y){
-        WorldChunk chunk = new WorldChunk(x, y);
+        WorldChunk chunk = new WorldChunk(x, y){
+            @Override
+            public synchronized void unload(){
+                System.out.println("unloading chunk @"+origin.toString());
+                System.out.println("trying to remove " + Integer.toString( entList.size() ) +" entities");
+
+                for (Iterator iter = entList.iterator(); iter.hasNext();) {
+                        Entity ent = (Entity) iter.next();
+                        getEntManager().remove_entity(ent);
+                        iter.remove();
+                }
+                System.out.println(Integer.toString( entList.size() ) +" entities left");
+            }
+        };
 
         chunk_data.put(new Point(x,y), chunk);
         process_chunk(chunk.origin, z_index);

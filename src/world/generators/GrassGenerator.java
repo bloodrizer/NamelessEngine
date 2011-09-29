@@ -54,18 +54,18 @@ public class GrassGenerator extends ObjectGenerator {
     }
 
     public static void add_grass(int i, int j){
-        EntDecalGrass grass_ent = new EntDecalGrass();
+        /*EntDecalGrass grass_ent = new EntDecalGrass();
         EntityManager.add(grass_ent, WorldLayer.GROUND_LAYER);
         grass_ent.spawn(1, new Point(i,j));
 
-        grass_ent.set_blocking(false);    //obstacle
+        grass_ent.set_blocking(false);    //obstacle*/
     }
     public static void add_flower(int i, int j){
 
-        EntDecalFlower flower_ent = new EntDecalFlower();
+        /*EntDecalFlower flower_ent = new EntDecalFlower();
         EntityManager.add(flower_ent, WorldLayer.GROUND_LAYER);
         flower_ent.spawn(1, new Point(i,j));
-        flower_ent.set_blocking(false);    //obstacle
+        flower_ent.set_blocking(false);    //obstacle*/
     }
 
 }

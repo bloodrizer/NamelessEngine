@@ -31,15 +31,12 @@ public class ChestGenerator extends ObjectGenerator {
     }
 
     public static void add_chest(int i, int j){
-        EntChest chest = new EntChest();
+        /*EntChest chest = new EntChest();
         chest.setLayerId(WorldLayer.GROUND_LAYER);
         chest.spawn(new Point(i,j));
 
         chest.set_blocking(true);    //obstacle
 
-        /*chest.container.add_item(
-                    BaseItem.produce("copper_coin", 15)
-        );*/
 
         //chest loot
         int chance = (int)(Math.random()*100.0f);
@@ -48,7 +45,7 @@ public class ChestGenerator extends ObjectGenerator {
             chest.container.add_item(
                     BaseItem.produce("copper_coin", count)
             );
-        }
+        }*/
     }
 
 }

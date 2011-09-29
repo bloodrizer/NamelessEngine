@@ -20,7 +20,7 @@ public class EntityActor extends Entity {
     public void say_message(String text){
         EChatMessage message = new EChatMessage(get_uid(),text);
         message.set_local(true);
-        message.setManager(eventManager);
+        message.setManager(env.getEventManager());
         message.post();
     }
 

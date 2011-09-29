@@ -118,7 +118,7 @@ public class GameServerLayer extends IoLayer {
 
 
         }
-        if (data[0].equals("0x0201")) {  //EntRemove
+        /*if (data[0].equals("0x0201")) {  //EntRemove
             Entity ent = EntityManager.get_entity(
                     Integer.parseInt(data[1]));
             EntityManager.remove_entity(ent);
@@ -143,6 +143,6 @@ public class GameServerLayer extends IoLayer {
                         Integer.parseInt(data[3]),
                         Integer.parseInt(data[4])));
             }
-        }
+        }*/
     }
 }

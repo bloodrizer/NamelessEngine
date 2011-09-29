@@ -65,6 +65,7 @@ public class WorldModel implements IEventListener {
                 layer = new UndergroundLayer();
             }
             layer.set_zindex(i);
+            layer.setModel(this);
             worldLayers.put(i, layer);
         }
     }
@@ -216,6 +217,10 @@ public class WorldModel implements IEventListener {
     public void setEnvironment(GameEnvironment environment) {
         this.environment = environment;
         environment.getEventManager().subscribe(this);
+    }
+    
+    public GameEnvironment getEnvironment(){
+        return environment;
     }
 
     public void setName(String name) {

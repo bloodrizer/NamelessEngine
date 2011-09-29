@@ -31,9 +31,9 @@ public class EntityManager implements IEventListener{
     /*static final ArrayList<Entity> ent_list = new ArrayList<Entity>();
     public static Collection ent_list_sync = Collections.synchronizedCollection(ent_list);*/
 
-    public static HashMap<Integer, ArrayList<Entity>> layer_ent_list = new HashMap<Integer, ArrayList<Entity>>(100);
+    public HashMap<Integer, ArrayList<Entity>> layer_ent_list = new HashMap<Integer, ArrayList<Entity>>(100);
 
-    public static void add(Entity ent, int layer_id){
+    public void add(Entity ent, int layer_id){
         ent.setLayerId(layer_id);      
         ArrayList<Entity> entList = getList(layer_id);
 
@@ -42,7 +42,7 @@ public class EntityManager implements IEventListener{
         }
     }
     
-    public static ArrayList<Entity> getList(int layer_id){
+    public ArrayList<Entity> getList(int layer_id){
          ArrayList<Entity> entList = layer_ent_list.get(layer_id);
 
         if (entList == null){
@@ -70,31 +70,31 @@ public class EntityManager implements IEventListener{
      * This method is called whether entity moves or spawns
      * to be sure that render order is correct
      */
-    public static void update(){
+    public void update(){
         for(ArrayList<Entity> list: layer_ent_list.values()){
             Collections.sort(list);
         }
     }
 
-    public static boolean has_ent(Entity ent, int layer_id){
+    public boolean has_ent(Entity ent, int layer_id){
         return getList(layer_id).contains(ent);
     }
 
-    public static void remove_entity(Entity ent, int layer_id){
+    public void remove_entity(Entity ent, int layer_id){
         getList(layer_id).remove(ent);
     }
     
-    public static void remove_entity(Entity ent){
+    public void remove_entity(Entity ent){
         for (int layer_id: layer_ent_list.keySet()){
             remove_entity(ent, layer_id);
         }
     }
 
-    public static Entity[] getEntities(int layer_id){
+    public Entity[] getEntities(int layer_id){
         return (Entity[]) getList(layer_id).toArray(new Entity[0]);
     }
 
-    public static Entity get_entity(int entity_id, int layer_id){
+    public Entity get_entity(int entity_id, int layer_id){
         for (Entity ent: getList(layer_id)){
             if (ent.get_uid() == entity_id){
                 return ent;
@@ -106,7 +106,7 @@ public class EntityManager implements IEventListener{
     /*
      * Search for entity in whole list
      */
-    public static Entity get_entity(int uid) {
+    public Entity get_entity(int uid) {
         for (int layer_id: layer_ent_list.keySet()){
             Entity ent = get_entity(uid, layer_id);
             if (ent!=null){

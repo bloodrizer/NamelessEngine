@@ -6,6 +6,7 @@
 package client;
 
 import game.GameEnvironment;
+import game.ent.EntityManager;
 import world.WorldModel;
 import world.layers.WorldLayer;
 
@@ -33,6 +34,10 @@ public class ClientGameEnvironment {
 
     public static WorldLayer getWorldLayer(int layerID){
         return getWorldModel().getWorldLayer(layerID);
+    }
+
+    public static EntityManager getEntityManager() {
+        return env.getEntityManager();
     }
 
 }

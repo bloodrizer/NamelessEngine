@@ -76,22 +76,23 @@ public class TreeGenerator extends ObjectGenerator {
     }
 
     public static void add_tree(int i, int j){
-        EntityTree tree_ent = new EntityTree();
+        /*EntityTree tree_ent = new EntityTree();
         EntityManager.add(tree_ent, WorldLayer.GROUND_LAYER);
         tree_ent.spawn(1, new Point(i,j));
 
-        tree_ent.set_blocking(true);    //obstacle
+        tree_ent.set_blocking(true);    //obstacle*/
     }
     public static void add_cacti(int i, int j){
 
-        EntityCacti tree_ent = new EntityCacti();
+        /*EntityCacti tree_ent = new EntityCacti();
         EntityManager.add(tree_ent, WorldLayer.GROUND_LAYER);
         tree_ent.spawn(1, new Point(i,j));
 
         tree_ent.set_blocking(true);    //obstacle
 
         //tree_ent.set_controller(new MobController());
-        //tree_ent.set_ai(new BasicMobAI());
+        //tree_ent.set_ai(new BasicMobAI());*/
+        
     }
 
 }

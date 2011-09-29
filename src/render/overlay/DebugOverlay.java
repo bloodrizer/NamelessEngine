@@ -85,7 +85,7 @@ public class DebugOverlay {
         Point tileFrom = new Point(0,0);
         Point tileTo = new Point(0,0);
 
-        Entity[] entList = EntityManager.getEntities(WorldView.get_zindex());
+        Entity[] entList = ClientGameEnvironment.getEntityManager().getEntities(WorldView.get_zindex());
         for (Entity ent: entList){
             IEntityController controller = ent.controller;
             //SO FAR WE ONLY DEBUG PLAYER

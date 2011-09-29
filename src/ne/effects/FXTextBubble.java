@@ -5,6 +5,7 @@
 
 package ne.effects;
 
+import client.ClientGameEnvironment;
 import render.AreaRenderer;
 import ne.ui.NE_GUI_SpriteArea;
 import render.Render;
@@ -44,7 +45,7 @@ public class FXTextBubble extends Effect_Element {
             return; //solves compatability issues with child class
         }
 
-        Entity player_ent = EntityManager.get_entity(eChatMessage.uid);
+        Entity player_ent = ClientGameEnvironment.getEnvironment().getEntityManager().get_entity(eChatMessage.uid);
         if (player_ent!=null){
             ent = player_ent;
             message = eChatMessage.message;

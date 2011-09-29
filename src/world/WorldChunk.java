@@ -7,6 +7,7 @@ package world;
 
 import game.ent.Entity;
 import game.ent.EntityManager;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,13 +18,13 @@ import world.layers.WorldLayer;
  *
  * @author Administrator
  */
-public class WorldChunk {
+public class WorldChunk implements Serializable{
     //todo: synch with server?
     public static final int CHUNK_SIZE = 32;
 
     public Point origin = new Point(0,0);
 
-    private List<Entity> ent_list = new ArrayList<Entity>(100);
+    protected List<Entity> entList = new ArrayList<Entity>(100);
 
     public boolean dirty = true;
     
@@ -32,12 +33,16 @@ public class WorldChunk {
     public WorldChunk(int chunk_x, int chunk_y){
         origin.setLocation(chunk_x, chunk_y);
     }
+    
+    public List<Entity> getEntList(){
+        return entList;
+    }
 
     public synchronized boolean add_entity(Entity ent){
 
-        if (!ent_list.contains(ent)){
+        if (!entList.contains(ent)){
 
-            ent_list.add(ent);
+            entList.add(ent);
             ent.set_chunk(this);
             
             return true;
@@ -46,24 +51,9 @@ public class WorldChunk {
         return false;
     }
 
-    public synchronized void unload(){
-
-        System.out.println("unloading chunk @"+origin.toString());
-        System.out.println("trying to remove " + Integer.toString( ent_list.size() ) +" entities");
-
-   
-        for (Iterator iter = ent_list.iterator(); iter.hasNext();) {
-                Entity ent = (Entity) iter.next();
-                EntityManager.remove_entity(ent);
-                //remove_entity(ent);
-                iter.remove();
-        }
-
-        System.out.println(Integer.toString( ent_list.size() ) +" entities left");
-    }
 
     public void remove_entity(Entity ent){
-            ent_list.remove(ent);
+            entList.remove(ent);
     }
 
     public void set_layer(WorldLayer layer) {
@@ -76,6 +66,10 @@ public class WorldChunk {
         int cy = (int)Math.floor((float)position.getY() / CHUNK_SIZE);
 
         return new Point(cx,cy);
+    }
+    
+    public synchronized void unload(){
+        throw new RuntimeException("Unloading method is not defined");
     }
 
 }

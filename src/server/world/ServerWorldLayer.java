@@ -6,6 +6,9 @@
 package server.world;
 
 import game.GameEnvironment;
+import game.ent.Entity;
+import java.io.Serializable;
+import java.util.List;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -21,7 +24,7 @@ import world.layers.WorldLayer;
 public class ServerWorldLayer extends WorldLayer {
 
     CacheManager cacheManager = null;
-    private WorldModel model;
+
 
 
     @Override
@@ -32,11 +35,17 @@ public class ServerWorldLayer extends WorldLayer {
         
         Cache cache = cacheManager.getCache("chunkCache");
         Element element = cache.get(util_point);
-        Object objChunk = element.getObjectValue();
+        Serializable objChunk = element.getValue();
+        WorldChunk chunk = ((WorldChunk)objChunk);
 
 
-        if (chunk_data.containsKey(util_point)){
+        if (!chunk_data.containsKey(util_point)){
+            //register chunk objects into the global entity pool
+            List<Entity> entList = chunk.getEntList();
             
+            for (Entity ent: entList){
+                model.getEnvironment().getEntityManager().add(ent, z_index);
+            }
         }
 
 
@@ -71,7 +80,4 @@ public class ServerWorldLayer extends WorldLayer {
         this.cacheManager = cacheManager;
     }
 
-    public void setModel(WorldModel model){
-        this.model = model;
-    }
 }

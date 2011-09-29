@@ -10,6 +10,7 @@ import client.ClientGameEnvironment;
 import events.EEntitySpawn;
 import events.EventManager;
 import events.network.EEntityMove;
+import game.GameEnvironment;
 import game.ai.AI;
 import game.combat.Combat;
 import game.ent.Entity;
@@ -66,7 +67,7 @@ public class Entity implements Comparable {
     //TODO: FIX ME FIX ME FIX ME
     private int layer_id = -1;
 
-    protected EventManager eventManager = null;
+    protected GameEnvironment env = null;
     
     public enum Orientation {
         ORIENT_N,
@@ -163,8 +164,12 @@ public class Entity implements Comparable {
         return ClientGameEnvironment.getWorldLayer(layer_id);
     }
 
-    public void setEventManager(EventManager manager){
-        this.eventManager = manager;
+    public void setEnvironment(GameEnvironment env){
+        this.env = env;
+    }
+    
+    public GameEnvironment getEnvironment(){
+        return env;
     }
 
     //--------------------------------------------------------------------------
@@ -173,14 +178,14 @@ public class Entity implements Comparable {
             throw new RuntimeException("Spawning entity without correct layerID");
         }
         
-        EntityManager.add(this, layer_id);
+        env.getEntityManager().add(this, layer_id);
 
         this.uid = uid;
         this.origin = origin;
 
 
         EEntitySpawn spawnEvent = new EEntitySpawn(this,origin);
-        spawnEvent.setManager(eventManager);
+        spawnEvent.setManager(env.getEventManager());
         spawnEvent.post();
 
         set_next_think(Timer.get_time());
@@ -258,7 +263,7 @@ public class Entity implements Comparable {
 
     public void move_to(Point dest){
         EEntityMove event = new EEntityMove(this, dest);
-        event.setManager(eventManager);
+        event.setManager(env.getEventManager());
         event.post();
     }
 
