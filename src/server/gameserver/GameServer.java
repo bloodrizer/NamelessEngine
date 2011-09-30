@@ -138,5 +138,6 @@ public class GameServer extends AServerIoLayer{
 
     public void update() {
         gameEnv.getWorld().update();
+        gameEnv.getEntityManager().update();
     }
 }

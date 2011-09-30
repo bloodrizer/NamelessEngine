@@ -20,7 +20,7 @@ import world.layers.WorldLayer;
  */
 public class GrassGenerator extends ObjectGenerator {
 
-      public static void generate_object(int x, int y, WorldTile tile, Random chunk_random){
+      public void generate_object(int x, int y, WorldTile tile, Random chunk_random){
         float rate = 0.0f;
 
         if (tile.terrain_type == TerrainType.TERRAIN_WATER){
@@ -53,19 +53,19 @@ public class GrassGenerator extends ObjectGenerator {
         }
     }
 
-    public static void add_grass(int i, int j){
-        /*EntDecalGrass grass_ent = new EntDecalGrass();
-        EntityManager.add(grass_ent, WorldLayer.GROUND_LAYER);
+    public void add_grass(int i, int j){
+        EntDecalGrass grass_ent = new EntDecalGrass();
+        grass_ent.setEnvironment(environment);
         grass_ent.spawn(1, new Point(i,j));
 
-        grass_ent.set_blocking(false);    //obstacle*/
+        grass_ent.set_blocking(false);    //obstacle
     }
-    public static void add_flower(int i, int j){
+    public void add_flower(int i, int j){
 
-        /*EntDecalFlower flower_ent = new EntDecalFlower();
-        EntityManager.add(flower_ent, WorldLayer.GROUND_LAYER);
+        EntDecalFlower flower_ent = new EntDecalFlower();
+        flower_ent.setEnvironment(environment);
         flower_ent.spawn(1, new Point(i,j));
-        flower_ent.set_blocking(false);    //obstacle*/
+        flower_ent.set_blocking(false);    //obstacle
     }
 
 }

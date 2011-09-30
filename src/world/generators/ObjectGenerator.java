@@ -5,6 +5,7 @@
 
 package world.generators;
 
+import game.GameEnvironment;
 import java.util.Random;
 import world.WorldTile;
 
@@ -13,11 +14,13 @@ import world.WorldTile;
  * @author Administrator
  */
 public abstract class ObjectGenerator {
-    //deprecated
-    public void generate_object(int x, int y, Random chunk_random){
-        
+    protected GameEnvironment environment;
+    
+    public void setEnvironment(GameEnvironment environment){
+        this.environment = environment;
     }
-    public static void generate_object(int x, int y, WorldTile tile, Random chunk_random){
+
+    public void generate_object(int x, int y, WorldTile tile, Random chunk_random){
         
     }
 }

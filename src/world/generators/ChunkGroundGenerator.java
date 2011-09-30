@@ -22,6 +22,23 @@ import world.util.NLTimer;
  * @author bloodrizer
  */
 public class ChunkGroundGenerator extends ChunkGenerator {
+    
+    TreeGenerator treeGenerator;
+    StoneGenerator stoneGenerator;
+    GrassGenerator grassGenerator;
+
+    
+    public ChunkGroundGenerator(){
+        treeGenerator = new TreeGenerator();
+        treeGenerator.setEnvironment(environment);
+        
+        stoneGenerator = new StoneGenerator();
+        stoneGenerator.setEnvironment(environment);
+        
+        grassGenerator = new GrassGenerator();
+        grassGenerator.setEnvironment(environment);
+    }
+    
     @Override
     public void generate(Point origin){
         Terrain.aquatic_tiles.clear();
@@ -90,10 +107,10 @@ public class ChunkGroundGenerator extends ChunkGenerator {
                 }
                 //TODO: this part probably need some future refactoring
 
-                TreeGenerator.generate_object(i, j, tile, chunk_random);
-                StoneGenerator.generate_object(i, j, tile, chunk_random);
-                GrassGenerator.generate_object(i, j, tile, chunk_random);
-                ChestGenerator.generate_object(i, j, tile, chunk_random);
+                treeGenerator.generate_object(i, j, tile, chunk_random);
+                stoneGenerator.generate_object(i, j, tile, chunk_random);
+                grassGenerator.generate_object(i, j, tile, chunk_random);
+                //chestGenerator.generate_object(i, j, tile, chunk_random);
             }
         }
 

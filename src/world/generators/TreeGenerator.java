@@ -23,7 +23,7 @@ import world.layers.WorldLayer;
  */
 public class TreeGenerator extends ObjectGenerator {
 
-    public static void generate_object(int x, int y, WorldTile tile, Random chunk_random){
+    public void generate_object(int x, int y, WorldTile tile, Random chunk_random){
         float tree_rate = 0.0f;
 
         if (tile.terrain_type == TerrainType.TERRAIN_WATER){
@@ -75,19 +75,20 @@ public class TreeGenerator extends ObjectGenerator {
         }
     }
 
-    public static void add_tree(int i, int j){
-        /*EntityTree tree_ent = new EntityTree();
-        EntityManager.add(tree_ent, WorldLayer.GROUND_LAYER);
+    public void add_tree(int i, int j){
+        EntityTree tree_ent = new EntityTree();
+        
+        tree_ent.setEnvironment(environment);
         tree_ent.spawn(1, new Point(i,j));
 
         tree_ent.set_blocking(true);    //obstacle*/
     }
-    public static void add_cacti(int i, int j){
+    public void add_cacti(int i, int j){
 
-        /*EntityCacti tree_ent = new EntityCacti();
-        EntityManager.add(tree_ent, WorldLayer.GROUND_LAYER);
+        EntityCacti tree_ent = new EntityCacti();
+
+        tree_ent.setEnvironment(environment);
         tree_ent.spawn(1, new Point(i,j));
-
         tree_ent.set_blocking(true);    //obstacle
 
         //tree_ent.set_controller(new MobController());

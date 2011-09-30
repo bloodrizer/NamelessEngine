@@ -20,7 +20,7 @@ import world.layers.WorldLayer;
 
 public class ChestGenerator extends ObjectGenerator {
 
-      public static void generate_object(int x, int y, WorldTile tile, Random chunk_random){
+      public void generate_object(int x, int y, WorldTile tile, Random chunk_random){
         float rate = 0.01f;
 
         

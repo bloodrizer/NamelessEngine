@@ -16,14 +16,14 @@ import world.layers.WorldLayer;
  * @author dpopov
  */
 public class StoneGenerator extends ObjectGenerator {
-    public static void generate_object(int x, int y, WorldTile tile, Random chunk_random){
+    public void generate_object(int x, int y, WorldTile tile, Random chunk_random){
          if (chunk_random.nextFloat()*100<0.25f){
 
-             /*EntityStone stone_ent = new EntityStone();
-             EntityManager.add(stone_ent, WorldLayer.GROUND_LAYER);
+             EntityStone stone_ent = new EntityStone();
+             stone_ent.setEnvironment(environment);
              stone_ent.spawn(new Point(x,y));
 
-             stone_ent.set_blocking(true);*/
+             stone_ent.set_blocking(true);
          }
     }
     
