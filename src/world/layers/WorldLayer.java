@@ -270,6 +270,10 @@ public class WorldLayer{
 
         System.out.println("building chunk @"+origin);
 
+        if (model.getEnvironment() == null){
+            throw new RuntimeException("model environment is null on WorldLayer");
+        }
+
         ChunkGenerator ground_gen = new ChunkGroundGenerator();
         ground_gen.setEnvironment(model.getEnvironment());
         ground_gen.set_zindex(z_index);

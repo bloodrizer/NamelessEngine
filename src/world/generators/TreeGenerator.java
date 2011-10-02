@@ -32,23 +32,23 @@ public class TreeGenerator extends ObjectGenerator {
 
         switch(tile.biome_type){
             case BIOME_TROPICAL_RAINFOREST:
-                tree_rate = 30;
+                tree_rate = 10;
             break;
 
             case BIOME_SEASONAL_FOREST:
-                tree_rate = 10;
+                tree_rate = 3;
             break;
 
             case BIOME_DECIDUOS_FOREST:
-                tree_rate = 10;
+                tree_rate = 3;
             break;
 
             case BIOME_TEMP_RAINFOREST:
-                tree_rate = 10;
+                tree_rate = 3;
             break;
 
             case BIOME_TAIGA:
-                tree_rate = 10;
+                tree_rate = 3;
             break;
             
             case BIOME_GRASSLAND:
@@ -78,14 +78,16 @@ public class TreeGenerator extends ObjectGenerator {
     public void add_tree(int i, int j){
         EntityTree tree_ent = new EntityTree();
         
+        tree_ent.setLayerId(WorldLayer.GROUND_LAYER);
+        
         tree_ent.setEnvironment(environment);
         tree_ent.spawn(1, new Point(i,j));
-
         tree_ent.set_blocking(true);    //obstacle*/
     }
     public void add_cacti(int i, int j){
-
         EntityCacti tree_ent = new EntityCacti();
+
+        tree_ent.setLayerId(WorldLayer.GROUND_LAYER);
 
         tree_ent.setEnvironment(environment);
         tree_ent.spawn(1, new Point(i,j));

@@ -25,7 +25,7 @@ public class WorldTimer {
     public static final Calendar datetime = Calendar.getInstance();
     static {
         //java.util.Timer timer = new java.util.Timer();
-        datetime.set(Calendar.HOUR_OF_DAY, 14);
+        datetime.set(Calendar.HOUR_OF_DAY, 7);
         datetime.set(Calendar.SECOND, 0);
     }
 
@@ -92,10 +92,10 @@ public class WorldTimer {
                     //todo: change so we would not waste our spawn chance
                 }
                 
-                Zombie zombie = new Zombie();
+                /*Zombie zombie = new Zombie();
                 zombie.setLayerId(WorldLayer.GROUND_LAYER);
                 zombie.spawn(spawn_point);
-                zombie.set_ai(new BasicMobAI());
+                zombie.set_ai(new BasicMobAI());*/
 
             }
         }

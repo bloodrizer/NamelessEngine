@@ -5,6 +5,7 @@
 package world.generators;
 
 import client.ClientGameEnvironment;
+import game.GameEnvironment;
 import game.ent.EntityManager;
 import game.ent.enviroment.EntityStone;
 import java.util.Random;
@@ -30,12 +31,19 @@ public class ChunkGroundGenerator extends ChunkGenerator {
     
     public ChunkGroundGenerator(){
         treeGenerator = new TreeGenerator();
-        treeGenerator.setEnvironment(environment);
-        
         stoneGenerator = new StoneGenerator();
-        stoneGenerator.setEnvironment(environment);
-        
         grassGenerator = new GrassGenerator();
+
+        
+    }
+
+    @Override
+    public void setEnvironment(GameEnvironment environment){
+
+        super.setEnvironment(environment);
+
+        treeGenerator.setEnvironment(environment);
+        stoneGenerator.setEnvironment(environment);
         grassGenerator.setEnvironment(environment);
     }
     
@@ -94,7 +102,11 @@ public class ChunkGroundGenerator extends ChunkGenerator {
             for (int j = y; j<y+size; j++)
             {
                 WorldTile tile = getLayer().get_tile(i, j);
+                tile.moisture = Terrain.getHumidity(i, j);
                 //tile.moisture = Terrain.get_moisture(i, j);
+
+
+
 
                 //Do not calculate actual humidity. Get random perlin2d value instead
 

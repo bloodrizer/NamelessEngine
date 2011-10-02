@@ -22,26 +22,36 @@ import render.SpriteRenderer;
  */
 public class EntityTree extends Entity {
 
+    TreeType treeType = TreeType.TREE_FIR;
+
+    public enum TreeType {
+
+        TREE_FIR("trees/fir.png");
+
+
+        String textureName;
+        TreeType(String textureName){
+            this.textureName = textureName;
+        }
+
+        public String getTexture(){
+            return textureName;
+        }
+    }
+
     @Override
      public EntityRenderer build_render(){
         SpriteRenderer __render = new SpriteRenderer();
-        __render.set_texture("tree.png");
 
-        if (Math.random() > 0.5f){
-            __render.set_tile_id(1);
-        }else{
-            __render.set_tile_id(2);
-        }
 
-        __render.get_tileset().sprite_w = 64;
-        __render.get_tileset().sprite_h = 128;
+        __render.set_texture(treeType.getTexture());
+
+
+        __render.get_tileset().sprite_w = 256;
+        __render.get_tileset().sprite_h = 256;
         
-        __render.get_tileset().TILESET_W = 2;
+        __render.get_tileset().TILESET_W = 1;
         __render.get_tileset().TILESET_H = 1;
-
-
-        /*render.get_tileset().TILESET_SIZE = 196;
-        render.get_tileset().TILE_SIZE = 64;*/
 
 
         return __render;

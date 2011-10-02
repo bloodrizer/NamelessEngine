@@ -126,7 +126,7 @@ public class WorldModel implements IEventListener {
                System.err.println("Chunk data size:"+layer.chunk_data.size());
                //layer.g
 
-               throw new RuntimeException("Failed to assign spawned entity to tile@"+ent_origin+"["+getLayer().get_zindex()+"] - tile is null!");
+               throw new RuntimeException("Failed to assign spawned entity " + spawn_event.ent.getName() +" to tile@"+ent_origin+"["+getLayer().get_zindex()+"] - tile is null!");
 
            }
 

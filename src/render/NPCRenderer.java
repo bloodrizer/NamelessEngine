@@ -89,33 +89,15 @@ public class NPCRenderer extends EntityRenderer{
         tileset.render_sprite(
             ent.origin.getX(),
             ent.origin.getY(),
-            get_tile_id()
+            get_tile_id(),
+            0,
+            WorldView.getYOffset(ent.tile)
         );
 
         //draw name for npc abow it's sprite
         if (ent instanceof EntityNPC){
-
             //todo: if player, do not draw name
-
-
             EntityNPC npc_ent = (EntityNPC) ent;
-            
-            /*int ent_screen_x = WorldView.world2local_x(
-                (ent.origin.getX() + ent.dx )*tileset.TILE_SIZE,
-                (ent.origin.getY() + ent.dy )*tileset.TILE_SIZE
-            ) - npc_ent.name.length()/2*8;
-
-            int ent_screen_y = WorldView.world2local_y(
-                    (ent.origin.getX()+ ent.dx)*tileset.TILE_SIZE ,
-                    (ent.origin.getY()+ ent.dy)*tileset.TILE_SIZE
-            ) - 54;
-
-            OverlaySystem.ttf.drawString(
-                    ent_screen_x,
-                    ent_screen_y+5,
-                npc_ent.name + " #"+npc_ent.get_uid(),
-            Color.white);*/
-
         }
 
     }

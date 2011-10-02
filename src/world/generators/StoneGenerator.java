@@ -20,6 +20,7 @@ public class StoneGenerator extends ObjectGenerator {
          if (chunk_random.nextFloat()*100<0.25f){
 
              EntityStone stone_ent = new EntityStone();
+             stone_ent.setLayerId(WorldLayer.GROUND_LAYER);
              stone_ent.setEnvironment(environment);
              stone_ent.spawn(new Point(x,y));
 

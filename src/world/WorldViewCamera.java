@@ -71,7 +71,8 @@ public class WorldViewCamera {
                
 
                 float target_x = (target.getX())*TilesetRenderer.TILE_SIZE +  Player.get_ent().dx*TilesetRenderer.TILE_SIZE;
-                float target_y = (target.getY())*TilesetRenderer.TILE_SIZE +  Player.get_ent().dy*TilesetRenderer.TILE_SIZE;
+                float target_y = (target.getY())*TilesetRenderer.TILE_SIZE +  Player.get_ent().dy*TilesetRenderer.TILE_SIZE
+                        + WorldView.getYOffset(Player.get_ent().tile);
 
                 Point delta = WorldView.world2local(new Point((int)target_x,(int)target_y));
                 target_x = delta.getX();

@@ -55,6 +55,7 @@ public class GrassGenerator extends ObjectGenerator {
 
     public void add_grass(int i, int j){
         EntDecalGrass grass_ent = new EntDecalGrass();
+        grass_ent.setLayerId(WorldLayer.GROUND_LAYER);
         grass_ent.setEnvironment(environment);
         grass_ent.spawn(1, new Point(i,j));
 
@@ -63,6 +64,7 @@ public class GrassGenerator extends ObjectGenerator {
     public void add_flower(int i, int j){
 
         EntDecalFlower flower_ent = new EntDecalFlower();
+        flower_ent.setLayerId(WorldLayer.GROUND_LAYER);
         flower_ent.setEnvironment(environment);
         flower_ent.spawn(1, new Point(i,j));
         flower_ent.set_blocking(false);    //obstacle

@@ -61,13 +61,14 @@ public class WorldTile {
 
     public Vector4f colorForTemperatureAndHumidity() {
 
-        double hum = (double)height / 255.0f;
-        double temp = moisture;
+        double temp = (double)height / 255.0f;
+        double hum = moisture / 10.0f;
 
         //hum *= temp;
-        int rgbValue = colorLut.getRGB((int) ((1.0 - temp) * 255.0), (int) ((1.0 - hum) * 255.0));
+        int rgbValue = colorLut.getRGB((int) ((1.0 - temp) * 255.0f), (int) ((1.0 - hum) * 255.0f));
 
         Color c = new Color(rgbValue);
+        //return new Vector4f((float) c.getRed() / 255f, (float) c.getGreen() / 255f, (float) c.getBlue() / 255f, 1.0f);
         return new Vector4f((float) c.getRed() / 255f, (float) c.getGreen() / 255f, (float) c.getBlue() / 255f, 1.0f);
     }
 
@@ -128,7 +129,7 @@ public class WorldTile {
 
 
     public int get_moisture_zone(){
-        int moisture_zone = (int) (moisture / (1.0f / 4)) + 1;
+        int moisture_zone = (int) (moisture / (5.0f / 4)) + 1;
 
         return moisture_zone;
     }

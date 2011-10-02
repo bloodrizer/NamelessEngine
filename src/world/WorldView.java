@@ -5,34 +5,30 @@
 
 package world;
 
+import org.lwjgl.util.vector.Vector3f;
+import render.SpriteRenderer;
 import client.ClientGameEnvironment;
 import client.ClientEventManager;
 import world.layers.WorldLayer;
 import render.layers.GroundLayerRenderer;
 import render.layers.LayerRenderer;
-import java.util.HashMap;
 import game.ent.buildings.EntBuilding;
 import player.Player;
 import game.ent.monsters.EntMonster;
 import org.lwjgl.input.Mouse;
 import render.Render;
-import ne.effects.EffectsSystem;
-import org.lwjgl.util.vector.Vector3f;
-import world.WorldTile.TerrainType;
 import render.EntityRenderer;
 import world.util.Noise;
 import org.lwjgl.opengl.GL11;
 import events.EMouseRelease;
 import ne.Input.MouseInputType;
 import events.IEventListener;
-import events.EventManager;
 import events.EMouseDrag;
 import events.Event;
 import org.lwjgl.util.Point;
 import render.WindowRender;
 import game.ent.Entity;
 import java.util.Iterator;
-import game.ent.EntityManager;
 import render.TilesetRenderer;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -96,7 +92,10 @@ public class WorldView implements IEventListener {
         
         //get layer renderer based on layer_id
         //TODO: cache it, so we would not create new object every frame
-                    
+
+        
+
+
         if (get_zindex() == WorldLayer.GROUND_LAYER){
             layer_renderer = new GroundLayerRenderer();
         }
@@ -132,6 +131,8 @@ public class WorldView implements IEventListener {
                         layer_renderer.render_tile(tile, i, j);
                     }
 
+                    //tileSprite.render_sprite(i, j, 1);
+
                 }
                 
             }
@@ -143,6 +144,11 @@ public class WorldView implements IEventListener {
            Entity entity = (Entity) iter.next();
            render_entity(entity);
         }
+    }
+
+    public static int getYOffset(WorldTile tile){
+        float y_offset = (int)((float)tile.get_height()/32.0f);
+        return (int)(y_offset*20);
     }
 
     public void render_entity(Entity entity){
@@ -159,7 +165,11 @@ public class WorldView implements IEventListener {
 
 
         float r, g, b;
-        r = g = b =  0.5f + tile.light_level + WorldTimer.get_light_amt();
+        //r = g = b =  0.5f + tile.light_level + WorldTimer.get_light_amt();
+        Vector3f tile_color = GroundLayerRenderer.get_tile_color(tile);
+        r = tile_color.getX();
+        g = tile_color.getY();
+        b = tile_color.getZ();
 
         if (entity instanceof EntBuilding && entity.get_combat() != null){
 
@@ -167,6 +177,7 @@ public class WorldView implements IEventListener {
             r = r - hp_rate * 0.1f;
             g = g - hp_rate * 0.3f;
             b = b - hp_rate * 0.3f;
+        }else{
         }
 
         GL11.glColor3f(
@@ -175,6 +186,65 @@ public class WorldView implements IEventListener {
             b
         );
 
+        
+        final int y_offset = WorldView.getYOffset(tile);
+
+
+        //draw entity casting shadow
+        if (entity.is_blocking()){
+            SpriteRenderer shadow = new SpriteRenderer(){
+                @Override
+                public void render(){
+                    GL11.glTexParameteri(
+                            GL11.GL_TEXTURE_2D,
+                            GL11.GL_TEXTURE_MAG_FILTER,
+                            GL11.GL_NEAREST);
+
+                    GL11.glTexParameteri(
+                            GL11.GL_TEXTURE_2D,
+                            GL11.GL_TEXTURE_MIN_FILTER,
+                            GL11.GL_NEAREST);
+
+                    //float shadowSize = ((float)TilesetRenderer.TILE_SIZE - (float)tileset.sprite_w) / (float)TilesetRenderer.TILE_SIZE;
+
+                    float shadowSize = 1.0f;
+
+                    EntityRenderer entRenderer = ent.build_render();
+                    if (entRenderer instanceof SpriteRenderer){
+                        shadowSize = -(float)(64 - ((SpriteRenderer)entRenderer).tileset.sprite_w ) /
+                                (float)TilesetRenderer.TILE_SIZE / 3.0f;
+                    }
+
+                    //shadowSize = 3.0f;
+
+                    //float shadowSize = 1.0f;
+
+                    tileset.set_offset(ent.dx, ent.dy);
+                    tileset.set_scale(shadowSize);
+
+                    tileset.render_sprite(
+                        ent.origin.getX(),
+                        ent.origin.getY(),
+                        tile_id,
+                        0,
+                        //(int)(12*shadowSize)
+                        //y_offset + 15
+                        y_offset + (int)(16*shadowSize)
+                    );
+
+                    
+                }
+            };
+            shadow.set_texture("shadow.png");
+            shadow.get_tileset().sprite_w = 64;
+            shadow.get_tileset().sprite_h = 64;
+            
+            shadow.get_tileset().TILESET_W = 1;
+            shadow.get_tileset().TILESET_H = 1;
+
+            shadow.set_entity(entity);
+            shadow.render();
+        }
 
         EntityRenderer renderer = entity.get_render();
         renderer.render();  //render, lol
@@ -320,33 +390,13 @@ public class WorldView implements IEventListener {
         return new Point( local_x, local_y);
     }
     
-
-    public static Point getTileCoord(int x, int y) {
-
-        y = WindowRender.get_window_h()-y;  //invert it wtf
-
-        if (!ISOMETRY_MODE){
-
-            float world_x = x + WorldViewCamera.camera_x;
-            float world_y = y + WorldViewCamera.camera_y;
-
-
-
-            x = (int) world_x / TilesetRenderer.TILE_SIZE;
-            y = (int) world_y / TilesetRenderer.TILE_SIZE;
-
-            return new Point(x-1,y-1);
-
-        }else{
-
-            //System.out.println(new Point(x,y));
-
-            x = x + (int)WorldViewCamera.camera_x;
-            y = y + (int)WorldViewCamera.camera_y;
-
-            
-            int local_x = local2world_x(x,y);
-            int local_y = local2world_y(x,y);
+    /**
+     *  Cast (mx,my) screen coords, given in the NE coord system
+     *  without checking tile height modifiers
+     */
+    private static Point getTileCoordPlain(int mx, int my){
+            int local_x = local2world_x(mx,my);
+            int local_y = local2world_y(mx,my);
             //point = local2world(point);
 
             //--------------------------------------------
@@ -360,11 +410,72 @@ public class WorldView implements IEventListener {
 
             Point point = new Point(tile_x,tile_y);
 
-
             return point;
-            
-        }
     }
+
+    /**
+     * Cast (mx,my) scren coords given in the GL coord system
+     * to the world tile coord, assuming every tile has different height
+     */
+    public static Point getTileCoord(int x, int y) {
+
+        /**Step 1. First aproximation.
+         *
+         * Get tile as if height was not set at all
+         * That help us to get relative area of the tiles we clicked at
+         */
+
+        y = WindowRender.get_window_h()-y;  //invert it wtf
+
+            /* NE use following coord system, while gl use reverse y axis
+               (0,0) - - (x,0)
+             * |
+             * |
+             * (0,y)
+             */
+
+            x = x + (int)WorldViewCamera.camera_x;
+            y = y + (int)WorldViewCamera.camera_y;
+
+            
+            Point point = getTileCoordPlain(x,y);
+            int tile_x = point.getX();
+            int tile_y = point.getY();
+
+            /**Step 2.
+             * Iterate all tiles at that region
+             * Check each tile if our point is in their top region
+             */
+
+            for (int i = tile_x-3; i<tile_x+3; i++){
+                for(int j = tile_y-3; j<tile_y+3; j++){
+                    if (!WorldCluster.tile_in_cluster(i, j)) { continue; }
+
+                    WorldTile tile = ClientGameEnvironment.getWorldLayer(view_z_index).get_tile(i, j);
+                    int y_offset = getYOffset(tile);
+
+                    //adjust y value with height midifier
+                    //replace 32 with actual magic constant based on tile sprite height
+                    int y2 = y - y_offset;
+
+                    Point point2 = getTileCoordPlain(x,y2);
+                    if (point2.equals(tile.origin)){
+                        return point2;
+                    }
+                }
+            }
+            return point;
+    }
+
+    /**
+     * This method checks first, that point is in the tile sprite area
+     * It checks then, if the point is in the upper part of the sprite - isometric tile square
+     *
+     */
+    private static boolean pointInTile(WorldTile tile, int mx, int my){
+        return false;
+    }
+
 
     //todo: refact me
     float camera_x = 0;

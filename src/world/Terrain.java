@@ -48,8 +48,7 @@ public class Terrain {
         }
 
         //todo: call setup();
-        setup();
-        //noise.noiseDetail(3,0.5f);
+        noise.noiseDetail(2,0.9f);
 
         int x_offset = 2000;
         int y_offset = 2000;
@@ -104,6 +103,18 @@ public class Terrain {
 
 
         return moistVal;
+    }
+
+    public static float getHumidity(int x, int y){
+        noise.noiseDetail(4, 2.221312f);
+
+        int x_offset = 2000;
+        int y_offset = 2000;
+
+        float noiseScale = 0.003f;
+        float humVal = noise.noise((float)(x+x_offset)*noiseScale,(float)(y+y_offset)*noiseScale);
+
+        return humVal;
     }
 
 

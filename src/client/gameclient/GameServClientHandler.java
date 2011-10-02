@@ -5,6 +5,7 @@
 package client.gameclient;
 
 import client.ClientEventManager;
+import client.ClientGameEnvironment;
 import events.network.EPlayerLogon;
 import game.combat.BasicCombat;
 import game.ent.buildings.BuildManager;
@@ -87,6 +88,7 @@ public class GameServClientHandler extends SimpleChannelHandler {
                     }
                     ent_building.set_combat(new BasicCombat());
                     ent_building.setLayerId(Player.get_zindex()); //TODO: get layer_id from server
+                    ent_building.setEnvironment(ClientGameEnvironment.getEnvironment());
 
                     ent_building.spawn(54321 //<<<<<< UID THERE!!!!!!!!!!
                             , new Point(x,y));

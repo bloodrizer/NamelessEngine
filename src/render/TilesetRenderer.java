@@ -119,6 +119,10 @@ public class TilesetRenderer{
     }
 
     public void render_sprite(int i, int j, int tile_id){
+        render_sprite(i, j, tile_id, 0, 0);
+    }
+
+    public void render_sprite(int i, int j, int tile_id, int sprite_dx, int sprite_dy){
 
 
         Render.bind_texture(texture_name);
@@ -148,12 +152,14 @@ public class TilesetRenderer{
 
          //TODO:recalculate sprite
 
-        int local_sprite_w = (int)((float)sprite_w * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE);
-        int local_sprite_h = (int)((float)sprite_h * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE);
+        int local_sprite_w = (int)((float)sprite_w * sprite_scale * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE );
+        int local_sprite_h = (int)((float)sprite_h * sprite_scale * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE );
 
         draw_quad(
-                x_local - local_sprite_w/2,
-                y_local - local_sprite_h + (int)(TILE_SIZE * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE),
+                x_local - local_sprite_w/2 
+                    + (int)(sprite_dx * WorldView.ISOMETRY_TILE_SCALE),
+                y_local - local_sprite_h + (int)(TILE_SIZE * WorldView.ISOMETRY_TILE_SCALE / WorldView.TILE_UPSCALE) 
+                    + (int)(sprite_dy * WorldView.ISOMETRY_TILE_SCALE),
                 local_sprite_w,
                 local_sprite_h,
                 tile_id
@@ -182,5 +188,11 @@ public class TilesetRenderer{
             render_tile(i,j, tile_id);
         }
 
+    }
+
+    float sprite_scale = 1.0f;
+
+    public void set_scale(float sprite_scale) {
+        this.sprite_scale = sprite_scale;
     }
 }
