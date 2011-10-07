@@ -26,6 +26,8 @@ import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 import server.AServerIoLayer;
+import server.NEDataPacket;
+import server.ServerUserPool;
 import server.User;
 import server.world.ServerWorldModel;
 import world.WorldModel;
@@ -81,6 +83,8 @@ public class GameServer extends AServerIoLayer{
 
     public void run(){
         System.out.println("Starting local game server on "+Io.GAME_SERVER_PORT);
+        
+        handler = new GameServerHandler(this);
 
         nio_factory = new NioServerSocketChannelFactory(
             Executors.newCachedThreadPool(),
@@ -95,8 +99,6 @@ public class GameServer extends AServerIoLayer{
         //this shit not works yet
         bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 
-            GameServer server = GameServer.this;
-
             public ChannelPipeline getPipeline() throws Exception {
                 ChannelPipeline pipeline = Channels.pipeline();
 
@@ -104,7 +106,7 @@ public class GameServer extends AServerIoLayer{
                 pipeline.addLast("decoder", new StringDecoder());
                 pipeline.addLast("encoder", new StringEncoder());
 
-                pipeline.addLast("handler", new GameServerHandler(server));
+                pipeline.addLast("handler", handler);
 
                 return pipeline;
             }
@@ -115,14 +117,7 @@ public class GameServer extends AServerIoLayer{
         allChannels.add(srvChannel);
     }
 
-    
-    /*
-     * Add new user into the WorldModel 
-     * and allow him to interact with the game world
-     */
-    void registerUser(User user) {
-        
-    }
+
 
     public GameEnvironment getEnv() {
         return gameEnv;
@@ -136,8 +131,58 @@ public class GameServer extends AServerIoLayer{
         cacheManager.shutdown();
     }
 
+    @Override
     public void update() {
+        super.update();
+        
         gameEnv.getWorld().update();
         gameEnv.getEntityManager().update();
+    }
+
+    @Override
+    protected void handlePacket(NEDataPacket packet) {
+        String[] data = packet.getData();
+        Channel ioChannel = packet.getChannel();
+        
+        //throw new UnsupportedOperationException("Not yet implemented");
+        if (data.length == 0){
+            return;
+        }
+        String eventType = data[0];
+        
+        if (eventType.equals("EPlayerLogin")){
+            /*
+             * Player reqested to connect character server
+             * 
+             * 1. Check if he provided correct login/password
+             * 
+             * 2. If user login is valid, authorize him and 
+             *    provide a list of player characters
+             */
+                        
+            //register this player in the connection pool
+            ServerUserPool.registerUser(ioChannel, "Red");
+            
+            handler.sendMsg("EPlayerAuthorize", ioChannel);
+        }
+        if (eventType.equals("events.network.ESelectCharacter")){
+            
+            /*
+             * Player selected his player character.
+             * 1. We should store this data in the charserver somehow
+             * 2. We should provide player with host and port of the game server
+             */
+            String gameServerHost = "localhost";
+            int gameServerPort = Io.GAME_SERVER_PORT;
+            
+            User user = ServerUserPool.getUser(ioChannel);
+            int user_id = user.getId();
+            
+            handler.sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort+" "+user_id, ioChannel);
+        }
+    }
+
+    void registerUser(User user) {
+        //do nothing?
     }
 }

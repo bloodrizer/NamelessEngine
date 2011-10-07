@@ -5,7 +5,7 @@
 
 package ne;
 
-import server.NEServer;
+import server.NEServerCore;
 
 /**
  *
@@ -19,12 +19,12 @@ public class Main {
 
 
     public static Game game;
-    public static NEServer neServer;
+    public static NEServerCore neServer;
 
     public static void main(String[] args) {
         
         //run ne server on localhost for debug purpose
-        neServer = new NEServer();
+        neServer = new NEServerCore();
         neServer.run();
         
         System.out.println("-------------------------------------");

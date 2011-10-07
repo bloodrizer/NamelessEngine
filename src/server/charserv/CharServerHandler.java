@@ -14,6 +14,7 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 import server.AServerIoLayer;
+import server.NEDataPacket;
 import server.ServerUserPool;
 import server.User;
 
@@ -48,7 +49,8 @@ public class CharServerHandler extends SimpleChannelHandler {
         String[] packet = null;
         if (request != null){
             packet = request.split(" ");
-            handlePacket(packet, ctx.getChannel());
+            //handlePacket(packet, ctx.getChannel());
+            server.registerPacket(new NEDataPacket(packet, ctx.getChannel()));
         }
     }
 
@@ -60,44 +62,6 @@ public class CharServerHandler extends SimpleChannelHandler {
         throw new RuntimeException("Unexpected exception from downstream", e.getCause());
     }
 
-    private void handlePacket(String[] packet, Channel ioChannel) {
-        //throw new UnsupportedOperationException("Not yet implemented");
-        if (packet.length == 0){
-            return;
-        }
-        String eventType = packet[0];
-        
-        if (eventType.equals("EPlayerLogin")){
-            /*
-             * Player reqested to connect character server
-             * 
-             * 1. Check if he provided correct login/password
-             * 
-             * 2. If user login is valid, authorize him and 
-             *    provide a list of player characters
-             */
-                        
-            //register this player in the connection pool
-            ServerUserPool.registerUser(ioChannel, "Red");
-            
-            sendMsg("EPlayerAuthorize", ioChannel);
-        }
-        if (eventType.equals("events.network.ESelectCharacter")){
-            
-            /*
-             * Player selected his player character.
-             * 1. We should store this data in the charserver somehow
-             * 2. We should provide player with host and port of the game server
-             */
-            String gameServerHost = "localhost";
-            int gameServerPort = Io.GAME_SERVER_PORT;
-            
-            User user = ServerUserPool.getUser(ioChannel);
-            int user_id = user.getId();
-            
-            sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort+" "+user_id, ioChannel);
-        }
-    }
     
     private void sendMsg(String msg, Channel ioChannel){
         ioChannel.write(msg+"\r\n");

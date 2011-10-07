@@ -19,7 +19,9 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 import org.lwjgl.util.Point;
 import player.Player;
+import server.AServerHandler;
 import server.AServerIoLayer;
+import server.NEDataPacket;
 import server.ServerUserPool;
 import server.User;
 import world.WorldChunk;
@@ -31,7 +33,7 @@ import world.layers.WorldLayer;
  *
  * @author Administrator
  */
-public class GameServerHandler extends SimpleChannelHandler {
+public class GameServerHandler extends AServerHandler {
 
     private final AtomicLong transferredBytes = new AtomicLong();
     AServerIoLayer server;
@@ -79,7 +81,7 @@ public class GameServerHandler extends SimpleChannelHandler {
         String[] packet = null;
         if (request != null){
             packet = request.split(" ");
-            handlePacket(packet, ctx.getChannel());
+            server.registerPacket(new NEDataPacket(packet, ctx.getChannel()));
         }
     }
 
@@ -89,38 +91,6 @@ public class GameServerHandler extends SimpleChannelHandler {
         e.getChannel().close();
 
         throw new RuntimeException("Unexpected exception from downstream", e.getCause());
-    }
-
-    private void handlePacket(String[] packet, Channel ioChannel) {
-        //throw new UnsupportedOperationException("Not yet implemented");
-        if (packet.length == 0){
-            return;
-        }
-        String eventType = packet[0];
-
-        if (eventType.equals("events.network.EBuildStructure")){
-
-            final int SPAWN_OBJECT = 0;
-
-            String entType = packet[1];
-            int x = Integer.parseInt(packet[2]);
-            int y = Integer.parseInt(packet[3]);
-
-            sendMsg("EEntitySpawn "+SPAWN_OBJECT+" "+entType+" "+x+" "+y, ioChannel);
-        }
-
-        if (eventType.equals("events.network.EEntitySetPath")){
-            int x = Integer.parseInt(packet[1]);
-            int y = Integer.parseInt(packet[2]);
-
-            User user = ServerUserPool.getUser(ioChannel);
-            moveUser(user, x, y);
-        }
-
-    }
-
-    private void sendMsg(String msg, Channel ioChannel){
-        ioChannel.write(msg+"\r\n");
     }
 
     private void sendNetworkEvent(NetworkEvent event){

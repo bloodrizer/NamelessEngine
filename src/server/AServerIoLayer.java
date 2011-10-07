@@ -5,7 +5,9 @@
 
 package server;
 
+import java.util.ArrayList;
 import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.SimpleChannelHandler;
 import org.jboss.netty.channel.group.ChannelGroup;
 import org.jboss.netty.channel.group.ChannelGroupFuture;
 import org.jboss.netty.channel.group.DefaultChannelGroup;
@@ -17,6 +19,10 @@ import org.jboss.netty.channel.group.DefaultChannelGroup;
 public abstract class AServerIoLayer {
     public ChannelGroup allChannels;
     String name;
+    ArrayList<NEDataPacket> packets = new ArrayList<NEDataPacket>();
+    
+    protected AServerHandler handler;
+
 
     protected ServerBootstrap bootstrap;
 
@@ -34,4 +40,16 @@ public abstract class AServerIoLayer {
 
         bootstrap.releaseExternalResources();
     }
+
+    public void registerPacket(NEDataPacket packet) {
+        packets.add(packet);
+    }
+    
+    public void update(){
+        for (NEDataPacket packet: packets){
+            handlePacket(packet);
+        }
+    }
+
+    protected abstract void handlePacket(NEDataPacket packet);
 }
