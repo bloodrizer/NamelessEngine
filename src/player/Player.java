@@ -5,11 +5,9 @@
 
 package player;
 
-import events.network.EEntitySetPath;
 import game.ent.Entity;
 import game.ent.EntityPlayer;
 import game.ent.controller.NpcController;
-import items.BaseItem;
 import ne.Input;
 import ne.ui.NE_GUI_CharScreen;
 import org.lwjgl.util.Point;

@@ -34,7 +34,10 @@ public class DebugRenderer extends EntityRenderer  {
         this.tileset.render_sprite(
             ent.origin.getX(),
             ent.origin.getY(),
-            8   //hardcoded, lol
+            8,   //hardcoded, lol,
+            0,
+            WorldView.getYOffset(ent.tile)
+
         );
 
         int ent_screen_x = WorldView.world2local_x(

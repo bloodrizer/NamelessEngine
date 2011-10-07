@@ -124,7 +124,7 @@ public class GameServer extends AServerIoLayer{
         
     }
 
-    GameEnvironment getEnv() {
+    public GameEnvironment getEnv() {
         return gameEnv;
     }
 

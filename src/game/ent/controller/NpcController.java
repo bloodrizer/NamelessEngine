@@ -42,7 +42,7 @@ public class NpcController extends BaseController implements Mover, IEventListen
 
     int path_synch_counter = 0;
     public int NEXT_FRAME_DELAY = 100;
-    public float MOVE_SPEED = 0.10f;
+    public float MOVE_SPEED = 0.50f;
 
     static final boolean ALLOW_DIAGONAL_MOVEMENT = true;
     private AStarPathFinder finder;

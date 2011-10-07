@@ -28,7 +28,7 @@ public class ServerWorldLayer extends WorldLayer {
 
 
     @Override
-    public WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
+    public synchronized WorldChunk get_cached_chunk(int chunk_x, int chunk_y){
         push_point(util_point);
         util_point.setLocation(chunk_x, chunk_y);
 

@@ -22,7 +22,9 @@ import player.Player;
 import server.AServerIoLayer;
 import server.ServerUserPool;
 import server.User;
+import world.WorldChunk;
 import world.WorldModel;
+import world.layers.WorldLayer;
 
 
 /**
@@ -137,7 +139,25 @@ public class GameServerHandler extends SimpleChannelHandler {
 
         //sock_send(sb.toString());
     }
+    
+    /**
+     * Preloads 3x3 chunk cluster so pathfinding could work correctly near the chunk border
+     */
+    private void worldUpdateLazyLoad(int x, int y){
+        WorldLayer serverGroundLayer = getServer().getEnv().getWorldLayer(WorldLayer.GROUND_LAYER);
+        for (int i = x-1; i<= x+1; i++){
+            for (int j = y-1; j<= y+1; j++){
+                serverGroundLayer.get_cached_chunk(i, j);
+            }
+        }
+    }
 
+    /**
+     * Spawns player character binded to the connection channel
+     *
+     *
+     *
+     */
     private void spawnPlayerCharacter(User user) {
 
         //This shit loads resources for whatever reason.
@@ -157,6 +177,7 @@ public class GameServerHandler extends SimpleChannelHandler {
         mplayer_ent.spawn(user.getId(), new Point(10,10));
 
         user.setEntity(mplayer_ent);
+        worldUpdateLazyLoad(0,0);
     }
 
     private void moveUser(User user, int x, int y) {
@@ -166,7 +187,13 @@ public class GameServerHandler extends SimpleChannelHandler {
             throw new RuntimeException("trying to move NULL user entity");
         }
 
-        ent.move_to(new Point(x, y));
+        Point destCoord = new Point(x,y);
+
+        ((NpcController) ent.controller).set_destination(destCoord);
+
+        //ent.move_to(new Point(x, y));
+        Point chunkCoord = WorldChunk.get_chunk_coord(destCoord);
+        worldUpdateLazyLoad(chunkCoord.getX(),chunkCoord.getY());
     }
 
 }
