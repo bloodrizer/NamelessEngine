@@ -19,6 +19,7 @@ import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 import server.AServerIoLayer;
+import server.NEDataPacket;
 
 /**
  *
@@ -76,6 +77,11 @@ public class CharServer extends AServerIoLayer{
         Channel srvChannel = bootstrap.bind(new InetSocketAddress(Io.CHAR_SERVER_PORT));
         allChannels.add(srvChannel);
 
+    }
+
+    @Override
+    protected void handlePacket(NEDataPacket packet) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

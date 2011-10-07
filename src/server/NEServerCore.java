@@ -12,11 +12,11 @@ import server.gameserver.GameServer;
  *
  * @author bloodrizer
  */
-public class NEServer {
+public class NEServerCore {
     CharServer charServer;
     GameServer gameServer;
     
-    public NEServer(){
+    public NEServerCore(){
         charServer = new CharServer();
         gameServer = new GameServer();
     }
