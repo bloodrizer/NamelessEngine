@@ -174,8 +174,12 @@ public class WorldView implements IEventListener {
     }
 
     public static int getYOffset(WorldTile tile){
-        float y_offset = (int)((float)tile.get_height()/32.0f);
-        return (int)(y_offset*20);
+        if (tile != null){
+            float y_offset = (int)((float)tile.get_height()/32.0f);
+            return (int)(y_offset*20);
+        }else{
+            return 0;
+        }
     }
 
     public void render_entity(Entity entity){

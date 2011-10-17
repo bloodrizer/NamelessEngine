@@ -151,11 +151,6 @@ public class ModeInGame implements IGameMode, IEventListener {
         DebugOverlay.debugPathfinding();
 
         overlay.render();
-
-        
-        //----------------------------------------------------------------------
-        //HACKHACKHACK - update server
-        Main.neServer.update();
     }
 
     IUserInterface ui = null;

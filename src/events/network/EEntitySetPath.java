@@ -45,6 +45,8 @@ public class EEntitySetPath extends NetworkEvent {
         WorldTile tile = entity.getLayer().get_tile(this.to.getX(), this.to.getY());
         if (tile!=null && !tile.is_blocked()){
             super.post();
+        }else{
+            System.out.println("target tile @ "+this.to+" is blocked, discarding");
         }
     }
 

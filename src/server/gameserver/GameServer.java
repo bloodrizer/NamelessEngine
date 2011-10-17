@@ -7,30 +7,34 @@ package server.gameserver;
 
 import events.EventManager;
 import game.GameEnvironment;
+import game.ent.Entity;
+import game.ent.EntityNPC;
+import game.ent.controller.NpcController;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
-import ne.Game;
 import ne.io.Io;
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
-import org.jboss.netty.channel.group.ChannelGroup;
-import org.jboss.netty.channel.group.ChannelGroupFuture;
-import org.jboss.netty.channel.group.DefaultChannelGroup;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.codec.frame.DelimiterBasedFrameDecoder;
 import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
+import org.lwjgl.util.Point;
 import server.AServerIoLayer;
 import server.NEDataPacket;
 import server.ServerUserPool;
 import server.User;
 import server.world.ServerWorldModel;
+import world.WorldChunk;
 import world.WorldModel;
+import world.layers.WorldLayer;
 
 /**
  *
@@ -126,6 +130,19 @@ public class GameServer extends AServerIoLayer{
     @Override
     public void destroy(){
         super.destroy();
+        
+        Cache cache = cacheManager.getCache("chunkCache");
+        System.out.println("Saving chunk data");
+        for (Point key: gameEnv.getWorldLayer(0).chunk_data.keySet()){
+            WorldChunk chunk = gameEnv.getWorldLayer(0).chunk_data.get(key);
+            Element element = new Element(key, chunk);
+
+            cache.put(element);
+        }
+
+
+        System.out.println("Flushing down cache");
+        cache.flush();
 
         System.out.println("Shutting down ehCache manager");
         cacheManager.shutdown();
@@ -143,46 +160,81 @@ public class GameServer extends AServerIoLayer{
     protected void handlePacket(NEDataPacket packet) {
         String[] data = packet.getData();
         Channel ioChannel = packet.getChannel();
-        
+
         //throw new UnsupportedOperationException("Not yet implemented");
         if (data.length == 0){
             return;
         }
         String eventType = data[0];
-        
-        if (eventType.equals("EPlayerLogin")){
-            /*
-             * Player reqested to connect character server
-             * 
-             * 1. Check if he provided correct login/password
-             * 
-             * 2. If user login is valid, authorize him and 
-             *    provide a list of player characters
-             */
-                        
-            //register this player in the connection pool
-            ServerUserPool.registerUser(ioChannel, "Red");
-            
-            handler.sendMsg("EPlayerAuthorize", ioChannel);
-        }
-        if (eventType.equals("events.network.ESelectCharacter")){
-            
-            /*
-             * Player selected his player character.
-             * 1. We should store this data in the charserver somehow
-             * 2. We should provide player with host and port of the game server
-             */
-            String gameServerHost = "localhost";
-            int gameServerPort = Io.GAME_SERVER_PORT;
-            
+
+        System.err.println("handling event '"+eventType+"'");
+
+        if (eventType.equals("events.network.EEntitySetPath")){
+            int x = Integer.parseInt(data[1]);
+            int y = Integer.parseInt(data[2]);
+
             User user = ServerUserPool.getUser(ioChannel);
-            int user_id = user.getId();
-            
-            handler.sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort+" "+user_id, ioChannel);
+            moveUser(user, x, y);
         }
     }
 
     void registerUser(User user) {
         //do nothing?
+    }
+
+
+    private void moveUser(User user, int x, int y) {
+        Entity ent = user.getEntity();
+
+        if(ent == null){
+            throw new RuntimeException("trying to move NULL user entity");
+        }
+
+        Point destCoord = new Point(x,y);
+
+        ((NpcController) ent.controller).set_destination(destCoord);
+
+        //ent.move_to(new Point(x, y));
+        Point chunkCoord = WorldChunk.get_chunk_coord(destCoord);
+        worldUpdateLazyLoad(chunkCoord.getX(),chunkCoord.getY());
+    }
+
+     /**
+     * Spawns player character binded to the connection channel
+     */
+    public void spawnPlayerCharacter(User user) {
+
+        //This shit loads resources for whatever reason.
+        //TODO: solve this
+
+        GameEnvironment env = getEnv();
+
+        Entity mplayer_ent = new EntityNPC();
+        mplayer_ent.setEnvironment(env);
+        mplayer_ent.set_controller(new NpcController(env));
+
+        //TODO: load layer
+        mplayer_ent.setLayerId(0);
+        mplayer_ent.setEnvironment(env);
+
+        //EntityManager.add(mplayer_ent);       ?
+        mplayer_ent.spawn(user.getId(), new Point(10,10));
+
+        user.setEntity(mplayer_ent);
+        worldUpdateLazyLoad(0,0);
+    }
+
+
+
+    /**
+     * Preloads 3x3 chunk cluster so pathfinding could work correctly near the chunk border
+     */
+    private void worldUpdateLazyLoad(int x, int y){
+        WorldLayer serverGroundLayer = getEnv().getWorldLayer(WorldLayer.GROUND_LAYER);
+        for (int i = x-1; i<= x+1; i++){
+            for (int j = y-1; j<= y+1; j++){
+                serverGroundLayer.get_cached_chunk(i, j);
+            }
+        }
     }
 }

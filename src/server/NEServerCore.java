@@ -38,6 +38,7 @@ public class NEServerCore {
     }
 
     public void update() {
+        charServer.update();
         gameServer.update();
     }
 

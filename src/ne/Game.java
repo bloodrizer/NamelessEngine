@@ -100,6 +100,11 @@ public class Game {
 
                Timer.tick(); 
                mode.update();
+
+
+               //----------------------------------------------------------------------
+               //HACKHACKHACK - update server
+               Main.neServer.update();
              
                Display.sync(60);
                Display.update();

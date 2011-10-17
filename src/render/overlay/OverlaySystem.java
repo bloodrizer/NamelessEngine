@@ -4,6 +4,7 @@
  */
 package render.overlay;
         
+import client.ClientGameEnvironment;
 import java.awt.Font;
 import java.io.InputStream;
 import org.lwjgl.opengl.GL11;
@@ -12,7 +13,9 @@ import org.lwjgl.util.Point;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import render.Render;
+import world.WorldTile;
 import world.WorldView;
+import world.layers.WorldLayer;
 
 
 /**
@@ -53,16 +56,21 @@ public class OverlaySystem {
         int y1 = WorldView.get_tile_y_screen(tileCoord1);
         int x2 = WorldView.get_tile_x_screen(tileCoord2);
         int y2 = WorldView.get_tile_y_screen(tileCoord2);
+
+        WorldTile tileFrom = ClientGameEnvironment.getWorldLayer(WorldLayer.GROUND_LAYER).get_tile(tileCoord1);
+        WorldTile tileTo = ClientGameEnvironment.getWorldLayer(WorldLayer.GROUND_LAYER).get_tile(tileCoord2);
+
+        int y_offset1 = WorldView.getYOffset(tileFrom);
+        int y_offset2 = WorldView.getYOffset(tileTo);
         
-        System.out.println("drawing line from "+tileCoord1+" to "+tileCoord2);
-        
-        
-        drawLine(x1,y1,x2,y2, color);
+        //System.out.println("drawing line from "+tileCoord1+" to "+tileCoord2);
+
+        drawLine(x1, y1 + y_offset1, x2, y2 + y_offset2, color);
     }
     
     public static void drawLine(int x1, int y1, int x2, int y2, Color color){
 
-        System.out.println("drawing line from ["+x1+","+y1+"] to ["+x2+","+y2+"]");
+        //System.out.println("drawing line from ["+x1+","+y1+"] to ["+x2+","+y2+"]");
 
         glEnable(GL_POINT_SMOOTH);
         glDisable(GL_TEXTURE_2D);

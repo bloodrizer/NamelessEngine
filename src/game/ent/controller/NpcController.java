@@ -130,24 +130,17 @@ public class NpcController extends BaseController implements Mover, IEventListen
      * MOVE THIS TO PLAYER CONTROLLER
      */
     public void change_tile(int x, int y){
-        owner.dx = 0.0f;
-        owner.dy = 0.0f;
-        /// owner.origin.setLocation(x, y);
-        owner.move_to(new Point(x,y));
-
-        step = null;
+       
+        Step __step = null;
 
         //------------path synchronisation-----------
-        //System.out.println("changing tile");
+        System.out.println("changing tile, path_synch_counter is: "+path_synch_counter+", length is: "+path.getLength());
+
         if (owner.isPlayerEnt() && path != null){
-            //System.out.println("path counter:"+path_synch_counter);
-            //System.out.println(path);
-
-
             if (path_synch_counter == 0){    //we are in the point of
                 
-                Step __step = null;
-
+                
+                System.out.println("synch counter is 0, notifying");
 
                 //we have some trajectory left
                 if (path.getLength()>0){
@@ -166,6 +159,16 @@ public class NpcController extends BaseController implements Mover, IEventListen
                 path_synch_counter = 0;
             }
         }
+
+        owner.dx = 0.0f;
+        owner.dy = 0.0f;
+        /// owner.origin.setLocation(x, y);
+        owner.move_to(new Point(x,y));
+
+        step = null;
+
+
+
         //--------------------------------------------
         //ABSOLUTELY REQUIRED OR WEIRED SHIT WILL OCCUR
         if (path!=null && path.getLength()>0){
@@ -175,22 +178,16 @@ public class NpcController extends BaseController implements Mover, IEventListen
     }
 
     private void notify_path(Step __step){
-        //Point __dest = new Point(__step.getX(),__step.getY());
+
+        System.out.println("Sending path notification");
+
         Point __dest = __step.getPoint();
-
-        //System.out.println("converting point dest "+__dest+"to world coord");
-
         __dest = ClientGameEnvironment.getWorldLayer(Player.get_zindex()).tile_map.local2world(__dest);
 
-        /*System.out.println("sending step [" +
-            __step +
-            "] w2l ["+ __dest +
-            "] (length:" + path.getLength() + ")"
-        );
-
-        System.out.println(path);*/
 
         EEntitySetPath dest_event = new EEntitySetPath(owner, __dest);
+        dest_event.setManager(ClientGameEnvironment.getEnvironment().getEventManager());
+        System.out.println("posting event");
         dest_event.post();
     }
 
@@ -231,16 +228,6 @@ public class NpcController extends BaseController implements Mover, IEventListen
             );
             return;
         }
-        /*if (owner.dy > 1.0f || owner.dy < -1.0f){
-            //change_tile(x,y);
-            change_tile(
-                    owner.x()+(int)owner.dx,
-                    owner.y()+(int)owner.dy
-            );
-            return;
-        }*/
-         //owner.origin.setLocation(x, y);
-         //step = null;
     }
 
 

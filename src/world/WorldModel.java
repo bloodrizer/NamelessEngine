@@ -93,7 +93,10 @@ public class WorldModel implements IEventListener {
        else if(event instanceof EEntitySpawn){
            EEntitySpawn spawn_event = (EEntitySpawn)event;
            //-------------------------------------------------------------------
-           WorldChunk new_chunk = getLayer().get_cached_chunk(WorldChunk.get_chunk_coord(spawn_event.ent.origin));
+           Point chunkOrigin = WorldChunk.get_chunk_coord(spawn_event.ent.origin);
+           //System.out.println("loading cached chunk @"+chunkOrigin);
+
+           WorldChunk new_chunk = getLayer().get_cached_chunk(chunkOrigin);
 
            //System.out.println("setting new chunk for a spawned entity");
 
@@ -122,7 +125,7 @@ public class WorldModel implements IEventListener {
                }
 
                WorldLayer layer = worldLayers.get(spawn_event.ent.getLayerId());
-               System.err.println("Tile data size:"+layer.tile_data.size());
+               System.err.println("Tile data size:"+layer.getTileData(ent_origin).size());
                System.err.println("Chunk data size:"+layer.chunk_data.size());
                //layer.g
 

@@ -13,6 +13,7 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import server.AServerHandler;
 import server.AServerIoLayer;
 import server.NEDataPacket;
 import server.ServerUserPool;
@@ -22,7 +23,7 @@ import server.User;
  *
  * @author bloodrizer
  */
-public class CharServerHandler extends SimpleChannelHandler {
+public class CharServerHandler extends AServerHandler {
     
     private final AtomicLong transferredBytes = new AtomicLong();
     AServerIoLayer server;
@@ -63,9 +64,9 @@ public class CharServerHandler extends SimpleChannelHandler {
     }
 
     
-    private void sendMsg(String msg, Channel ioChannel){
+    /*private void sendMsg(String msg, Channel ioChannel){
         ioChannel.write(msg+"\r\n");
-    }
+    }*/
     
     private void sendNetworkEvent(NetworkEvent event){
         //if (!whitelisted(event.get_id())){
