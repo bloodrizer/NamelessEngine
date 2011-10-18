@@ -7,12 +7,13 @@ package game.combat;
 
 import events.ETakeDamage;
 import game.ent.Entity;
+import java.io.Serializable;
 
 /**
  *
  * This is a simple combat wrapper
  */
-public abstract class Combat {
+public abstract class Combat implements Serializable{
     public Stats stats = new Stats();
     int hp = get_max_hp();
     Entity owner;

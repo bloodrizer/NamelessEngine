@@ -40,8 +40,7 @@ public class ServerWorldLayer extends WorldLayer {
             return precache_chunk(chunk_x, chunk_y);
         }
 
-        Serializable objChunk = element.getValue();
-        WorldChunk chunk = ((WorldChunk)objChunk);
+        WorldChunk chunk = ((WorldChunk)element.getObjectValue());
 
 
         if (!chunk_data.containsKey(util_point)){
@@ -56,7 +55,7 @@ public class ServerWorldLayer extends WorldLayer {
 
         pop_point(util_point);
 
-        return (WorldChunk)objChunk;
+        return chunk;
     }
 
     @Override

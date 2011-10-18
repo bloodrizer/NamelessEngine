@@ -19,7 +19,9 @@ public class ClientGameEnvironment {
 
     public static GameEnvironment getEnvironment(){
         if (env == null){
-            env = new GameEnvironment();
+            env = new GameEnvironment(){
+                
+            };
         }
         return env;
     }

@@ -22,7 +22,7 @@ import world.layers.WorldLayer;
  *
  */
 
-public class GameEnvironment {
+public abstract class GameEnvironment {
 
     protected EntityManager entManager = null;
     protected EventManager manager = null;
@@ -30,8 +30,7 @@ public class GameEnvironment {
 
 
     public EventManager getEventManager(){
-        //override me!
-        return null;
+        throw new RuntimeException("requesting EventManager on abstract GameEnvironment");
     }
 
     public EntityManager getEntityManager(){

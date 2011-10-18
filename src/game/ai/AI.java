@@ -6,13 +6,14 @@
 package game.ai;
 
 import game.ent.Entity;
+import java.io.Serializable;
 import world.util.Fov;
 
 /**
  *
  * @author Administrator
  */
-public class AI {
+public class AI implements Serializable{
     
     protected Entity owner;
     public void set_owner(Entity owner){

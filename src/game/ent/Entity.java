@@ -16,6 +16,7 @@ import game.combat.Combat;
 import game.ent.Entity;
 import game.ent.controller.IEntityController;
 import items.ItemContainer;
+import java.io.Serializable;
 import java.lang.Object;
 import java.util.ArrayList;
 import org.lwjgl.util.Point;
@@ -31,7 +32,7 @@ import world.WorldTile;
  *
  * @author Administrator
  */
-public class Entity implements Comparable {
+public class Entity implements Comparable, Serializable {
 
     public Point origin;
     public WorldTile tile;  //the tile entity is currently assigned to
@@ -52,7 +53,7 @@ public class Entity implements Comparable {
     private int uid = 0;
     private long next_think;
 
-    public IEntityController controller;
+    transient public IEntityController controller;
     private WorldChunk chunk = null;
     
     private boolean blocking = false;
@@ -67,7 +68,7 @@ public class Entity implements Comparable {
     //TODO: FIX ME FIX ME FIX ME
     private int layer_id = -1;
 
-    protected GameEnvironment env = null;
+    transient protected GameEnvironment env = null;
     
     public enum Orientation {
         ORIENT_N,
