@@ -24,7 +24,9 @@ import server.AServerIoLayer;
 import server.NEDataPacket;
 import server.ServerUserPool;
 import server.User;
+import world.WorldChunk;
 import world.WorldModel;
+import world.layers.WorldLayer;
 
 
 /**
@@ -65,7 +67,7 @@ public class GameServerHandler extends AServerHandler {
         //load player coords and shit
         sendMsg("EPlayerSpawn 10 10", channel);
 
-        spawnPlayerCharacter(user);
+        getServer().spawnPlayerCharacter(user);
 
         //WorldModel model = getServer().getEnv().getWorld();
     }
@@ -88,13 +90,12 @@ public class GameServerHandler extends AServerHandler {
         // Close the connection when an exception is raised.
         e.getChannel().close();
 
-        throw new RuntimeException("Unexpected exception from downstream", e.getCause());
+        e.getCause().printStackTrace();
+
+        //throw new RuntimeException("Unexpected exception from downstream", e.getCause());
     }
 
     private void sendNetworkEvent(NetworkEvent event){
-        //if (!whitelisted(event.get_id())){
-            //return;
-        //}
 
         String[] tokens = event.serialize();
         StringBuilder sb = new StringBuilder();
@@ -104,40 +105,6 @@ public class GameServerHandler extends AServerHandler {
         for (int i = 1; i<tokens.length; i++){
             sb.append(tokens[i].concat(" "));
         }
-
-        //sock_send(sb.toString());
     }
-
-    private void spawnPlayerCharacter(User user) {
-
-        //This shit loads resources for whatever reason.
-        //TODO: solve this
-
-        GameEnvironment env = getServer().getEnv();
-
-        Entity mplayer_ent = new EntityNPC();
-        mplayer_ent.setEnvironment(env);
-        mplayer_ent.set_controller(new NpcController(env));
-
-        //TODO: load layer
-        mplayer_ent.setLayerId(0);
-        mplayer_ent.setEnvironment(env);
-
-        //EntityManager.add(mplayer_ent);       ?
-        mplayer_ent.spawn(user.getId(), new Point(10,10));
-
-        user.setEntity(mplayer_ent);
-    }
-
-    private void moveUser(User user, int x, int y) {
-        Entity ent = user.getEntity();
-
-        if(ent == null){
-            throw new RuntimeException("trying to move NULL user entity");
-        }
-
-        ent.move_to(new Point(x, y));
-    }
-
 }
 

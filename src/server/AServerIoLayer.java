@@ -19,7 +19,7 @@ import org.jboss.netty.channel.group.DefaultChannelGroup;
 public abstract class AServerIoLayer {
     public ChannelGroup allChannels;
     String name;
-    ArrayList<NEDataPacket> packets = new ArrayList<NEDataPacket>();
+    ArrayList<NEDataPacket> packets;
     
     protected AServerHandler handler;
 
@@ -29,6 +29,7 @@ public abstract class AServerIoLayer {
     public AServerIoLayer(String name){
         this.name = name;
         allChannels = new DefaultChannelGroup(name);
+        packets = new ArrayList<NEDataPacket>();
     }
 
 
@@ -42,13 +43,18 @@ public abstract class AServerIoLayer {
     }
 
     public void registerPacket(NEDataPacket packet) {
+        //System.out.println(name + ":registering packet");
         packets.add(packet);
     }
     
     public void update(){
+        //System.out.println(name+":updating");
+
         for (NEDataPacket packet: packets){
+            //System.out.println(name+":handling packet #");
             handlePacket(packet);
         }
+        packets.clear();
     }
 
     protected abstract void handlePacket(NEDataPacket packet);

@@ -4,6 +4,7 @@
  */
 package server;
 
+import game.GameEnvironment;
 import net.sf.ehcache.CacheManager;
 import server.charserv.CharServer;
 import server.gameserver.GameServer;
@@ -37,6 +38,11 @@ public class NEServerCore {
     }
 
     public void update() {
+        charServer.update();
         gameServer.update();
+    }
+
+    public GameEnvironment getEnv() {
+        return gameServer.getEnv();
     }
 }

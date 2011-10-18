@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.lwjgl.util.Point;
 import world.layers.WorldLayer;
 
@@ -25,6 +26,7 @@ public class WorldChunk implements Serializable{
     public Point origin = new Point(0,0);
 
     protected List<Entity> entList = new ArrayList<Entity>(100);
+    public Map<Point,WorldTile> tile_data = new java.util.HashMap<Point,WorldTile>(1024);
 
     public boolean dirty = true;
     

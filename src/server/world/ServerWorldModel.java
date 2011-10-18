@@ -33,18 +33,20 @@ public class ServerWorldModel extends WorldModel{
         System.out.println("Creating chunk cache...");
 
         Cache persistantCache = new Cache(
-              new CacheConfiguration("chunkCache", 1024)
+              new CacheConfiguration("chunkCache", 64)
                 .memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LFU)
                 .overflowToDisk(true)
                 .eternal(false)
-                .timeToLiveSeconds(60)
-                .timeToIdleSeconds(30)
+                .timeToLiveSeconds(0)   //never expires
+                .timeToIdleSeconds(0)   //even idle
                 .diskPersistent(true)
                 .diskExpiryThreadIntervalSeconds(120)); //wtf is this?
 
-
+        //debug only
+        
         cacheManager.addCache(persistantCache);
-
+        persistantCache.removeAll();
+        
         //do some sql lite initialization there
         for (int i = 0; i< LAYER_COUNT; i++ ){
             WorldLayer layer = new ServerWorldLayer();

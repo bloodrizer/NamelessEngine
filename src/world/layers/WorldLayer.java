@@ -60,7 +60,20 @@ public class WorldLayer{
     //--------------------------------------------------------------------------
 
     public Map<Point,WorldChunk> chunk_data = new java.util.HashMap<Point,WorldChunk>(100);
-    public Map<Point,WorldTile> tile_data = new java.util.HashMap<Point,WorldTile>(1000);
+    //public Map<Point,WorldTile> tile_data = new java.util.HashMap<Point,WorldTile>(1000);
+
+    public Map<Point,WorldTile> getTileData(Point tileOrigin){
+        push_point(util_point);
+        util_point.setLocation(tileOrigin);
+        
+        Point chunkOrigin = WorldChunk.get_chunk_coord(tileOrigin);      
+        //WorldChunk chunk = chunk_data.get(chunkOrigin);
+        WorldChunk chunk = get_cached_chunk(chunkOrigin);
+
+        pop_point(util_point);
+
+        return chunk.tile_data;
+    }
 
 
     public void setModel(WorldModel model){
@@ -72,7 +85,7 @@ public class WorldLayer{
     }
     
     public void set_tile(Point origin, WorldTile tile){
-        tile_data.put(origin, tile);
+        getTileData(origin).put(origin, tile);
     }
 
     public static void invalidate_light(){
@@ -91,7 +104,17 @@ public class WorldLayer{
         push_point(util_point);
         util_point.setLocation(x, y);
         
-        WorldTile tile = tile_data.get(util_point);
+        WorldTile tile = getTileData(util_point).get(util_point);
+        pop_point(util_point);
+
+        return tile;
+    }
+
+    public WorldTile get_tile(Point tileOrigin){
+        push_point(util_point);
+        util_point.setLocation(tileOrigin);
+
+        WorldTile tile = getTileData(tileOrigin).get(util_point);
         pop_point(util_point);
 
         return tile;
@@ -313,9 +336,7 @@ public class WorldLayer{
 
 
     public void move_entity(Entity entity, Point coord_dest){
-
-        System.err.println(model.getName()+" is changing coordinates for entity "+entity.getName()+"("+entity.get_uid()+")");
-
+        //System.err.println(model.getName()+" is changing coordinates for entity "+entity.getName()+"("+entity.get_uid()+")");
 
         Point coord_from = new Point(entity.origin);  //defence copy
         

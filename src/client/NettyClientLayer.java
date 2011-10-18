@@ -33,6 +33,8 @@ public abstract class NettyClientLayer implements IEventListener {
     String host;
     int port;
 
+    String name = "undefined";
+
     //the thransport channel we use to write into/read from
     ChannelFuture future;
     Thread  ioThread;
@@ -98,9 +100,9 @@ public abstract class NettyClientLayer implements IEventListener {
 
 
     private void sendNetworkEvent(NetworkEvent event){
-        System.out.println("DEBUG: sending network event ["+event.classname()+"]");
+        System.out.println("Client layer: sending network event ["+event.classname()+"]");
         if (!whitelisted(event.classname())){
-            System.out.println("DEBUG: event is not whitelisted, skipping");
+            System.out.println("Client layer '"+name+"': event is not whitelisted, skipping");
             return;
         }
         

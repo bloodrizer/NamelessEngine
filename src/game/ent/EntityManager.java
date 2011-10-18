@@ -70,7 +70,7 @@ public class EntityManager implements IEventListener{
      * This method is called whether entity moves or spawns
      * to be sure that render order is correct
      */
-    public void update(){
+    public synchronized void update(){
         for(ArrayList<Entity> list: layer_ent_list.values()){
             Collections.sort(list);
         }

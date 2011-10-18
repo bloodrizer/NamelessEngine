@@ -5,6 +5,11 @@
 
 package world;
 
+import ne.Input;
+import game.ent.enviroment.EntityTree;
+import game.ent.EntityDecal;
+import render.DebugRenderer;
+import ne.Main;
 import org.lwjgl.util.vector.Vector3f;
 import render.SpriteRenderer;
 import client.ClientGameEnvironment;
@@ -80,6 +85,21 @@ public class WorldView implements IEventListener {
         return ClientGameEnvironment.getWorldLayer(view_z_index);
     }
 
+    private void render_server_entity(Entity entity) {
+
+        if (entity instanceof EntityDecal || entity instanceof EntityTree){
+            return;
+        }
+
+        if (!WorldCluster.tile_in_cluster(entity.origin.getX(), entity.origin.getY())){
+            return;
+        }
+
+        DebugRenderer renderer = new DebugRenderer();
+        renderer.set_entity(entity);
+        renderer.render();
+    }
+
     public class TextureTransition {
         public boolean[] nb = new boolean[8];  //n, w, e, s, nw, ns, ew, es
     }
@@ -144,11 +164,22 @@ public class WorldView implements IEventListener {
            Entity entity = (Entity) iter.next();
            render_entity(entity);
         }
+
+        //DEBUG USE ONLY: SLOW AND UNSTABLE
+        if( Input.key_state_alt ){
+            for (Entity ent: Main.neServer.getEnv().getEntityManager().getList(view_z_index).toArray(new Entity[0])) {
+                render_server_entity(ent);
+            }
+        }
     }
 
     public static int getYOffset(WorldTile tile){
-        float y_offset = (int)((float)tile.get_height()/32.0f);
-        return (int)(y_offset*20);
+        if (tile != null){
+            float y_offset = (int)((float)tile.get_height()/32.0f);
+            return (int)(y_offset*20);
+        }else{
+            return 0;
+        }
     }
 
     public void render_entity(Entity entity){

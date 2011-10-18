@@ -20,7 +20,7 @@ public class PlayerController extends NpcController{
     public PlayerController(){
         super();
 
-        MOVE_SPEED = 0.5f;
+        //MOVE_SPEED = 0.5f;
     }
 
     @Override

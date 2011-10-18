@@ -20,6 +20,8 @@ import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 import server.AServerIoLayer;
 import server.NEDataPacket;
+import server.ServerUserPool;
+import server.User;
 
 /**
  *
@@ -54,9 +56,9 @@ public class CharServer extends AServerIoLayer{
             nio_factory
         );
 
-        factory = new ChannelPipelineFactory() {
+        handler = new CharServerHandler(this);
 
-            CharServer server = CharServer.this;
+        factory = new ChannelPipelineFactory() {
 
             public ChannelPipeline getPipeline() throws Exception {
                 ChannelPipeline pipeline = Channels.pipeline();
@@ -65,7 +67,7 @@ public class CharServer extends AServerIoLayer{
                 pipeline.addLast("decoder", new StringDecoder());
                 pipeline.addLast("encoder", new StringEncoder());
 
-                pipeline.addLast("handler", new CharServerHandler(server));
+                pipeline.addLast("handler", handler);
 
                 return pipeline;
             }
@@ -81,7 +83,47 @@ public class CharServer extends AServerIoLayer{
 
     @Override
     protected void handlePacket(NEDataPacket packet) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String[] data = packet.getData();
+        Channel ioChannel = packet.getChannel();
+
+        //throw new UnsupportedOperationException("Not yet implemented");
+        if (data.length == 0){
+            return;
+        }
+        String eventType = data[0];
+
+        System.err.println("handling event '"+eventType+"'");
+
+        if (eventType.equals("EPlayerLogin")){
+            /*
+             * Player reqested to connect character server
+             *
+             * 1. Check if he provided correct login/password
+             *
+             * 2. If user login is valid, authorize him and
+             *    provide a list of player characters
+             */
+
+            //register this player in the connection pool
+            ServerUserPool.registerUser(ioChannel, "Red");
+
+            handler.sendMsg("EPlayerAuthorize", ioChannel);
+        }
+        if (eventType.equals("events.network.ESelectCharacter")){
+
+            /*
+             * Player selected his player character.
+             * 1. We should store this data in the charserver somehow
+             * 2. We should provide player with host and port of the game server
+             */
+            String gameServerHost = "localhost";
+            int gameServerPort = Io.GAME_SERVER_PORT;
+
+            User user = ServerUserPool.getUser(ioChannel);
+            int user_id = user.getId();
+
+            handler.sendMsg("EPlayerLogon "+gameServerHost+" "+gameServerPort+" "+user_id, ioChannel);
+        }
     }
 
 }
