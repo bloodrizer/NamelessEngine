@@ -100,6 +100,8 @@ public class NettyClient {
 
     public static void destroy(){
         charServClient.destroy();
-        gameServClient.destroy();
+        if (gameServClient != null){
+            gameServClient.destroy();
+        }
     }
 }

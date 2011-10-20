@@ -6,6 +6,7 @@ package ne;
 
 import events.EventManager;
 import game.GameEnvironment;
+import junit.framework.Assert;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.Cache;
@@ -26,17 +27,8 @@ public class TestChunkCache {
     Cache persistantCache;
     GameEnvironment testEnv;
     
-    public TestChunkCache() {
-        testEnv = new GameEnvironment(){
-            @Override
-            public EventManager getEventManager(){
-                return new EventManager();
-            }
-        };
-    }
     
-    @Before
-    public void setUp() {
+    private void initCache(){
         cacheManager = new CacheManager();
             persistantCache = new Cache(
               new CacheConfiguration("persistantCache", 1024)
@@ -52,6 +44,19 @@ public class TestChunkCache {
         cacheManager.addCache(persistantCache);
     }
     
+    public TestChunkCache() {
+        testEnv = new GameEnvironment(){
+            @Override
+            public EventManager getEventManager(){
+                return new EventManager();
+            }
+        };
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
     @After
     public void tearDown() {
         cacheManager.shutdown();
@@ -59,10 +64,25 @@ public class TestChunkCache {
     
     @Test
     public void persistantTest(){
-        WorldChunk chunk = testEnv.getWorldLayer(0).get_cached_chunk(0,0);
+        initCache();
         
+        WorldChunk chunk = testEnv.getWorldLayer(0).get_cached_chunk(0,0);
         Element element = new Element(1, chunk);
         persistantCache.put(element);
+        
+        
+        persistantCache.flush();
+        cacheManager.shutdown();
+
+        initCache();
+        
+                
+        int diskStore = persistantCache.getDiskStoreSize();
+        Assert.assertEquals(diskStore, 1);
+
+        Element persistantElem = persistantCache.get(1);
+        WorldChunk persChunk = (WorldChunk)persistantElem.getValue();
+        
     }
 
 }

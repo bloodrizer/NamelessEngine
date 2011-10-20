@@ -11,6 +11,7 @@ import game.ent.decals.EntDecalBlood;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,12 +25,12 @@ import org.newdawn.slick.util.ResourceLoader;
  *
  * @author Administrator
  */
-public class WorldTile {
+public class WorldTile implements Serializable {
     public float light_level = 0.0f;
     public Point origin = null;
 
 
-    static BufferedImage colorLut;
+    static transient BufferedImage colorLut;
 
     static {
         try {

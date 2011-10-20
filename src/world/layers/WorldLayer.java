@@ -8,6 +8,7 @@ package world.layers;
 import events.EEntityChangeChunk;
 import game.ent.Entity;
 import game.ent.EntityManager;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -36,17 +37,17 @@ import world.util.astar.TileBasedMap;
 /*
  * This class handles world terrain data, including landscape, moisture, lightning model, object distribution, minerals, etc.
  */
-public class WorldLayer{
+public class WorldLayer implements Serializable {
 
 
-    protected WorldModel model;
+    protected transient WorldModel model;
         
     public static final int GROUND_LAYER = 0;
 
     protected int z_index;
 
     static final int MAP_SIZE = WorldCluster.CLUSTER_SIZE*WorldChunk.CHUNK_SIZE;
-    public WorldModelTileMap tile_map = new WorldModelTileMap(this);
+    public transient WorldModelTileMap tile_map = new WorldModelTileMap(this);
 
 
     
